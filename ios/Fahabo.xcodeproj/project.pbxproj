@@ -23,6 +23,7 @@
 		61462C2589674719A81AB94C /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D196B3416CF14D9688548A49 /* Montserrat-Light.ttf */; };
 		6172F2D35A4C3AA820D92908 /* libPods-Fahabo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-Fahabo.a */; };
 		6D0CA3A4166E408EB6E4E1B0 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95C3631C9AEF4D49ACABD921 /* Montserrat-Thin.ttf */; };
+		6D74DFF123024298886F5274 /* ArialRoundedMTBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 059F53E00FF44F5B8E55F12C /* ArialRoundedMTBold.ttf */; };
 		7EF68E3733C33B6898317E18 /* libPods-Fahabo-FahaboTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-Fahabo-FahaboTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		929BB2F26ECC47FC83D0E3FA /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB662716A4794E1FAAC6034B /* Montserrat-SemiBoldItalic.ttf */; };
@@ -32,7 +33,6 @@
 		CF9CC737AC21407C9CD7A2E4 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3B9665EE0A64C5F8266E3DD /* Montserrat-Regular.ttf */; };
 		DEACCBBC8FAB46598A724CEA /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B520CC7F49E34E11BCB26E19 /* Montserrat-BlackItalic.ttf */; };
 		F9549F79A41A42F091BEDB09 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 611CD997CF174D49BA98BE09 /* Montserrat-Medium.ttf */; };
-		6D74DFF123024298886F5274 /* ArialRoundedMTBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 059F53E00FF44F5B8E55F12C /* ArialRoundedMTBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +49,7 @@
 		00E356EE1AD99517003FC87E /* FahaboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FahaboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* FahaboTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FahaboTests.m; sourceTree = "<group>"; };
+		059F53E00FF44F5B8E55F12C /* ArialRoundedMTBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = ArialRoundedMTBold.ttf; path = ../src/assets/fonts/ArialRoundedMTBold.ttf; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Fahabo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fahabo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Fahabo/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Fahabo/AppDelegate.m; sourceTree = "<group>"; };
@@ -81,7 +82,6 @@
 		F0EDD3A68F9548DDB46EC7B3 /* Montserrat-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.ttf"; path = "../src/assets/fonts/Montserrat-Black.ttf"; sourceTree = "<group>"; };
 		F3B9665EE0A64C5F8266E3DD /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		FB662716A4794E1FAAC6034B /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		059F53E00FF44F5B8E55F12C /* ArialRoundedMTBold.ttf */ = {isa = PBXFileReference; name = "ArialRoundedMTBold.ttf"; path = "../src/assets/fonts/ArialRoundedMTBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

@@ -2,6 +2,7 @@ const shades = {
   TRANSPARENT: 'transparent',
   WHITE: '#FFFFFF',
   BLACK: '#000000',
+  SUNGLOW: '#FFC634',
   TORY_BLUE: '#304D95',
 };
 

@@ -1,9 +1,9 @@
 import React from 'react';
-// import AuthenticationStack from './AuthenticationStack';
+import AuthenticationStack from './AuthenticationStack';
 import MainStack from './MainStack';
 import {createStackNavigator} from '@react-navigation/stack';
 import {AuthState, StackName} from '@constants/Constants';
-// import {navigationOptions} from './index';
+import {navigationOptions} from './index';
 
 const Stack = createStackNavigator();
 
@@ -13,6 +13,17 @@ const AppStack = () => {
   switch (authState) {
     case AuthState.LOGGED_IN:
       return (
+        <Stack.Navigator screenOptions={navigationOptions}>
+          <Stack.Screen
+            name={StackName.AuthenticationStack}
+            component={AuthenticationStack}
+            options={{headerShown: false}}
+          />
+        </Stack.Navigator>
+      );
+
+    default:
+      return (
         <Stack.Navigator>
           <Stack.Screen
             name={StackName.MainStack}
@@ -21,17 +32,6 @@ const AppStack = () => {
           />
         </Stack.Navigator>
       );
-
-    // default:
-    //   return (
-    //     <Stack.Navigator screenOptions={navigationOptions}>
-    //       <Stack.Screen
-    //         name="AuthStack"
-    //         component={AuthenticationStack}
-    //         options={{headerShown: false}}
-    //       />
-    //     </Stack.Navigator>
-    //   );
   }
 };
 

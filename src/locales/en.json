@@ -1,4 +1,25 @@
 {
+  "authentication": {
+    "authentication": "Authentication",
+    "signIn": {
+      "signIn": "Sign in",
+      "welcome": "Welcome",
+      "subWelcome": "Sign in to continue!",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot Password?",
+      "login": "Login",
+      "signUpLabel": "Don't have an account? "
+    },
+    "signUp": {
+      "signUp": "Sign up",
+      "welcome": "Welcome",
+      "subWelcome": "Sign up to continue!",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    }
+  },
   "home": {
     "home": "Home"
   },

@@ -10,6 +10,7 @@
 
 import React from 'react';
 import {useColorScheme} from 'react-native';
+import {NativeBaseProvider, extendTheme} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import AppStack from '@navigations/AppStack';
 
@@ -18,7 +19,9 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <AppStack />
+      <NativeBaseProvider>
+        <AppStack />
+      </NativeBaseProvider>
     </NavigationContainer>
   );
 };
