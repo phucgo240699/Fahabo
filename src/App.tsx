@@ -12,7 +12,8 @@ import React from 'react';
 // import {useColorScheme} from 'react-native';
 import {NativeBaseProvider, extendTheme} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
-import AppStack from '@navigations/AppStack';
+import AppStack from '@navigators/AppStack';
+import {navigationRef} from '@navigators/index';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import store, {persistor} from './store';
@@ -48,7 +49,7 @@ const App = () => {
     <>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             <NativeBaseProvider theme={theme}>
               <AppStack />
             </NativeBaseProvider>

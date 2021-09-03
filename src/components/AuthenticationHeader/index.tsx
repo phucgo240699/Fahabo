@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import Colors from '@themes/colors';
-import {useDispatch} from 'react-redux';
+import {Text} from 'native-base';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 
-interface Props {}
+interface Props {
+  title?: string;
+  titleColor?: string;
+}
 
-const AuthenticationHeader: React.FC<Props> = () => {
+const AuthenticationHeader: React.FC<Props> = ({title, titleColor}) => {
   const navigation = useNavigation();
 
   const onPressBack = () => {
@@ -18,28 +21,37 @@ const AuthenticationHeader: React.FC<Props> = () => {
       <IconContainer onPress={onPressBack}>
         <Icon source={require('@assets/images/navigation_back_icon.png')} />
       </IconContainer>
+      <Text fontSize="4xl" color={titleColor}>
+        {title}
+      </Text>
+      <EmptyView />
     </Container>
   );
 };
 
 const Container = styled.View`
   width: 100%;
-  height: 50px;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const IconContainer = styled.TouchableOpacity`
-  width: 32px;
-  height: 32px;
-  margin-left: 4px;
+  width: 44px;
+  height: 44px;
   align-items: center;
   justify-content: center;
 `;
 
 const Icon = styled.Image`
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   tint-color: ${Colors.SUNGLOW};
+`;
+
+const EmptyView = styled.View`
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
 `;
 
 export default React.memo(AuthenticationHeader);

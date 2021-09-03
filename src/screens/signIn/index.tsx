@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import styled from 'styled-components/native';
 import {
   Text,
   Heading,
@@ -11,22 +10,22 @@ import {
   HStack,
 } from 'native-base';
 import i18n from '@locales/index';
+import Colors from '@themes/colors';
+import {push} from '@navigators/index';
+import styled from 'styled-components/native';
 import {ScreenName} from '@constants/Constants';
 import {Keyboard, StyleSheet} from 'react-native';
-import Colors from '@themes/colors';
-import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 
-interface Props {
-  navigation: any;
-}
+interface Props {}
 
-const SignInScreen: React.FC<Props> = ({navigation}) => {
+const SignInScreen: React.FC<Props> = () => {
   const onKeyboardDismiss = () => {
     Keyboard.dismiss();
   };
   const navigateToSignUp = () => {
-    navigation.navigate(ScreenName.SignUpScreen);
+    push(ScreenName.SignUpScreen);
   };
   const navigateToForgotPassword = () => {
     console.log('Forgot password ...');

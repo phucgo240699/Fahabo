@@ -1,16 +1,22 @@
 import React, {memo} from 'react';
-import styled from 'styled-components/native';
-import {Heading, VStack, FormControl, Input, Button, HStack} from 'native-base';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
+import styled from 'styled-components/native';
 import {Keyboard, StyleSheet} from 'react-native';
+import {push} from '@navigators/index';
+import {ScreenName} from '@constants/Constants';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
+import {Heading, VStack, FormControl, Input, Button, HStack} from 'native-base';
 
 interface Props {}
 
 const SignUpScreen: React.FC<Props> = () => {
+  const onSignUp = () => {
+    push(ScreenName.PinCodeScreen);
+  };
+
   const onPressBackground = () => {
     Keyboard.dismiss();
   };
@@ -75,7 +81,8 @@ const SignUpScreen: React.FC<Props> = () => {
               <VStack space={2} mt={5}>
                 <Button
                   // backgroundColor={Colors.SUNGLOW}
-                  _text={{color: 'white'}}>
+                  _text={{color: 'white'}}
+                  onPress={onSignUp}>
                   {i18n.t('authentication.signUp.signUp')}
                 </Button>
               </VStack>

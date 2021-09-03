@@ -4,6 +4,7 @@ import {navigationOptions} from './index';
 import {ScreenName} from '@constants/Constants';
 import SignInScreen from '@screens/signIn';
 import SignUpScreen from '@screens/signUp';
+import PinCodeScreen from '@screens/signUp/PinCodeScreen';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ const AuthenticationStack = () => {
       }}>
       <Stack.Screen name={ScreenName.SignInScreen} component={SignInScreen} />
       <Stack.Screen name={ScreenName.SignUpScreen} component={SignUpScreen} />
+      <Stack.Screen name={ScreenName.PinCodeScreen} component={PinCodeScreen} />
     </Stack.Navigator>
   );
 };

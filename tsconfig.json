@@ -52,7 +52,7 @@
       "@reducers/*": ["store/reducers/*"],
       "@sagas/*": ["store/sagas/*"],
       "@selectors/*": ["store/selectors"],
-      "@navigations/*": ["navigations/*"],
+      "@navigators/*": ["navigators/*"],
       "@locales/*": ["locales/*"]
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
