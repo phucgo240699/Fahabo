@@ -52,7 +52,7 @@ const App = () => {
         <PersistGate persistor={persistor}>
           <NavigationContainer ref={navigationRef}>
             <NativeBaseProvider theme={theme}>
-              <AppStack authState={AuthState.LOGGED_IN} />
+              <AppStack authState={AuthState.UNAUTHORIZED} />
             </NativeBaseProvider>
           </NavigationContainer>
         </PersistGate>

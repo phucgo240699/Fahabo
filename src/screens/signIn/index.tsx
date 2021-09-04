@@ -13,8 +13,9 @@ import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import {push} from '@navigators/index';
 import styled from 'styled-components/native';
-import {ScreenName} from '@constants/Constants';
+import {ScreenName, StackName} from '@constants/Constants';
 import {Keyboard, StyleSheet} from 'react-native';
+import {navigateReset} from '@navigators/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 
@@ -31,7 +32,7 @@ const SignInScreen: React.FC<Props> = () => {
     console.log('Forgot password ...');
   };
   const onSignIn = () => {
-    console.log('SignIn ...');
+    navigateReset(StackName.MainStack);
   };
   const onSignInWithApple = () => {
     console.log('SignInWith apple ...');

@@ -45,7 +45,6 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
           />
           <AuthenticationHeader
             title={i18n.t('authentication.pinCode.pinCode')}
-            titleColor={Colors.SUNGLOW}
             marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
           />
           {route && route.params && route.params.address && (

@@ -6,15 +6,10 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 
 interface Props {
   title?: string;
-  titleColor?: string;
   marginTop?: number;
 }
 
-const AuthenticationHeader: React.FC<Props> = ({
-  title,
-  titleColor,
-  marginTop,
-}) => {
+const AuthenticationHeader: React.FC<Props> = ({title, marginTop}) => {
   const navigation = useNavigation();
 
   const onPressBack = () => {
@@ -26,7 +21,7 @@ const AuthenticationHeader: React.FC<Props> = ({
       <IconContainer onPress={onPressBack}>
         <Icon source={require('@assets/images/navigation_back_icon.png')} />
       </IconContainer>
-      <Text fontSize="4xl" color={titleColor}>
+      <Text fontSize="4xl" color={Colors.SUNGLOW}>
         {title}
       </Text>
       <EmptyView />
@@ -42,15 +37,15 @@ const Container = styled.View<{marginTop?: number}>`
 `;
 
 const IconContainer = styled.TouchableOpacity`
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   align-items: center;
   justify-content: center;
 `;
 
 const Icon = styled.Image`
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   tint-color: ${Colors.SUNGLOW};
 `;
 

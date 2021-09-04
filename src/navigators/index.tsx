@@ -5,6 +5,7 @@ import {
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 import {DrawerNavigationOptions} from '@react-navigation/drawer';
+import colors from '@themes/colors';
 
 export const navigationOptions: StackNavigationOptions = {
   headerShown: false,
@@ -17,6 +18,7 @@ export const navigationOptions: StackNavigationOptions = {
 
 export const drawerOptions: DrawerNavigationOptions = {
   headerShown: false,
+  drawerActiveTintColor: colors.BUDDHA_GOLD,
 };
 
 export const navigationRef = createRef<any>();
