@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import Colors from '@themes/colors';
-import {HamburgerIcon, IconButton, Text} from 'native-base';
+import {HamburgerIcon, Text} from 'native-base';
+import CustomIconButton from '@components/CustomIconButton';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
+import colors from '@themes/colors';
 
 interface Props {
   title?: string;
@@ -22,18 +23,27 @@ const PrimaryDrawerHeader: React.FC<Props> = ({title, marginTop}) => {
 
   return (
     <Container marginTop={marginTop}>
-      <IconButton
-        size="sm"
-        variant="solid"
-        icon={<HamburgerIcon />}
+      <CustomIconButton
+        iconWidth={30}
+        iconHeight={30}
+        containerWidth={38}
+        containerHeight={38}
+        tintColor={colors.SUNGLOW}
+        source={require('@assets/images/menu_icon.png')}
         onPress={openMenu}
       />
-      <Text fontSize="3xl" fontWeight={'700'} color={Colors.SUNGLOW}>
+      <Text fontSize="3xl" fontWeight={'700'} color={colors.SUNGLOW}>
         {title}
       </Text>
-      <IconContainer onPress={navigateToNotifications}>
-        <Icon source={require('@assets/images/bell_icon.png')} />
-      </IconContainer>
+      <CustomIconButton
+        iconWidth={30}
+        iconHeight={30}
+        containerWidth={38}
+        containerHeight={38}
+        tintColor={colors.SUNGLOW}
+        source={require('@assets/images/bell_icon.png')}
+        onPress={navigateToNotifications}
+      />
     </Container>
   );
 };
@@ -44,19 +54,6 @@ const Container = styled.View<{marginTop?: number}>`
   margin-left: 10px;
   margin-right: 10px;
   margin-top: ${props => props.marginTop ?? 0}px;
-`;
-
-const IconContainer = styled.TouchableOpacity`
-  width: 40px;
-  height: 40px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Icon = styled.Image`
-  width: 32px;
-  height: 32px;
-  tint-color: ${Colors.SUNGLOW};
 `;
 
 export default React.memo(PrimaryDrawerHeader);
