@@ -1,11 +1,14 @@
 import React from 'react';
+import {navigationOptions, drawerOptions} from './index';
 import AuthenticationStack from './AuthenticationStack';
-import MainStack from './MainStack';
-import {createStackNavigator} from '@react-navigation/stack';
 import {AuthState, StackName} from '@constants/Constants';
-import {navigationOptions} from './index';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import HomeStack from './HomeStack';
+import ProfileStack from './ProfileStack';
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 interface Props {
   authState: AuthState;
@@ -25,12 +28,13 @@ const AppStack: React.FC<Props> = ({authState}) => {
 
     default:
       return (
-        <Stack.Navigator>
-          <Stack.Screen
-            name={StackName.MainStack}
-            component={MainStack}
+        <Drawer.Navigator screenOptions={drawerOptions}>
+          <Drawer.Screen name={StackName.HomeStack} component={HomeStack} />
+          <Drawer.Screen
+            name={StackName.ProfileStack}
+            component={ProfileStack}
           />
-        </Stack.Navigator>
+        </Drawer.Navigator>
       );
   }
 };

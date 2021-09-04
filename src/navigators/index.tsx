@@ -4,6 +4,7 @@ import {
   StackNavigationOptions,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
+import {DrawerNavigationOptions} from '@react-navigation/drawer';
 
 export const navigationOptions: StackNavigationOptions = {
   headerShown: false,
@@ -12,6 +13,10 @@ export const navigationOptions: StackNavigationOptions = {
   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
   gestureResponseDistance: 120,
   gestureVelocityImpact: 0.5,
+};
+
+export const drawerOptions: DrawerNavigationOptions = {
+  headerShown: false,
 };
 
 export const navigationRef = createRef<any>();
