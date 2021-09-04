@@ -1,6 +1,9 @@
-import React, {memo, useState} from 'react';
+import {Text} from 'native-base';
 import Colors from '@themes/colors';
-import {Keyboard, StyleSheet} from 'react-native';
+import React, {memo, useState} from 'react';
+import {Keyboard, Platform, StyleSheet} from 'react-native';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
+import AuthenticationHeader from '@components/AuthenticationHeader';
 import styled from 'styled-components/native';
 import {
   CodeField,
@@ -8,14 +11,18 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import AuthenticationHeader from '@components/AuthenticationHeader';
 import {Constants} from '@constants/Constants';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import {useRoute} from '@react-navigation/native';
 
 const CELL_COUNT = 4;
 
-interface Props {}
+interface Props {
+  route?: any;
+}
 
-const SignUpScreen: React.FC<Props> = () => {
+const SignUpScreen: React.FC<Props> = ({route}) => {
+  // const route = useRoute();
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -31,7 +38,26 @@ const SignUpScreen: React.FC<Props> = () => {
     <SafeView>
       <Container onPress={onPressBackground}>
         <Content>
-          <AuthenticationHeader title="Pin code" titleColor={Colors.SUNGLOW} />
+          <FocusAwareStatusBar
+            barStyle="dark-content"
+            backgroundColor={Colors.WHITE}
+            translucent
+          />
+          <AuthenticationHeader
+            title="Pin code"
+            titleColor={Colors.SUNGLOW}
+            marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
+          />
+          {route && route.params && route.params.address && (
+            <Text
+              mt={1}
+              fontSize="md"
+              color={Colors.SILVER}
+              textAlign="center"
+              alignSelf="center">
+              {`A pin code is sent to\n ${route.params.address ?? ''}`}
+            </Text>
+          )}
           <CodeField
             ref={ref}
             {...props}
@@ -43,12 +69,12 @@ const SignUpScreen: React.FC<Props> = () => {
             keyboardType="number-pad"
             textContentType="oneTimeCode"
             renderCell={({index, symbol, isFocused}) => (
-              <Text
+              <PinCell
                 key={index}
                 style={[styles.cell, isFocused && styles.focusCell]}
                 onLayout={getCellOnLayoutHandler(index)}>
                 {symbol || (isFocused ? <Cursor /> : null)}
-              </Text>
+              </PinCell>
             )}
           />
         </Content>
@@ -69,7 +95,7 @@ const Container = styled.TouchableWithoutFeedback`
 const Content = styled.View`
   flex: 1;
 `;
-const Text = styled.Text``;
+const PinCell = styled.Text``;
 
 const styles = StyleSheet.create({
   codeFieldRoot: {marginTop: 40, width: 340, alignSelf: 'center'},
@@ -77,6 +103,7 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     margin: 8,
+    marginTop: 30,
     borderRadius: 12,
     fontSize: 48,
     fontWeight: '700',

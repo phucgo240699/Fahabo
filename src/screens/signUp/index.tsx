@@ -2,19 +2,20 @@ import React, {memo} from 'react';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {Keyboard, StyleSheet} from 'react-native';
+import {Keyboard, Platform, StyleSheet} from 'react-native';
 import {push} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
 import {Heading, VStack, FormControl, Input, Button, HStack} from 'native-base';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 interface Props {}
 
 const SignUpScreen: React.FC<Props> = () => {
   const onSignUp = () => {
-    push(ScreenName.PinCodeScreen);
+    push(ScreenName.PinCodeScreen, {address: 'phucgo240699@gmail.com'});
   };
 
   const onPressBackground = () => {
@@ -24,8 +25,10 @@ const SignUpScreen: React.FC<Props> = () => {
   return (
     <SafeView>
       <Container onPress={onPressBackground}>
-        <>
-          <AuthenticationHeader />
+        <Content>
+          <AuthenticationHeader
+            marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
+          />
           <Scroll
             scrollEnabled
             overScrollMode="never"
@@ -37,7 +40,7 @@ const SignUpScreen: React.FC<Props> = () => {
               backgroundColor={Colors.WHITE}
               translucent
             />
-            <Heading mt={1} size="2xl" color={Colors.SUNGLOW}>
+            <Heading mt={14} size="2xl" color={Colors.SUNGLOW}>
               {i18n.t('authentication.signUp.signUp')}
             </Heading>
             <Heading color="muted.400" size="xs">
@@ -105,13 +108,16 @@ const SignUpScreen: React.FC<Props> = () => {
               </HStack>
             </VStack>
           </Scroll>
-        </>
+        </Content>
       </Container>
     </SafeView>
   );
 };
 
 const Container = styled.TouchableWithoutFeedback``;
+const Content = styled.View`
+  flex: 1;
+`;
 const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${Colors.WHITE};

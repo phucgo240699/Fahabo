@@ -7,9 +7,14 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 interface Props {
   title?: string;
   titleColor?: string;
+  marginTop?: number;
 }
 
-const AuthenticationHeader: React.FC<Props> = ({title, titleColor}) => {
+const AuthenticationHeader: React.FC<Props> = ({
+  title,
+  titleColor,
+  marginTop,
+}) => {
   const navigation = useNavigation();
 
   const onPressBack = () => {
@@ -17,7 +22,7 @@ const AuthenticationHeader: React.FC<Props> = ({title, titleColor}) => {
   };
 
   return (
-    <Container>
+    <Container marginTop={marginTop}>
       <IconContainer onPress={onPressBack}>
         <Icon source={require('@assets/images/navigation_back_icon.png')} />
       </IconContainer>
@@ -29,10 +34,11 @@ const AuthenticationHeader: React.FC<Props> = ({title, titleColor}) => {
   );
 };
 
-const Container = styled.View`
+const Container = styled.View<{marginTop?: number}>`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: ${props => props.marginTop ?? 0}px;
 `;
 
 const IconContainer = styled.TouchableOpacity`
