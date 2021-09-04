@@ -1,4 +1,5 @@
 import {Text} from 'native-base';
+import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import React, {memo, useState} from 'react';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
@@ -13,7 +14,6 @@ import {
 } from 'react-native-confirmation-code-field';
 import {Constants} from '@constants/Constants';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {useRoute} from '@react-navigation/native';
 
 const CELL_COUNT = 4;
 
@@ -44,7 +44,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
             translucent
           />
           <AuthenticationHeader
-            title="Pin code"
+            title={i18n.t('authentication.pinCode.pinCode')}
             titleColor={Colors.SUNGLOW}
             marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
           />
@@ -55,7 +55,9 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               color={Colors.SILVER}
               textAlign="center"
               alignSelf="center">
-              {`A pin code is sent to\n ${route.params.address ?? ''}`}
+              {`${i18n.t('authentication.pinCode.instruction')}\n ${
+                route.params.address ?? ''
+              }`}
             </Text>
           )}
           <CodeField

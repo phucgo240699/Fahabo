@@ -18,6 +18,10 @@
       "email": "Email",
       "password": "Password",
       "confirmPassword": "Confirm Password"
+    },
+    "pinCode": {
+      "pinCode": "Pin code",
+      "instruction": "A pin code was sent to"
     }
   },
   "home": {

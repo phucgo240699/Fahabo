@@ -17,6 +17,7 @@ import {navigationRef} from '@navigators/index';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import store, {persistor} from './store';
+import {AuthState} from '@constants/Constants';
 
 const App = () => {
   const theme = extendTheme({
@@ -51,7 +52,7 @@ const App = () => {
         <PersistGate persistor={persistor}>
           <NavigationContainer ref={navigationRef}>
             <NativeBaseProvider theme={theme}>
-              <AppStack />
+              <AppStack authState={AuthState.UNAUTHORIZED} />
             </NativeBaseProvider>
           </NavigationContainer>
         </PersistGate>

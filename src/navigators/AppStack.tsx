@@ -7,11 +7,13 @@ import {navigationOptions} from './index';
 
 const Stack = createStackNavigator();
 
-const AppStack = () => {
-  const authState = AuthState.LOGGED_IN;
+interface Props {
+  authState: AuthState;
+}
 
+const AppStack: React.FC<Props> = ({authState}) => {
   switch (authState) {
-    case AuthState.LOGGED_IN:
+    case AuthState.UNAUTHORIZED:
       return (
         <Stack.Navigator screenOptions={navigationOptions}>
           <Stack.Screen
