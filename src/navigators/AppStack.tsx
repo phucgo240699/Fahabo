@@ -19,7 +19,6 @@ const AppStack: React.FC<Props> = ({authState}) => {
           <Stack.Screen
             name={StackName.AuthenticationStack}
             component={AuthenticationStack}
-            options={{headerShown: false}}
           />
         </Stack.Navigator>
       );
@@ -30,7 +29,6 @@ const AppStack: React.FC<Props> = ({authState}) => {
           <Stack.Screen
             name={StackName.MainStack}
             component={MainStack}
-            options={{headerShown: false}}
           />
         </Stack.Navigator>
       );

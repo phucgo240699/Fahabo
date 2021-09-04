@@ -11,10 +11,7 @@ const Stack = createStackNavigator();
 const AuthenticationStack = () => {
   return (
     <Stack.Navigator
-      screenOptions={{
-        ...navigationOptions,
-        headerShown: false,
-      }}>
+      screenOptions={navigationOptions}>
       <Stack.Screen name={ScreenName.SignInScreen} component={SignInScreen} />
       <Stack.Screen name={ScreenName.SignUpScreen} component={SignUpScreen} />
       <Stack.Screen name={ScreenName.PinCodeScreen} component={PinCodeScreen} />

@@ -6,6 +6,7 @@ import {
 } from '@react-navigation/stack';
 
 export const navigationOptions: StackNavigationOptions = {
+  headerShown: false,
   gestureEnabled: true,
   gestureDirection: 'horizontal',
   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
