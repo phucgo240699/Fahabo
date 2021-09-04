@@ -96,9 +96,11 @@ const SignUpScreen: React.FC<Props> = () => {
 
               {/* Third party Authentication */}
               <HStack alignItems="center" justifyContent="center">
-                <ThirdPartyAuthButton
-                  sourceIcon={require('@assets/images/apple_icon.png')}
-                />
+                {Platform.OS === 'ios' && (
+                  <ThirdPartyAuthButton
+                    sourceIcon={require('@assets/images/apple_icon.png')}
+                  />
+                )}
                 <ThirdPartyAuthButton
                   sourceIcon={require('@assets/images/google_icon.png')}
                 />

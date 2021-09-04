@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1093550625783",
+    "project_id": "fahabo-487a2",
+    "storage_bucket": "fahabo-487a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093550625783:android:a387136255151f0a7c54f2",
+        "android_client_info": {
+          "package_name": "com.fahabo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093550625783-m5v5408gagir2ller25a65uokrj4q048.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahabo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1093550625783-74r0r8mritlbj0he4v7nkkbsug14m3jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF3aynhGRcuMs-_Jqdh6DyphQ-lUGj2A8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093550625783-74r0r8mritlbj0he4v7nkkbsug14m3jn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1093550625783-jd08gg0en76li9sv5h9f2bifje0lqcr7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Fahabo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

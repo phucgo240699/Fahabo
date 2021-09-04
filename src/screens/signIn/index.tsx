@@ -13,9 +13,10 @@ import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import {push} from '@navigators/index';
 import styled from 'styled-components/native';
-import {ScreenName, StackName} from '@constants/Constants';
-import {Keyboard, StyleSheet} from 'react-native';
 import {navigateReset} from '@navigators/index';
+import {signInWithApple} from '@services/socialAuth';
+import {ScreenName, StackName} from '@constants/Constants';
+import {Keyboard, Platform, StyleSheet} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 
@@ -35,7 +36,14 @@ const SignInScreen: React.FC<Props> = () => {
     navigateReset(StackName.MainStack);
   };
   const onSignInWithApple = () => {
-    console.log('SignInWith apple ...');
+    // console.log('SignInWith apple ...');
+    signInWithApple()
+      .then(userCredential => {
+        console.log('Sign in with apple successfully: ', userCredential);
+      })
+      .catch(error => {
+        console.log(`Fail: ${error}`);
+      });
   };
   const onSignInWithGoogle = () => {
     console.log('SignInWith google ...');
@@ -115,10 +123,12 @@ const SignInScreen: React.FC<Props> = () => {
 
             {/* Third party Authentication */}
             <HStack alignItems="center" justifyContent="center">
-              <ThirdPartyAuthButton
-                sourceIcon={require('@assets/images/apple_icon.png')}
-                onPress={onSignInWithApple}
-              />
+              {Platform.OS === 'ios' && (
+                <ThirdPartyAuthButton
+                  sourceIcon={require('@assets/images/apple_icon.png')}
+                  onPress={onSignInWithApple}
+                />
+              )}
               <ThirdPartyAuthButton
                 sourceIcon={require('@assets/images/google_icon.png')}
                 onPress={onSignInWithGoogle}
