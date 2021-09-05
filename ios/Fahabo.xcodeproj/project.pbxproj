@@ -14,8 +14,7 @@
 		6172F2D35A4C3AA820D92908 /* libPods-Fahabo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-Fahabo.a */; };
 		7EF68E3733C33B6898317E18 /* libPods-Fahabo-FahaboTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-Fahabo-FahaboTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		F233FA1A26E3B60F000859DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F233FA1926E3B60F000859DB /* GoogleService-Info.plist */; };
-		F233FA1B26E3B60F000859DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F233FA1926E3B60F000859DB /* GoogleService-Info.plist */; };
+		F225F00126E455DA00CDDDB6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F225F00026E455D900CDDDB6 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +45,7 @@
 		C0A881CF5CF3F2B244570E2A /* Pods-Fahabo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fahabo.debug.xcconfig"; path = "Target Support Files/Pods-Fahabo/Pods-Fahabo.debug.xcconfig"; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-Fahabo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fahabo.release.xcconfig"; path = "Target Support Files/Pods-Fahabo/Pods-Fahabo.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F233FA1926E3B60F000859DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F225F00026E455D900CDDDB6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F233FA1C26E3BE2C000859DB /* Fahabo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Fahabo.entitlements; path = Fahabo/Fahabo.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,8 +89,8 @@
 		13B07FAE1A68108700A75B9A /* Fahabo */ = {
 			isa = PBXGroup;
 			children = (
+				F225F00026E455D900CDDDB6 /* GoogleService-Info.plist */,
 				F233FA1C26E3BE2C000859DB /* Fahabo.entitlements */,
-				F233FA1926E3B60F000859DB /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -250,7 +249,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F233FA1B26E3B60F000859DB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,7 +258,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				F233FA1A26E3B60F000859DB /* GoogleService-Info.plist in Resources */,
+				F225F00126E455DA00CDDDB6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

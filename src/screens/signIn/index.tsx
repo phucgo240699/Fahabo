@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {
   Text,
   Heading,
@@ -14,40 +14,95 @@ import Colors from '@themes/colors';
 import {push} from '@navigators/index';
 import styled from 'styled-components/native';
 import {navigateReset} from '@navigators/index';
-import {signInWithApple} from '@services/socialAuth';
-import {ScreenName, StackName} from '@constants/Constants';
-import {Keyboard, Platform, StyleSheet} from 'react-native';
+import {
+  configGoogleSignIn,
+  signInWithApple,
+  signInWithGoogle,
+  signOutWithGoogle,
+} from '@services/socialAuth';
+import {Keyboard, Platform, StyleSheet, Alert} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
+import {ScreenName, StackName} from '@constants/Constants';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 interface Props {}
 
 const SignInScreen: React.FC<Props> = () => {
+  //
+  // Life cycle
+  //
+  useEffect(() => {
+    configGoogleSignIn();
+  }, []);
+
+  //
+  // Keyboard
+  //
   const onKeyboardDismiss = () => {
     Keyboard.dismiss();
   };
+
+  //
+  // Navigate
+  //
   const navigateToSignUp = () => {
     push(ScreenName.SignUpScreen);
   };
   const navigateToForgotPassword = () => {
     console.log('Forgot password ...');
   };
+
+  //
+  // Sign in
+  //
   const onSignIn = () => {
     navigateReset(StackName.MainStack);
   };
+
+  //
+  // Sign in with Apple
+  //
   const onSignInWithApple = () => {
-    // console.log('SignInWith apple ...');
     signInWithApple()
-      .then(userCredential => {
-        console.log('Sign in with apple successfully: ', userCredential);
-      })
-      .catch(error => {
-        console.log(`Fail: ${error}`);
-      });
+      .then(onSignInWithAppleSuccess)
+      .catch(onSignInWithAppleFail);
   };
+  const onSignInWithAppleSuccess = (
+    userCredential: FirebaseAuthTypes.UserCredential,
+  ) => {
+    console.log('Sign in with apple successfully:', userCredential);
+    navigateReset(StackName.MainStack);
+  };
+  const onSignInWithAppleFail = (error: any) => {
+    Alert.alert('Error', `Fail: ${error}`);
+  };
+
+  //
+  // Sign in with Google
+  //
   const onSignInWithGoogle = () => {
-    console.log('SignInWith google ...');
+    signInWithGoogle()
+      .then(onSignInWithGoogleSuccess)
+      .catch(onSignInWithGoogleFail)
+      .finally(onSignOutWithGoogle);
   };
+  const onSignInWithGoogleSuccess = (
+    userCredential: FirebaseAuthTypes.UserCredential,
+  ) => {
+    console.log('Sign in with apple successfully:', userCredential);
+    navigateReset(StackName.MainStack);
+  };
+  const onSignInWithGoogleFail = (error: any) => {
+    Alert.alert('Error', `Fail: ${error}`);
+  };
+  const onSignOutWithGoogle = async () => {
+    await signOutWithGoogle();
+  };
+
+  //
+  // Sign in with Facebook
+  //
   const onSignInWithFacebook = () => {
     console.log('SignInWith facebook ...');
   };

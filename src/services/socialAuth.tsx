@@ -1,5 +1,36 @@
 import auth from '@react-native-firebase/auth';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+export const configGoogleSignIn = () => {
+  GoogleSignin.configure({
+    // client ID of type WEB for your server (needed to verify user ID and offline access)
+    // get from google json client with type === 3
+    webClientId:
+      '1093550625783-74r0r8mritlbj0he4v7nkkbsug14m3jn.apps.googleusercontent.com', // Use for get idToken on Android OS
+  });
+};
+
+export const signInWithGoogle = async () => {
+  // Get the users ID token
+  const {idToken} = await GoogleSignin.signIn();
+  // const credential = {token: idToken, secret: serverAuthCode};
+
+  // Create a Google credential with the token
+  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+  // Sign-in the user with the credential
+  return auth().signInWithCredential(googleCredential);
+};
+
+export const signOutWithGoogle = async () => {
+  try {
+    await GoogleSignin.revokeAccess();
+    await GoogleSignin.signOut();
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const signInWithApple = async () => {
   // Start the sign-in request
