@@ -8,8 +8,11 @@
 // TILL HERE
 
 #import <React/RCTBridge.h>
-#import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <React/RCTBundleURLProvider.h>
+#import <React/RCTLinkingManager.h>
+
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -36,7 +39,8 @@ static void InitializeFlipper(UIApplication *application) {
 {
   if ([FIRApp defaultApp] == nil) {
       [FIRApp configure];
-    }
+  }
+  [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
   
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
@@ -65,6 +69,27 @@ static void InitializeFlipper(UIApplication *application) {
   [self.window makeKeyAndVisible];
   return YES;
 }
+
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  if ([[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  if ([RCTLinkingManager application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  return NO;
+}
+
+//- (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts
+//API_AVAILABLE(ios(13.0)){
+//  UIOpenURLContext *context = URLContexts.allObjects.firstObject;
+//    [FBSDKApplicationDelegate.sharedInstance application:UIApplication.sharedApplication openURL:context.URL sourceApplication:context.options.sourceApplication annotation:context.options.annotation];
+//}
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {

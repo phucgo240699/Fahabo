@@ -19,6 +19,7 @@ import {
   signInWithApple,
   signInWithGoogle,
   signOutWithGoogle,
+  signInWithFacebook,
 } from '@services/socialAuth';
 import {Keyboard, Platform, StyleSheet, Alert} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
@@ -104,7 +105,18 @@ const SignInScreen: React.FC<Props> = () => {
   // Sign in with Facebook
   //
   const onSignInWithFacebook = () => {
-    console.log('SignInWith facebook ...');
+    signInWithFacebook()
+      .then(onSignInWithFacebookSuccess)
+      .catch(onSignInWithFacebookFail);
+  };
+  const onSignInWithFacebookSuccess = (
+    userCredential: FirebaseAuthTypes.UserCredential,
+  ) => {
+    console.log('Sign in with facebook successfully:', userCredential);
+    navigateReset(StackName.MainStack);
+  };
+  const onSignInWithFacebookFail = (error: any) => {
+    Alert.alert('Error', `Fail: ${error}`);
   };
 
   return (

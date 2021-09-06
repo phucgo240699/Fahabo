@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1093550625783-df7gjtbrmg8qdqgegcpurggsjr8lhgr2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahabo",
+            "certificate_hash": "2bfc1139893f180685a07332cd13b49d4d4c9719"
+          }
+        },
+        {
           "client_id": "1093550625783-qrh03ptdv5mj52tkroj058uopdt3ekr1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -29,17 +29,44 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.Fahabo</string>
+				<string>fb282129020009109</string>
+				<string>com.googleusercontent.apps.1093550625783-jd08gg0en76li9sv5h9f2bifje0lqcr7</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>fahabo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.1093550625783-jd08gg0en76li9sv5h9f2bifje0lqcr7</string>
+				<string>fahabo</string>
 			</array>
 		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>282129020009109</string>
+	<key>FacebookClientToken</key>
+	<string>25560d3b0c0cd3320f6c3db3ca3ff59f</string>
+	<key>FacebookDisplayName</key>
+	<string>Fahabo</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fbapi20130214</string>
+		<string>fbapi20130410</string>
+		<string>fbapi20130702</string>
+		<string>fbapi20131010</string>
+		<string>fbapi20131219</string>
+		<string>fbapi20140410</string>
+		<string>fbapi20140116</string>
+		<string>fbapi20150313</string>
+		<string>fbapi20150629</string>
+		<string>fbapi20160328</string>
+		<string>fbauth</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

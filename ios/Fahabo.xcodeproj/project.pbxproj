@@ -15,6 +15,8 @@
 		7EF68E3733C33B6898317E18 /* libPods-Fahabo-FahaboTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-Fahabo-FahaboTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		F225F00126E455DA00CDDDB6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F225F00026E455D900CDDDB6 /* GoogleService-Info.plist */; };
+		F262387226E5E1C2000682C2 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = F262387126E5E1C2000682C2 /* File.swift */; };
+		F262387326E5E1C2000682C2 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = F262387126E5E1C2000682C2 /* File.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,9 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F225F00026E455D900CDDDB6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F233FA1C26E3BE2C000859DB /* Fahabo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Fahabo.entitlements; path = Fahabo/Fahabo.entitlements; sourceTree = "<group>"; };
+		F262386F26E5E1C2000682C2 /* Fahabo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Fahabo-Bridging-Header.h"; sourceTree = "<group>"; };
+		F262387026E5E1C2000682C2 /* FahaboTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FahaboTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		F262387126E5E1C2000682C2 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +133,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F262387126E5E1C2000682C2 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* Fahabo */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* FahaboTests */,
@@ -135,6 +141,8 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				E233CBF5F47BEE60B243DCF8 /* Pods */,
 				3EC3C0FA311741C899F38EE0 /* Resources */,
+				F262386F26E5E1C2000682C2 /* Fahabo-Bridging-Header.h */,
+				F262387026E5E1C2000682C2 /* FahaboTests-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -218,10 +226,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						LastSwiftMigration = 1250;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -431,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* FahaboTests.m in Sources */,
+				F262387326E5E1C2000682C2 /* File.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,6 +449,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				F262387226E5E1C2000682C2 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,7 +469,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C97AB639B58BBB4B15BBE30 /* Pods-Fahabo-FahaboTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -477,6 +490,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FahaboTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fahabo.app/Fahabo";
 			};
 			name = Debug;
@@ -485,7 +501,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1D0AE47A65C8663E3B452821 /* Pods-Fahabo-FahaboTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = FahaboTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -501,6 +519,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FahaboTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fahabo.app/Fahabo";
 			};
 			name = Release;
@@ -531,6 +551,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Fahabo;
 				PRODUCT_NAME = Fahabo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Fahabo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -561,6 +582,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Fahabo;
 				PRODUCT_NAME = Fahabo;
 				PROVISIONING_PROFILE_SPECIFIER = Fahabo_Adhoc;
+				SWIFT_OBJC_BRIDGING_HEADER = "Fahabo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
