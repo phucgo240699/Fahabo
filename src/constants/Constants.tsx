@@ -19,6 +19,7 @@ export enum ScreenName {
   SignInScreen = 'SignInScreen',
   SignUpScreen = 'SignUpScreen',
   PinCodeScreen = 'PinCodeScreen',
+  ForgotPasswordScreen = 'ForgotPasswordScreen',
   HomeScreen = 'HomeScreen',
   ProfileScreen = 'ProfileScreen',
 }

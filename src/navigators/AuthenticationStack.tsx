@@ -5,16 +5,20 @@ import {ScreenName} from '@constants/Constants';
 import SignInScreen from '@screens/signIn';
 import SignUpScreen from '@screens/signUp';
 import PinCodeScreen from '@screens/signUp/PinCodeScreen';
+import ForgotPasswordScreen from '@screens/signIn/ForgotPasswordScreen';
 
 const Stack = createStackNavigator();
 
 const AuthenticationStack = () => {
   return (
-    <Stack.Navigator
-      screenOptions={navigationOptions}>
+    <Stack.Navigator screenOptions={navigationOptions}>
       <Stack.Screen name={ScreenName.SignInScreen} component={SignInScreen} />
       <Stack.Screen name={ScreenName.SignUpScreen} component={SignUpScreen} />
       <Stack.Screen name={ScreenName.PinCodeScreen} component={PinCodeScreen} />
+      <Stack.Screen
+        name={ScreenName.ForgotPasswordScreen}
+        component={ForgotPasswordScreen}
+      />
     </Stack.Navigator>
   );
 };

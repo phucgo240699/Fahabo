@@ -22,6 +22,12 @@
     "pinCode": {
       "pinCode": "Pin code",
       "instruction": "A pin code was sent to"
+    },
+    "forgotPassword": {
+      "forgotPassword": "Forgot password",
+      "getPinCode": "Get Pin Code",
+      "emailInstruction": "Enter your email to get pin code",
+      "phoneInstruction": "Enter your phone number to get pin code"
     }
   },
   "home": {

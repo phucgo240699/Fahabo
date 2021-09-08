@@ -51,7 +51,7 @@ const SignInScreen: React.FC<Props> = () => {
     push(ScreenName.SignUpScreen);
   };
   const navigateToForgotPassword = () => {
-    console.log('Forgot password ...');
+    push(ScreenName.ForgotPasswordScreen);
   };
 
   //
