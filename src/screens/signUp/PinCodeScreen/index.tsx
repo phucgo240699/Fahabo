@@ -21,7 +21,7 @@ interface Props {
   route?: any;
 }
 
-const SignUpScreen: React.FC<Props> = ({route}) => {
+const PinCodeScreen: React.FC<Props> = ({route}) => {
   // const route = useRoute();
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
@@ -99,14 +99,14 @@ const Content = styled.View`
 const PinCell = styled.Text``;
 
 const styles = StyleSheet.create({
-  codeFieldRoot: {marginTop: 40, width: 340, alignSelf: 'center'},
+  codeFieldRoot: {marginTop: 40, alignSelf: 'center'},
   cell: {
     width: 64,
     height: 64,
     margin: 8,
-    marginTop: 30,
+    paddingTop: 8,
     borderRadius: 12,
-    fontSize: 48,
+    fontSize: 32,
     fontWeight: '700',
     borderWidth: 2,
     borderColor: Colors.SILVER,
@@ -117,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(SignUpScreen);
+export default memo(PinCodeScreen);
