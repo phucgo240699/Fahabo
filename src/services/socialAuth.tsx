@@ -59,6 +59,7 @@ export const signOutWithGoogle = async () => {
 export const signInWithFacebook = async () => {
   // Attempt login with permissions
   const result = await LoginManager.logInWithPermissions([
+    'user_friends',
     'public_profile',
     'email',
   ]);
