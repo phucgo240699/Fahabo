@@ -13,7 +13,7 @@ export const navigationOptions: StackNavigationOptions = {
   gestureDirection: 'horizontal',
   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
   gestureResponseDistance: 120,
-  gestureVelocityImpact: 0.5,
+  // gestureVelocityImpact: 0.5,
 };
 
 export const drawerOptions: DrawerNavigationOptions = {

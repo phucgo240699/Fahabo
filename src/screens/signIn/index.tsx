@@ -11,7 +11,7 @@ import {
 } from 'native-base';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
-import {push} from '@navigators/index';
+import {navigate} from '@navigators/index';
 import styled from 'styled-components/native';
 import {navigateReset} from '@navigators/index';
 import {
@@ -48,10 +48,10 @@ const SignInScreen: React.FC<Props> = () => {
   // Navigate
   //
   const navigateToSignUp = () => {
-    push(ScreenName.SignUpScreen);
+    navigate(ScreenName.SignUpScreen);
   };
   const navigateToForgotPassword = () => {
-    push(ScreenName.ForgotPasswordScreen);
+    navigate(ScreenName.ForgotPasswordScreen);
   };
 
   //
@@ -121,20 +121,19 @@ const SignInScreen: React.FC<Props> = () => {
 
   return (
     <SafeView>
-      <Container onPress={onKeyboardDismiss}>
+      {/* Status Bar */}
+      <FocusAwareStatusBar
+        barStyle="dark-content"
+        backgroundColor={Colors.WHITE}
+        translucent
+      />
+      <Container onPressOut={onKeyboardDismiss}>
         <Scroll
           scrollEnabled
           overScrollMode="never"
           contentContainerStyle={styles.scrollView}
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}>
-          {/* Status Bar */}
-          <FocusAwareStatusBar
-            barStyle="dark-content"
-            backgroundColor={Colors.WHITE}
-            translucent
-          />
-
           {/* Header */}
           <Banner source={require('@assets/images/auth_family_banner.jpg')} />
           <Heading size="2xl" color={Colors.SUNGLOW}>
@@ -146,41 +145,35 @@ const SignInScreen: React.FC<Props> = () => {
 
           {/* Form */}
           <VStack space={2} mt={5}>
-            <FormControl>
-              <FormControl.Label
-                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
-                {i18n.t('authentication.signIn.email')}
-              </FormControl.Label>
-              <Input color={Colors.BLACK} borderColor={Colors.SILVER} />
-            </FormControl>
-            <FormControl mb={5}>
-              <FormControl.Label
-                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
-                {i18n.t('authentication.signIn.password')}
-              </FormControl.Label>
-              <Input
-                type="password"
-                color={Colors.BLACK}
-                borderColor={Colors.SILVER}
-              />
-              <Link
-                mt={1}
-                alignSelf="flex-end"
-                _text={{
-                  fontSize: 'xs',
-                  fontWeight: '700',
-                  color: Colors.SUNGLOW,
-                }}
-                onPress={navigateToForgotPassword}>
-                {i18n.t('authentication.signIn.forgotPassword')}
-              </Link>
-            </FormControl>
+            <Input
+              color={Colors.BLACK}
+              borderColor={Colors.SILVER}
+              placeholderTextColor={Colors.SILVER}
+              placeholder={i18n.t('authentication.signIn.accountPlaceHolder')}
+            />
+            <Input
+              mt={3}
+              type="password"
+              color={Colors.BLACK}
+              borderColor={Colors.SILVER}
+              placeholderTextColor={Colors.SILVER}
+              placeholder={i18n.t('authentication.signIn.password')}
+            />
+            <Link
+              p={1}
+              mr={-2}
+              alignSelf="flex-end"
+              _text={{
+                fontSize: 'xs',
+                fontWeight: '700',
+                color: Colors.SUNGLOW,
+              }}
+              onPress={navigateToForgotPassword}>
+              {i18n.t('authentication.signIn.forgotPassword')}
+            </Link>
 
             {/* Button */}
-            <Button
-              // backgroundColor={Colors.SUNGLOW}
-              _text={{color: 'white'}}
-              onPress={onSignIn}>
+            <Button mt={5} _text={{color: Colors.WHITE}} onPress={onSignIn}>
               {i18n.t('authentication.signIn.login')}
             </Button>
 
@@ -207,11 +200,12 @@ const SignInScreen: React.FC<Props> = () => {
             </HStack>
 
             {/* Encourage Sign up */}
-            <HStack mt={10} justifyContent="center">
+            <HStack mt={10} alignItems="center" justifyContent="center">
               <Text fontSize="sm" color="muted.700" fontWeight={400}>
                 {i18n.t('authentication.signIn.signUpLabel')}
               </Text>
               <Link
+                p={1}
                 _text={{color: Colors.SUNGLOW, bold: true, fontSize: 'sm'}}
                 onPress={navigateToSignUp}>
                 {i18n.t('authentication.signUp.signUp')}

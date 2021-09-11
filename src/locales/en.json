@@ -5,8 +5,9 @@
       "signIn": "Sign in",
       "welcome": "Welcome",
       "subWelcome": "Sign in to continue!",
-      "email": "Email",
+      "account": "Account",
       "password": "Password",
+      "accountPlaceHolder": "Email or phone number",
       "forgotPassword": "Forgot Password?",
       "login": "Login",
       "signUpLabel": "Don't have an account? "
@@ -15,9 +16,11 @@
       "signUp": "Sign up",
       "welcome": "Welcome",
       "subWelcome": "Sign up to continue!",
-      "email": "Email",
+      "account": "Account",
+      "name": "Name",
       "password": "Password",
-      "confirmPassword": "Confirm Password"
+      "confirmPassword": "Confirm Password",
+      "accountPlaceHolder": "Email or phone number"
     },
     "pinCode": {
       "pinCode": "Pin code",

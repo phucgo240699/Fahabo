@@ -3,130 +3,122 @@ import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import styled from 'styled-components/native';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
-import {push} from '@navigators/index';
+import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
 import {Heading, VStack, FormControl, Input, Button, HStack} from 'native-base';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {KeyboardAwareScrollView} from '@codler/react-native-keyboard-aware-scroll-view';
 
 interface Props {}
 
 const SignUpScreen: React.FC<Props> = () => {
   const onSignUp = () => {
-    push(ScreenName.PinCodeScreen, {address: 'phucgo240699@gmail.com'});
+    navigate(ScreenName.PinCodeScreen, {address: 'phucgo240699@gmail.com'});
   };
 
   const onPressBackground = () => {
     Keyboard.dismiss();
   };
-
   return (
     <SafeView>
-      <Container onPress={onPressBackground}>
-        <Content>
-          <AuthenticationHeader
-            marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
-          />
-          <Scroll
-            scrollEnabled
-            overScrollMode="never"
-            alwaysBounceVertical={false}
-            contentContainerStyle={styles.scrollView}
-            showsVerticalScrollIndicator={false}>
-            <FocusAwareStatusBar
-              barStyle="dark-content"
-              backgroundColor={Colors.WHITE}
-              translucent
+      <AuthenticationHeader
+        marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
+      />
+      <FocusAwareStatusBar
+        barStyle="dark-content"
+        backgroundColor={Colors.WHITE}
+        translucent
+      />
+      <Container onPressOut={onPressBackground}>
+        <KeyboardAwareScrollView
+          enableOnAndroid
+          extraHeight={140}
+          overScrollMode="never"
+          alwaysBounceVertical={false}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollView}>
+          <Heading mt={14} size="2xl" color={Colors.SUNGLOW}>
+            {i18n.t('authentication.signUp.signUp')}
+          </Heading>
+          <Heading color="muted.400" size="xs">
+            {i18n.t('authentication.signUp.subWelcome')}
+          </Heading>
+          {/* </HStack> */}
+
+          {/* Form */}
+          <VStack space={2} mt={5}>
+            <Input
+              color={Colors.BLACK}
+              borderColor={Colors.SILVER}
+              placeholderTextColor={Colors.SILVER}
+              placeholder={i18n.t('authentication.signUp.accountPlaceHolder')}
             />
-            <Heading mt={14} size="2xl" color={Colors.SUNGLOW}>
-              {i18n.t('authentication.signUp.signUp')}
-            </Heading>
-            <Heading color="muted.400" size="xs">
-              {i18n.t('authentication.signUp.subWelcome')}
-            </Heading>
-            {/* </HStack> */}
+            <Input
+              mt={3}
+              color={Colors.BLACK}
+              borderColor={Colors.SILVER}
+              placeholderTextColor={Colors.SILVER}
+              placeholder={i18n.t('authentication.signUp.name')}
+            />
+            <Input
+              mt={3}
+              type="password"
+              color={Colors.BLACK}
+              borderColor={Colors.SILVER}
+              placeholderTextColor={Colors.SILVER}
+              placeholder={i18n.t('authentication.signUp.password')}
+            />
+            <Input
+              mt={3}
+              type="password"
+              color={Colors.BLACK}
+              borderColor={Colors.SILVER}
+              placeholderTextColor={Colors.SILVER}
+              placeholder={i18n.t('authentication.signUp.confirmPassword')}
+            />
 
-            {/* Form */}
+            {/* Button */}
             <VStack space={2} mt={5}>
-              <FormControl>
-                <FormControl.Label
-                  _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
-                  {i18n.t('authentication.signUp.email')}
-                </FormControl.Label>
-                <Input color={Colors.BLACK} borderColor={Colors.SILVER} />
-              </FormControl>
-              <FormControl>
-                <FormControl.Label
-                  _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
-                  {i18n.t('authentication.signUp.password')}
-                </FormControl.Label>
-                <Input
-                  type="password"
-                  color={Colors.BLACK}
-                  borderColor={Colors.SILVER}
-                />
-              </FormControl>
-              <FormControl>
-                <FormControl.Label
-                  _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
-                  {i18n.t('authentication.signUp.confirmPassword')}
-                </FormControl.Label>
-                <Input
-                  type="password"
-                  color={Colors.BLACK}
-                  borderColor={Colors.SILVER}
-                />
-              </FormControl>
-
-              {/* Button */}
-              <VStack space={2} mt={5}>
-                <Button
-                  // backgroundColor={Colors.SUNGLOW}
-                  _text={{color: 'white'}}
-                  onPress={onSignUp}>
-                  {i18n.t('authentication.signUp.signUp')}
-                </Button>
-              </VStack>
-
-              <Seperator
-                source={require('@assets/images/sign_in_seperator.png')}
-              />
-
-              {/* Third party Authentication */}
-              <HStack alignItems="center" justifyContent="center">
-                {Platform.OS === 'ios' && (
-                  <ThirdPartyAuthButton
-                    sourceIcon={require('@assets/images/apple_icon.png')}
-                  />
-                )}
-                <ThirdPartyAuthButton
-                  sourceIcon={require('@assets/images/google_icon.png')}
-                />
-                <ThirdPartyAuthButton
-                  sourceIcon={require('@assets/images/facebook_icon.png')}
-                />
-              </HStack>
+              <Button _text={{color: Colors.WHITE}} onPress={onSignUp}>
+                {i18n.t('authentication.signUp.signUp')}
+              </Button>
             </VStack>
-          </Scroll>
-        </Content>
+
+            <Seperator
+              source={require('@assets/images/sign_in_seperator.png')}
+            />
+
+            {/* Third party Authentication */}
+            <HStack alignItems="center" justifyContent="center">
+              {Platform.OS === 'ios' && (
+                <ThirdPartyAuthButton
+                  sourceIcon={require('@assets/images/apple_icon.png')}
+                />
+              )}
+              <ThirdPartyAuthButton
+                sourceIcon={require('@assets/images/google_icon.png')}
+              />
+              <ThirdPartyAuthButton
+                sourceIcon={require('@assets/images/facebook_icon.png')}
+              />
+            </HStack>
+          </VStack>
+        </KeyboardAwareScrollView>
       </Container>
     </SafeView>
   );
 };
 
 const Container = styled.TouchableWithoutFeedback``;
-const Content = styled.View`
-  flex: 1;
-`;
+const Content = styled.View``;
 const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${Colors.WHITE};
 `;
-const Scroll = styled.ScrollView`
-  flex: 1;
-`;
+const Scroll = styled.ScrollView``;
 
 const Seperator = styled.Image`
   align-self: center;
