@@ -2,6 +2,7 @@ import auth from '@react-native-firebase/auth';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
+import {Platform} from 'react-native';
 
 export const signInWithApple = async () => {
   // Start the sign-in request
@@ -57,9 +58,12 @@ export const signOutWithGoogle = async () => {
 };
 
 export const signInWithFacebook = async () => {
+  if (Platform.OS === 'android') {
+    LoginManager.setLoginBehavior('web_only');
+  }
+
   // Attempt login with permissions
   const result = await LoginManager.logInWithPermissions([
-    'user_friends',
     'public_profile',
     'email',
   ]);
