@@ -33,8 +33,21 @@
       "phoneInstruction": "Enter your phone number to get pin code"
     }
   },
+  "sideBar": {
+    "home": "Home",
+    "tasks": "Tasks",
+    "events": "Events",
+    "profile": "Profile",
+    "logOut": "Log out"
+  },
   "home": {
     "home": "Home"
+  },
+  "tasks": {
+    "tasks": "Tasks"
+  },
+  "events": {
+    "events": "Events"
   },
   "profile": {
     "profile": "Profile"

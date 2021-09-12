@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {HamburgerIcon, Text} from 'native-base';
-import CustomIconButton from '@components/CustomIconButton';
+import {Text} from 'native-base';
+import PrimaryButton from '@components/PrimaryButton';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import colors from '@themes/colors';
 
@@ -23,25 +23,17 @@ const PrimaryDrawerHeader: React.FC<Props> = ({title, marginTop}) => {
 
   return (
     <Container marginTop={marginTop}>
-      <CustomIconButton
-        iconWidth={30}
-        iconHeight={30}
-        containerWidth={38}
-        containerHeight={38}
-        tintColor={colors.THEME_COLOR_5}
-        source={require('@assets/images/menu_icon.png')}
+      <PrimaryButton
+        leftTintColor={colors.THEME_COLOR_5}
+        leftSource={require('@assets/images/menu_icon.png')}
         onPress={openMenu}
       />
       <Text fontSize="3xl" fontWeight={'700'} color={colors.THEME_COLOR_5}>
         {title}
       </Text>
-      <CustomIconButton
-        iconWidth={30}
-        iconHeight={30}
-        containerWidth={38}
-        containerHeight={38}
-        tintColor={colors.THEME_COLOR_5}
-        source={require('@assets/images/bell_icon.png')}
+      <PrimaryButton
+        leftTintColor={colors.THEME_COLOR_5}
+        leftSource={require('@assets/images/bell_icon.png')}
         onPress={navigateToNotifications}
       />
     </Container>
@@ -50,6 +42,7 @@ const PrimaryDrawerHeader: React.FC<Props> = ({title, marginTop}) => {
 
 const Container = styled.View<{marginTop?: number}>`
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   margin-left: 10px;
   margin-right: 10px;

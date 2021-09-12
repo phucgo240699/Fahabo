@@ -1,13 +1,13 @@
 import React, {memo} from 'react';
-import i18n from '@locales/index';
 import {Box} from 'native-base';
-import colors from '@themes/colors';
+import i18n from '@locales/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import PrimaryDrawerHeader from '@components/PrimaryDrawerHeader';
+import colors from '@themes/colors';
 
 interface Props {}
 
-const HomeScreen: React.FC<Props> = () => {
+const EventsScreen: React.FC<Props> = () => {
   return (
     <Box flex={1} safeArea pt={4} bgColor={colors.WHITE}>
       {/* Status Bar */}
@@ -16,9 +16,9 @@ const HomeScreen: React.FC<Props> = () => {
         backgroundColor={colors.WHITE}
         translucent
       />
-      <PrimaryDrawerHeader title={i18n.t('home.home')} />
+      <PrimaryDrawerHeader title={i18n.t('events.events')} />
     </Box>
   );
 };
 
-export default memo(HomeScreen);
+export default memo(EventsScreen);
