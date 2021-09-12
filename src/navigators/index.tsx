@@ -18,7 +18,7 @@ export const navigationOptions: StackNavigationOptions = {
 
 export const drawerOptions: DrawerNavigationOptions = {
   headerShown: false,
-  drawerActiveTintColor: colors.BUDDHA_GOLD,
+  drawerActiveTintColor: colors.THEME_COLOR_7,
 };
 
 export const navigationRef = createRef<any>();

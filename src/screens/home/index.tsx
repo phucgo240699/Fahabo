@@ -26,7 +26,7 @@ const HomeScreen: React.FC<Props> = () => {
         mt={10}
         width={200}
         alignSelf={'center'}
-        // backgroundColor={Colors.SUNGLOW}
+        // backgroundColor={Colors.THEME_COLOR_5}
         _text={{color: 'white'}}
         onPress={logOut}>
         Log out

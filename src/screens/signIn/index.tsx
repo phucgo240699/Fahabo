@@ -136,7 +136,7 @@ const SignInScreen: React.FC<Props> = () => {
           showsVerticalScrollIndicator={false}>
           {/* Header */}
           <Banner source={require('@assets/images/auth_family_banner.jpg')} />
-          <Heading size="2xl" color={Colors.SUNGLOW}>
+          <Heading size="2xl" color={Colors.THEME_COLOR_5}>
             {i18n.t('authentication.signIn.welcome')}
           </Heading>
           <Heading color="muted.400" size="xs">
@@ -166,7 +166,7 @@ const SignInScreen: React.FC<Props> = () => {
               _text={{
                 fontSize: 'xs',
                 fontWeight: '700',
-                color: Colors.SUNGLOW,
+                color: Colors.THEME_COLOR_5,
               }}
               onPress={navigateToForgotPassword}>
               {i18n.t('authentication.signIn.forgotPassword')}
@@ -206,7 +206,11 @@ const SignInScreen: React.FC<Props> = () => {
               </Text>
               <Link
                 p={1}
-                _text={{color: Colors.SUNGLOW, bold: true, fontSize: 'sm'}}
+                _text={{
+                  color: Colors.THEME_COLOR_5,
+                  bold: true,
+                  fontSize: 'sm',
+                }}
                 onPress={navigateToSignUp}>
                 {i18n.t('authentication.signUp.signUp')}
               </Link>

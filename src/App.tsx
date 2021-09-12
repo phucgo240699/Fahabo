@@ -18,34 +18,9 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import store, {persistor} from './store';
 import {AuthState} from '@constants/Constants';
+import {theme} from '@themes/colors';
 
 const App = () => {
-  const theme = extendTheme({
-    colors: {
-      // Add new color
-      primary: {
-        50: '#FFF1CC',
-        100: '#FFE9B3',
-        200: '#FFE299',
-        300: '#FFD466',
-        400: '#FFC634',
-        500: '#FFB700',
-        600: '#CC9200',
-        700: '#996E00',
-        800: '#805B00',
-        900: '#4D3700',
-      },
-      // Redefinig only one shade, rest of the color will remain same.
-      amber: {
-        400: '#d97706',
-      },
-    },
-    config: {
-      // Changing initialColorMode to 'dark'
-      initialColorMode: 'dark',
-    },
-  });
-
   return (
     <>
       <Provider store={store}>

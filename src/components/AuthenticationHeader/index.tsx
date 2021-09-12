@@ -21,7 +21,7 @@ const AuthenticationHeader: React.FC<Props> = ({title, marginTop}) => {
       <IconContainer onPress={onPressBack}>
         <Icon source={require('@assets/images/navigation_back_icon.png')} />
       </IconContainer>
-      <Text fontSize="4xl" color={Colors.SUNGLOW}>
+      <Text fontSize="4xl" color={Colors.THEME_COLOR_5}>
         {title}
       </Text>
       <EmptyView />
@@ -46,7 +46,7 @@ const IconContainer = styled.TouchableOpacity`
 const Icon = styled.Image`
   width: 32px;
   height: 32px;
-  tint-color: ${Colors.SUNGLOW};
+  tint-color: ${Colors.THEME_COLOR_5};
 `;
 
 const EmptyView = styled.View`

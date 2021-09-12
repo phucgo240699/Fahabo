@@ -40,7 +40,7 @@ const SignUpScreen: React.FC<Props> = () => {
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollView}>
-          <Heading mt={14} size="2xl" color={Colors.SUNGLOW}>
+          <Heading mt={14} size="2xl" color={Colors.THEME_COLOR_5}>
             {i18n.t('authentication.signUp.signUp')}
           </Heading>
           <Heading color="muted.400" size="xs">
@@ -130,7 +130,7 @@ const Icon = styled.Image`
   width: 32px;
   height: 32px;
   margin-left: 10px;
-  tint-color: ${Colors.SUNGLOW};
+  tint-color: ${Colors.THEME_COLOR_5};
 `;
 
 const styles = StyleSheet.create({

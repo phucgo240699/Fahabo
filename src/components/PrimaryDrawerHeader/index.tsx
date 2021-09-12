@@ -28,11 +28,11 @@ const PrimaryDrawerHeader: React.FC<Props> = ({title, marginTop}) => {
         iconHeight={30}
         containerWidth={38}
         containerHeight={38}
-        tintColor={colors.SUNGLOW}
+        tintColor={colors.THEME_COLOR_5}
         source={require('@assets/images/menu_icon.png')}
         onPress={openMenu}
       />
-      <Text fontSize="3xl" fontWeight={'700'} color={colors.SUNGLOW}>
+      <Text fontSize="3xl" fontWeight={'700'} color={colors.THEME_COLOR_5}>
         {title}
       </Text>
       <CustomIconButton
@@ -40,7 +40,7 @@ const PrimaryDrawerHeader: React.FC<Props> = ({title, marginTop}) => {
         iconHeight={30}
         containerWidth={38}
         containerHeight={38}
-        tintColor={colors.SUNGLOW}
+        tintColor={colors.THEME_COLOR_5}
         source={require('@assets/images/bell_icon.png')}
         onPress={navigateToNotifications}
       />
