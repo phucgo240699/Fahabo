@@ -1,8 +1,9 @@
+import {Platform} from 'react-native';
+import {GOOGLE_AUTH_WEB_CLIENT_ID} from '@constants/Constants';
 import auth from '@react-native-firebase/auth';
+import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
-import {Platform} from 'react-native';
 
 export const signInWithApple = async () => {
   // Start the sign-in request
@@ -31,8 +32,7 @@ export const configGoogleSignIn = () => {
   GoogleSignin.configure({
     // client ID of type WEB for your server (needed to verify user ID and offline access)
     // get from google json client with type === 3
-    webClientId:
-      '1093550625783-74r0r8mritlbj0he4v7nkkbsug14m3jn.apps.googleusercontent.com', // Use for get idToken on Android OS
+    webClientId: GOOGLE_AUTH_WEB_CLIENT_ID, // Use for get idToken on Android OS
   });
 };
 

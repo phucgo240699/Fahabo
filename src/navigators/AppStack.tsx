@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {navigationOptions} from './index';
 import AuthenticationStack from './AuthenticationStack';
 import {AuthState, StackName} from '@constants/Constants';
 import {createStackNavigator} from '@react-navigation/stack';
 import MainStack from './MainStack';
+import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createStackNavigator();
 
@@ -12,6 +13,9 @@ interface Props {
 }
 
 const AppStack: React.FC<Props> = ({authState}) => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <Stack.Navigator screenOptions={navigationOptions}>
       <Stack.Screen

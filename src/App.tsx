@@ -10,7 +10,7 @@
 
 import React from 'react';
 // import {useColorScheme} from 'react-native';
-import {NativeBaseProvider, extendTheme} from 'native-base';
+import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import AppStack from '@navigators/AppStack';
 import {navigationRef} from '@navigators/index';

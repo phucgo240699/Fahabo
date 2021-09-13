@@ -1,4 +1,5 @@
 import {Dimensions} from 'react-native';
+import {Config} from 'react-native-config';
 
 const {width, height} = Dimensions.get('window');
 
@@ -27,6 +28,8 @@ export enum ScreenName {
   EventsScreen = 'EventsScreen',
   ProfileScreen = 'ProfileScreen',
 }
+
+export const GOOGLE_AUTH_WEB_CLIENT_ID = Config.GOOGLE_AUTH_WEB_CLIENT_ID;
 
 export const Constants = {
   MAX_WIDTH: width,
