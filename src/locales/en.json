@@ -10,7 +10,7 @@
       "accountPlaceHolder": "Email or phone number",
       "forgotPassword": "Forgot Password?",
       "login": "Login",
-      "signUpLabel": "Don't have an account? "
+      "signUpLabel": "Don't have an account?"
     },
     "signUp": {
       "signUp": "Sign up",
@@ -23,19 +23,19 @@
       "accountPlaceHolder": "Email or phone number"
     },
     "pinCode": {
-      "pinCode": "Pin code",
-      "instruction": "A pin code was sent to"
+      "pinCode": "PIN code",
+      "instruction": "A PIN code was sent to"
     },
     "forgotPassword": {
       "forgotPassword": "Forgot password",
-      "getPinCode": "Get Pin Code",
-      "emailInstruction": "Enter your email to get pin code",
-      "phoneInstruction": "Enter your phone number to get pin code"
+      "getPinCode": "Get PIN code",
+      "emailInstruction": "Enter your email to get PIN code",
+      "phoneInstruction": "Enter your phone number to get PIN code"
     }
   },
   "sideBar": {
     "home": "Home",
-    "tasks": "Tasks",
+    "chores": "Chores",
     "events": "Events",
     "profile": "Profile",
     "logOut": "Log out"
@@ -43,8 +43,8 @@
   "home": {
     "home": "Home"
   },
-  "tasks": {
-    "tasks": "Tasks"
+  "chores": {
+    "chores": "Chores"
   },
   "events": {
     "events": "Events"

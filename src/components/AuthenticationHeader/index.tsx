@@ -21,7 +21,7 @@ const AuthenticationHeader: React.FC<Props> = ({title, marginTop}) => {
       <IconContainer onPress={onPressBack}>
         <Icon source={require('@assets/images/navigation_back_icon.png')} />
       </IconContainer>
-      <Text fontSize="4xl" color={Colors.THEME_COLOR_5}>
+      <Text fontSize="3xl" fontWeight={'700'} color={Colors.THEME_COLOR_5}>
         {title}
       </Text>
       <EmptyView />

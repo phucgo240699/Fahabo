@@ -7,7 +7,7 @@ import colors from '@themes/colors';
 
 interface Props {}
 
-const TasksScreen: React.FC<Props> = () => {
+const ChoresScreen: React.FC<Props> = () => {
   return (
     <Box flex={1} safeArea pt={4} bgColor={colors.WHITE}>
       {/* Status Bar */}
@@ -16,9 +16,9 @@ const TasksScreen: React.FC<Props> = () => {
         backgroundColor={colors.WHITE}
         translucent
       />
-      <PrimaryDrawerHeader title={i18n.t('tasks.tasks')} />
+      <PrimaryDrawerHeader title={i18n.t('chores.chores')} />
     </Box>
   );
 };
 
-export default memo(TasksScreen);
+export default memo(ChoresScreen);

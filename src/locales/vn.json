@@ -1,0 +1,55 @@
+{
+  "authentication": {
+    "authentication": "Xác thực",
+    "signIn": {
+      "signIn": "Đăng nhập",
+      "welcome": "Chào mừng bạn",
+      "subWelcome": "Hãy đăng nhập để tiếp tục",
+      "account": "Tài khoản",
+      "password": "Mật khẩu",
+      "accountPlaceHolder": "Email hoặc số điện thoại",
+      "forgotPassword": "Quên mật khẩu?",
+      "login": "Đăng nhập",
+      "signUpLabel": "Nếu bạn chưa có mật khẩu, hãy"
+    },
+    "signUp": {
+      "signUp": "Đăng ký",
+      "welcome": "Chào mừng bạn",
+      "subWelcome": "Hãy đăng ký để tiếp tục",
+      "account": "Tài khoản",
+      "name": "Tên",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận lại mật khẩu",
+      "accountPlaceHolder": "Email hoặc số điện thoại"
+    },
+    "pinCode": {
+      "pinCode": "Mã PIN",
+      "instruction": "Một mã PIN đã được gửi đến"
+    },
+    "forgotPassword": {
+      "forgotPassword": "Quên mật khẩu",
+      "getPinCode": "Nhận mã PIN",
+      "emailInstruction": "Nhập email để lấy mã PIN",
+      "phoneInstruction": "Nhập số điện thoại để lấy mã PIN"
+    }
+  },
+  "sideBar": {
+    "home": "Trang chủ",
+    "chores": "Việc nhà",
+    "events": "Sự kiện",
+    "profile": "Thông tin cá nhân",
+    "logOut": "Đăng xuất"
+  },
+  "home": {
+    "home": "Trang chủ"
+  },
+  "chores": {
+    "chores": "Việc nhà"
+  },
+  "events": {
+    "events": "Sự kiện"
+  },
+  "profile": {
+    "profile": "Thông tin cá nhân"
+  }
+}

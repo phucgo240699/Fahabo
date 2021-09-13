@@ -12,7 +12,7 @@ export enum StackName {
   MainStack = 'MainStack',
   AuthenticationStack = 'AuthenticationStack',
   HomeStack = 'HomeStack',
-  TaskStack = 'TaskStack',
+  ChoresStack = 'ChoresStack',
   EventStack = 'EventStack',
   ProfileStack = 'ProfileStack',
 }
@@ -23,7 +23,7 @@ export enum ScreenName {
   PinCodeScreen = 'PinCodeScreen',
   ForgotPasswordScreen = 'ForgotPasswordScreen',
   HomeScreen = 'HomeScreen',
-  TasksScreen = 'TasksScreen',
+  ChoresScreen = 'ChoresScreen',
   EventsScreen = 'EventsScreen',
   ProfileScreen = 'ProfileScreen',
 }

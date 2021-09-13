@@ -44,13 +44,15 @@ const PrimaryButton: React.FC<Props> = ({
         />
       )}
       {title && (
-        <Text color={titleColor} ml={4}>
+        <Text
+          color={titleColor}
+          ml={leftSource ? 4 : 0}
+          mr={rightSource ? 4 : 0}>
           {title}
         </Text>
       )}
       {rightSource && (
         <Icon
-          marginLeft={16}
           width={iconRightWidth}
           height={iconRightHeight}
           source={rightSource}
