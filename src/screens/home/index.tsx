@@ -16,7 +16,7 @@ const HomeScreen: React.FC<Props> = () => {
         backgroundColor={colors.WHITE}
         translucent
       />
-      <PrimaryDrawerHeader title={i18n.t('home.home')} />
+      {/* <PrimaryDrawerHeader title={i18n.t('home.home')} /> */}
     </Box>
   );
 };

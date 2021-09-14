@@ -16,7 +16,7 @@ const ProfileScreen: React.FC<Props> = () => {
         backgroundColor={colors.WHITE}
         translucent
       />
-      <PrimaryDrawerHeader title={i18n.t('profile.profile')} />
+      {/* <PrimaryDrawerHeader title={i18n.t('profile.profile')} /> */}
     </Box>
   );
 };

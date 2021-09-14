@@ -7,7 +7,7 @@ import {
 import {DrawerNavigationOptions} from '@react-navigation/drawer';
 import colors from '@themes/colors';
 
-export const navigationOptions: StackNavigationOptions = {
+export const navigationOptions: any = {
   headerShown: false,
   gestureEnabled: true,
   gestureDirection: 'horizontal',
