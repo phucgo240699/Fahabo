@@ -1,6 +1,9 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {getSessionLoading} from '@store/selectors/session';
+import colors from '@themes/colors';
 
 interface Props {
   barStyle: any;
@@ -14,12 +17,15 @@ const FocusAwareStatusBar: React.FC<Props> = ({
   backgroundColor,
 }) => {
   const isFocused = useIsFocused();
+  const loading = useSelector(getSessionLoading);
 
   return isFocused ? (
     <StatusBar
       barStyle={barStyle}
       translucent={translucent}
-      backgroundColor={backgroundColor}
+      backgroundColor={
+        loading === true ? colors.BLACK_ALPHA50 : backgroundColor
+      }
     />
   ) : null;
 };

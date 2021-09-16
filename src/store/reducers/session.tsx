@@ -17,7 +17,7 @@ export default function sessionReducer(
     case UPDATE_SESSION:
       return {
         ...state,
-        ...action.type,
+        ...action.session,
       };
 
     default:

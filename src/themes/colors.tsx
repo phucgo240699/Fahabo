@@ -23,6 +23,7 @@ const applied = {
   BACKGROUND: shades.WHITE,
   TABBAR_INACTIVE: shades.WHITE,
   TABBAR_ACTIVE: shades.BLACK,
+  BLACK_ALPHA50: `${shades.BLACK}80`,
 };
 
 export const theme = extendTheme({
