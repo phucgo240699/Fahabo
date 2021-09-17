@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
-import {Box} from 'native-base';
+import {Box, Text} from 'native-base';
 import i18n from '@locales/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import PrimaryDrawerHeader from '@components/PrimaryDrawerHeader';
+// import PrimaryDrawerHeader from '@components/PrimaryDrawerHeader';
 import colors from '@themes/colors';
 
 interface Props {}
@@ -16,7 +16,8 @@ const ChoresScreen: React.FC<Props> = () => {
         backgroundColor={colors.WHITE}
         translucent
       />
-      <PrimaryDrawerHeader title={i18n.t('chores.chores')} />
+      {/* <PrimaryDrawerHeader title={i18n.t('chores.chores')} /> */}
+      <Text>{i18n.t('chores.chores')}</Text>
     </Box>
   );
 };
