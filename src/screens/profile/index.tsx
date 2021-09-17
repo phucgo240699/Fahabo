@@ -1,9 +1,7 @@
-import React, {memo} from 'react';
+import React from 'react';
 import {Box, Button} from 'native-base';
-import i18n from '@locales/index';
 import colors from '@themes/colors';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import PrimaryDrawerHeader from '@components/PrimaryDrawerHeader';
 import {navigateReset} from '@navigators/index';
 import {StackName} from '@constants/Constants';
 
@@ -31,4 +29,4 @@ const ProfileScreen: React.FC<Props> = () => {
   );
 };
 
-export default memo(ProfileScreen);
+export default ProfileScreen;

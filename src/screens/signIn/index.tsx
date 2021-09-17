@@ -1,14 +1,5 @@
-import React, {memo, useEffect} from 'react';
-import {
-  Text,
-  Heading,
-  VStack,
-  FormControl,
-  Input,
-  Link,
-  Button,
-  HStack,
-} from 'native-base';
+import React, {useEffect} from 'react';
+import {Text, Heading, VStack, Input, Link, Button, HStack} from 'native-base';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import {navigate} from '@navigators/index';
@@ -250,4 +241,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(SignInScreen);
+export default SignInScreen;

@@ -1,9 +1,7 @@
-import React, {memo} from 'react';
-import i18n from '@locales/index';
+import React from 'react';
 import {Box} from 'native-base';
 import colors from '@themes/colors';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import PrimaryDrawerHeader from '@components/PrimaryDrawerHeader';
 
 interface Props {}
 
@@ -21,4 +19,4 @@ const HomeScreen: React.FC<Props> = () => {
   );
 };
 
-export default memo(HomeScreen);
+export default HomeScreen;

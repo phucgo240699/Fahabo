@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React from 'react';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -141,4 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(SignUpScreen);
+export default SignUpScreen;

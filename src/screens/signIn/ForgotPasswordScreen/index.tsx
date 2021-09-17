@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React from 'react';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -6,7 +6,7 @@ import {Keyboard, Platform} from 'react-native';
 import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
 import AuthenticationHeader from '@components/AuthenticationHeader';
-import {Heading, VStack, FormControl, Input, Button, Box} from 'native-base';
+import {Heading, VStack, FormControl, Input, Button} from 'native-base';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
@@ -81,4 +81,4 @@ const Form = styled.View`
   margin-right: 20px;
 `;
 
-export default memo(ForgotPasswordScreen);
+export default ForgotPasswordScreen;
