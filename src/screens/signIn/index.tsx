@@ -164,7 +164,11 @@ const SignInScreen: React.FC<Props> = () => {
             </Link>
 
             {/* Button */}
-            <Button mt={5} _text={{color: Colors.WHITE}} onPress={onSignIn}>
+            <Button
+              size="lg"
+              mt={5}
+              _text={{color: Colors.WHITE}}
+              onPress={onSignIn}>
               {i18n.t('authentication.signIn.login')}
             </Button>
 

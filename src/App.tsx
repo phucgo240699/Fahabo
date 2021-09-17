@@ -9,18 +9,17 @@
  */
 
 import React from 'react';
-// import {useColorScheme} from 'react-native';
-import {NativeBaseProvider} from 'native-base';
-import {NavigationContainer} from '@react-navigation/native';
+import HUD from '@components/HUD';
+import {theme} from '@themes/index';
+import store, {persistor} from './store';
 import AppStack from '@navigators/AppStack';
+import {AuthState} from '@constants/Constants';
+import {NativeBaseProvider} from 'native-base';
 import {navigationRef} from '@navigators/index';
 import {Provider, useSelector} from 'react-redux';
-import {PersistGate} from 'redux-persist/integration/react';
-import store, {persistor} from './store';
-import {AuthState} from '@constants/Constants';
-import {theme} from '@themes/colors';
 import {getSessionLoading} from '@store/selectors/session';
-import HUD from '@components/HUD';
+import {NavigationContainer} from '@react-navigation/native';
+import {PersistGate} from 'redux-persist/integration/react';
 
 const RootComponent = () => {
   const loading = useSelector(getSessionLoading);

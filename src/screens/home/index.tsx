@@ -9,6 +9,7 @@ import {SceneMap, TabView, TabBar} from 'react-native-tab-view';
 import styled from 'styled-components/native';
 import {StyleSheet} from 'react-native';
 import {Constants} from '@constants/Constants';
+import fonts from '@themes/fonts';
 
 interface Props {}
 
@@ -56,7 +57,7 @@ const HomeScreen: React.FC<Props> = () => {
   );
 };
 
-const TabTitle = styled.Text<{isFocus?: boolean}>`
+const TabTitle = styled(fonts.PrimaryFontRegularSize14)<{isFocus?: boolean}>`
   text-align: center;
   align-items: center;
   justify-content: center;

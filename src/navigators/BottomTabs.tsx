@@ -50,25 +50,6 @@ const BottomTabs = () => {
           );
         },
         tabBarLabel: () => <></>,
-        // tabBarLabel: ({focused}) => {
-        //   let title = '';
-        //   switch (route.name) {
-        //     case StackName.HomeStack:
-        //       title = i18n.t('home.home');
-        //       break;
-        //     case StackName.ProfileStack:
-        //       title = i18n.t('profile.profile');
-        //       break;
-        //   }
-        //   return (
-        //     <TabbarTitle
-        //       style={{
-        //         color: focused ? Colors.TORY_BLUE : Colors.BLACK,
-        //       }}>
-        //       {title}
-        //     </TabbarTitle>
-        //   );
-        // },
       })}>
       <Tab.Screen
         name={StackName.HomeStack}
