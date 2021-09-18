@@ -57,14 +57,15 @@ const ProfileAlbumBox: React.FC<Props> = () => {
         <AlbumLabel>{i18n.t('profile.album')}</AlbumLabel>
         <PrimaryButton title={i18n.t('profile.viewAll')} />
       </Header>
-      {/* <Box flexDirection={'row'} flexWrap={'wrap'}>
+      <Box
+        flexDirection={'row'}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}>
         {DATA.map((item, index) => {
           return (
-            <PictureContainer
-              key={item.id}
-              marginLeft={index === 0 || index === 3 || index === 6 ? 0 : 8}>
+            <PictureContainer key={item.id}>
               <Image
-                size={Constants.MAX_WIDTH / 5}
+                size={'md'}
                 borderRadius={10}
                 alt={i18n.t('application.loading')}
                 source={{uri: item.url}}
@@ -72,60 +73,6 @@ const ProfileAlbumBox: React.FC<Props> = () => {
             </PictureContainer>
           );
         })}
-      </Box> */}
-      <Box mt={2}>
-        <Box flexDirection="row" justifyContent="space-between">
-          <PictureContainer key={DATA[0].id}>
-            <Image
-              size={Constants.MAX_WIDTH / 5}
-              borderRadius={10}
-              alt={i18n.t('application.loading')}
-              source={{uri: DATA[0].url}}
-            />
-          </PictureContainer>
-          <PictureContainer key={DATA[1].id}>
-            <Image
-              size={Constants.MAX_WIDTH / 5}
-              borderRadius={10}
-              alt={i18n.t('application.loading')}
-              source={{uri: DATA[0].url}}
-            />
-          </PictureContainer>
-          <PictureContainer key={DATA[2].id}>
-            <Image
-              size={Constants.MAX_WIDTH / 5}
-              borderRadius={10}
-              alt={i18n.t('application.loading')}
-              source={{uri: DATA[0].url}}
-            />
-          </PictureContainer>
-        </Box>
-        <Box mt={6} flexDirection="row" justifyContent="space-between">
-          <PictureContainer key={DATA[3].id}>
-            <Image
-              size={Constants.MAX_WIDTH / 5}
-              borderRadius={10}
-              alt={i18n.t('application.loading')}
-              source={{uri: DATA[0].url}}
-            />
-          </PictureContainer>
-          <PictureContainer key={DATA[4].id}>
-            <Image
-              size={Constants.MAX_WIDTH / 5}
-              borderRadius={10}
-              alt={i18n.t('application.loading')}
-              source={{uri: DATA[0].url}}
-            />
-          </PictureContainer>
-          <PictureContainer key={DATA[5].id}>
-            <Image
-              size={Constants.MAX_WIDTH / 5}
-              borderRadius={10}
-              alt={i18n.t('application.loading')}
-              source={{uri: DATA[0].url}}
-            />
-          </PictureContainer>
-        </Box>
       </Box>
     </Container>
   );
@@ -134,6 +81,7 @@ const ProfileAlbumBox: React.FC<Props> = () => {
 const Container = styled.View`
   width: 90%;
   margin-top: 30px;
+  margin-bottom: 30px;
 `;
 
 const Header = styled.View`
@@ -146,7 +94,7 @@ const AlbumLabel = styled(fonts.PrimaryFontMediumSize18)`
 `;
 
 const PictureContainer = styled.TouchableOpacity<{marginLeft?: number}>`
-  margin-left: ${props => props.marginLeft ?? 0}px;
+  margin: 4px;
 `;
 
 export default memo(ProfileAlbumBox);

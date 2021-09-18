@@ -17,6 +17,13 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import {ScreenName, StackName} from '@constants/Constants';
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {
+  authFamilyBanner,
+  appleIcon,
+  facebookIcon,
+  googleIcon,
+  orSeperator,
+} from '@constants/sources/index';
 
 interface Props {}
 
@@ -126,7 +133,7 @@ const SignInScreen: React.FC<Props> = () => {
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}>
           {/* Header */}
-          <Banner source={require('@assets/images/auth_family_banner.jpg')} />
+          <Banner source={authFamilyBanner} />
           <Heading size="2xl" color={Colors.THEME_COLOR_5}>
             {i18n.t('authentication.signIn.welcome')}
           </Heading>
@@ -172,24 +179,22 @@ const SignInScreen: React.FC<Props> = () => {
               {i18n.t('authentication.signIn.login')}
             </Button>
 
-            <Seperator
-              source={require('@assets/images/sign_in_seperator.png')}
-            />
+            <Seperator source={orSeperator} />
 
             {/* Third party Authentication */}
             <HStack alignItems="center" justifyContent="center">
               {Platform.OS === 'ios' && (
                 <ThirdPartyAuthButton
-                  sourceIcon={require('@assets/images/apple_icon.png')}
+                  sourceIcon={appleIcon}
                   onPress={onSignInWithApple}
                 />
               )}
               <ThirdPartyAuthButton
-                sourceIcon={require('@assets/images/google_icon.png')}
+                sourceIcon={googleIcon}
                 onPress={onSignInWithGoogle}
               />
               <ThirdPartyAuthButton
-                sourceIcon={require('@assets/images/facebook_icon.png')}
+                sourceIcon={facebookIcon}
                 onPress={onSignInWithFacebook}
               />
             </HStack>

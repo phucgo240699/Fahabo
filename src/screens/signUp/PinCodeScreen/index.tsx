@@ -1,7 +1,7 @@
 import {Text} from 'native-base';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
-import React, {memo, useState} from 'react';
+import React, {useState} from 'react';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import AuthenticationHeader from '@components/AuthenticationHeader';
@@ -117,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(PinCodeScreen);
+export default PinCodeScreen;

@@ -9,33 +9,27 @@ import {navigationOptions} from './index';
 import {StackName} from '@constants/Constants';
 import PrimaryIcon from '@components/PrimaryIcon';
 import colors from '@themes/colors';
-
-const TabbarTitle = styled.Text`
-  font-family: ArialRoundedMTBold;
-  font-size: 12px;
-`;
+import {
+  homeIcon,
+  selectedHomeIcon,
+  profileIcon,
+  selectedProfileIcon,
+} from '@constants/sources/index';
 
 const Tab = createBottomTabNavigator();
-
-const homeIconSource = require('@assets/images/home_icon.png');
-const selectedHomeIconSource = require('@assets/images/selected_home_icon.png');
-const profileIconSource = require('@assets/images/profile_icon.png');
-const selectedProfileIconSource = require('@assets/images/selected_profile_icon.png');
 
 const BottomTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, size}) => {
-          let iconSource = homeIconSource;
+          let iconSource = homeIcon;
           switch (route.name) {
             case StackName.HomeStack:
-              iconSource = focused ? selectedHomeIconSource : homeIconSource;
+              iconSource = focused ? selectedHomeIcon : homeIcon;
               break;
             case StackName.ProfileStack:
-              iconSource = focused
-                ? selectedProfileIconSource
-                : profileIconSource;
+              iconSource = focused ? selectedProfileIcon : profileIcon;
               break;
             default:
               break;

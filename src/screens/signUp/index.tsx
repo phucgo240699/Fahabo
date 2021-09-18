@@ -8,9 +8,15 @@ import {ScreenName} from '@constants/Constants';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
-import {Heading, VStack, FormControl, Input, Button, HStack} from 'native-base';
+import {Heading, VStack, Input, Button, HStack} from 'native-base';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {KeyboardAwareScrollView} from '@codler/react-native-keyboard-aware-scroll-view';
+import {
+  appleIcon,
+  facebookIcon,
+  googleIcon,
+  orSeperator,
+} from '@constants/sources/index';
 
 interface Props {}
 
@@ -87,23 +93,15 @@ const SignUpScreen: React.FC<Props> = () => {
               </Button>
             </VStack>
 
-            <Seperator
-              source={require('@assets/images/sign_in_seperator.png')}
-            />
+            <Seperator source={orSeperator} />
 
             {/* Third party Authentication */}
             <HStack alignItems="center" justifyContent="center">
               {Platform.OS === 'ios' && (
-                <ThirdPartyAuthButton
-                  sourceIcon={require('@assets/images/apple_icon.png')}
-                />
+                <ThirdPartyAuthButton sourceIcon={appleIcon} />
               )}
-              <ThirdPartyAuthButton
-                sourceIcon={require('@assets/images/google_icon.png')}
-              />
-              <ThirdPartyAuthButton
-                sourceIcon={require('@assets/images/facebook_icon.png')}
-              />
+              <ThirdPartyAuthButton sourceIcon={googleIcon} />
+              <ThirdPartyAuthButton sourceIcon={facebookIcon} />
             </HStack>
           </VStack>
         </KeyboardAwareScrollView>
@@ -111,14 +109,12 @@ const SignUpScreen: React.FC<Props> = () => {
     </SafeView>
   );
 };
-
-const Container = styled.TouchableWithoutFeedback``;
-const Content = styled.View``;
 const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${Colors.WHITE};
 `;
-const Scroll = styled.ScrollView``;
+
+const Container = styled.TouchableWithoutFeedback``;
 
 const Seperator = styled.Image`
   align-self: center;

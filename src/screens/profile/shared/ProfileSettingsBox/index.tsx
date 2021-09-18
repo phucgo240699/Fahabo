@@ -24,13 +24,14 @@ const ProfileSettingsBox: React.FC<Props> = () => {
 };
 
 const Container = styled.View`
-  margin: 30px;
+  width: 90%;
+  margin-top: 30px;
   border-radius: 10px;
   background-color: ${colors.WHITE};
-  shadow-color: ${colors.SILVER};
-  shadow-opacity: 0.35;
-  shadow-radius: 10px;
-  elevation: 6;
+  shadow-color: ${colors.BLACK};
+  shadow-opacity: 0.1;
+  shadow-radius: 8px;
+  elevation: 8;
 `;
 
 const Label = styled(fonts.PrimaryFontBoldSize12)`

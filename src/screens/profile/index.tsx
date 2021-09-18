@@ -3,12 +3,15 @@ import fonts from '@themes/fonts';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import {navigateReset} from '@navigators/index';
-import {Avatar, Box, ScrollView} from 'native-base';
+import {Avatar, Box} from 'native-base';
 import ProfileAlbumBox from './shared/ProfileAlbumBox';
 import {ImageBackground, StyleSheet} from 'react-native';
 import {Constants, StackName} from '@constants/Constants';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {profileBackground, defaultAvatar} from '@constants/sources/index';
+import PrimaryButton from '@components/PrimaryButton';
+import i18n from '@locales/index';
+import ProfileSettingsBox from './shared/ProfileSettingsBox';
 
 interface DataProps {
   name?: string;
@@ -42,29 +45,52 @@ const ProfileScreen: React.FC<Props> = () => {
         source={profileBackground}
         style={styles.profileContainer}
         imageStyle={styles.profileBackground}>
-        <Avatar
-          top={9}
-          zIndex={1}
-          size="2xl"
-          alignSelf="center"
-          position="absolute"
-          backgroundColor={'transparent'}
-          source={DATA.avatarUrl ? {uri: DATA.avatarUrl} : defaultAvatar}
-        />
-        <ScrollView contentContainerStyle={styles.scrollView}>
-          <Box mt={20} alignItems="center" justifyContent="center">
-            <NameText>{DATA.name}</NameText>
-            <EmailText>{DATA.email ?? DATA.phoneNumber}</EmailText>
-          </Box>
-          <ProfileAlbumBox />
-        </ScrollView>
+        <Scroll scrollEnabled contentContainerStyle={styles.scrollView}>
+          <EmptyView />
+          <Content>
+            <Box alignItems="center" justifyContent="center">
+              <NameText>{DATA.name}</NameText>
+              <EmailText>{DATA.email ?? DATA.phoneNumber}</EmailText>
+            </Box>
+            <ProfileSettingsBox />
+            <ProfileAlbumBox />
+            <PrimaryButton
+              titleColor={colors.RED_1}
+              title={i18n.t('profile.logOut')}
+              onPress={onLogOut}
+            />
+          </Content>
+          <Avatar
+            size="2xl"
+            alignSelf="center"
+            position="absolute"
+            backgroundColor={'transparent'}
+            source={DATA.avatarUrl ? {uri: DATA.avatarUrl} : defaultAvatar}
+          />
+        </Scroll>
       </ImageBackground>
     </Box>
   );
 };
 
+const EmptyView = styled.View`
+  height: 68px;
+`;
+
+const Scroll = styled.ScrollView``;
+
+const Content = styled.View`
+  width: 90%;
+  height: 200%;
+  padding-top: 68px;
+  align-items: center;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: ${colors.WHITE};
+`;
+
 const NameText = styled(fonts.PrimaryFontBoldSize25)`
-  color: ${colors.THEME_OPPOSITE_COLOR_10};
+  color: ${colors.BLACK};
 `;
 
 const EmailText = styled(fonts.PrimaryFontMediumSize14)`
@@ -81,13 +107,9 @@ const styles = StyleSheet.create({
     height: 300,
   },
   scrollView: {
-    flex: 1,
-    marginTop: 100,
-    marginLeft: 20,
-    marginRight: 20,
-    borderRadius: 20,
+    marginTop: 50,
+    paddingBottom: 120,
     alignItems: 'center',
-    backgroundColor: colors.WHITE,
   },
 });
 
