@@ -33,13 +33,6 @@
       "phoneInstruction": "Nhập số điện thoại để lấy mã PIN"
     }
   },
-  "sideBar": {
-    "home": "Trang chủ",
-    "chores": "Việc nhà",
-    "events": "Sự kiện",
-    "profile": "Thông tin cá nhân",
-    "logOut": "Đăng xuất"
-  },
   "home": {
     "home": "Trang chủ"
   },
@@ -50,6 +43,14 @@
     "events": "Sự kiện"
   },
   "profile": {
-    "profile": "Thông tin cá nhân"
+    "profile": "Thông tin cá nhân",
+    "logOut": "Đăng xuất",
+    "editProfile": "Sửa thông tin",
+    "settings": "Cài đặt",
+    "album": "Tệp ảnh",
+    "viewAll": "Xem tất cả"
+  },
+  "application": {
+    "loading": "Đăng tải..."
   }
 }

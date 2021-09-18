@@ -1,12 +1,14 @@
-import colors from '@themes/colors';
 import React from 'react';
 import {Text} from 'native-base';
+import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import {ImageSourcePropType} from 'react-native';
 
 interface Props {
   title?: string;
   titleColor?: string;
+  titleFontSize?: number;
+  titleFontWeight?: number;
   leftSource?: ImageSourcePropType;
   rightSource?: ImageSourcePropType;
   leftTintColor?: string;
@@ -15,13 +17,17 @@ interface Props {
   iconLeftHeight?: number;
   iconRightWidth?: number;
   iconRightHeight?: number;
+  space?: number;
   padding?: number;
+  containerStyle?: any;
   onPress?: () => void;
 }
 
 const PrimaryButton: React.FC<Props> = ({
   title,
   titleColor = colors.BLACK,
+  titleFontSize = 14,
+  titleFontWeight = 400,
   leftSource,
   rightSource,
   leftTintColor,
@@ -30,11 +36,13 @@ const PrimaryButton: React.FC<Props> = ({
   iconLeftHeight = 28,
   iconRightWidth = 28,
   iconRightHeight = 28,
+  space = 4,
   padding = 4,
+  containerStyle,
   onPress,
 }) => {
   return (
-    <Container padding={padding} onPress={onPress}>
+    <Container padding={padding} style={containerStyle} onPress={onPress}>
       {leftSource && (
         <Icon
           width={iconLeftWidth}
@@ -46,8 +54,10 @@ const PrimaryButton: React.FC<Props> = ({
       {title && (
         <Text
           color={titleColor}
-          ml={leftSource ? 4 : 0}
-          mr={rightSource ? 4 : 0}>
+          fontSize={titleFontSize}
+          fontWeight={titleFontWeight}
+          ml={leftSource ? space : 0}
+          mr={rightSource ? space : 0}>
           {title}
         </Text>
       )}

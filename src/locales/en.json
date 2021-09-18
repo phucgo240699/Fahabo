@@ -33,13 +33,6 @@
       "phoneInstruction": "Enter your phone number to get PIN code"
     }
   },
-  "sideBar": {
-    "home": "Home",
-    "chores": "Chores",
-    "events": "Events",
-    "profile": "Profile",
-    "logOut": "Log out"
-  },
   "home": {
     "home": "Home"
   },
@@ -50,6 +43,14 @@
     "events": "Events"
   },
   "profile": {
-    "profile": "Profile"
+    "profile": "Profile",
+    "logOut": "Log out",
+    "editProfile": "Edit Profile",
+    "settings": "Settings",
+    "album": "Album",
+    "viewAll": "View all"
+  },
+  "application": {
+    "loading": "Loading..."
   }
 }

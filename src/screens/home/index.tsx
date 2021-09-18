@@ -57,13 +57,13 @@ const HomeScreen: React.FC<Props> = () => {
   );
 };
 
-const TabTitle = styled(fonts.PrimaryFontRegularSize14)<{isFocus?: boolean}>`
+const TabTitle = styled(fonts.PrimaryFontMediumSize14)<{isFocus?: boolean}>`
   text-align: center;
   align-items: center;
   justify-content: center;
   padding: 15px 8px 8px 8px;
   color: ${colors.THEME_COLOR_9};
-  opacity: ${props => (props.isFocus ? 1 : 0.6)};
+  opacity: ${props => (props.isFocus ? 1 : 0.5)};
 `;
 
 const styles = StyleSheet.create({

@@ -2,6 +2,7 @@ const shades = {
   TRANSPARENT: 'transparent',
   WHITE: '#FFFFFF',
   SILVER: '#C0C0C0',
+  GRAY: '#8C8C8C',
   BLACK: '#0D001A',
   THEME_COLOR_1: '#FFF1CC',
   THEME_COLOR_2: '#FFE9B3',
@@ -11,9 +12,11 @@ const shades = {
   THEME_COLOR_6: '#FFB700',
   THEME_COLOR_7: '#CC9200',
   THEME_COLOR_8: '#996E00',
-  THEME_COLOR_9: '#805B00',
-  THEME_COLOR_10: '#4D3700',
+  THEME_COLOR_9: '#664900',
+  THEME_COLOR_10: '#332500',
+  THEME_OPPOSITE_COLOR_10: '#1A0033',
   RED_1: '#D1000E',
+  DANUBE: '#6988D7',
 };
 
 const applied = {
