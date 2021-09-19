@@ -13,10 +13,10 @@ interface Props {
   rightSource?: ImageSourcePropType;
   leftTintColor?: string;
   rightTintColor?: string;
-  iconLeftWidth?: number;
-  iconLeftHeight?: number;
-  iconRightWidth?: number;
-  iconRightHeight?: number;
+  leftIconWidth?: number;
+  leftIconHeight?: number;
+  rightIconWidth?: number;
+  rightIconHeight?: number;
   space?: number;
   padding?: number;
   containerStyle?: any;
@@ -32,10 +32,10 @@ const PrimaryButton: React.FC<Props> = ({
   rightSource,
   leftTintColor,
   rightTintColor,
-  iconLeftWidth = 28,
-  iconLeftHeight = 28,
-  iconRightWidth = 28,
-  iconRightHeight = 28,
+  leftIconWidth = 28,
+  leftIconHeight = 28,
+  rightIconWidth = 28,
+  rightIconHeight = 28,
   space = 4,
   padding = 4,
   containerStyle,
@@ -45,8 +45,8 @@ const PrimaryButton: React.FC<Props> = ({
     <Container padding={padding} style={containerStyle} onPress={onPress}>
       {leftSource && (
         <Icon
-          width={iconLeftWidth}
-          height={iconLeftHeight}
+          width={leftIconWidth}
+          height={leftIconHeight}
           source={leftSource}
           tintColor={leftTintColor}
         />
@@ -63,8 +63,8 @@ const PrimaryButton: React.FC<Props> = ({
       )}
       {rightSource && (
         <Icon
-          width={iconRightWidth}
-          height={iconRightHeight}
+          width={rightIconWidth}
+          height={rightIconHeight}
           source={rightSource}
           tintColor={rightTintColor}
         />

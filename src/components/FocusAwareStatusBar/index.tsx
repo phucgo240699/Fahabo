@@ -30,4 +30,4 @@ const FocusAwareStatusBar: React.FC<Props> = ({
   ) : null;
 };
 
-export default FocusAwareStatusBar;
+export default React.memo(FocusAwareStatusBar);

@@ -1,6 +1,7 @@
 const shades = {
   TRANSPARENT: 'transparent',
   WHITE: '#FFFFFF',
+  CONCRETE: '#F2F2F2',
   SILVER: '#C0C0C0',
   GRAY: '#8C8C8C',
   BLACK: '#0D001A',

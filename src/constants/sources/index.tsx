@@ -11,6 +11,10 @@ export const facebookIcon = require('@assets/images/facebook_icon.png');
 export const orSeperator = require('@assets/images/or_seperator.png');
 export const authFamilyBanner = require('@assets/images/auth_family_banner.png');
 
+// Home
+export const searchIcon = require('@assets/images/search_icon.png');
+export const clearIcon = require('@assets/images/clear_icon.png');
+
 //
 // Profile
 //
