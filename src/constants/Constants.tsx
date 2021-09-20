@@ -30,6 +30,7 @@ export enum ScreenName {
   ChoresScreen = 'ChoresScreen',
   EventsScreen = 'EventsScreen',
   ProfileScreen = 'ProfileScreen',
+  UpdateProfileScreen = 'UpdateProfileScreen',
 }
 
 export const Constants = {

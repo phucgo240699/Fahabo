@@ -2,11 +2,11 @@ import React from 'react';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {navigateReset} from '@navigators/index';
+import {navigate, navigateReset} from '@navigators/index';
 import {Avatar, Box} from 'native-base';
 import ProfileAlbumBox from './shared/ProfileAlbumBox';
 import {ImageBackground, StyleSheet} from 'react-native';
-import {Constants, StackName} from '@constants/Constants';
+import {Constants, ScreenName, StackName} from '@constants/Constants';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {profileBackground, defaultAvatar} from '@constants/sources/index';
 import PrimaryButton from '@components/PrimaryButton';
@@ -34,6 +34,9 @@ const ProfileScreen: React.FC<Props> = () => {
   const onLogOut = () => {
     navigateReset(StackName.AuthenticationStack);
   };
+  const onNavigateToUpdateProfile = () => {
+    navigate(ScreenName.UpdateProfileScreen);
+  };
   return (
     <Box flex={1}>
       <FocusAwareStatusBar
@@ -52,7 +55,9 @@ const ProfileScreen: React.FC<Props> = () => {
               <NameText>{DATA.name}</NameText>
               <EmailText>{DATA.email ?? DATA.phoneNumber}</EmailText>
             </Box>
-            <ProfileSettingsBox />
+            <ProfileSettingsBox
+              onPressUpdateProfile={onNavigateToUpdateProfile}
+            />
             <ProfileAlbumBox />
             <PrimaryButton
               titleColor={colors.RED_1}

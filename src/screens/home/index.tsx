@@ -8,7 +8,7 @@ import EventsScreen from '@screens/events';
 import styled from 'styled-components/native';
 import {Constants} from '@constants/Constants';
 import React, {useCallback, useState} from 'react';
-import PrimarySearchBar from '@components/PrimarySearchBar';
+import PrimaryHeader from '@components/PrimaryHeader';
 import {SceneMap, TabView, TabBar} from 'react-native-tab-view';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
@@ -44,7 +44,7 @@ const HomeScreen: React.FC<Props> = () => {
         translucent
       />
 
-      <PrimarySearchBar onChangeText={onChangeSearchText} />
+      <PrimaryHeader onChangeText={onChangeSearchText} />
 
       <TabView
         renderTabBar={props => (

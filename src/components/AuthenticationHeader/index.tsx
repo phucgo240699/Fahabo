@@ -1,7 +1,9 @@
 import React from 'react';
-import styled from 'styled-components/native';
-import Colors from '@themes/colors';
 import {Text} from 'native-base';
+import colors from '@themes/colors';
+import styled from 'styled-components/native';
+import PrimaryButton from '@components/PrimaryButton';
+import {navigationBackIcon} from '@constants/sources/index';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 
 interface Props {
@@ -18,10 +20,12 @@ const AuthenticationHeader: React.FC<Props> = ({title, marginTop}) => {
 
   return (
     <Container marginTop={marginTop}>
-      <IconContainer onPress={onPressBack}>
-        <Icon source={require('@assets/images/navigation_back_icon.png')} />
-      </IconContainer>
-      <Text fontSize="3xl" fontWeight={'700'} color={Colors.THEME_COLOR_5}>
+      <PrimaryButton
+        leftSource={navigationBackIcon}
+        leftTintColor={colors.THEME_COLOR_5}
+        onPress={onPressBack}
+      />
+      <Text fontSize="3xl" fontWeight={'700'} color={colors.THEME_COLOR_5}>
         {title}
       </Text>
       <EmptyView />
@@ -32,21 +36,9 @@ const AuthenticationHeader: React.FC<Props> = ({title, marginTop}) => {
 const Container = styled.View<{marginTop?: number}>`
   width: 100%;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   margin-top: ${props => props.marginTop ?? 0}px;
-`;
-
-const IconContainer = styled.TouchableOpacity`
-  width: 40px;
-  height: 40px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Icon = styled.Image`
-  width: 32px;
-  height: 32px;
-  tint-color: ${Colors.THEME_COLOR_5};
 `;
 
 const EmptyView = styled.View`

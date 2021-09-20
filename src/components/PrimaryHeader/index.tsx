@@ -1,29 +1,18 @@
-import React, {createRef, useCallback, useState} from 'react';
-import {Box, Input} from 'native-base';
+import {Input} from 'native-base';
 import colors from '@themes/colors';
-import PrimaryIcon from '@components/PrimaryIcon';
-import {searchIcon, clearIcon} from '@constants/sources/index';
-import styled from 'styled-components/native';
 import {Platform} from 'react-native';
+import styled from 'styled-components/native';
+import PrimaryIcon from '@components/PrimaryIcon';
+import React, {useCallback, useState} from 'react';
 import PrimaryButton from '@components/PrimaryButton';
+import {searchIcon, clearIcon, bellIcon} from '@constants/sources/index';
+import {Constants} from '@constants/Constants';
 
 interface Props {
-  // text: string;
-  marginTop?: number;
-  marginLeft?: number;
-  marginRight?: number;
-  marginBottom?: number;
   onChangeText?: (text: string) => void;
 }
 
-const PrimarySearchBar: React.FC<Props> = ({
-  // text,
-  marginTop,
-  marginLeft = 4,
-  marginRight = 4,
-  marginBottom,
-  onChangeText,
-}) => {
+const PrimaryHeader: React.FC<Props> = ({onChangeText}) => {
   const [text, setText] = useState('');
 
   const onClearText = useCallback(() => {
@@ -41,23 +30,19 @@ const PrimarySearchBar: React.FC<Props> = ({
     <Container>
       <Input
         py={2}
-        px={2}
         value={text}
         borderRadius={10}
+        width={Constants.MAX_WIDTH - 80}
         variant="filled"
         alignSelf="center"
         placeholder="Search"
         bg={colors.CONCRETE}
         color={colors.BLACK}
-        marginTop={marginTop}
-        marginLeft={marginLeft}
-        marginRight={marginRight}
-        marginBottom={marginBottom}
         returnKeyType={'search'}
         clearButtonMode="while-editing"
         InputLeftElement={
           <PrimaryIcon
-            marginLeft={8}
+            marginLeft={14}
             source={searchIcon}
             width={18}
             height={18}
@@ -75,23 +60,20 @@ const PrimarySearchBar: React.FC<Props> = ({
           onPress={onClearText}
         />
       )}
+      <PrimaryButton
+        leftIconWidth={24}
+        leftIconHeight={24}
+        leftSource={bellIcon}
+        leftTintColor={colors.THEME_COLOR_7}
+      />
     </Container>
   );
 };
 
-const Container = styled.View<{
-  marginTop?: number;
-  marginLeft?: number;
-  marginRight?: number;
-  marginBottom?: number;
-}>`
+const Container = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  margin-top: ${props => props.marginTop ?? 0}px;
-  margin-left: ${props => props.marginLeft ?? 0}px;
-  margin-right: ${props => props.marginRight ?? 0}px;
-  margin-bottom: ${props => props.marginBottom ?? 0}px;
+  justify-content: space-around;
 `;
 
-export default React.memo(PrimarySearchBar);
+export default React.memo(PrimaryHeader);

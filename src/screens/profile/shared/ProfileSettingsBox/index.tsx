@@ -4,18 +4,24 @@ import styled from 'styled-components/native';
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 
-interface Props {}
+interface Props {
+  onPressSettings?: () => void;
+  onPressUpdateProfile?: () => void;
+}
 
-const ProfileSettingsBox: React.FC<Props> = () => {
+const ProfileSettingsBox: React.FC<Props> = ({
+  onPressSettings,
+  onPressUpdateProfile,
+}) => {
   return (
     <Container>
-      <SettingItem>
+      <SettingItem onPress={onPressUpdateProfile}>
         <SettingIcon source={require('@assets/images/edit_profile_icon.png')} />
         <SettingTitle>{i18n.t('profile.editProfile')}</SettingTitle>
       </SettingItem>
       <Line />
 
-      <SettingItem>
+      <SettingItem onPress={onPressSettings}>
         <SettingIcon source={require('@assets/images/settings_icon.png')} />
         <SettingTitle>{i18n.t('profile.settings')}</SettingTitle>
       </SettingItem>

@@ -48,7 +48,11 @@
     "editProfile": "Edit Profile",
     "settings": "Settings",
     "album": "Album",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "email": "Email:",
+    "phoneNumber": "Phone number:",
+    "name": "Name:",
+    "confirm": "Confirm"
   },
   "application": {
     "loading": "Loading..."

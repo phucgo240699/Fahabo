@@ -48,7 +48,11 @@
     "editProfile": "Sửa thông tin",
     "settings": "Cài đặt",
     "album": "Tệp ảnh",
-    "viewAll": "Xem tất cả"
+    "viewAll": "Xem tất cả",
+    "email": "Email:",
+    "phoneNumber": "Số điện thoại:",
+    "name": "Tên:",
+    "confirm": "Xác nhận"
   },
   "application": {
     "loading": "Đăng tải..."
