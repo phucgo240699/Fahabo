@@ -45,14 +45,19 @@
   "profile": {
     "profile": "Profile",
     "logOut": "Log out",
-    "editProfile": "Edit Profile",
     "settings": "Settings",
     "album": "Album",
     "viewAll": "View all",
     "email": "Email:",
     "phoneNumber": "Phone number:",
     "name": "Name:",
-    "confirm": "Confirm"
+    "confirm": "Save"
+  },
+  "settings": {
+    "settings": "Settings",
+    "language": "Language",
+    "english": "English",
+    "vietnamese": "Vietnamese"
   },
   "application": {
     "loading": "Loading..."

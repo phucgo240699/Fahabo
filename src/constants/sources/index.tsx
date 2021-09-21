@@ -16,7 +16,7 @@ export const selectedProfileIcon = require('@assets/images/selected_profile_icon
 export const appleIcon = require('@assets/images/apple_icon.png');
 export const googleIcon = require('@assets/images/google_icon.png');
 export const facebookIcon = require('@assets/images/facebook_icon.png');
-export const orSeperator = require('@assets/images/or_seperator.png');
+export const orSeparator = require('@assets/images/or_seperator.png');
 export const authFamilyBanner = require('@assets/images/auth_family_banner.png');
 
 //
@@ -24,3 +24,10 @@ export const authFamilyBanner = require('@assets/images/auth_family_banner.png')
 //
 export const defaultAvatar = require('@assets/images/default_avatar.png');
 export const profileBackground = require('@assets/images/profile_background.png');
+
+//
+// Settings
+//
+export const tickIcon = require('@assets/images/tick_icon.png');
+export const languageIcon = require('@assets/images/language_icon.png');
+export const rightArrowIcon = require('@assets/images/right_arrow_icon.png');

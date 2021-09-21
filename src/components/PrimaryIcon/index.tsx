@@ -29,7 +29,7 @@ const PrimaryIcon: React.FC<Props> = ({
 }) => {
   return (
     <Icon
-      style={style}
+      style={{...style, tintColor: tintColor}}
       width={width}
       height={height}
       source={source}
@@ -57,7 +57,6 @@ const Icon = styled.Image<{
   margin-left: ${props => props.marginLeft ?? 0}px;
   margin-right: ${props => props.marginRight ?? 0}px;
   margin-bottom: ${props => props.marginBottom ?? 0}px;
-  tint-color: ${props => props.tintColor ?? colors.SILVER};
 `;
 
 export default React.memo(PrimaryIcon);

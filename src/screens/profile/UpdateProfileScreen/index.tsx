@@ -22,8 +22,11 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
       />
-      <ProfileHeader title="Update Profile" />
-      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+      <ProfileHeader title={i18n.t('profile.profile')} />
+      <ScrollView
+        bounces={false}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}>
         <Label>{i18n.t('profile.email')}</Label>
         <Input
           mt={1}
@@ -46,10 +49,11 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
           placeholderTextColor={colors.SILVER}
         />
         <Button
+          p={2}
           mt={10}
           size="lg"
           borderRadius={28}
-          _text={{color: colors.WHITE}}>
+          _text={{color: colors.WHITE, fontSize: 21}}>
           {i18n.t('profile.confirm')}
         </Button>
       </ScrollView>

@@ -45,14 +45,19 @@
   "profile": {
     "profile": "Thông tin cá nhân",
     "logOut": "Đăng xuất",
-    "editProfile": "Sửa thông tin",
     "settings": "Cài đặt",
     "album": "Tệp ảnh",
     "viewAll": "Xem tất cả",
     "email": "Email:",
     "phoneNumber": "Số điện thoại:",
     "name": "Tên:",
-    "confirm": "Xác nhận"
+    "confirm": "Lưu"
+  },
+  "settings": {
+    "settings": "Cài đặt",
+    "language": "Ngôn ngữ",
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt"
   },
   "application": {
     "loading": "Đăng tải..."

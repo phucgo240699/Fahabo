@@ -17,8 +17,9 @@ const ProfileSettingsBox: React.FC<Props> = ({
     <Container>
       <SettingItem onPress={onPressUpdateProfile}>
         <SettingIcon source={require('@assets/images/edit_profile_icon.png')} />
-        <SettingTitle>{i18n.t('profile.editProfile')}</SettingTitle>
+        <SettingTitle>{i18n.t('profile.profile')}</SettingTitle>
       </SettingItem>
+
       <Line />
 
       <SettingItem onPress={onPressSettings}>
@@ -47,7 +48,7 @@ const Label = styled(fonts.PrimaryFontBoldSize12)`
 `;
 
 const SettingItem = styled.TouchableOpacity`
-  height: 63px;
+  height: 50px;
   align-items: center;
   flex-direction: row;
   padding-left: 20px;

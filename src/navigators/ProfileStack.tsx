@@ -3,6 +3,8 @@ import React from 'react';
 import {navigationOptions} from './index';
 import {ScreenName} from '@constants/Constants';
 import ProfileScreen from '@screens/profile';
+import SettingsScreen from '@screens/settings';
+import LanguageScreen from '@screens/settings/LanguageScreen';
 import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
 
 const Stack = createStackNavigator();
@@ -11,6 +13,14 @@ const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={navigationOptions}>
       <Stack.Screen name={ScreenName.ProfileScreen} component={ProfileScreen} />
+      <Stack.Screen
+        name={ScreenName.SettingsScreen}
+        component={SettingsScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.LanguageScreen}
+        component={LanguageScreen}
+      />
       <Stack.Screen
         name={ScreenName.UpdateProfileScreen}
         component={UpdateProfileScreen}

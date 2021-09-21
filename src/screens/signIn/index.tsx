@@ -22,7 +22,7 @@ import {
   appleIcon,
   facebookIcon,
   googleIcon,
-  orSeperator,
+  orSeparator,
 } from '@constants/sources/index';
 
 interface Props {}
@@ -179,7 +179,7 @@ const SignInScreen: React.FC<Props> = () => {
               {i18n.t('authentication.signIn.login')}
             </Button>
 
-            <Seperator source={orSeperator} />
+            <Seperator source={orSeparator} />
 
             {/* Third party Authentication */}
             <HStack alignItems="center" justifyContent="center">

@@ -31,6 +31,8 @@ export enum ScreenName {
   EventsScreen = 'EventsScreen',
   ProfileScreen = 'ProfileScreen',
   UpdateProfileScreen = 'UpdateProfileScreen',
+  SettingsScreen = 'SettingsScreen',
+  LanguageScreen = 'LanguageScreen',
 }
 
 export const Constants = {

@@ -37,6 +37,10 @@ const ProfileScreen: React.FC<Props> = () => {
   const onNavigateToUpdateProfile = () => {
     navigate(ScreenName.UpdateProfileScreen);
   };
+  const onNavigateToSettings = () => {
+    navigate(ScreenName.SettingsScreen);
+  };
+
   return (
     <Box flex={1}>
       <FocusAwareStatusBar
@@ -48,7 +52,12 @@ const ProfileScreen: React.FC<Props> = () => {
         source={profileBackground}
         style={styles.profileContainer}
         imageStyle={styles.profileBackground}>
-        <Scroll scrollEnabled contentContainerStyle={styles.scrollView}>
+        <Scroll
+          scrollEnabled
+          bounces={false}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollView}>
           <EmptyView />
           <Content>
             <Box alignItems="center" justifyContent="center">
@@ -56,6 +65,7 @@ const ProfileScreen: React.FC<Props> = () => {
               <EmailText>{DATA.email ?? DATA.phoneNumber}</EmailText>
             </Box>
             <ProfileSettingsBox
+              onPressSettings={onNavigateToSettings}
               onPressUpdateProfile={onNavigateToUpdateProfile}
             />
             <ProfileAlbumBox />

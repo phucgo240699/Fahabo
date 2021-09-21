@@ -34,7 +34,7 @@ const ProfileHeader: React.FC<Props> = ({title}) => {
 };
 
 const Container = styled.View`
-  width: 100%;
+  background-color: ${colors.WHITE};
 `;
 
 const Content = styled.View<{marginTop?: number}>`
