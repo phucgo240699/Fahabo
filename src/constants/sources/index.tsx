@@ -26,6 +26,16 @@ export const orSeparator = require('@assets/images/or_seperator.png');
 export const authFamilyBanner = require('@assets/images/auth_family_banner.png');
 
 //
+// Chores
+//
+export const choresIcon = require('@assets/images/chores_icon.png');
+
+//
+// Events
+//
+export const eventsIcon = require('@assets/images/events_icon.png');
+
+//
 // Profile
 //
 export const defaultAvatar = require('@assets/images/default_avatar.png');

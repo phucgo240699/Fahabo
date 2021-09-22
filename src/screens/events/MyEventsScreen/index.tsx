@@ -1,17 +1,19 @@
-import React, {memo} from 'react';
-import {Box, Text} from 'native-base';
+import React from 'react';
+import {Box} from 'native-base';
 import i18n from '@locales/index';
-import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import colors from '@themes/colors';
-import styled from 'styled-components/native';
 import {Keyboard} from 'react-native';
+import styled from 'styled-components/native';
+import ProfileHeader from '@components/ProfileHeader';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
 interface Props {}
 
-const ChoresScreen: React.FC<Props> = () => {
+const MyEventsScreen: React.FC<Props> = ({}) => {
   const onDismissKeyboard = () => {
     Keyboard.dismiss();
   };
+
   return (
     <Box flex={1} safeArea bgColor={colors.WHITE}>
       {/* Status Bar */}
@@ -22,7 +24,7 @@ const ChoresScreen: React.FC<Props> = () => {
       />
       <Touch onPress={onDismissKeyboard}>
         <Container>
-          <Text color={colors.BLACK}>Chores</Text>
+          <ProfileHeader title={i18n.t('profile.myEvents')} />
         </Container>
       </Touch>
     </Box>
@@ -35,4 +37,4 @@ const Container = styled.View`
   flex: 1;
 `;
 
-export default memo(ChoresScreen);
+export default MyEventsScreen;

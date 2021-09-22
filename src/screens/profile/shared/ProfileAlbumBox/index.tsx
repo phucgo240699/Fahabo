@@ -65,10 +65,11 @@ const ProfileAlbumBox: React.FC<Props> = () => {
           return (
             <PictureContainer key={item.id}>
               <Image
-                size={'md'}
                 borderRadius={10}
-                alt={i18n.t('application.loading')}
                 source={{uri: item.url}}
+                width={Constants.MAX_WIDTH / 5}
+                height={Constants.MAX_WIDTH / 5}
+                alt={i18n.t('application.loading')}
               />
             </PictureContainer>
           );
@@ -79,8 +80,7 @@ const ProfileAlbumBox: React.FC<Props> = () => {
 };
 
 const Container = styled.View`
-  width: 90%;
-  margin-top: 30px;
+  margin-top: 40px;
   margin-bottom: 30px;
 `;
 

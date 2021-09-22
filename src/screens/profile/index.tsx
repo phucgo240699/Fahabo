@@ -12,6 +12,7 @@ import {profileBackground, defaultAvatar} from '@constants/sources/index';
 import PrimaryButton from '@components/PrimaryButton';
 import i18n from '@locales/index';
 import ProfileSettingsBox from './shared/ProfileSettingsBox';
+import ProfileRelationBox from './shared/ProfileRelationBox';
 
 interface DataProps {
   name?: string;
@@ -34,11 +35,17 @@ const ProfileScreen: React.FC<Props> = () => {
   const onLogOut = () => {
     navigateReset(StackName.AuthenticationStack);
   };
-  const onNavigateToUpdateProfile = () => {
+  const navigateToUpdateProfile = () => {
     navigate(ScreenName.UpdateProfileScreen);
   };
-  const onNavigateToSettings = () => {
+  const navigateToSettings = () => {
     navigate(ScreenName.SettingsScreen);
+  };
+  const navigateToChores = () => {
+    navigate(ScreenName.MyChoresScreen);
+  };
+  const navigateToEvents = () => {
+    navigate(ScreenName.MyEventsScreen);
   };
 
   return (
@@ -62,9 +69,15 @@ const ProfileScreen: React.FC<Props> = () => {
               <NameText>{DATA.name}</NameText>
               <EmailText>{DATA.email ?? DATA.phoneNumber}</EmailText>
             </Box>
+
+            <ProfileRelationBox
+              onPressChores={navigateToChores}
+              onPressEvents={navigateToEvents}
+            />
+
             <ProfileSettingsBox
-              onPressSettings={onNavigateToSettings}
-              onPressUpdateProfile={onNavigateToUpdateProfile}
+              onPressSettings={navigateToSettings}
+              onPressUpdateProfile={navigateToUpdateProfile}
             />
             <ProfileAlbumBox />
             <PrimaryButton
@@ -96,6 +109,8 @@ const Content = styled.View`
   width: 90%;
   height: 200%;
   padding-top: 68px;
+  padding-left: 30px;
+  padding-right: 30px;
   align-items: center;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;

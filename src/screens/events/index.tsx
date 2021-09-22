@@ -21,7 +21,9 @@ const EventsScreen: React.FC<Props> = () => {
         translucent
       />
       <Touch onPress={onDismissKeyboard}>
-        <Container />
+        <Container>
+          <Text color={colors.BLACK}>Events</Text>
+        </Container>
       </Touch>
     </Box>
   );

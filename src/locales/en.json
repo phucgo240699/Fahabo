@@ -45,6 +45,8 @@
   "profile": {
     "profile": "Profile",
     "logOut": "Log out",
+    "myChores": "My Chores",
+    "myEvents": "My Events",
     "settings": "Settings",
     "album": "Album",
     "viewAll": "View all",

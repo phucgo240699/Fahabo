@@ -45,6 +45,8 @@
   "profile": {
     "profile": "Thông tin cá nhân",
     "logOut": "Đăng xuất",
+    "myChores": "Việc nhà của tôi",
+    "myEvents": "Sự kiện của tôi",
     "settings": "Cài đặt",
     "album": "Tệp ảnh",
     "viewAll": "Xem tất cả",

@@ -15,35 +15,42 @@ const ProfileSettingsBox: React.FC<Props> = ({
 }) => {
   return (
     <Container>
-      <SettingItem onPress={onPressUpdateProfile}>
-        <SettingIcon source={require('@assets/images/edit_profile_icon.png')} />
-        <SettingTitle>{i18n.t('profile.profile')}</SettingTitle>
-      </SettingItem>
+      <Label>{i18n.t('profile.settings')}</Label>
+      <Content>
+        <SettingItem onPress={onPressUpdateProfile}>
+          <SettingIcon
+            source={require('@assets/images/edit_profile_icon.png')}
+          />
+          <SettingTitle>{i18n.t('profile.profile')}</SettingTitle>
+        </SettingItem>
 
-      <Line />
+        <Line />
 
-      <SettingItem onPress={onPressSettings}>
-        <SettingIcon source={require('@assets/images/settings_icon.png')} />
-        <SettingTitle>{i18n.t('profile.settings')}</SettingTitle>
-      </SettingItem>
+        <SettingItem onPress={onPressSettings}>
+          <SettingIcon source={require('@assets/images/settings_icon.png')} />
+          <SettingTitle>{i18n.t('profile.settings')}</SettingTitle>
+        </SettingItem>
+      </Content>
     </Container>
   );
 };
 
 const Container = styled.View`
-  width: 90%;
+  width: 100%;
   margin-top: 30px;
+`;
+
+const Content = styled.View`
+  margin-top: 8px;
   border-radius: 10px;
   background-color: ${colors.WHITE};
   shadow-color: ${colors.BLACK};
-  shadow-opacity: 0.1;
+  shadow-opacity: 0.15;
   shadow-radius: 8px;
   elevation: 8;
 `;
 
 const Label = styled(fonts.PrimaryFontBoldSize12)`
-  margin-top: 30px;
-  margin-left: 30px;
   color: ${colors.BLACK};
 `;
 

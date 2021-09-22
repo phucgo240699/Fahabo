@@ -34,6 +34,8 @@ export enum ScreenName {
   InteractionsScreen = 'InteractionsScreen',
   LocationsScreen = 'LocationsScreen',
   ProfileScreen = 'ProfileScreen',
+  MyChoresScreen = 'MyChoresScreen',
+  MyEventsScreen = 'MyEventsScreen',
   UpdateProfileScreen = 'UpdateProfileScreen',
   SettingsScreen = 'SettingsScreen',
   LanguageScreen = 'LanguageScreen',
