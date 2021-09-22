@@ -54,8 +54,6 @@ const ProfileScreen: React.FC<Props> = () => {
         imageStyle={styles.profileBackground}>
         <Scroll
           scrollEnabled
-          bounces={false}
-          scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollView}>
           <EmptyView />

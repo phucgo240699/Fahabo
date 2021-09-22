@@ -16,8 +16,9 @@ export enum StackName {
   MainStack = 'MainStack',
   AuthenticationStack = 'AuthenticationStack',
   HomeStack = 'HomeStack',
-  ChoresStack = 'ChoresStack',
-  EventStack = 'EventStack',
+  TransactionsStack = 'TransactionsStack',
+  InteractionsStack = 'InteractionsStack',
+  LocationsStack = 'LocationsStack',
   ProfileStack = 'ProfileStack',
 }
 
@@ -29,6 +30,9 @@ export enum ScreenName {
   HomeScreen = 'HomeScreen',
   ChoresScreen = 'ChoresScreen',
   EventsScreen = 'EventsScreen',
+  TransactionsScreen = 'TransactionsScreen',
+  InteractionsScreen = 'InteractionsScreen',
+  LocationsScreen = 'LocationsScreen',
   ProfileScreen = 'ProfileScreen',
   UpdateProfileScreen = 'UpdateProfileScreen',
   SettingsScreen = 'SettingsScreen',

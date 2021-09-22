@@ -1,7 +1,7 @@
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
-import {Box, Text} from 'native-base';
+import {Box} from 'native-base';
 import {StyleSheet} from 'react-native';
 import ChoresScreen from '@screens/chores';
 import EventsScreen from '@screens/events';

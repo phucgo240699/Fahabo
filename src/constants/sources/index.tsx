@@ -9,6 +9,12 @@ export const bellIcon = require('@assets/images/bell_icon.png');
 // Bottom Bar
 export const homeIcon = require('@assets/images/home_icon.png');
 export const selectedHomeIcon = require('@assets/images/selected_home_icon.png');
+export const transactionsIcon = require('@assets/images/transactions_icon.png');
+export const selectedTransactionsIcon = require('@assets/images/selected_transactions_icon.png');
+export const interactionsIcon = require('@assets/images/interactions_icon.png');
+export const selectedInteractionsIcon = require('@assets/images/selected_interactions_icon.png');
+export const locationsIcon = require('@assets/images/locations_icon.png');
+export const selectedLocationsIcon = require('@assets/images/selected_locations_icon.png');
 export const profileIcon = require('@assets/images/profile_icon.png');
 export const selectedProfileIcon = require('@assets/images/selected_profile_icon.png');
 

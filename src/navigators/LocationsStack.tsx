@@ -1,19 +1,20 @@
 import React from 'react';
 import {navigationOptions} from './index';
 import {ScreenName} from '@constants/Constants';
-import ChoresScreen from '@screens/chores/index';
+import LocationsScreen from '@screens/locations';
 import {createStackNavigator} from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-interface Props {}
-
-const TasksStack: React.FC<Props> = () => {
+const LocationsStack = () => {
   return (
     <Stack.Navigator screenOptions={navigationOptions}>
-      <Stack.Screen name={ScreenName.ChoresScreen} component={ChoresScreen} />
+      <Stack.Screen
+        name={ScreenName.LocationsScreen}
+        component={LocationsScreen}
+      />
     </Stack.Navigator>
   );
 };
 
-export default TasksStack;
+export default LocationsStack;

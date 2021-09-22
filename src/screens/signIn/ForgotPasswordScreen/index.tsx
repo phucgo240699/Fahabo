@@ -75,7 +75,9 @@ const SafeView = styled.SafeAreaView`
   background-color: ${colors.WHITE};
 `;
 const Container = styled.TouchableWithoutFeedback``;
-const Content = styled.View``;
+const Content = styled.View`
+  flex: 1;
+`;
 const Form = styled.View`
   margin-left: 20px;
   margin-right: 20px;

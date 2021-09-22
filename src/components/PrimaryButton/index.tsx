@@ -20,6 +20,10 @@ interface Props {
   space?: number;
   padding?: number;
   containerStyle?: any;
+  marginTop?: number;
+  marginLeft?: number;
+  marginRight?: number;
+  marginBottom?: number;
   onPress?: () => void;
 }
 
@@ -39,10 +43,21 @@ const PrimaryButton: React.FC<Props> = ({
   space = 4,
   padding = 4,
   containerStyle,
+  marginTop,
+  marginLeft,
+  marginRight,
+  marginBottom,
   onPress,
 }) => {
   return (
-    <Container padding={padding} style={containerStyle} onPress={onPress}>
+    <Container
+      padding={padding}
+      marginTop={marginTop}
+      marginLeft={marginLeft}
+      marginRight={marginRight}
+      marginBottom={marginBottom}
+      style={containerStyle}
+      onPress={onPress}>
       {leftSource && (
         <Icon
           width={leftIconWidth}
@@ -75,11 +90,19 @@ const PrimaryButton: React.FC<Props> = ({
 
 const Container = styled.TouchableOpacity<{
   padding: number;
+  marginTop?: number;
+  marginLeft?: number;
+  marginRight?: number;
+  marginBottom?: number;
 }>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: ${props => props.padding}px;
+  margin-top: ${props => props.marginTop ?? 0}px;
+  margin-left: ${props => props.marginLeft ?? 0}px;
+  margin-right: ${props => props.marginRight ?? 0}px;
+  margin-bottom: ${props => props.marginBottom ?? 0}px;
 `;
 
 const Icon = styled.Image<{
