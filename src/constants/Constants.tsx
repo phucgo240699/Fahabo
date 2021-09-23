@@ -25,6 +25,7 @@ export enum StackName {
 export enum ScreenName {
   SignInScreen = 'SignInScreen',
   SignUpScreen = 'SignUpScreen',
+  CountryCodeScreen = 'CountryCodeScreen',
   PinCodeScreen = 'PinCodeScreen',
   ForgotPasswordScreen = 'ForgotPasswordScreen',
   HomeScreen = 'HomeScreen',

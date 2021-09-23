@@ -17,12 +17,17 @@ import {
   googleIcon,
   orSeparator,
 } from '@constants/sources/index';
+import ComboboxButton from '@components/ComboboxButton';
 
 interface Props {}
 
 const SignUpScreen: React.FC<Props> = () => {
   const onSignUp = () => {
     navigate(ScreenName.PinCodeScreen, {address: 'phucgo240699@gmail.com'});
+  };
+
+  const navigateToCountryCode = () => {
+    navigate(ScreenName.CountryCodeScreen);
   };
 
   const onPressBackground = () => {
@@ -59,8 +64,22 @@ const SignUpScreen: React.FC<Props> = () => {
             <Input
               color={Colors.BLACK}
               borderColor={Colors.SILVER}
+              keyboardType={'email-address'}
               placeholderTextColor={Colors.SILVER}
-              placeholder={i18n.t('authentication.signUp.accountPlaceHolder')}
+              placeholder={i18n.t('authentication.signUp.email')}
+            />
+            <ComboboxButton
+              marginTop={10}
+              value={i18n.t('authentication.signUp.chooseRegion')}
+              onPress={navigateToCountryCode}
+            />
+            <Input
+              mt={3}
+              color={Colors.BLACK}
+              borderColor={Colors.SILVER}
+              keyboardType={'number-pad'}
+              placeholderTextColor={Colors.SILVER}
+              placeholder={i18n.t('authentication.signUp.phoneNumber')}
             />
             <Input
               mt={3}

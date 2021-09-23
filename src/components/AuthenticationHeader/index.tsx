@@ -22,10 +22,10 @@ const AuthenticationHeader: React.FC<Props> = ({title, marginTop}) => {
     <Container marginTop={marginTop}>
       <PrimaryButton
         leftSource={navigationBackIcon}
-        leftTintColor={colors.THEME_COLOR_5}
+        leftTintColor={colors.THEME_COLOR_6}
         onPress={onPressBack}
       />
-      <Text fontSize="3xl" fontWeight={'700'} color={colors.THEME_COLOR_5}>
+      <Text fontSize="3xl" fontWeight={'700'} color={colors.THEME_COLOR_6}>
         {title}
       </Text>
       <EmptyView />

@@ -53,10 +53,6 @@ const Icon = styled.Image<{
 }>`
   width: ${props => props.width ?? 0}px;
   height: ${props => props.height ?? 0}px;
-  margin-top: ${props => props.marginTop ?? 0}px;
-  margin-left: ${props => props.marginLeft ?? 0}px;
-  margin-right: ${props => props.marginRight ?? 0}px;
-  margin-bottom: ${props => props.marginBottom ?? 0}px;
 `;
 
 export default React.memo(PrimaryIcon);

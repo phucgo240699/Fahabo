@@ -1,34 +1,35 @@
 import {Input} from 'native-base';
 import colors from '@themes/colors';
-import {Platform} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
 import styled from 'styled-components/native';
-import PrimaryIcon from '@components/PrimaryIcon';
-import React, {useCallback, useState} from 'react';
-import PrimaryButton from '@components/PrimaryButton';
-import {searchIcon, clearIcon, bellIcon} from '@constants/sources/index';
 import {Constants} from '@constants/Constants';
+import PrimaryIcon from '@components/PrimaryIcon';
+import PrimaryButton from '@components/PrimaryButton';
+import PrimarySearchBar from '@components/PrimarySearchBar';
+import {searchIcon, clearIcon, bellIcon} from '@constants/sources/index';
 
 interface Props {
   onChangeText?: (text: string) => void;
 }
 
 const PrimaryHeader: React.FC<Props> = ({onChangeText}) => {
-  const [text, setText] = useState('');
+  // const [text, setText] = useState('');
 
-  const onClearText = useCallback(() => {
-    onUpdateText('');
-  }, []);
+  // const onClearText = () => {
+  //   onUpdateText('');
+  // };
 
-  const onUpdateText = useCallback((_text: string) => {
-    setText(_text);
-    if (onChangeText) {
-      onChangeText(_text);
-    }
-  }, []);
+  // const onUpdateText = (_text: string) => {
+  //   setText(_text);
+  //   if (onChangeText) {
+  //     onChangeText(_text);
+  //   }
+  // };
 
   return (
     <Container>
-      <Input
+      {/* <Input
         py={2}
         value={text}
         borderRadius={10}
@@ -59,8 +60,15 @@ const PrimaryHeader: React.FC<Props> = ({onChangeText}) => {
           containerStyle={{position: 'absolute', right: 30}}
           onPress={onClearText}
         />
-      )}
+      )} */}
+      <PrimarySearchBar
+        containerStyle={styles.search}
+        marginLeft={10}
+        onChangeText={onChangeText}
+      />
       <PrimaryButton
+        marginLeft={10}
+        marginRight={10}
         leftIconWidth={24}
         leftIconHeight={24}
         leftSource={bellIcon}
@@ -75,5 +83,11 @@ const Container = styled.View`
   align-items: center;
   justify-content: space-around;
 `;
+
+const styles = StyleSheet.create({
+  search: {
+    flex: 1,
+  },
+});
 
 export default React.memo(PrimaryHeader);

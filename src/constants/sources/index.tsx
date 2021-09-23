@@ -18,12 +18,19 @@ export const selectedLocationsIcon = require('@assets/images/selected_locations_
 export const profileIcon = require('@assets/images/profile_icon.png');
 export const selectedProfileIcon = require('@assets/images/selected_profile_icon.png');
 
+//
 // Sign In
+//
 export const appleIcon = require('@assets/images/apple_icon.png');
 export const googleIcon = require('@assets/images/google_icon.png');
 export const facebookIcon = require('@assets/images/facebook_icon.png');
 export const orSeparator = require('@assets/images/or_seperator.png');
 export const authFamilyBanner = require('@assets/images/auth_family_banner.png');
+
+//
+// Sign Up
+//
+export const downArrowIcon = require('@assets/images/down_arrow_icon.png');
 
 //
 // Chores
