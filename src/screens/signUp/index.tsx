@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -8,7 +8,7 @@ import {ScreenName} from '@constants/Constants';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
-import {Heading, VStack, Input, Button, HStack} from 'native-base';
+import {Heading, VStack, Input, Button, HStack, FormControl} from 'native-base';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {KeyboardAwareScrollView} from '@codler/react-native-keyboard-aware-scroll-view';
 import {
@@ -22,6 +22,8 @@ import ComboboxButton from '@components/ComboboxButton';
 interface Props {}
 
 const SignUpScreen: React.FC<Props> = () => {
+  const [countryCode, setCountryCode] = useState('--');
+
   const onSignUp = () => {
     navigate(ScreenName.PinCodeScreen, {address: 'phucgo240699@gmail.com'});
   };
@@ -46,7 +48,7 @@ const SignUpScreen: React.FC<Props> = () => {
       <Container onPressOut={onPressBackground}>
         <KeyboardAwareScrollView
           enableOnAndroid
-          extraHeight={140}
+          extraHeight={150}
           overScrollMode="never"
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}
@@ -61,49 +63,78 @@ const SignUpScreen: React.FC<Props> = () => {
 
           {/* Form */}
           <VStack space={2} mt={5}>
-            <Input
-              color={Colors.BLACK}
-              borderColor={Colors.SILVER}
-              keyboardType={'email-address'}
-              placeholderTextColor={Colors.SILVER}
-              placeholder={i18n.t('authentication.signUp.email')}
-            />
-            <ComboboxButton
-              marginTop={10}
-              value={i18n.t('authentication.signUp.chooseRegion')}
-              onPress={navigateToCountryCode}
-            />
-            <Input
-              mt={3}
-              color={Colors.BLACK}
-              borderColor={Colors.SILVER}
-              keyboardType={'number-pad'}
-              placeholderTextColor={Colors.SILVER}
-              placeholder={i18n.t('authentication.signUp.phoneNumber')}
-            />
-            <Input
-              mt={3}
-              color={Colors.BLACK}
-              borderColor={Colors.SILVER}
-              placeholderTextColor={Colors.SILVER}
-              placeholder={i18n.t('authentication.signUp.name')}
-            />
-            <Input
-              mt={3}
-              type="password"
-              color={Colors.BLACK}
-              borderColor={Colors.SILVER}
-              placeholderTextColor={Colors.SILVER}
-              placeholder={i18n.t('authentication.signUp.password')}
-            />
-            <Input
-              mt={3}
-              type="password"
-              color={Colors.BLACK}
-              borderColor={Colors.SILVER}
-              placeholderTextColor={Colors.SILVER}
-              placeholder={i18n.t('authentication.signUp.confirmPassword')}
-            />
+            <FormControl>
+              <FormControl.Label
+                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                {`${i18n.t('authentication.signUp.email')} *`}
+              </FormControl.Label>
+              <Input
+                mt={-1}
+                isRequired={true}
+                color={Colors.BLACK}
+                borderColor={Colors.SILVER}
+                keyboardType={'email-address'}
+              />
+            </FormControl>
+
+            <FormControl mt={3}>
+              <FormControl.Label
+                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                {i18n.t('authentication.signUp.chooseRegion')}
+              </FormControl.Label>
+              <ComboboxButton
+                marginTop={-3}
+                value={countryCode}
+                onPress={navigateToCountryCode}
+              />
+            </FormControl>
+
+            <FormControl mt={3}>
+              <FormControl.Label
+                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                {i18n.t('authentication.signUp.phoneNumber')}
+              </FormControl.Label>
+              <Input
+                mt={-1}
+                color={Colors.BLACK}
+                borderColor={Colors.SILVER}
+                keyboardType={'number-pad'}
+              />
+            </FormControl>
+
+            <FormControl mt={3}>
+              <FormControl.Label
+                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                {`${i18n.t('authentication.signUp.name')} *`}
+              </FormControl.Label>
+              <Input mt={-1} color={Colors.BLACK} borderColor={Colors.SILVER} />
+            </FormControl>
+
+            <FormControl mt={3}>
+              <FormControl.Label
+                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                {`${i18n.t('authentication.signUp.password')} *`}
+              </FormControl.Label>
+              <Input
+                mt={-1}
+                type="password"
+                color={Colors.BLACK}
+                borderColor={Colors.SILVER}
+              />
+            </FormControl>
+
+            <FormControl mt={3}>
+              <FormControl.Label
+                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                {`${i18n.t('authentication.signUp.confirmPassword')} *`}
+              </FormControl.Label>
+              <Input
+                mt={-1}
+                type="password"
+                color={Colors.BLACK}
+                borderColor={Colors.SILVER}
+              />
+            </FormControl>
 
             {/* Button */}
             <VStack space={2} mt={5}>

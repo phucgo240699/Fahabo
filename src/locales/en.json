@@ -7,7 +7,7 @@
       "subWelcome": "Sign in to continue!",
       "account": "Account",
       "password": "Password",
-      "accountPlaceHolder": "Email or phone number",
+      "accountPlaceHolder": "Email",
       "forgotPassword": "Forgot Password?",
       "login": "Login",
       "signUpLabel": "Don't have an account?"
@@ -21,8 +21,8 @@
       "phoneNumber": "Phone number",
       "name": "Name",
       "password": "Password",
-      "confirmPassword": "Confirm Password",
-      "accountPlaceHolder": "Email or phone number"
+      "confirmPassword": "Confirm password",
+      "accountPlaceHolder": "Email"
     },
     "pinCode": {
       "pinCode": "PIN code",
@@ -32,7 +32,11 @@
       "forgotPassword": "Forgot password",
       "getPinCode": "Get PIN code",
       "emailInstruction": "Enter your email to get PIN code",
-      "phoneInstruction": "Enter your phone number to get PIN code"
+      "phoneInstruction": "Enter your phone number to get PIN code",
+      "enterNewPassword": "Enter New Password",
+      "newPassword": "New password",
+      "confirmNewPassword": "Confirm new password",
+      "changePassword": "Change password"
     }
   },
   "home": {

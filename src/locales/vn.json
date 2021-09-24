@@ -7,7 +7,7 @@
       "subWelcome": "Hãy đăng nhập để tiếp tục",
       "account": "Tài khoản",
       "password": "Mật khẩu",
-      "accountPlaceHolder": "Email hoặc số điện thoại",
+      "accountPlaceHolder": "Email",
       "forgotPassword": "Quên mật khẩu?",
       "login": "Đăng nhập",
       "signUpLabel": "Nếu bạn chưa có mật khẩu, hãy"
@@ -22,7 +22,7 @@
       "name": "Tên",
       "password": "Mật khẩu",
       "confirmPassword": "Xác nhận lại mật khẩu",
-      "accountPlaceHolder": "Email hoặc số điện thoại"
+      "accountPlaceHolder": "Email"
     },
     "pinCode": {
       "pinCode": "Mã PIN",
@@ -32,7 +32,11 @@
       "forgotPassword": "Quên mật khẩu",
       "getPinCode": "Nhận mã PIN",
       "emailInstruction": "Nhập email để lấy mã PIN",
-      "phoneInstruction": "Nhập số điện thoại để lấy mã PIN"
+      "phoneInstruction": "Nhập số điện thoại để lấy mã PIN",
+      "enterNewPassword": "Nhập Mật Khẩu Mới",
+      "newPassword": "Mật khẩu mới",
+      "confirmNewPassword": "Xác nhận lại mật khẩu mới",
+      "changePassword": "Đổi mật khẩu"
     }
   },
   "home": {

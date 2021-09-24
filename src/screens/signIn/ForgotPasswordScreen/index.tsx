@@ -57,6 +57,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
 
               <VStack space={2} mt={5}>
                 <Button
+                  size="lg"
                   _text={{color: colors.WHITE}}
                   onPress={onNavigateToPinCodeScreen}>
                   {i18n.t('authentication.forgotPassword.getPinCode')}

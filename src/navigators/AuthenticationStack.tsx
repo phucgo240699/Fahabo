@@ -6,6 +6,7 @@ import SignInScreen from '@screens/signIn';
 import SignUpScreen from '@screens/signUp';
 import PinCodeScreen from '@screens/signUp/PinCodeScreen';
 import CountryCodeScreen from '@screens/signUp/CountryCodeScreen';
+import NewPasswordScreen from '@screens/signIn/NewPasswordScreen';
 import ForgotPasswordScreen from '@screens/signIn/ForgotPasswordScreen';
 
 const Stack = createStackNavigator();
@@ -19,6 +20,10 @@ const AuthenticationStack = () => {
       <Stack.Screen
         name={ScreenName.CountryCodeScreen}
         component={CountryCodeScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.NewPasswordScreen}
+        component={NewPasswordScreen}
       />
       <Stack.Screen
         name={ScreenName.ForgotPasswordScreen}
