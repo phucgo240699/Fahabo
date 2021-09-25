@@ -148,6 +148,7 @@ android {
         resValue "string", "build_config_package", "com.fahabo"
         versionCode packageVersionCode
         versionName packageVersionName
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
         abi {
