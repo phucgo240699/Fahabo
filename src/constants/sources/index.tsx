@@ -45,6 +45,7 @@ export const eventsIcon = require('@assets/images/events_icon.png');
 //
 // Profile
 //
+export const cameraIcon = require('@assets/images/camera_icon.png');
 export const defaultAvatar = require('@assets/images/default_avatar.png');
 export const profileBackground = require('@assets/images/profile_background.png');
 

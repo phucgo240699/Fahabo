@@ -69,5 +69,10 @@
   },
   "application": {
     "loading": "Đăng tải..."
+  },
+  "popUp": {
+    "takePhoto": "Chụp ảnh",
+    "chooseFromGallery": "Chọn từ thư viện ảnh",
+    "cancel": "Huỷ"
   }
 }

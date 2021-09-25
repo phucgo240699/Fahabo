@@ -69,5 +69,10 @@
   },
   "application": {
     "loading": "Loading..."
+  },
+  "popUp": {
+    "takePhoto": "Take photo",
+    "chooseFromGallery": "Choose from Gallery",
+    "cancel": "Cancel"
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createRef, LegacyRef, useRef} from 'react';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -8,11 +8,18 @@ import ProfileAlbumBox from './shared/ProfileAlbumBox';
 import {ImageBackground, StyleSheet} from 'react-native';
 import {Constants, ScreenName, StackName} from '@constants/Constants';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {profileBackground, defaultAvatar} from '@constants/sources/index';
+import {
+  profileBackground,
+  defaultAvatar,
+  cameraIcon,
+} from '@constants/sources/index';
 import PrimaryButton from '@components/PrimaryButton';
 import i18n from '@locales/index';
 import ProfileSettingsBox from './shared/ProfileSettingsBox';
 import ProfileRelationBox from './shared/ProfileRelationBox';
+import PrimaryIcon from '@components/PrimaryIcon';
+import ActionSheet from 'react-native-actions-sheet';
+import {stubTrue} from 'lodash';
 
 interface DataProps {
   name?: string;
@@ -32,6 +39,7 @@ const DATA: DataProps = {
 interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
+  let pictureOptionsRef = createRef<LegacyRef<ActionSheet>>();
   const onLogOut = () => {
     navigateReset(StackName.AuthenticationStack);
   };
@@ -46,6 +54,12 @@ const ProfileScreen: React.FC<Props> = () => {
   };
   const navigateToEvents = () => {
     navigate(ScreenName.MyEventsScreen);
+  };
+  const openPictureOptions = () => {
+    pictureOptionsRef.current?.setModalVisible(true);
+  };
+  const closePictureOptions = () => {
+    pictureOptionsRef.current?.setModalVisible(false);
   };
 
   return (
@@ -86,14 +100,34 @@ const ProfileScreen: React.FC<Props> = () => {
               onPress={onLogOut}
             />
           </Content>
-          <Avatar
-            size="2xl"
-            alignSelf="center"
-            position="absolute"
-            backgroundColor={'transparent'}
-            source={DATA.avatarUrl ? {uri: DATA.avatarUrl} : defaultAvatar}
-          />
+          <AvatarContainer activeOpacity={0.7} onPress={openPictureOptions}>
+            <Avatar
+              size="2xl"
+              backgroundColor={'transparent'}
+              source={DATA.avatarUrl ? {uri: DATA.avatarUrl} : defaultAvatar}
+            />
+            <CameraIconContainer>
+              <PrimaryIcon width={24} height={24} source={cameraIcon} />
+            </CameraIconContainer>
+          </AvatarContainer>
         </Scroll>
+        <ActionSheet ref={pictureOptionsRef}>
+          <PictureOptionContainer>
+            <PictureOptionText>{i18n.t('popUp.takePhoto')}</PictureOptionText>
+          </PictureOptionContainer>
+          <HLine />
+          <PictureOptionContainer>
+            <PictureOptionText>
+              {i18n.t('popUp.chooseFromGallery')}
+            </PictureOptionText>
+          </PictureOptionContainer>
+          <HLine />
+          <PictureOptionContainer onPress={closePictureOptions}>
+            <PictureOptionCancelText>
+              {i18n.t('popUp.cancel')}
+            </PictureOptionCancelText>
+          </PictureOptionContainer>
+        </ActionSheet>
       </ImageBackground>
     </Box>
   );
@@ -117,12 +151,56 @@ const Content = styled.View`
   background-color: ${colors.WHITE};
 `;
 
+const AvatarContainer = styled.TouchableOpacity`
+  align-self: center;
+  position: absolute;
+`;
+
+const CameraIconContainer = styled.View`
+  right: 0px;
+  bottom: 0px
+  width: 38px;
+  height: 38px;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background-color: ${colors.CONCRETE};
+`;
+
 const NameText = styled(fonts.PrimaryFontBoldSize25)`
   color: ${colors.BLACK};
 `;
 
 const EmailText = styled(fonts.PrimaryFontMediumSize14)`
   color: ${colors.SILVER};
+`;
+
+const PictureOptionContainer = styled.TouchableOpacity`
+  width: 100%;
+  height: 50px;
+  justify-content: center;
+`;
+
+const PictureOptionText = styled(fonts.PrimaryFontMediumSize16)`
+  margin-left: 30px;
+  margin-right: 30px;
+  text-align: center;
+  color: ${colors.DANUBE};
+`;
+
+const HLine = styled.View`
+  height: 1px;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: ${colors.SILVER};
+`;
+
+const PictureOptionCancelText = styled(fonts.PrimaryFontMediumSize16)`
+  margin-left: 30px;
+  margin-right: 30px;
+  text-align: center;
+  color: ${colors.RED_1};
 `;
 
 const styles = StyleSheet.create({
@@ -138,6 +216,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
     paddingBottom: 120,
     alignItems: 'center',
+  },
+  pictureOptions: {
+    backgroundColor: colors.WHITE,
   },
 });
 
