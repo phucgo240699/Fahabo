@@ -1,25 +1,24 @@
-import React, {createRef, LegacyRef, useRef} from 'react';
 import fonts from '@themes/fonts';
+import i18n from '@locales/index';
 import colors from '@themes/colors';
-import styled from 'styled-components/native';
-import {navigate, navigateReset} from '@navigators/index';
+import React, {createRef} from 'react';
 import {Avatar, Box} from 'native-base';
+import styled from 'styled-components/native';
+import PrimaryIcon from '@components/PrimaryIcon';
+import ActionSheet from 'react-native-actions-sheet';
+import PrimaryButton from '@components/PrimaryButton';
 import ProfileAlbumBox from './shared/ProfileAlbumBox';
 import {ImageBackground, StyleSheet} from 'react-native';
-import {Constants, ScreenName, StackName} from '@constants/Constants';
+import {navigate, navigateReset} from '@navigators/index';
+import ProfileRelationBox from './shared/ProfileRelationBox';
+import ProfileSettingsBox from './shared/ProfileSettingsBox';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import {Constants, ScreenName, StackName} from '@constants/Constants';
 import {
   profileBackground,
   defaultAvatar,
   cameraIcon,
 } from '@constants/sources/index';
-import PrimaryButton from '@components/PrimaryButton';
-import i18n from '@locales/index';
-import ProfileSettingsBox from './shared/ProfileSettingsBox';
-import ProfileRelationBox from './shared/ProfileRelationBox';
-import PrimaryIcon from '@components/PrimaryIcon';
-import ActionSheet from 'react-native-actions-sheet';
-import {stubTrue} from 'lodash';
 
 interface DataProps {
   name?: string;
@@ -39,7 +38,7 @@ const DATA: DataProps = {
 interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
-  let pictureOptionsRef = createRef<LegacyRef<ActionSheet>>();
+  let pictureOptionsRef = createRef();
   const onLogOut = () => {
     navigateReset(StackName.AuthenticationStack);
   };
@@ -57,6 +56,18 @@ const ProfileScreen: React.FC<Props> = () => {
   };
   const openPictureOptions = () => {
     pictureOptionsRef.current?.setModalVisible(true);
+  };
+  const takePhoto = () => {
+    closePictureOptions();
+    setTimeout(() => {
+      navigate(ScreenName.CameraScreen);
+    }, 500);
+  };
+  const chooseFromGallery = () => {
+    closePictureOptions();
+    setTimeout(() => {
+      navigate(ScreenName.MediaPickerScreen);
+    }, 500);
   };
   const closePictureOptions = () => {
     pictureOptionsRef.current?.setModalVisible(false);
@@ -112,11 +123,11 @@ const ProfileScreen: React.FC<Props> = () => {
           </AvatarContainer>
         </Scroll>
         <ActionSheet ref={pictureOptionsRef}>
-          <PictureOptionContainer>
+          <PictureOptionContainer onPress={takePhoto}>
             <PictureOptionText>{i18n.t('popUp.takePhoto')}</PictureOptionText>
           </PictureOptionContainer>
           <HLine />
-          <PictureOptionContainer>
+          <PictureOptionContainer onPress={chooseFromGallery}>
             <PictureOptionText>
               {i18n.t('popUp.chooseFromGallery')}
             </PictureOptionText>
@@ -214,7 +225,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginTop: 50,
-    paddingBottom: 120,
+    paddingBottom: 150,
     alignItems: 'center',
   },
   pictureOptions: {

@@ -1,14 +1,13 @@
 import React from 'react';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
-import styled from 'styled-components/native';
-import {Keyboard, Platform} from 'react-native';
+import {Keyboard} from 'react-native';
 import {navigate} from '@navigators/index';
+import styled from 'styled-components/native';
 import {ScreenName} from '@constants/Constants';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
 import {Heading, VStack, FormControl, Input, Button} from 'native-base';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
-import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
 interface Props {
   route?: any;
@@ -33,9 +32,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
       />
       <Container onPress={onPressBackground}>
         <Content>
-          <AuthenticationHeader
-            marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
-          />
+          <AuthenticationHeader />
           <Form>
             <Heading mt={14} size="2xl" color={colors.THEME_COLOR_5}>
               {i18n.t('authentication.forgotPassword.forgotPassword')}

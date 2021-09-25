@@ -9,7 +9,6 @@ import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
 import {Heading, VStack, Input, Button, HStack, FormControl} from 'native-base';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {KeyboardAwareScrollView} from '@codler/react-native-keyboard-aware-scroll-view';
 import {
   appleIcon,
@@ -37,9 +36,7 @@ const SignUpScreen: React.FC<Props> = () => {
   };
   return (
     <SafeView>
-      <AuthenticationHeader
-        marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
-      />
+      <AuthenticationHeader />
       <FocusAwareStatusBar
         barStyle="dark-content"
         backgroundColor={Colors.WHITE}

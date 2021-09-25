@@ -2,12 +2,10 @@ import React, {useState} from 'react';
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
-import {Platform, StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
-import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
-import AuthenticationHeader from '@components/AuthenticationHeader';
 import PrimarySearchBar from '@components/PrimarySearchBar';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import AuthenticationHeader from '@components/AuthenticationHeader';
 
 interface Props {
   route?: any;
@@ -174,7 +172,6 @@ const CountryCodeScreen: React.FC<Props> = ({route}) => {
     <SafeView>
       <AuthenticationHeader
         title={i18n.t('authentication.signUp.chooseRegion')}
-        marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
       />
       <FocusAwareStatusBar
         barStyle="dark-content"

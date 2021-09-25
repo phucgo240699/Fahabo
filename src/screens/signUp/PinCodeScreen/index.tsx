@@ -2,18 +2,17 @@ import {Text} from 'native-base';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import React, {useState} from 'react';
-import {Keyboard, Platform, StyleSheet} from 'react-native';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
-import AuthenticationHeader from '@components/AuthenticationHeader';
 import styled from 'styled-components/native';
+import {Constants} from '@constants/Constants';
+import {Keyboard, StyleSheet} from 'react-native';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import AuthenticationHeader from '@components/AuthenticationHeader';
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import {Constants} from '@constants/Constants';
-import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
 const CELL_COUNT = 4;
 
@@ -45,7 +44,6 @@ const PinCodeScreen: React.FC<Props> = ({route}) => {
           />
           <AuthenticationHeader
             title={i18n.t('authentication.pinCode.pinCode')}
-            marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
           />
           {route && route.params && route.params.address && (
             <Text

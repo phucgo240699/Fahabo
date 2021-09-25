@@ -4,7 +4,7 @@ const shades = {
   CONCRETE: '#F2F2F2',
   SILVER: '#C0C0C0',
   GRAY: '#8C8C8C',
-  BLACK: '#090014',
+  BLACK: '#000000', // 090014
   THEME_COLOR_1: '#FFF1CC',
   THEME_COLOR_2: '#FFE9B3',
   THEME_COLOR_3: '#FFE299',

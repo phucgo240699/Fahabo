@@ -1,10 +1,9 @@
 import React from 'react';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
+import {Keyboard} from 'react-native';
 import styled from 'styled-components/native';
-import {Keyboard, Platform} from 'react-native';
 import {VStack, FormControl, Input, Button} from 'native-base';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
 
@@ -29,7 +28,6 @@ const NewPasswordScreen: React.FC<Props> = ({route}) => {
         <Content>
           <AuthenticationHeader
             title={i18n.t('authentication.forgotPassword.enterNewPassword')}
-            marginTop={Platform.OS === 'android' ? getStatusBarHeight() : 0}
           />
 
           <VStack space={2} m={5}>

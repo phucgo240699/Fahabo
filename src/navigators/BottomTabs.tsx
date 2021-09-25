@@ -1,6 +1,5 @@
 import React from 'react';
 import colors from '@themes/colors';
-import {navigationOptions} from './index';
 import {StackName} from '@constants/Constants';
 import PrimaryIcon from '@components/PrimaryIcon';
 import HomeStack from './HomeStack';
@@ -27,6 +26,7 @@ const Tab = createBottomTabNavigator();
 const BottomTabs = () => {
   return (
     <Tab.Navigator
+      backBehavior="history"
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, size}) => {
           let iconSource = homeIcon;
@@ -73,27 +73,27 @@ const BottomTabs = () => {
       <Tab.Screen
         name={StackName.HomeStack}
         component={HomeStack}
-        options={navigationOptions}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name={StackName.TransactionsStack}
         component={TransactionsStack}
-        options={navigationOptions}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name={StackName.InteractionsStack}
         component={InteractionsStack}
-        options={navigationOptions}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name={StackName.LocationsStack}
         component={LocationsStack}
-        options={navigationOptions}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name={StackName.ProfileStack}
         component={ProfileStack}
-        options={navigationOptions}
+        options={{headerShown: false}}
       />
     </Tab.Navigator>
   );

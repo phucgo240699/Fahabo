@@ -4,24 +4,22 @@ import {
   StackNavigationOptions,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import {DrawerNavigationOptions} from '@react-navigation/drawer';
-import colors from '@themes/colors';
+// import {DrawerNavigationOptions} from '@react-navigation/drawer';
+// import colors from '@themes/colors';
 
-export const navigationOptions: any = {
+export const navigationOptions: StackNavigationOptions = {
   headerShown: false,
   gestureEnabled: true,
   gestureDirection: 'horizontal',
   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-  gestureResponseDistance: 120,
-  // gestureVelocityImpact: 0.5,
 };
 
-export const drawerOptions: DrawerNavigationOptions = {
-  headerShown: false,
-  drawerActiveTintColor: colors.THEME_COLOR_7,
-};
+// export const drawerOptions: DrawerNavigationOptions = {
+//   headerShown: false,
+//   drawerActiveTintColor: colors.THEME_COLOR_7,
+// };
 
-export const navigationRef = createRef<any>();
+export const navigationRef: any = createRef<any>();
 
 export function navigate(name: string, params?: any) {
   navigationRef.current?.navigate(name, params);

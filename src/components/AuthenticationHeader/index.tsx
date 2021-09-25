@@ -5,13 +5,20 @@ import styled from 'styled-components/native';
 import PrimaryButton from '@components/PrimaryButton';
 import {navigationBackIcon} from '@constants/sources/index';
 import {CommonActions, useNavigation} from '@react-navigation/native';
+import {Platform} from 'react-native';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 interface Props {
   title?: string;
   marginTop?: number;
+  backgroundColor?: string;
 }
 
-const AuthenticationHeader: React.FC<Props> = ({title, marginTop}) => {
+const AuthenticationHeader: React.FC<Props> = ({
+  title,
+  marginTop = Platform.OS === 'android' ? getStatusBarHeight() : 0,
+  backgroundColor,
+}) => {
   const navigation = useNavigation();
 
   const onPressBack = () => {
@@ -33,7 +40,7 @@ const AuthenticationHeader: React.FC<Props> = ({title, marginTop}) => {
   );
 };
 
-const Container = styled.View<{marginTop?: number}>`
+const Container = styled.View<{marginTop?: number; backgroundColor?: string}>`
   width: 100%;
   flex-direction: row;
   align-items: center;
