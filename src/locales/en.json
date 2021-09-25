@@ -74,5 +74,10 @@
     "takePhoto": "Take photo",
     "chooseFromGallery": "Choose from Gallery",
     "cancel": "Cancel"
+  },
+  "media": {
+    "takeAPhoto": "Take a photo",
+    "chooseAPhoto": "Choose a photo",
+    "emptyGallery": "Empty Gallery"
   }
 }

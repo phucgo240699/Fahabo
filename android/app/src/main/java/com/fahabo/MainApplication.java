@@ -12,6 +12,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.facebook.react.ReactApplication;
+//import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.facebook.react.PackageList;
 //import com.facebook.FacebookSdk;
 //import com.facebook.appevents.AppEventsLogger;

@@ -3,7 +3,7 @@ import {Text} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import PrimaryButton from '@components/PrimaryButton';
-import {navigationBackIcon} from '@constants/sources/index';
+import {leftArrowIcon} from '@constants/sources/index';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {Platform} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
@@ -28,7 +28,7 @@ const AuthenticationHeader: React.FC<Props> = ({
   return (
     <Container marginTop={marginTop}>
       <PrimaryButton
-        leftSource={navigationBackIcon}
+        leftSource={leftArrowIcon}
         leftTintColor={colors.THEME_COLOR_6}
         onPress={onPressBack}
       />

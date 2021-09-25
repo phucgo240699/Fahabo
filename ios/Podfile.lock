@@ -348,6 +348,8 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
+  - react-native-cameraroll (4.0.4):
+    - React-Core
   - react-native-config (1.4.4):
     - react-native-config/App (= 1.4.4)
   - react-native-config/App (1.4.4):
@@ -503,6 +505,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -597,6 +600,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-community/cameraroll"
   react-native-config:
     :path: "../node_modules/react-native-config"
   react-native-fbsdk-next:
@@ -698,6 +703,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 43f2542aed3c26e42175b339f8d37fe3dd683765
   React-jsinspector: 41e58e5b8e3e0bf061fdf725b03f2144014a8fb0
   react-native-camera: 210a872c84d3aa0982a9223047ef9e743ed694fa
+  react-native-cameraroll: 7c6c7ca84844f93b3dac9a87670bbad6541684ec
   react-native-config: 72d948053a442779b3178fddd571e37f118ef606
   react-native-fbsdk-next: 5a8e6915d7e4191dcb2c9843ea9771e3a29def9c
   react-native-pager-view: f21658a2e12eced35ef998250375e4e4dc9b8487
@@ -727,6 +733,6 @@ SPEC CHECKSUMS:
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: bb283ecd727aba98f3212e3c0aa2afa2824bfac3
+PODFILE CHECKSUM: b9dff4a65e81b78d49e7942eba1735b8ae4e1ed6
 
 COCOAPODS: 1.11.2

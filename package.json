@@ -15,6 +15,7 @@
     "@codler/react-native-keyboard-aware-scroll-view": "^2.0.0",
     "@invertase/react-native-apple-authentication": "^2.1.2",
     "@react-native-async-storage/async-storage": "^1.15.7",
+    "@react-native-community/cameraroll": "^4.0.4",
     "@react-native-firebase/app": "^12.7.4",
     "@react-native-firebase/auth": "^12.7.4",
     "@react-native-google-signin/google-signin": "^7.0.0-alpha.3",

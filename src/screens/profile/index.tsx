@@ -132,8 +132,7 @@ const ProfileScreen: React.FC<Props> = () => {
               {i18n.t('popUp.chooseFromGallery')}
             </PictureOptionText>
           </PictureOptionContainer>
-          <HLine />
-          <PictureOptionContainer onPress={closePictureOptions}>
+          <PictureOptionContainer marginTop={30} onPress={closePictureOptions}>
             <PictureOptionCancelText>
               {i18n.t('popUp.cancel')}
             </PictureOptionCancelText>
@@ -187,10 +186,11 @@ const EmailText = styled(fonts.PrimaryFontMediumSize14)`
   color: ${colors.SILVER};
 `;
 
-const PictureOptionContainer = styled.TouchableOpacity`
+const PictureOptionContainer = styled.TouchableOpacity<{marginTop?: number}>`
   width: 100%;
   height: 50px;
   justify-content: center;
+  margin-top: ${props => props.marginTop ?? 0}px;
 `;
 
 const PictureOptionText = styled(fonts.PrimaryFontMediumSize16)`

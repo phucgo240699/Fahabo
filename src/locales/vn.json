@@ -74,5 +74,10 @@
     "takePhoto": "Chụp ảnh",
     "chooseFromGallery": "Chọn từ thư viện ảnh",
     "cancel": "Huỷ"
+  },
+  "media": {
+    "takeAPhoto": "Chụp 1 bức ảnh",
+    "chooseAPhoto": "Chọn 1 bức ảnh",
+    "emptyGallery": "Thư viện ảnh rỗng"
   }
 }

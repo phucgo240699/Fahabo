@@ -1,5 +1,5 @@
 // Auth&Profile Header
-export const navigationBackIcon = require('@assets/images/navigation_back_icon.png');
+export const leftArrowIcon = require('@assets/images/left_arrow_icon.png');
 
 // Primary Header
 export const searchIcon = require('@assets/images/search_icon.png');

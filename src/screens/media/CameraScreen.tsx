@@ -1,12 +1,13 @@
 import React from 'react';
+import i18n from '@locales/index';
 import colors from '@themes/colors';
-import styled from 'styled-components/native';
-import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import AuthenticationHeader from '@components/AuthenticationHeader';
-import {RNCamera} from 'react-native-camera';
 import {StyleSheet} from 'react-native';
-import PrimaryIcon from '@components/PrimaryIcon';
+import {RNCamera} from 'react-native-camera';
 import {cameraIcon} from '@constants/sources';
+import styled from 'styled-components/native';
+import PrimaryIcon from '@components/PrimaryIcon';
+import ProfileHeader from '@components/ProfileHeader';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
 interface Props {}
 
@@ -23,9 +24,12 @@ const CameraScreen: React.FC<Props> = ({}) => {
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
-        backgroundColor={colors.BLACK}
+        backgroundColor={colors.WHITE}
       />
-      <AuthenticationHeader />
+      <ProfileHeader
+        title={i18n.t('media.takeAPhoto')}
+        backgroundColor={colors.WHITE}
+      />
       <RNCamera
         style={styles.preview}
         captureAudio={false}
@@ -40,7 +44,7 @@ const CameraScreen: React.FC<Props> = ({}) => {
               onPress={() => {
                 takePicture(camera);
               }}>
-              <PrimaryIcon width={40} height={40} source={cameraIcon} />
+              <PrimaryIcon width={36} height={36} source={cameraIcon} />
             </SnapContainer>
           );
         }}
@@ -51,13 +55,14 @@ const CameraScreen: React.FC<Props> = ({}) => {
 
 const SafeView = styled.SafeAreaView`
   flex: 1;
-  background-color: ${colors.BLACK};
+  background-color: ${colors.WHITE};
 `;
 
 const SnapContainer = styled.TouchableOpacity`
-  width: 80px;
-  height: 80px;
-  border-radius: 40px;
+  width: 72px;
+  height: 72px;
+  border-radius: 36px;
+  padding-bottom: 4px;
   margin-bottom: 20px;
   align-items: center;
   justify-content: center;

@@ -113,7 +113,6 @@ const Icon = styled.Image<{
 }>`
   width: ${props => props.width ?? 0}px;
   height: ${props => props.height ?? 0}px;
-  margin-left: ${props => props.marginLeft ?? 0}px;
   tint-color: ${props => props.tintColor ?? colors.SILVER};
 `;
 
