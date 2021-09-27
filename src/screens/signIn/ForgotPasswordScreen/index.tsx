@@ -37,7 +37,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
             <Heading mt={14} size="2xl" color={colors.THEME_COLOR_5}>
               {i18n.t('authentication.forgotPassword.forgotPassword')}
             </Heading>
-            <Heading color="muted.400" size="xs">
+            <Heading color={colors.GRAY} size="xs">
               {route &&
               route.params &&
               route.params.isUsingPhone &&

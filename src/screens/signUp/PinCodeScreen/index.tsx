@@ -49,7 +49,7 @@ const PinCodeScreen: React.FC<Props> = ({route}) => {
             <Text
               mt={1}
               fontSize="md"
-              color={Colors.SILVER}
+              color={Colors.GRAY}
               textAlign="center"
               alignSelf="center">
               {`${i18n.t('authentication.pinCode.instruction')}\n ${

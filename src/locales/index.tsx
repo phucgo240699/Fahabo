@@ -13,8 +13,8 @@ i18n.translations = {
   },
 };
 
-i18n.defaultLocale = 'vn';
-i18n.locale = 'vn';
+i18n.defaultLocale = 'en';
+i18n.locale = 'en';
 i18n.currentLocale();
 
 export default i18n;

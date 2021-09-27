@@ -1,7 +1,7 @@
 import fonts from '@themes/fonts';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
-import React, {createRef} from 'react';
+import React, {createRef, useRef} from 'react';
 import {Avatar, Box} from 'native-base';
 import styled from 'styled-components/native';
 import PrimaryIcon from '@components/PrimaryIcon';
@@ -38,7 +38,7 @@ const DATA: DataProps = {
 interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
-  let pictureOptionsRef = createRef();
+  const pictureOptionsRef = useRef<ActionSheet>(); //= createRef();
   const onLogOut = () => {
     navigateReset(StackName.AuthenticationStack);
   };
@@ -132,7 +132,8 @@ const ProfileScreen: React.FC<Props> = () => {
               {i18n.t('popUp.chooseFromGallery')}
             </PictureOptionText>
           </PictureOptionContainer>
-          <PictureOptionContainer marginTop={30} onPress={closePictureOptions}>
+          <HLine />
+          <PictureOptionContainer onPress={closePictureOptions}>
             <PictureOptionCancelText>
               {i18n.t('popUp.cancel')}
             </PictureOptionCancelText>

@@ -137,7 +137,7 @@ const SignInScreen: React.FC<Props> = () => {
           <Heading size="2xl" color={Colors.THEME_COLOR_5}>
             {i18n.t('authentication.signIn.welcome')}
           </Heading>
-          <Heading color="muted.400" size="xs">
+          <Heading color={Colors.GRAY} size="xs">
             {i18n.t('authentication.signIn.subWelcome')}
           </Heading>
 
@@ -201,7 +201,7 @@ const SignInScreen: React.FC<Props> = () => {
 
             {/* Encourage Sign up */}
             <HStack mt={10} alignItems="center" justifyContent="center">
-              <Text fontSize="sm" color="muted.700" fontWeight={400}>
+              <Text fontSize="sm" color={Colors.BLACK} fontWeight={400}>
                 {i18n.t('authentication.signIn.signUpLabel')}
               </Text>
               <Link

@@ -65,10 +65,9 @@ const ProfileAlbumBox: React.FC<Props> = () => {
           return (
             <PictureContainer key={item.id}>
               <Image
+                flex={1}
                 borderRadius={10}
                 source={{uri: item.url}}
-                width={Constants.MAX_WIDTH / 5}
-                height={Constants.MAX_WIDTH / 5}
                 alt={i18n.t('application.loading')}
               />
             </PictureContainer>
@@ -95,6 +94,8 @@ const AlbumLabel = styled(fonts.PrimaryFontMediumSize18)`
 
 const PictureContainer = styled.TouchableOpacity<{marginLeft?: number}>`
   margin: 4px;
+  width: ${Constants.MAX_WIDTH / 5}px;
+  height: ${Constants.MAX_WIDTH / 5}px;
 `;
 
 export default memo(ProfileAlbumBox);

@@ -53,7 +53,7 @@ const SignUpScreen: React.FC<Props> = () => {
           <Heading mt={14} size="2xl" color={Colors.THEME_COLOR_5}>
             {i18n.t('authentication.signUp.signUp')}
           </Heading>
-          <Heading color="muted.400" size="xs">
+          <Heading color={Colors.GRAY} size="xs">
             {i18n.t('authentication.signUp.subWelcome')}
           </Heading>
           {/* </HStack> */}
@@ -62,7 +62,7 @@ const SignUpScreen: React.FC<Props> = () => {
           <VStack space={2} mt={5}>
             <FormControl>
               <FormControl.Label
-                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t('authentication.signUp.email')} *`}
               </FormControl.Label>
               <Input
@@ -76,7 +76,7 @@ const SignUpScreen: React.FC<Props> = () => {
 
             <FormControl mt={3}>
               <FormControl.Label
-                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {i18n.t('authentication.signUp.chooseRegion')}
               </FormControl.Label>
               <ComboboxButton
@@ -88,7 +88,7 @@ const SignUpScreen: React.FC<Props> = () => {
 
             <FormControl mt={3}>
               <FormControl.Label
-                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {i18n.t('authentication.signUp.phoneNumber')}
               </FormControl.Label>
               <Input
@@ -101,7 +101,7 @@ const SignUpScreen: React.FC<Props> = () => {
 
             <FormControl mt={3}>
               <FormControl.Label
-                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t('authentication.signUp.name')} *`}
               </FormControl.Label>
               <Input mt={-1} color={Colors.BLACK} borderColor={Colors.SILVER} />
@@ -109,7 +109,7 @@ const SignUpScreen: React.FC<Props> = () => {
 
             <FormControl mt={3}>
               <FormControl.Label
-                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t('authentication.signUp.password')} *`}
               </FormControl.Label>
               <Input
@@ -122,7 +122,7 @@ const SignUpScreen: React.FC<Props> = () => {
 
             <FormControl mt={3}>
               <FormControl.Label
-                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t('authentication.signUp.confirmPassword')} *`}
               </FormControl.Label>
               <Input
