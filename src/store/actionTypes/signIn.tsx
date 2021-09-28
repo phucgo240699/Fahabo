@@ -1,10 +1,9 @@
-//
-// Sign in
-//
+import {SignInBodyRequestType} from '@constants/types/signIn';
+
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
-export const signInRequest = (payload: {email: string; password: string}) => ({
+export const signInRequest = (body: SignInBodyRequestType) => ({
   type: SIGN_IN_REQUEST,
-  payload,
+  body,
 });
 
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';

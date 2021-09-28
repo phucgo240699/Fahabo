@@ -79,5 +79,44 @@
     "takeAPhoto": "Take a photo",
     "chooseAPhoto": "Choose a photo",
     "emptyGallery": "Empty Gallery"
+  },
+  "errorMessage": {
+    "general": "Something went wrong, please try again."
+  },
+  "backend": {
+    "authentication": {
+      "authentication": "Authentication",
+      "signIn": {
+        "success": "Sign in successfully!",
+        "fail": "Invalid credentials!"
+      },
+      "signUp": {
+        "success": "Sign up successfully!",
+        "fail": "System error."
+      },
+      "pinCode": {
+        "availableIn5mins": "Try again later in 5 mins.",
+        "success": "Verify successfully!",
+        "fail": "Invalid or might be expired pin."
+      },
+      "forgotPassword": {
+        "accountNotExist": "Account is not signed up.",
+        "success": "Password changed successfully!",
+        "fail": "Password can't be changed!"
+      }
+    },
+    "system": {
+      "fail": "System error."
+    },
+    "validation": {
+      "passwordRequired": "Password is required.",
+      "usernameRequired": "Username is required.",
+      "unauthorized": "Require authorization to access",
+      "emailRequired": "Email is required.",
+      "nameRequired": "Name is required.",
+      "birthdayRequired": "Birthday is required.",
+      "languageCodeRequired": "Language code is required.",
+      "confirmPasswordMustMatch": "Confirm password must match."
+    }
   }
 }

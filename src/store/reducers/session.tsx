@@ -1,8 +1,13 @@
 import {AnyAction} from 'redux';
 import {UPDATE_SESSION} from '@store/actionTypes/session';
 
+export type ToastState = {
+  toastMessage?: string;
+};
+
 export type SessionState = {
   loading?: boolean;
+  toast?: {[key: number]: ToastState};
 };
 
 const defaultState: SessionState = {

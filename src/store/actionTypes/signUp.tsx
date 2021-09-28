@@ -1,10 +1,9 @@
-//
-// Sign up
-//
+import {SignUpBodyRequestType} from '@constants/types/signUp';
+
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
-export const signUpRequest = (payload: {email: string; password: string}) => ({
+export const signUpRequest = (body: SignUpBodyRequestType) => ({
   type: SIGN_UP_REQUEST,
-  payload,
+  body,
 });
 
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';

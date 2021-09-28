@@ -79,5 +79,44 @@
     "takeAPhoto": "Chụp 1 bức ảnh",
     "chooseAPhoto": "Chọn 1 bức ảnh",
     "emptyGallery": "Thư viện ảnh rỗng"
+  },
+  "errorMessage": {
+    "general": "Có lỗi trong quá trình thao tác, xin kiểm tra lại"
+  },
+  "backend": {
+    "authentication": {
+      "authentication": "Xác thực",
+      "signIn": {
+        "success": "Đăng nhập thành công!",
+        "fail": "Thông tin tài khoản không hợp lệ!"
+      },
+      "signUp": {
+        "success": "Đăng ký thành công!",
+        "fail": "Lỗi hệ thống."
+      },
+      "pinCode": {
+        "availableIn5mins": "Thử lại sau 5 phút.",
+        "success": "Xác thực thành công!",
+        "fail": "Mã hết hạn hoặc không hợp lệ."
+      },
+      "forgotPassword": {
+        "accountNotExist": "Tài khoản chưa được đăng ký.",
+        "success": "Cập nhật mật khẩu thành công!",
+        "fail": "Cập nhật mật khẩu thất bại!"
+      }
+    },
+    "system": {
+      "fail": "Lỗi hệ thống."
+    },
+    "validation": {
+      "passwordRequired": "Bắt buộc nhập mật khẩu.",
+      "usernameRequired": "Bắt buộc nhập tên tài khoản.",
+      "unauthorized": "Không được phép truy cập.",
+      "emailRequired": "Bắt buộc nhập email.",
+      "nameRequired": "Bắt buộc nhập tên.",
+      "birthdayRequired": "Bắt buộc nhập ngày sinh.",
+      "languageCodeRequired": "Language code is required.",
+      "confirmPasswordMustMatch": "Confirm password must match."
+    }
   }
 }

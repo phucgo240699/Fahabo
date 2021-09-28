@@ -20,7 +20,7 @@ baseAxios.interceptors.response.use(responseInterceptor, errorInterceptor);
 export enum AcceptType {
   json = 'application/json',
   formData = 'multipart/form-data',
-  urlencode = 'application/x-www-form-urlencoded',
+  urlEncode = 'application/x-www-form-urlencoded',
 }
 
 const defaultHeader = {
@@ -38,14 +38,17 @@ export class apiProvider {
   config: AxiosRequestConfig;
   headers: any;
 
-  constructor(token?: string) {
+  constructor(accessToken?: string) {
     const authHeader =
-      token && token.length > 0 ? {Authorization: 'Bearer ' + token} : null;
+      accessToken && accessToken.length > 0
+        ? {Authorization: 'Bearer ' + accessToken}
+        : null;
 
     this.config = {};
     this.headers = {
-      ...defaultHeader,
+      ...formHeader,
       ...authHeader,
+      ...defaultHeader,
     };
   }
 
@@ -70,16 +73,16 @@ export class apiProvider {
     });
   };
 
-  postForm = (url: string, body?: any, headers?: any) => {
-    return baseAxios.post(url, body, {
-      ...this.config,
-      headers: {
-        ...this.headers,
-        ...formHeader,
-        ...headers,
-      },
-    });
-  };
+  // postForm = (url: string, body?: any, headers?: any) => {
+  //   return baseAxios.post(url, body, {
+  //     ...this.config,
+  //     headers: {
+  //       ...this.headers,
+  //       ...formHeader,
+  //       ...headers,
+  //     },
+  //   });
+  // };
 
   delete = (url: string, body?: any, headers?: any) => {
     return baseAxios.delete(url, {

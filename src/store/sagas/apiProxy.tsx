@@ -1,9 +1,12 @@
-import {call, put, select} from 'typed-redux-saga';
+import {CallEffect} from '@redux-saga/core/effects';
+import {AxiosResponse} from 'axios';
+import {call, SagaGenerator} from 'typed-redux-saga';
 
-export function* apiCallProxy(...args: any[]): any {
+export function* apiProxy(fn: any, ...args: any[]): any {
   try {
-    return yield call(apiCallProxy, ...args);
+    return yield call(fn, ...args);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
