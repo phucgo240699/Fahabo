@@ -10,22 +10,20 @@ import {tickIcon} from '@constants/sources/index';
 import i18n from '@locales/index';
 import ProfileHeader from '@components/ProfileHeader';
 import PrimaryIcon from '@components/PrimaryIcon';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {languageCodeSelector} from '@store/selectors/authentication';
-import {updateLanguageCode} from '@store/actionTypes/signUp';
-import {CommonActions, useNavigation} from '@react-navigation/native';
 import {getLanguageName} from '@utils/index';
+import PrimaryButton from '@components/PrimaryButton';
 
 interface Props {}
 
 const LanguageScreen: React.FC<Props> = ({}) => {
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
-  const languageCode = useSelector(languageCodeSelector);
+  const [languageCode, setLanguageCode] = useState(
+    useSelector(languageCodeSelector),
+  );
 
   const onChooseLanguage = (newLanguageCode: string) => {
-    dispatch(updateLanguageCode(newLanguageCode));
-    navigation.dispatch(CommonActions.goBack());
+    setLanguageCode(newLanguageCode);
   };
 
   const renderItem = ({item}: {item: any}) => {
@@ -52,7 +50,17 @@ const LanguageScreen: React.FC<Props> = ({}) => {
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
       />
-      <ProfileHeader title={i18n.t('settings.language.language')} />
+      <ProfileHeader
+        title={i18n.t('settings.language.language')}
+        rightComponent={
+          <PrimaryButton
+            containerStyle={styles.saveBtn}
+            titleFontSize={16}
+            title={i18n.t('settings.language.save')}
+            titleColor={colors.THEME_COLOR_7}
+          />
+        }
+      />
       <Box m={4} shadow={6} borderRadius={8} bgColor={colors.WHITE}>
         <FlatList
           data={languages}
@@ -87,6 +95,9 @@ const styles = StyleSheet.create({
   tick: {
     right: 20,
     position: 'absolute',
+  },
+  saveBtn: {
+    right: 16,
   },
 });
 

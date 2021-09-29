@@ -24,18 +24,13 @@ import {
   googleIcon,
   orSeparator,
 } from '@constants/sources/index';
-import ComboboxButton from '@components/ComboboxButton';
 import colors from '@themes/colors';
-import {useSelector} from 'react-redux';
-import {languageCodeSelector} from '@store/selectors/authentication';
-import {getLanguageName} from '@utils/index';
 
 interface Props {
   route?: any;
 }
 
 const SignUpScreen: React.FC<Props> = ({route}) => {
-  const languageCode = useSelector(languageCodeSelector);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -71,10 +66,6 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
 
   const onPressCountryCode = () => {
     navigate(ScreenName.CountryCodeScreen);
-  };
-
-  const onPressLanguageCode = () => {
-    navigate(ScreenName.LanguageScreen);
   };
 
   const onPressBackground = () => {
@@ -190,19 +181,6 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
                 />
               </FormControl>
             </Box>
-
-            <FormControl mt={3}>
-              <FormControl.Label
-                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
-                {i18n.t('authentication.signUp.language')}
-              </FormControl.Label>
-              <ComboboxButton
-                marginTop={-3}
-                value={getLanguageName(languageCode)}
-                textColor={colors.GRAY}
-                onPress={onPressLanguageCode}
-              />
-            </FormControl>
 
             {/* Button */}
             <VStack space={2} mt={5}>

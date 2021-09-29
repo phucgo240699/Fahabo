@@ -66,11 +66,10 @@
     "settings": "Settings",
     "language": {
       "language": "Language",
+      "save": "Save",
       "english": "English",
       "vietnamese": "Vietnamese"
-    },
-    "english": "English",
-    "vietnamese": "Vietnamese"
+    }
   },
   "application": {
     "loading": "Loading..."

@@ -1,4 +1,4 @@
-import {SignUpBodyRequestType} from '@constants/types/signUp';
+import {SignUpBodyRequestType} from '@constants/types/authentication';
 
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const signUpRequest = (body: SignUpBodyRequestType) => ({
@@ -18,8 +18,8 @@ export const signUpFail = (error: any) => ({
   error,
 });
 
-export const UPDATE_LANGUAGE_CODE = 'UPDATE_LANGUAGE_CODE';
+export const UPDATE_LANGUAGE_CODE_SUCCESS = 'UPDATE_LANGUAGE_CODE_SUCCESS';
 export const updateLanguageCode = (payload: string) => ({
-  type: UPDATE_LANGUAGE_CODE,
+  type: UPDATE_LANGUAGE_CODE_SUCCESS,
   payload,
 });

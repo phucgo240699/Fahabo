@@ -8,11 +8,13 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 
 interface Props {
   title?: string;
+  rightComponent?: any;
   backgroundColor?: string;
 }
 
 const ProfileHeader: React.FC<Props> = ({
   title,
+  rightComponent = <EmptyView />,
   backgroundColor = 'transparent',
 }) => {
   const navigation = useNavigation();
@@ -32,7 +34,7 @@ const ProfileHeader: React.FC<Props> = ({
           onPress={onPressBack}
         />
         <Title>{title}</Title>
-        <EmptyView />
+        {rightComponent}
       </Content>
       <BottomLine />
     </Container>

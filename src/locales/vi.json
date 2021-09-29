@@ -66,11 +66,10 @@
     "settings": "Cài đặt",
     "language": {
       "language": "Ngôn ngữ",
+      "save": "Lưu",
       "english": "Tiếng Anh",
       "vietnamese": "Tiếng Việt"
-    },
-    "english": "Tiếng Anh",
-    "vietnamese": "Tiếng Việt"
+    }
   },
   "application": {
     "loading": "Đăng tải..."

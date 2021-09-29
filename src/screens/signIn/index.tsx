@@ -12,13 +12,7 @@ import {
   signOutWithGoogle,
   signInWithFacebook,
 } from '@services/socialAuth';
-import {
-  Keyboard,
-  Platform,
-  StyleSheet,
-  Alert,
-  NativeModules,
-} from 'react-native';
+import {Keyboard, Platform, StyleSheet, Alert} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import {ScreenName, StackName} from '@constants/Constants';
@@ -31,17 +25,13 @@ import {
   orSeparator,
 } from '@constants/sources/index';
 import {useDispatch, useSelector} from 'react-redux';
-import {showToastAction} from '@store/actionTypes/session';
-import {ToastType} from '@constants/types/session';
 import {getToastsSelector} from '@store/selectors/session';
-import {signInRequest} from '@store/actionTypes/signIn';
-import {languageCodeSelector} from '@store/selectors/authentication';
+// import {signInRequest} from '@store/actionTypes/signIn';
 
 interface Props {}
 
 const SignInScreen: React.FC<Props> = () => {
-  const dispatch = useDispatch();
-  const languageCode = useSelector(languageCodeSelector);
+  // const dispatch = useDispatch();
   const toasts = useSelector(getToastsSelector);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -72,17 +62,8 @@ const SignInScreen: React.FC<Props> = () => {
 
   // Sign in
   const onSignIn = () => {
-    // navigateReset(StackName.MainStack);
-    // dispatch(signInRequest({user: email, password: password}));
-    const deviceLanguage =
-      Platform.OS === 'ios'
-        ? NativeModules.SettingsManager.settings.AppleLocale ||
-          NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
-        : NativeModules.I18nManager.localeIdentifier;
-
-    console.log(deviceLanguage); //en_US
-    console.log(languageCode);
-    console.log(i18n.currentLocale());
+    navigateReset(StackName.MainStack);
+    // dispatch(signInRequest({username: email, password: password}));
   };
 
   // Sign in with Apple

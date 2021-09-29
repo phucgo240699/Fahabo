@@ -13,3 +13,18 @@ export const getLanguageName = (languageCode: string) => {
       return i18n.t('settings.language.english');
   }
 };
+
+//check data null
+export const isNull = (data: any) => {
+  if (data === undefined || data == null || data.length === 0) {
+    return true;
+  } else if (typeof data === 'string') {
+    data = String(data).trim();
+    return data === '';
+  } else if (typeof data === 'object' && data.constructor === Object) {
+    if (Object.keys(data).length === 0) {
+      return true;
+    }
+  }
+  return false;
+};

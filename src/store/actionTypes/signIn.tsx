@@ -1,4 +1,4 @@
-import {SignInBodyRequestType} from '@constants/types/signIn';
+import {SignInBodyRequestType} from '@constants/types/authentication';
 
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
 export const signInRequest = (body: SignInBodyRequestType) => ({

@@ -30,7 +30,7 @@ const SettingsScreen: React.FC<Props> = ({}) => {
       <Box m={4} borderRadius={8} bgColor={colors.WHITE} shadow={4}>
         <ItemContainer onPress={onNavigateToLanguage}>
           <PrimaryIcon source={languageIcon} />
-          <ItemName>{i18n.t('settings.language')}</ItemName>
+          <ItemName>{i18n.t('settings.language.language')}</ItemName>
           <PrimaryIcon
             width={16}
             height={16}
