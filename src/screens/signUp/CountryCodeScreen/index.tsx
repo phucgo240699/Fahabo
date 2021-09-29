@@ -6,6 +6,8 @@ import styled from 'styled-components/native';
 import PrimarySearchBar from '@components/PrimarySearchBar';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
+import {navigate} from '@navigators/index';
+import {ScreenName} from '@constants/Constants';
 
 interface Props {
   route?: any;
@@ -153,7 +155,10 @@ const CountryCodeScreen: React.FC<Props> = ({route}) => {
 
   const renderItem = ({item}: {item: any}) => {
     return (
-      <ItemContainer>
+      <ItemContainer
+        onPress={() => {
+          onPressBack(item.countryCode);
+        }}>
         <ItemText>{item.countryName}</ItemText>
         <ItemText>{`+${item.countryCode}`}</ItemText>
       </ItemContainer>
@@ -166,6 +171,10 @@ const CountryCodeScreen: React.FC<Props> = ({route}) => {
         return value.countryName.toLowerCase().includes(text.toLowerCase());
       }),
     );
+  };
+
+  const onPressBack = (countryCode: string) => {
+    navigate(ScreenName.SignUpScreen, {countryCode});
   };
 
   return (
@@ -209,6 +218,8 @@ const List = styled.FlatList`
 `;
 
 const ItemContainer = styled.TouchableOpacity`
+  padding-top: 15px;
+  padding-bottom: 15px;
   flex-direction: row;
   justify-content: space-between;
 `;
@@ -217,8 +228,6 @@ const ItemText = styled(fonts.PrimaryFontBoldSize14)``;
 
 const HLine = styled.View`
   height: 1px;
-  margin-top: 15px;
-  margin-bottom: 15px;
   background-color: ${colors.SILVER};
 `;
 

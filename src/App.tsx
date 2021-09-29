@@ -20,6 +20,7 @@ import {Provider, useSelector} from 'react-redux';
 import {getSessionLoading} from '@store/selectors/session';
 import {NavigationContainer} from '@react-navigation/native';
 import {PersistGate} from 'redux-persist/integration/react';
+import ToastSection from '@components/ToastSection';
 
 const RootComponent = () => {
   const loading = useSelector(getSessionLoading);
@@ -29,6 +30,7 @@ const RootComponent = () => {
       <NativeBaseProvider theme={theme}>
         <AppStack authState={AuthState.UNAUTHORIZED} />
         <HUD loading={loading} />
+        <ToastSection />
       </NativeBaseProvider>
     </NavigationContainer>
   );

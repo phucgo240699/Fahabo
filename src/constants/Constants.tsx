@@ -1,7 +1,8 @@
+import i18n from '@locales/index';
 import {Dimensions} from 'react-native';
 import {Config} from 'react-native-config';
 
-export const BASE_URL = Config.BASE_URL;
+export const BASE_URL = 'http://167.99.67.30:8080';
 export const GOOGLE_AUTH_WEB_CLIENT_ID = Config.GOOGLE_AUTH_WEB_CLIENT_ID;
 
 const {width, height} = Dimensions.get('window');
@@ -49,3 +50,8 @@ export const Constants = {
   MAX_WIDTH: width,
   MAX_HEIGHT: height,
 };
+
+export const languages: {key: string; value: string}[] = [
+  {key: 'en', value: i18n.t('settings.language.english')},
+  {key: 'vi', value: i18n.t('settings.language.vietnamese')},
+];

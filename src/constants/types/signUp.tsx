@@ -4,4 +4,5 @@ export type SignUpBodyRequestType = {
   name: string;
   phoneNumber?: string;
   birthday?: string;
+  languageCode?: string;
 };

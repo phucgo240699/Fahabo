@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, Heading, VStack, Input, Link, Button, HStack} from 'native-base';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
@@ -12,7 +12,13 @@ import {
   signOutWithGoogle,
   signInWithFacebook,
 } from '@services/socialAuth';
-import {Keyboard, Platform, StyleSheet, Alert} from 'react-native';
+import {
+  Keyboard,
+  Platform,
+  StyleSheet,
+  Alert,
+  NativeModules,
+} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import {ScreenName, StackName} from '@constants/Constants';
@@ -24,27 +30,39 @@ import {
   googleIcon,
   orSeparator,
 } from '@constants/sources/index';
+import {useDispatch, useSelector} from 'react-redux';
+import {showToastAction} from '@store/actionTypes/session';
+import {ToastType} from '@constants/types/session';
+import {getToastsSelector} from '@store/selectors/session';
+import {signInRequest} from '@store/actionTypes/signIn';
+import {languageCodeSelector} from '@store/selectors/authentication';
 
 interface Props {}
 
 const SignInScreen: React.FC<Props> = () => {
-  //
+  const dispatch = useDispatch();
+  const languageCode = useSelector(languageCodeSelector);
+  const toasts = useSelector(getToastsSelector);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
   // Life cycle
-  //
   useEffect(() => {
     configGoogleSignIn();
   }, []);
 
-  //
   // Keyboard
-  //
   const onKeyboardDismiss = () => {
     Keyboard.dismiss();
   };
+  const onChangeEmail = (text: string) => {
+    setEmail(text);
+  };
+  const onChangePassword = (text: string) => {
+    setPassword(text);
+  };
 
-  //
   // Navigate
-  //
   const navigateToSignUp = () => {
     navigate(ScreenName.SignUpScreen);
   };
@@ -52,16 +70,22 @@ const SignInScreen: React.FC<Props> = () => {
     navigate(ScreenName.ForgotPasswordScreen);
   };
 
-  //
   // Sign in
-  //
   const onSignIn = () => {
-    navigateReset(StackName.MainStack);
+    // navigateReset(StackName.MainStack);
+    // dispatch(signInRequest({user: email, password: password}));
+    const deviceLanguage =
+      Platform.OS === 'ios'
+        ? NativeModules.SettingsManager.settings.AppleLocale ||
+          NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
+        : NativeModules.I18nManager.localeIdentifier;
+
+    console.log(deviceLanguage); //en_US
+    console.log(languageCode);
+    console.log(i18n.currentLocale());
   };
 
-  //
   // Sign in with Apple
-  //
   const onSignInWithApple = () => {
     signInWithApple()
       .then(onSignInWithAppleSuccess)
@@ -77,9 +101,7 @@ const SignInScreen: React.FC<Props> = () => {
     Alert.alert('Error', `Fail: ${error}`);
   };
 
-  //
   // Sign in with Google
-  //
   const onSignInWithGoogle = () => {
     signInWithGoogle()
       .then(onSignInWithGoogleSuccess)
@@ -99,9 +121,7 @@ const SignInScreen: React.FC<Props> = () => {
     await signOutWithGoogle();
   };
 
-  //
   // Sign in with Facebook
-  //
   const onSignInWithFacebook = () => {
     signInWithFacebook()
       .then(onSignInWithFacebookSuccess)
@@ -146,6 +166,8 @@ const SignInScreen: React.FC<Props> = () => {
             <Input
               color={Colors.BLACK}
               borderColor={Colors.SILVER}
+              keyboardType="email-address"
+              onChangeText={onChangeEmail}
               placeholderTextColor={Colors.SILVER}
               placeholder={i18n.t('authentication.signIn.accountPlaceHolder')}
             />
@@ -154,6 +176,7 @@ const SignInScreen: React.FC<Props> = () => {
               type="password"
               color={Colors.BLACK}
               borderColor={Colors.SILVER}
+              onChangeText={onChangePassword}
               placeholderTextColor={Colors.SILVER}
               placeholder={i18n.t('authentication.signIn.password')}
             />

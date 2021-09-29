@@ -10,25 +10,33 @@ import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
 import {ToastType} from '@constants/types/session';
 import {call, put, takeLatest} from 'typed-redux-saga';
-import {addToastAction, updateSessionAction} from '@store/actionTypes/session';
+import {
+  closeHUDAction,
+  showHUDAction,
+  showToastAction,
+} from '@store/actionTypes/session';
 
 function* onSignUpRequest(action: AnyAction) {
   try {
+    yield* put(showHUDAction());
     const response = yield* call(signUp, action.body);
+
     if (response.status === 200) {
-      put(
+      yield* put(
         signUpSuccess({
           ...response.data,
           accessToken: response.headers.accessToken,
         }),
       );
     } else {
-      put(addToastAction(response.data.message[0], ToastType.ERROR));
+      yield* put(showToastAction(response.data.message[0], ToastType.ERROR));
     }
   } catch (error) {
-    put(addToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
   } finally {
-    put(updateSessionAction({loading: false}));
+    yield* put(closeHUDAction());
   }
 }
 

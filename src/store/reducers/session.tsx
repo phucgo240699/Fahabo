@@ -1,16 +1,25 @@
 import {AnyAction} from 'redux';
-import {UPDATE_SESSION} from '@store/actionTypes/session';
+import {ToastType} from '@constants/types/session';
+import {
+  CLOSE_HUD,
+  CLOSE_TOAST,
+  SHOW_HUD,
+  SHOW_TOAST,
+} from '@store/actionTypes/session';
 
 export type ToastState = {
-  toastMessage?: string;
+  isShowed: boolean;
+  message: string;
+  type: ToastType;
 };
 
 export type SessionState = {
   loading?: boolean;
-  toast?: {[key: number]: ToastState};
+  toasts: {id: number; toast: ToastState}[];
 };
 
 const defaultState: SessionState = {
+  toasts: [],
   loading: false,
 };
 
@@ -19,12 +28,38 @@ export default function sessionReducer(
   action: AnyAction,
 ) {
   switch (action.type) {
-    case UPDATE_SESSION:
+    case SHOW_HUD:
       return {
         ...state,
-        ...action.session,
+        loading: true,
       };
-
+    case CLOSE_HUD:
+      return {
+        ...state,
+        loading: false,
+      };
+    case SHOW_TOAST:
+      return {
+        ...state,
+        toasts: [
+          ...state.toasts,
+          {
+            id: state.toasts.length,
+            toast: {
+              isShowed: true,
+              message: action.toastMessage,
+              type: action.toastType,
+            },
+          },
+        ],
+      };
+    case CLOSE_TOAST:
+      return {
+        ...state,
+        toasts: state.toasts.filter(toast => {
+          return toast.id !== action.toastId;
+        }),
+      };
     default:
       return state;
   }

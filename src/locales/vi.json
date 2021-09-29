@@ -22,7 +22,8 @@
       "name": "Tên",
       "password": "Mật khẩu",
       "confirmPassword": "Xác nhận lại mật khẩu",
-      "accountPlaceHolder": "Email"
+      "accountPlaceHolder": "Email",
+      "language": "Language"
     },
     "pinCode": {
       "pinCode": "Mã PIN",
@@ -63,7 +64,11 @@
   },
   "settings": {
     "settings": "Cài đặt",
-    "language": "Ngôn ngữ",
+    "language": {
+      "language": "Ngôn ngữ",
+      "english": "Tiếng Anh",
+      "vietnamese": "Tiếng Việt"
+    },
     "english": "Tiếng Anh",
     "vietnamese": "Tiếng Việt"
   },

@@ -17,3 +17,9 @@ export const signUpFail = (error: any) => ({
   type: SIGN_UP_FAIL,
   error,
 });
+
+export const UPDATE_LANGUAGE_CODE = 'UPDATE_LANGUAGE_CODE';
+export const updateLanguageCode = (payload: string) => ({
+  type: UPDATE_LANGUAGE_CODE,
+  payload,
+});

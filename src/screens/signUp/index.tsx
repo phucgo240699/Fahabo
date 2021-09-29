@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -8,7 +8,15 @@ import {ScreenName} from '@constants/Constants';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
-import {Heading, VStack, Input, Button, HStack, FormControl} from 'native-base';
+import {
+  Heading,
+  VStack,
+  Input,
+  Button,
+  HStack,
+  FormControl,
+  Box,
+} from 'native-base';
 import {KeyboardAwareScrollView} from '@codler/react-native-keyboard-aware-scroll-view';
 import {
   appleIcon,
@@ -17,18 +25,56 @@ import {
   orSeparator,
 } from '@constants/sources/index';
 import ComboboxButton from '@components/ComboboxButton';
+import colors from '@themes/colors';
+import {useSelector} from 'react-redux';
+import {languageCodeSelector} from '@store/selectors/authentication';
+import {getLanguageName} from '@utils/index';
 
-interface Props {}
+interface Props {
+  route?: any;
+}
 
-const SignUpScreen: React.FC<Props> = () => {
-  const [countryCode, setCountryCode] = useState('--');
+const SignUpScreen: React.FC<Props> = ({route}) => {
+  const languageCode = useSelector(languageCodeSelector);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [countryCode, setCountryCode] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  useEffect(() => {
+    if (route && route.params && route.params.countryCode) {
+      setCountryCode(route.params.countryCode);
+    }
+  }, [route, route.params]);
 
   const onSignUp = () => {
     navigate(ScreenName.PinCodeScreen, {address: 'phucgo240699@gmail.com'});
   };
 
-  const navigateToCountryCode = () => {
+  const onChangeEmail = (text: string) => {
+    setEmail(text);
+  };
+  const onChangeName = (text: string) => {
+    setName(text);
+  };
+  const onChangePassword = (text: string) => {
+    setPassword(text);
+  };
+  const onChangeConfirmPassword = (text: string) => {
+    setConfirmPassword(text);
+  };
+  const onChangePhoneNumber = (text: string) => {
+    setPhoneNumber(text);
+  };
+
+  const onPressCountryCode = () => {
     navigate(ScreenName.CountryCodeScreen);
+  };
+
+  const onPressLanguageCode = () => {
+    navigate(ScreenName.LanguageScreen);
   };
 
   const onPressBackground = () => {
@@ -71,31 +117,7 @@ const SignUpScreen: React.FC<Props> = () => {
                 color={Colors.BLACK}
                 borderColor={Colors.SILVER}
                 keyboardType={'email-address'}
-              />
-            </FormControl>
-
-            <FormControl mt={3}>
-              <FormControl.Label
-                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
-                {i18n.t('authentication.signUp.chooseRegion')}
-              </FormControl.Label>
-              <ComboboxButton
-                marginTop={-3}
-                value={countryCode}
-                onPress={navigateToCountryCode}
-              />
-            </FormControl>
-
-            <FormControl mt={3}>
-              <FormControl.Label
-                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
-                {i18n.t('authentication.signUp.phoneNumber')}
-              </FormControl.Label>
-              <Input
-                mt={-1}
-                color={Colors.BLACK}
-                borderColor={Colors.SILVER}
-                keyboardType={'number-pad'}
+                onChangeText={onChangeEmail}
               />
             </FormControl>
 
@@ -104,7 +126,12 @@ const SignUpScreen: React.FC<Props> = () => {
                 _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t('authentication.signUp.name')} *`}
               </FormControl.Label>
-              <Input mt={-1} color={Colors.BLACK} borderColor={Colors.SILVER} />
+              <Input
+                mt={-1}
+                color={Colors.BLACK}
+                borderColor={Colors.SILVER}
+                onChangeText={onChangeName}
+              />
             </FormControl>
 
             <FormControl mt={3}>
@@ -117,6 +144,7 @@ const SignUpScreen: React.FC<Props> = () => {
                 type="password"
                 color={Colors.BLACK}
                 borderColor={Colors.SILVER}
+                onChangeText={onChangePassword}
               />
             </FormControl>
 
@@ -130,6 +158,49 @@ const SignUpScreen: React.FC<Props> = () => {
                 type="password"
                 color={Colors.BLACK}
                 borderColor={Colors.SILVER}
+                onChangeText={onChangeConfirmPassword}
+              />
+            </FormControl>
+
+            <Box mt={3}>
+              <FormControl.Label
+                _text={{
+                  color: Colors.BLACK,
+                  fontSize: 'sm',
+                  fontWeight: 500,
+                }}>
+                {i18n.t('authentication.signUp.phoneNumber')}
+              </FormControl.Label>
+              <FormControl flexDirection={'row'}>
+                <Button
+                  width={20}
+                  variant="outline"
+                  borderColor={colors.SILVER}
+                  _text={{color: Colors.GRAY}}
+                  onPress={onPressCountryCode}>
+                  {countryCode === '' ? '--' : countryCode}
+                </Button>
+                <Input
+                  ml={4}
+                  flex={1}
+                  color={Colors.BLACK}
+                  borderColor={Colors.SILVER}
+                  keyboardType={'number-pad'}
+                  onChangeText={onChangePhoneNumber}
+                />
+              </FormControl>
+            </Box>
+
+            <FormControl mt={3}>
+              <FormControl.Label
+                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
+                {i18n.t('authentication.signUp.language')}
+              </FormControl.Label>
+              <ComboboxButton
+                marginTop={-3}
+                value={getLanguageName(languageCode)}
+                textColor={colors.GRAY}
+                onPress={onPressLanguageCode}
               />
             </FormControl>
 

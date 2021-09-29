@@ -1,11 +1,15 @@
 import {SessionState} from '@store/reducers/session';
 import {ToastType} from '@constants/types/session';
 
-// Redux
-export const UPDATE_SESSION = 'UPDATE_SESSION';
-export const updateSessionAction = (session: SessionState) => ({
-  type: UPDATE_SESSION,
-  session,
+// HUD
+export const SHOW_HUD = 'SHOW_HUD';
+export const showHUDAction = () => ({
+  type: SHOW_HUD,
+});
+
+export const CLOSE_HUD = 'CLOSE_HUD';
+export const closeHUDAction = () => ({
+  type: CLOSE_HUD,
 });
 
 export const CLEAR_SESSION = 'CLEAR_SESSION';
@@ -14,9 +18,18 @@ export const clearSessionAction = () => ({
 });
 
 // Toast
-export const ADD_TOAST = 'ADD_TOAST';
-export const addToastAction = (toastMessage: string, type?: ToastType) => ({
-  type: ADD_TOAST,
+export const SHOW_TOAST = 'SHOW_TOAST';
+export const showToastAction = (
+  toastMessage: string,
+  toastType: ToastType,
+) => ({
+  type: SHOW_TOAST,
   toastMessage,
-  toastType: type ?? ToastType.ERROR,
+  toastType: toastType,
+});
+
+export const CLOSE_TOAST = 'CLOSE_TOAST';
+export const closeToastAction = (toastId: number) => ({
+  type: CLOSE_TOAST,
+  toastId,
 });

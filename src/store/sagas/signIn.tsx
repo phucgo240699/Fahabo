@@ -11,25 +11,33 @@ import {takeLatest} from 'redux-saga/effects';
 import {StackName} from '@constants/Constants';
 import {navigateReset} from '@navigators/index';
 import {ToastType} from '@constants/types/session';
-import {addToastAction, updateSessionAction} from '@store/actionTypes/session';
+import {
+  closeHUDAction,
+  showHUDAction,
+  showToastAction,
+} from '@store/actionTypes/session';
 
 function* onSignInRequest(action: AnyAction) {
   try {
+    yield* put(showHUDAction());
     const response = yield* call(signIn, action.body);
+
     if (response.status === 200) {
-      put(
+      yield* put(
         signInSuccess({
           ...response.data,
           accessToken: response.headers.accessToken,
         }),
       );
     } else {
-      put(addToastAction(response.data.message[0], ToastType.ERROR));
+      yield* put(showToastAction(response.data.message[0], ToastType.ERROR));
     }
   } catch (error) {
-    put(addToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
   } finally {
-    put(updateSessionAction({loading: false}));
+    yield* put(closeHUDAction());
   }
 }
 

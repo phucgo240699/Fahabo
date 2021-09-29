@@ -5,6 +5,7 @@ import {ScreenName} from '@constants/Constants';
 import SignInScreen from '@screens/signIn';
 import SignUpScreen from '@screens/signUp';
 import PinCodeScreen from '@screens/signUp/PinCodeScreen';
+import LanguageScreen from '@screens/settings/LanguageScreen';
 import CountryCodeScreen from '@screens/signUp/CountryCodeScreen';
 import NewPasswordScreen from '@screens/signIn/NewPasswordScreen';
 import ForgotPasswordScreen from '@screens/signIn/ForgotPasswordScreen';
@@ -17,6 +18,10 @@ const AuthenticationStack = () => {
       <Stack.Screen name={ScreenName.SignInScreen} component={SignInScreen} />
       <Stack.Screen name={ScreenName.SignUpScreen} component={SignUpScreen} />
       <Stack.Screen name={ScreenName.PinCodeScreen} component={PinCodeScreen} />
+      <Stack.Screen
+        name={ScreenName.LanguageScreen}
+        component={LanguageScreen}
+      />
       <Stack.Screen
         name={ScreenName.CountryCodeScreen}
         component={CountryCodeScreen}

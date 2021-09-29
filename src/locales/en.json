@@ -22,7 +22,8 @@
       "name": "Name",
       "password": "Password",
       "confirmPassword": "Confirm password",
-      "accountPlaceHolder": "Email"
+      "accountPlaceHolder": "Email",
+      "language": "Language"
     },
     "pinCode": {
       "pinCode": "PIN code",
@@ -63,7 +64,11 @@
   },
   "settings": {
     "settings": "Settings",
-    "language": "Language",
+    "language": {
+      "language": "Language",
+      "english": "English",
+      "vietnamese": "Vietnamese"
+    },
     "english": "English",
     "vietnamese": "Vietnamese"
   },

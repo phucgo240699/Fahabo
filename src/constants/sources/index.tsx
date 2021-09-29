@@ -1,3 +1,6 @@
+// Toast
+export const closeIcon = require('@assets/images/close_icon.png');
+
 // Auth&Profile Header
 export const leftArrowIcon = require('@assets/images/left_arrow_icon.png');
 

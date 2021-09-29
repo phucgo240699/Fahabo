@@ -1,13 +1,7 @@
 import React from 'react';
-import {ActivityIndicator} from 'react-native';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {Constants} from '@constants/Constants';
-
-const LoadingImage = styled.Image`
-  width: ${Constants.MAX_WIDTH * 0.3}px;
-  height: ${Constants.MAX_WIDTH * 0.3}px;
-`;
+import {ActivityIndicator} from 'react-native';
 
 const HUD = ({loading}: {loading: boolean}) => {
   if (!loading) {
@@ -15,7 +9,11 @@ const HUD = ({loading}: {loading: boolean}) => {
   }
   return (
     <DimmedOverlay>
-      <LoadingImage source={require('@assets/animations/loading.gif')} />
+      <ActivityIndicator
+        animating={loading}
+        color={colors.WHITE}
+        size="large"
+      />
     </DimmedOverlay>
   );
 };

@@ -2,28 +2,47 @@ import React, {useState} from 'react';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {navigateReset} from '@navigators/index';
-import {Radio, Box, Button, FormControl, Input} from 'native-base';
-import {ImageBackground, StyleSheet} from 'react-native';
-import {Constants, StackName} from '@constants/Constants';
+import {Box, FlatList} from 'native-base';
+import {StyleSheet} from 'react-native';
+import {languages} from '@constants/Constants';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {tickIcon} from '@constants/sources/index';
-import PrimaryButton from '@components/PrimaryButton';
 import i18n from '@locales/index';
 import ProfileHeader from '@components/ProfileHeader';
 import PrimaryIcon from '@components/PrimaryIcon';
+import {useDispatch, useSelector} from 'react-redux';
+import {languageCodeSelector} from '@store/selectors/authentication';
+import {updateLanguageCode} from '@store/actionTypes/signUp';
+import {CommonActions, useNavigation} from '@react-navigation/native';
+import {getLanguageName} from '@utils/index';
 
 interface Props {}
 
 const LanguageScreen: React.FC<Props> = ({}) => {
-  const [index, setIndex] = useState(0);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const languageCode = useSelector(languageCodeSelector);
 
-  const onPressEnglish = () => {
-    setIndex(0);
+  const onChooseLanguage = (newLanguageCode: string) => {
+    dispatch(updateLanguageCode(newLanguageCode));
+    navigation.dispatch(CommonActions.goBack());
   };
 
-  const onPressVietnamese = () => {
-    setIndex(1);
+  const renderItem = ({item}: {item: any}) => {
+    return (
+      <ItemContainer onPress={() => onChooseLanguage(item.key)}>
+        <ItemName>{getLanguageName(item.key)}</ItemName>
+        {languageCode === item.key && (
+          <PrimaryIcon
+            source={tickIcon}
+            style={styles.tick}
+            width={20}
+            height={20}
+            tintColor={colors.DANUBE}
+          />
+        )}
+      </ItemContainer>
+    );
   };
 
   return (
@@ -33,35 +52,16 @@ const LanguageScreen: React.FC<Props> = ({}) => {
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
       />
-      <ProfileHeader title={i18n.t('settings.language')} />
-      <Box m={4} borderRadius={8} bgColor={colors.WHITE} shadow={4}>
-        <ItemContainer onPress={onPressEnglish}>
-          <ItemName>{i18n.t('settings.english')}</ItemName>
-          {index === 0 && (
-            <PrimaryIcon
-              source={tickIcon}
-              style={styles.tick}
-              width={20}
-              height={20}
-              tintColor={colors.DANUBE}
-            />
-          )}
-        </ItemContainer>
-
-        <HLine />
-
-        <ItemContainer onPress={onPressVietnamese}>
-          <ItemName>{i18n.t('settings.vietnamese')}</ItemName>
-          {index === 1 && (
-            <PrimaryIcon
-              source={tickIcon}
-              style={styles.tick}
-              width={20}
-              height={20}
-              tintColor={colors.DANUBE}
-            />
-          )}
-        </ItemContainer>
+      <ProfileHeader title={i18n.t('settings.language.language')} />
+      <Box m={4} shadow={6} borderRadius={8} bgColor={colors.WHITE}>
+        <FlatList
+          data={languages}
+          renderItem={renderItem}
+          ItemSeparatorComponent={() => <HLine />}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
+        />
       </Box>
     </Box>
   );
