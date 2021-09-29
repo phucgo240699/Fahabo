@@ -24,6 +24,7 @@ export enum StackName {
 }
 
 export enum ScreenName {
+  FlashScreen = 'FlashScreen',
   CameraScreen = 'CameraScreen',
   MediaPickerScreen = 'MediaPickerScreen',
   SignInScreen = 'SignInScreen',

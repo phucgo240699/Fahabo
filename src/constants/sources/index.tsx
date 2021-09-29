@@ -1,3 +1,5 @@
+export const appIcon = require('@assets/images/app_icon.png');
+
 // Toast
 export const closeIcon = require('@assets/images/close_icon.png');
 
