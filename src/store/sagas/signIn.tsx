@@ -21,16 +21,17 @@ function* onSignInRequest(action: AnyAction) {
   try {
     yield* put(showHUDAction());
     const response = yield* call(signIn, action.body);
-
+    console.log({response});
     if (response.status === 200) {
       yield* put(
         signInSuccess({
           ...response.data,
           accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
         }),
       );
     } else {
-      yield* put(showToastAction(response.data.message[0], ToastType.ERROR));
+      yield* put(showToastAction(response.data.errors[0], ToastType.ERROR));
     }
   } catch (error) {
     yield* put(

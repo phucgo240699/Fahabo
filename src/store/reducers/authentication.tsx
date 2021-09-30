@@ -9,11 +9,13 @@ import {AuthenticationResponseType} from '@constants/types/authentication';
 export type AuthenticationState = {
   user?: AuthenticationResponseType;
   accessToken?: string;
+  refreshToken?: string;
 };
 
 const defaultState: AuthenticationState = {
   user: undefined,
   accessToken: undefined,
+  refreshToken: undefined
 };
 
 export default function authenticationReducer(

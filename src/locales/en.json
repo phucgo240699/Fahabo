@@ -85,10 +85,11 @@
     "emptyGallery": "Empty Gallery"
   },
   "successMessage": {
-    "signUpSuccess": "Sign up successfully"
+    "signUpComplete": "Sign up completely"
   },
   "errorMessage": {
-    "general": "Something went wrong, please try again."
+    "general": "Something went wrong, please try again",
+    "passwordMatch": "Confirm password not match"
   },
   "backend": {
     "authentication": {

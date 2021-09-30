@@ -712,7 +712,7 @@ SPEC CHECKSUMS:
   react-native-config: 72d948053a442779b3178fddd571e37f118ef606
   react-native-fbsdk-next: 5a8e6915d7e4191dcb2c9843ea9771e3a29def9c
   react-native-pager-view: 5ab4d0b4b44d89f77310cb3eb8129745f274ce55
-  react-native-restart: d4ea7637e193da7558d229b3704d500ec0d75f9c
+  react-native-restart: 733a51ad137f15b0f8dc34c4082e55af7da00979
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-perflogger: fd28ee1f2b5b150b00043f0301d96bd417fdc339

@@ -17,8 +17,9 @@ const shades = {
   THEME_COLOR_10: '#332500',
   THEME_OPPOSITE_COLOR_10: '#1A0033',
   RED_1: '#ff0011',
-  YELLOW_1: '#E6CF00',
-  GREEN_1: '#00CC99',
+  RED_2: '#ff4d58',
+  YELLOW_1: '#ffe600',
+  GREEN_1: '#00e6ac',
   DANUBE: '#6988D7',
 };
 

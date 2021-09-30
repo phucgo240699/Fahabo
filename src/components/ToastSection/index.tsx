@@ -61,7 +61,7 @@ const Toast: React.FC<{
             ? colors.GREEN_1
             : type === ToastType.WARNING
             ? colors.YELLOW_1
-            : colors.RED_1,
+            : colors.RED_2,
       }}>
       <Box
         m={3}

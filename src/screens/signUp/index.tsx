@@ -25,12 +25,17 @@ import {
   orSeparator,
 } from '@constants/sources/index';
 import colors from '@themes/colors';
+import {useDispatch} from 'react-redux';
+import {signUpRequest} from '@store/actionTypes/signUp';
+import {showToastAction} from '@store/actionTypes/session';
+import {ToastType} from '@constants/types/session';
 
 interface Props {
   route?: any;
 }
 
 const SignUpScreen: React.FC<Props> = ({route}) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -46,6 +51,13 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
 
   const onSignUp = () => {
     navigate(ScreenName.PinCodeScreen, {address: 'phucgo240699@gmail.com'});
+    // if (password === confirmPassword) {
+    //   dispatch(signUpRequest({email, name, password, phoneNumber}));
+    // } else {
+    //   dispatch(
+    //     showToastAction(i18n.t('errorMessage.passwordMatch'), ToastType.ERROR),
+    //   );
+    // }
   };
 
   const onChangeEmail = (text: string) => {

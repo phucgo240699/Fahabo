@@ -7,16 +7,29 @@ export type AuthenticationResponseType = {
   languageCode?: string;
 };
 
-export type SignInBodyRequestType = {
+export type SignInRequestType = {
   username?: string;
   password?: string;
 };
 
-export type SignUpBodyRequestType = {
+export type SignUpRequestType = {
   email?: string;
   password?: string;
   name?: string;
   phoneNumber?: string;
   birthday?: string;
   languageCode?: string;
+};
+
+export type VerifyEmailRequestType = {
+  otp?: string;
+};
+
+export type RefreshAccessTokenRequestType = {
+  refreshToken?: string;
+};
+
+export type RefreshAccessTokenResponseType = {
+  accessToken?: string;
+  refreshToken?: string;
 };
