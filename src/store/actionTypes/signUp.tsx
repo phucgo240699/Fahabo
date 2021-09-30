@@ -18,6 +18,11 @@ export const signUpFail = (error: any) => ({
   error,
 });
 
+export const GET_OTP_REQUEST = 'GET_OTP_REQUEST';
+export const getOTPRequest = () => ({
+  type: GET_OTP_REQUEST,
+});
+
 export const UPDATE_LANGUAGE_CODE_SUCCESS = 'UPDATE_LANGUAGE_CODE_SUCCESS';
 export const updateLanguageCode = (payload: string) => ({
   type: UPDATE_LANGUAGE_CODE_SUCCESS,

@@ -84,6 +84,9 @@
     "chooseAPhoto": "Choose a photo",
     "emptyGallery": "Empty Gallery"
   },
+  "successMessage": {
+    "signUpSuccess": "Sign up successfully"
+  },
   "errorMessage": {
     "general": "Something went wrong, please try again."
   },

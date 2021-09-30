@@ -26,7 +26,7 @@ function* onSignInRequest(action: AnyAction) {
       yield* put(
         signInSuccess({
           ...response.data,
-          accessToken: response.headers.accessToken,
+          accessToken: response.data.accessToken,
         }),
       );
     } else {

@@ -7,6 +7,11 @@ export type AuthenticationResponseType = {
   languageCode?: string;
 };
 
+export type SignInBodyRequestType = {
+  username?: string;
+  password?: string;
+};
+
 export type SignUpBodyRequestType = {
   email?: string;
   password?: string;
@@ -14,9 +19,4 @@ export type SignUpBodyRequestType = {
   phoneNumber?: string;
   birthday?: string;
   languageCode?: string;
-};
-
-export type SignInBodyRequestType = {
-  username?: string;
-  password?: string;
 };

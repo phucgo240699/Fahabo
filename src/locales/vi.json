@@ -84,6 +84,9 @@
     "chooseAPhoto": "Chọn 1 bức ảnh",
     "emptyGallery": "Thư viện ảnh rỗng"
   },
+  "successMessage": {
+    "signUpSuccess": "Đăng ký thành công"
+  },
   "errorMessage": {
     "general": "Có lỗi trong quá trình thao tác, xin kiểm tra lại"
   },
