@@ -2,17 +2,15 @@ import React, {useEffect} from 'react';
 import {Box} from 'native-base';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {appIcon} from '@constants/sources';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import i18n from '@locales/index';
-import {userSelector} from '@store/selectors/authentication';
-import {navigate} from '@navigators/index';
-import {StackName} from '@constants/Constants';
-import {signIn} from '@services/signIn';
-import {isNull} from '@utils/index';
 import {NativeModules, Platform} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import {autoSignInRequestAction} from '@store/actionTypes/signIn';
+import {userSelector} from '@store/selectors/authentication';
 
 const FlashScreen = () => {
+  const dispatch = useDispatch();
   const user = useSelector(userSelector);
 
   useEffect(() => {
@@ -31,25 +29,13 @@ const FlashScreen = () => {
           : NativeModules.I18nManager.localeIdentifier
       }`.split('_')[0];
 
-      // Auto login & user language
-      if (!isNull(user) && !isNull(user?.email) && !isNull(user?.password)) {
-        signIn({
-          username: user?.email,
+      dispatch(
+        autoSignInRequestAction({
+          username: user?.username,
           password: user?.password,
-        }).then(response => {
-          if (response.status === 200) {
-            if (response.data.languageCode) {
-              i18n.locale = response.data.languageCode;
-              i18n.defaultLocale = response.data.languageCode;
-            }
-            navigate(StackName.MainStack);
-            return;
-          }
-        });
-      }
-
-      navigate(StackName.AuthenticationStack);
-    }, 2000);
+        }),
+      );
+    }, 1000);
   }, []);
 
   return (

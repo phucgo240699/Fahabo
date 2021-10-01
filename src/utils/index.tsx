@@ -14,6 +14,24 @@ export const getLanguageName = (languageCode: string) => {
   }
 };
 
+export const getPhoneNumber = (
+  countryCode: string,
+  countryCodeValue: string,
+  rawNumber: string,
+) => {
+  if (rawNumber.length > 0) {
+    if (countryCode === '+84') {
+      if (rawNumber[0] === countryCodeValue) {
+        return `${countryCodeValue}${rawNumber.slice(1, rawNumber.length)}`;
+      } else {
+        return `${countryCodeValue}${rawNumber}`;
+      }
+    }
+  } else {
+    return rawNumber;
+  }
+};
+
 //check data null
 export const isNull = (data: any) => {
   if (data === undefined || data == null || data.length === 0) {

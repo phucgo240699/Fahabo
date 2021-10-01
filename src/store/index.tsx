@@ -28,11 +28,13 @@ const persistConfig: PersistConfig<
 const sagaMiddleware = createSagaMiddleware();
 let middleware = [];
 
-if (__DEV__) {
-  middleware = [sagaMiddleware, logger];
-} else {
-  middleware = [sagaMiddleware];
-}
+// if (__DEV__) {
+//   middleware = [sagaMiddleware, logger];
+// } else {
+//   middleware = [sagaMiddleware];
+// }
+
+middleware = [sagaMiddleware];
 
 const rootReducer = combineReducers({
   session: sessionReducer,

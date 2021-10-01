@@ -13,8 +13,8 @@ import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 interface Props {
-  navigation?: any;
   route?: any;
+  navigation?: any;
 }
 
 const hiddenRouteNames: string[] = [
@@ -27,7 +27,6 @@ const Stack = createStackNavigator();
 const ProfileStack: React.FC<Props> = ({navigation, route}) => {
   React.useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    console.log({routeName});
     if (hiddenRouteNames.includes(routeName ?? '')) {
       navigation.setOptions({tabBarVisible: false});
     } else {

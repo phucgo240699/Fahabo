@@ -1,28 +1,34 @@
-import {Text} from 'native-base';
+import {Button, Link, Text} from 'native-base';
 import i18n from '@locales/index';
 import Colors from '@themes/colors';
-import React, {useState} from 'react';
-import styled from 'styled-components/native';
-import {Constants} from '@constants/Constants';
-import {Keyboard, StyleSheet} from 'react-native';
-import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import AuthenticationHeader from '@components/AuthenticationHeader';
+import React, {useEffect, useState} from 'react';
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+import styled from 'styled-components/native';
+import {Constants, StackName} from '@constants/Constants';
+import {Keyboard, StyleSheet} from 'react-native';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import AuthenticationHeader from '@components/AuthenticationHeader';
+import {CommonActions, useNavigation} from '@react-navigation/native';
+import {navigateReset} from '@navigators/index';
+import {useDispatch, useSelector} from 'react-redux';
+import {userSelector} from '@store/selectors/authentication';
+import {
+  getOTPRequestAction,
+  verifyUsernameRequestAction,
+} from '@store/actionTypes/signUp';
 
-const CELL_COUNT = 4;
+const CELL_COUNT = 6;
 
-interface Props {
-  route?: any;
-}
-
-const PinCodeScreen: React.FC<Props> = ({route}) => {
-  // const route = useRoute();
+const PinCodeScreen = () => {
+  const dispatch = useDispatch();
   const [value, setValue] = useState('');
+  const username = useSelector(userSelector)?.username;
+
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -31,6 +37,14 @@ const PinCodeScreen: React.FC<Props> = ({route}) => {
 
   const onPressBackground = () => {
     Keyboard.dismiss();
+  };
+
+  const onPressVerify = () => {
+    dispatch(verifyUsernameRequestAction({otp: value, username: username}));
+  };
+
+  const onPressSendBack = () => {
+    dispatch(getOTPRequestAction({username: 'username'}));
   };
 
   return (
@@ -45,7 +59,7 @@ const PinCodeScreen: React.FC<Props> = ({route}) => {
           <AuthenticationHeader
             title={i18n.t('authentication.pinCode.pinCode')}
           />
-          {route && route.params && route.params.address && (
+          {username && (
             <Text
               mt={1}
               fontSize="md"
@@ -53,7 +67,7 @@ const PinCodeScreen: React.FC<Props> = ({route}) => {
               textAlign="center"
               alignSelf="center">
               {`${i18n.t('authentication.pinCode.instruction')}\n ${
-                route.params.address ?? ''
+                username ?? ''
               }`}
             </Text>
           )}
@@ -76,6 +90,24 @@ const PinCodeScreen: React.FC<Props> = ({route}) => {
               </PinCell>
             )}
           />
+          <Button
+            size="lg"
+            mt={8}
+            _text={{color: Colors.WHITE}}
+            onPress={onPressVerify}>
+            {i18n.t('authentication.pinCode.verify')}
+          </Button>
+          <Link
+            p={1}
+            mt={4}
+            _text={{
+              fontSize: 'sm',
+              fontWeight: '700',
+              color: Colors.THEME_COLOR_7,
+            }}
+            onPress={onPressSendBack}>
+            {i18n.t('authentication.pinCode.sendBack')}
+          </Link>
         </Content>
       </Container>
     </SafeView>
@@ -93,16 +125,16 @@ const Container = styled.TouchableWithoutFeedback`
 `;
 const Content = styled.View`
   flex: 1;
+  align-items: center;
 `;
 const PinCell = styled.Text``;
 
 const styles = StyleSheet.create({
   codeFieldRoot: {marginTop: 40, alignSelf: 'center'},
   cell: {
-    width: 64,
-    height: 64,
-    margin: 8,
-    paddingTop: 8,
+    width: 48,
+    height: 48,
+    margin: 4,
     borderRadius: 12,
     fontSize: 32,
     fontWeight: '700',

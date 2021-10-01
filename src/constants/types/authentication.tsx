@@ -1,10 +1,15 @@
 export type AuthenticationResponseType = {
+  id?: number;
+  contactId?: number;
   email?: string;
   password?: string;
   name?: string;
+  username?: string;
   phoneNumber?: string;
   birthday?: string;
   languageCode?: string;
+  isValidEmail?: boolean;
+  isValidPhoneNumber?: boolean;
 };
 
 export type SignInRequestType = {
@@ -21,8 +26,13 @@ export type SignUpRequestType = {
   languageCode?: string;
 };
 
-export type VerifyEmailRequestType = {
+export type GetOTPRequestType = {
+  username?: string;
+};
+
+export type VerifyUsernameRequestType = {
   otp?: string;
+  username?: string;
 };
 
 export type RefreshAccessTokenRequestType = {

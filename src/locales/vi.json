@@ -10,7 +10,8 @@
       "accountPlaceHolder": "Email",
       "forgotPassword": "Quên mật khẩu?",
       "login": "Đăng nhập",
-      "signUpLabel": "Nếu bạn chưa có mật khẩu, hãy"
+      "signUpLabel": "Nếu bạn chưa có mật khẩu, hãy",
+      "signUp": "Đăng ký"
     },
     "signUp": {
       "signUp": "Đăng ký",
@@ -27,7 +28,9 @@
     },
     "pinCode": {
       "pinCode": "Mã PIN",
-      "instruction": "Một mã PIN đã được gửi đến"
+      "instruction": "Một mã PIN đã được gửi đến",
+      "verify": "Xác nhận",
+      "sendBack": "Gửi lại mã PIN"
     },
     "forgotPassword": {
       "forgotPassword": "Quên mật khẩu",
@@ -85,10 +88,15 @@
     "emptyGallery": "Thư viện ảnh rỗng"
   },
   "successMessage": {
-    "signUpComplete": "Đăng ký hoàn tất"
+    "signUpComplete": "Đăng ký hoàn tất",
+    "verifySuccess": "Xác thực email thành công",
+    "gotOTP": "OTP đã được gửi đến"
+  },
+  "warningMessage": {
+    "activeAccount": "Bạn cần kích hoạt tài khoản này"
   },
   "errorMessage": {
-    "general": "Có lỗi trong quá trình thao tác, xin kiểm tra lại",
+    "general": "Có lỗi trong quá trình thao tác.\nXin kiểm tra lại",
     "passwordMatch": "Xác nhận lại mật khẩu chưa trùng khớp"
   },
   "backend": {
@@ -100,7 +108,8 @@
       },
       "signUp": {
         "success": "Đăng ký thành công!",
-        "fail": "Lỗi hệ thống."
+        "fail": "Lỗi hệ thống.",
+        "emailExists": "Email này đã đăng ký tài khoản."
       },
       "pinCode": {
         "availableIn5mins": "Thử lại sau 5 phút.",
@@ -111,6 +120,12 @@
         "accountNotExist": "Tài khoản chưa được đăng ký.",
         "success": "Cập nhật mật khẩu thành công!",
         "fail": "Cập nhật mật khẩu thất bại!"
+      },
+      "verification": {
+        "fail": "Mã không hợp lệ hoặc hết hiệu lực, vui lòng nhận mã mới và thử lại."
+      },
+      "fetchOTP": {
+        "fail": "Vui lòng thử lại sau 5 phút."
       }
     },
     "system": {
@@ -123,8 +138,14 @@
       "emailRequired": "Bắt buộc nhập email.",
       "nameRequired": "Bắt buộc nhập tên.",
       "birthdayRequired": "Bắt buộc nhập ngày sinh.",
-      "languageCodeRequired": "Language code is required.",
-      "confirmPasswordMustMatch": "Confirm password must match."
+      "languageCodeRequired": "Bắt buộc nhập mã ngôn ngữ.",
+      "confirmPasswordMustMatch": "Mật khẩu xác nhận không trùng khớp.",
+      "birthday": "Ngày phải có định dạng dd-mm-yyyy và phải là ngày hợp lệ.",
+      "email": "Bắt buộc nhập email, email phải có định dạng local-part@domain. Ví dụ: johndoe@example.com",
+      "langCode": "Mã ngôn ngữ không hợp lệ. Vui lòng truy cập /api/v1/lang_code để xem mã hợp lệ.",
+      "name": "Bắt buộc nhập tên, tên không được chứa chữ số và kí tự đặc biệt.",
+      "passwordInvalid": "Mật khẩu phải dài ít nhất 8 kí tự, chứ ít nhất 1 kí tự in hoa, 1 chữ số và 1 kí tự đặc biệt.",
+      "usernameInvalid": "Vui lòng nhập email đăng ký tài khoản vào tên đăng nhập."
     }
   }
 }

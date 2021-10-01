@@ -26,12 +26,12 @@ import {
 } from '@constants/sources/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {getToastsSelector} from '@store/selectors/session';
-// import {signInRequest} from '@store/actionTypes/signIn';
+import {signInRequestAction} from '@store/actionTypes/signIn';
+import {showToastAction} from '@store/actionTypes/session';
+import {ToastType} from '@constants/types/session';
 
-interface Props {}
-
-const SignInScreen: React.FC<Props> = () => {
-  // const dispatch = useDispatch();
+const SignInScreen = () => {
+  const dispatch = useDispatch();
   const toasts = useSelector(getToastsSelector);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -62,8 +62,7 @@ const SignInScreen: React.FC<Props> = () => {
 
   // Sign in
   const onSignIn = () => {
-    navigateReset(StackName.MainStack);
-    // dispatch(signInRequest({username: email, password: password}));
+    dispatch(signInRequestAction({username: email, password: password}));
   };
 
   // Sign in with Apple
@@ -76,10 +75,16 @@ const SignInScreen: React.FC<Props> = () => {
     userCredential: FirebaseAuthTypes.UserCredential,
   ) => {
     console.log('Sign in with apple successfully:', userCredential);
-    navigateReset(StackName.MainStack);
+    dispatch(
+      signInRequestAction({
+        username: userCredential.user.email ?? undefined,
+        password: userCredential.user.uid,
+      }),
+    );
   };
   const onSignInWithAppleFail = (error: any) => {
-    Alert.alert('Error', `Fail: ${error}`);
+    console.log('Error', `Fail: ${error}`);
+    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
   };
 
   // Sign in with Google
@@ -93,10 +98,16 @@ const SignInScreen: React.FC<Props> = () => {
     userCredential: FirebaseAuthTypes.UserCredential,
   ) => {
     console.log('Sign in with apple successfully:', userCredential);
-    navigateReset(StackName.MainStack);
+    dispatch(
+      signInRequestAction({
+        username: userCredential.user.email ?? undefined,
+        password: userCredential.user.uid,
+      }),
+    );
   };
   const onSignInWithGoogleFail = (error: any) => {
-    Alert.alert('Error', `Fail: ${error}`);
+    console.log('Error', `Fail: ${error}`);
+    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
   };
   const onSignOutWithGoogle = async () => {
     await signOutWithGoogle();
@@ -112,10 +123,16 @@ const SignInScreen: React.FC<Props> = () => {
     userCredential: FirebaseAuthTypes.UserCredential,
   ) => {
     console.log('Sign in with facebook successfully:', userCredential);
-    navigateReset(StackName.MainStack);
+    dispatch(
+      signInRequestAction({
+        username: userCredential.user.email ?? undefined,
+        password: userCredential.user.uid,
+      }),
+    );
   };
   const onSignInWithFacebookFail = (error: any) => {
-    Alert.alert('Error', `Fail: ${error}`);
+    console.log('Error', `Fail: ${error}`);
+    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
   };
 
   return (
@@ -168,7 +185,7 @@ const SignInScreen: React.FC<Props> = () => {
               _text={{
                 fontSize: 'xs',
                 fontWeight: '700',
-                color: Colors.THEME_COLOR_5,
+                color: Colors.THEME_COLOR_7,
               }}
               onPress={navigateToForgotPassword}>
               {i18n.t('authentication.signIn.forgotPassword')}
@@ -177,7 +194,7 @@ const SignInScreen: React.FC<Props> = () => {
             {/* Button */}
             <Button
               size="lg"
-              mt={5}
+              mt={2}
               _text={{color: Colors.WHITE}}
               onPress={onSignIn}>
               {i18n.t('authentication.signIn.login')}
@@ -211,12 +228,12 @@ const SignInScreen: React.FC<Props> = () => {
               <Link
                 p={1}
                 _text={{
-                  color: Colors.THEME_COLOR_5,
+                  color: Colors.THEME_COLOR_7,
                   bold: true,
                   fontSize: 'sm',
                 }}
                 onPress={navigateToSignUp}>
-                {i18n.t('authentication.signUp.signUp')}
+                {i18n.t('authentication.signIn.signUp')}
               </Link>
             </HStack>
           </VStack>

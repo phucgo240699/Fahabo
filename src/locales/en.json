@@ -10,7 +10,8 @@
       "accountPlaceHolder": "Email",
       "forgotPassword": "Forgot Password?",
       "login": "Login",
-      "signUpLabel": "Don't have an account?"
+      "signUpLabel": "Don't have an account?",
+      "signUp": "Sign up"
     },
     "signUp": {
       "signUp": "Sign up",
@@ -27,7 +28,9 @@
     },
     "pinCode": {
       "pinCode": "PIN code",
-      "instruction": "A PIN code was sent to"
+      "instruction": "A PIN code was sent to",
+      "verify": "Verify",
+      "sendBack": "Send PIN code again"
     },
     "forgotPassword": {
       "forgotPassword": "Forgot password",
@@ -85,10 +88,15 @@
     "emptyGallery": "Empty Gallery"
   },
   "successMessage": {
-    "signUpComplete": "Sign up completely"
+    "signUpComplete": "Sign up completely",
+    "verifySuccess": "Verify email successfully",
+    "gotOTP": "OTP was sent to"
+  },
+  "warningMessage": {
+    "activeAccount": "You need to active this account"
   },
   "errorMessage": {
-    "general": "Something went wrong, please try again",
+    "general": "Something went wrong.\nPlease try again",
     "passwordMatch": "Confirm password not match"
   },
   "backend": {
@@ -100,17 +108,27 @@
       },
       "signUp": {
         "success": "Sign up successfully!",
-        "fail": "System error."
+        "fail": "System error.",
+        "emailExists": "Email already exists."
       },
       "pinCode": {
         "availableIn5mins": "Try again later in 5 mins.",
         "success": "Verify successfully!",
-        "fail": "Invalid or might be expired pin."
+        "fail": "Invalid or expired pin."
       },
       "forgotPassword": {
         "accountNotExist": "Account is not signed up.",
         "success": "Password changed successfully!",
         "fail": "Password can't be changed!"
+      },
+      "refreshToken": {
+        "fail": "Refresh token is invalid or expired."
+      },
+      "verification": {
+        "fail": "Verification is invalid or expired, please get a new one and try again."
+      },
+      "fetchOTP": {
+        "fail": "Try again after 5 minutes."
       }
     },
     "system": {
@@ -124,7 +142,13 @@
       "nameRequired": "Name is required.",
       "birthdayRequired": "Birthday is required.",
       "languageCodeRequired": "Language code is required.",
-      "confirmPasswordMustMatch": "Confirm password must match."
+      "confirmPasswordMustMatch": "Confirm password must match.",
+      "birthday": "Date must have format dd-mm-yyyy and must be a valid date",
+      "email": "Email is required and must have format local-part@domain. Ex: johndoe@example.com",
+      "langCode": "Invalid language code. see /api/v1/lang_code for more information.",
+      "name": "Name is required and contains only alphabetic character.",
+      "passwordInvalid": "Password must be at least 8 characters in length, contains at least one uppercase character, one number and one special character.",
+      "usernameInvalid": "Please input your email as your username."
     }
   }
 }

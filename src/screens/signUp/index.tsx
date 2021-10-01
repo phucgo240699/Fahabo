@@ -26,9 +26,10 @@ import {
 } from '@constants/sources/index';
 import colors from '@themes/colors';
 import {useDispatch} from 'react-redux';
-import {signUpRequest} from '@store/actionTypes/signUp';
+import {signUpRequestAction} from '@store/actionTypes/signUp';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
+import {getPhoneNumber} from '@utils/index';
 
 interface Props {
   route?: any;
@@ -46,18 +47,25 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
   useEffect(() => {
     if (route && route.params && route.params.countryCode) {
       setCountryCode(route.params.countryCode);
+      console.log('country code:', route.params.countryCode);
     }
-  }, [route, route.params]);
+  }, [route]);
 
   const onSignUp = () => {
-    navigate(ScreenName.PinCodeScreen, {address: 'phucgo240699@gmail.com'});
-    // if (password === confirmPassword) {
-    //   dispatch(signUpRequest({email, name, password, phoneNumber}));
-    // } else {
-    //   dispatch(
-    //     showToastAction(i18n.t('errorMessage.passwordMatch'), ToastType.ERROR),
-    //   );
-    // }
+    if (password === confirmPassword) {
+      dispatch(
+        signUpRequestAction({
+          email: email,
+          name: name,
+          password: password,
+          phoneNumber: getPhoneNumber(countryCode, '0', phoneNumber),
+        }),
+      );
+    } else {
+      dispatch(
+        showToastAction(i18n.t('errorMessage.passwordMatch'), ToastType.ERROR),
+      );
+    }
   };
 
   const onChangeEmail = (text: string) => {

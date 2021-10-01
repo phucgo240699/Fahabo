@@ -61,14 +61,23 @@ const Toast: React.FC<{
             ? colors.GREEN_1
             : type === ToastType.WARNING
             ? colors.YELLOW_1
-            : colors.RED_2,
+            : colors.RED_1,
       }}>
       <Box
         m={3}
         flexDirection="row"
         alignItems="center"
         justifyContent="space-between">
-        <Text width={'90%'} color={colors.BLACK} fontWeight={500}>
+        <Text
+          width={'90%'}
+          color={
+            type === ToastType.SUCCESS
+              ? colors.WHITE
+              : type === ToastType.WARNING
+              ? colors.BLACK
+              : colors.WHITE
+          }
+          fontWeight={500}>
           {message}
         </Text>
         <PrimaryButton
@@ -76,7 +85,13 @@ const Toast: React.FC<{
           leftIconWidth={18}
           leftIconHeight={18}
           leftSource={closeIcon}
-          leftTintColor={colors.BLACK}
+          leftTintColor={
+            type === ToastType.SUCCESS
+              ? colors.WHITE
+              : type === ToastType.WARNING
+              ? colors.BLACK
+              : colors.WHITE
+          }
           onPress={onPressClose}
         />
       </Box>
