@@ -42,16 +42,20 @@ const ProfileScreen: React.FC<Props> = () => {
   const onLogOut = () => {
     navigateReset(StackName.AuthenticationStack);
   };
-  const navigateToUpdateProfile = () => {
+
+  const onPressFamilies = () => {
+    navigate(ScreenName.FamiliesScreen);
+  };
+  const onPressProfile = () => {
     navigate(ScreenName.UpdateProfileScreen);
   };
-  const navigateToSettings = () => {
+  const onPressSettings = () => {
     navigate(ScreenName.SettingsScreen);
   };
-  const navigateToChores = () => {
+  const onPressChores = () => {
     navigate(ScreenName.MyChoresScreen);
   };
-  const navigateToEvents = () => {
+  const onPressEvents = () => {
     navigate(ScreenName.MyEventsScreen);
   };
   const openPictureOptions = () => {
@@ -96,21 +100,25 @@ const ProfileScreen: React.FC<Props> = () => {
             </Box>
 
             <ProfileRelationBox
-              onPressChores={navigateToChores}
-              onPressEvents={navigateToEvents}
+              onPressChores={onPressChores}
+              onPressEvents={onPressEvents}
             />
 
             <ProfileSettingsBox
-              onPressSettings={navigateToSettings}
-              onPressUpdateProfile={navigateToUpdateProfile}
+              onPressFamilies={onPressFamilies}
+              onPressSettings={onPressSettings}
+              onPressUpdateProfile={onPressProfile}
             />
+
             <ProfileAlbumBox />
+
             <PrimaryButton
               titleColor={colors.RED_1}
               title={i18n.t('profile.logOut')}
               onPress={onLogOut}
             />
           </Content>
+
           <AvatarContainer activeOpacity={0.7} onPress={openPictureOptions}>
             <Avatar
               size="2xl"
@@ -122,6 +130,7 @@ const ProfileScreen: React.FC<Props> = () => {
             </CameraIconContainer>
           </AvatarContainer>
         </Scroll>
+
         <ActionSheet ref={pictureOptionsRef}>
           <PictureOptionContainer onPress={takePhoto}>
             <PictureOptionText>{i18n.t('popUp.takePhoto')}</PictureOptionText>

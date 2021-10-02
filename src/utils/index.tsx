@@ -1,4 +1,5 @@
 import i18n from '@locales/index';
+import {NativeModules, Platform} from 'react-native';
 
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -11,6 +12,22 @@ export const getLanguageName = (languageCode: string) => {
 
     default:
       return i18n.t('settings.language.english');
+  }
+};
+
+export const getDefaultLanguageCode = () => {
+  const code = `${
+    Platform.OS === 'ios'
+      ? NativeModules.SettingsManager.settings.AppleLocale ||
+        NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
+      : NativeModules.I18nManager.localeIdentifier
+  }`.split('_')[0];
+
+  switch (code) {
+    case 'vi':
+      return code;
+    default:
+      return 'en';
   }
 };
 

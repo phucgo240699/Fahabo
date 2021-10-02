@@ -62,7 +62,9 @@ const SignInScreen = () => {
 
   // Sign in
   const onSignIn = () => {
-    dispatch(signInRequestAction({username: email, password: password}));
+    // dispatch(signInRequestAction({username: email, password: password}));
+    // navigate(ScreenName.FamilyOptionsScreen);
+    navigateReset(StackName.MainStack);
   };
 
   // Sign in with Apple

@@ -12,17 +12,4 @@ i18n.translations = {
   },
 };
 
-// i18n.defaultLocale = `${
-//   Platform.OS === 'ios'
-//     ? NativeModules.SettingsManager.settings.AppleLocale ||
-//       NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
-//     : NativeModules.I18nManager.localeIdentifier
-// }`.split('_')[0];
-// i18n.locale = `${
-//   Platform.OS === 'ios'
-//     ? NativeModules.SettingsManager.settings.AppleLocale ||
-//       NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
-//     : NativeModules.I18nManager.localeIdentifier
-// }`.split('_')[0];
-
 export default i18n;

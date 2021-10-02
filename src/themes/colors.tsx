@@ -4,6 +4,7 @@ const shades = {
   CONCRETE: '#F2F2F2',
   SILVER: '#C0C0C0',
   GRAY: '#8C8C8C',
+  DARK_GRAY: '#595959',
   BLACK: '#000000', // 090014
   THEME_COLOR_1: '#FFF1CC',
   THEME_COLOR_2: '#FFE9B3',
@@ -16,16 +17,19 @@ const shades = {
   THEME_COLOR_9: '#664900',
   THEME_COLOR_10: '#332500',
   THEME_OPPOSITE_COLOR_10: '#1A0033',
+  FLASH_SCREEN: '#FFDE59',
   RED_1: '#ff4000', //ff0011
   YELLOW_1: '#FFE600',
   GREEN_1: '#00b359',
   DANUBE: '#6988D7',
+  ZEST: '#E87E24',
 };
 
 const applied = {
   BACKGROUND: shades.WHITE,
   TABBAR_INACTIVE: shades.WHITE,
   TABBAR_ACTIVE: shades.BLACK,
+  WHITE_ALPHA50: `${shades.WHITE}60`,
   BLACK_ALPHA50: `${shades.BLACK}80`,
 };
 

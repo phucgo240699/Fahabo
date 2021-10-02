@@ -55,8 +55,16 @@ export const defaultAvatar = require('@assets/images/default_avatar.png');
 export const profileBackground = require('@assets/images/profile_background.png');
 
 //
+// Family
+//
+export const plusIcon = require('@assets/images/plus_icon.png');
+
+//
 // Settings
 //
 export const tickIcon = require('@assets/images/tick_icon.png');
+export const familySettingIcon = require('@assets/images/family_setting_icon.png');
+export const editProfileIcon = require('@assets/images/edit_profile_icon.png');
+export const settingsIcon = require('@assets/images/settings_icon.png');
 export const languageIcon = require('@assets/images/language_icon.png');
 export const rightArrowIcon = require('@assets/images/right_arrow_icon.png');

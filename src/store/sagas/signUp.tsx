@@ -19,6 +19,7 @@ import {
   showHUDAction,
   showToastAction,
 } from '@store/actionTypes/session';
+import {parseVerifyResponse} from '@utils/parsers/authentication';
 
 function* onSignUpRequest(action: AnyAction) {
   try {
@@ -85,7 +86,9 @@ function* onVerifyUsernameRequest(action: AnyAction) {
     yield* put(showHUDAction());
     const response = yield* call(verifyEmail, action.body);
     if (response.status === 200) {
-      yield* put(verifyUserSuccessAction(response.data.data));
+      yield* put(
+        verifyUserSuccessAction(parseVerifyResponse(response.data.data)),
+      );
     } else {
       yield* put(
         showToastAction(
@@ -108,9 +111,9 @@ function* onVerifyUsernameSuccess(action: AnyAction) {
 }
 
 export default function* () {
-  yield takeLeading(SIGN_UP_REQUEST, onSignUpRequest);
+  yield takeLatest(SIGN_UP_REQUEST, onSignUpRequest);
   yield takeLatest(SIGN_UP_SUCCESS, onSignUpSuccess);
-  yield takeLeading(GET_OTP_REQUEST, onGetOTPRequest);
-  yield takeLeading(VERIFY_USERNAME_REQUEST, onVerifyUsernameRequest);
+  yield takeLatest(GET_OTP_REQUEST, onGetOTPRequest);
+  yield takeLatest(VERIFY_USERNAME_REQUEST, onVerifyUsernameRequest);
   yield takeLatest(VERIFY_USERNAME_SUCCESS, onVerifyUsernameSuccess);
 }

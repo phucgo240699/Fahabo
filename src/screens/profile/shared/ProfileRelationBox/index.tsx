@@ -54,9 +54,9 @@ const Icon = styled.Image`
   height: 32px;
 `;
 
-const Label = styled(fonts.PrimaryFontRegularSize14)`
+const Label = styled(fonts.PrimaryFontMediumSize14)`
   margin-top: 10px;
-  color: ${colors.GRAY};
+  color: ${colors.DARK_GRAY};
 `;
 
 const VerticalLine = styled.View`

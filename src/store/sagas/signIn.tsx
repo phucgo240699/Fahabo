@@ -96,8 +96,8 @@ function* onAutoSignInSuccess(action: AnyAction) {
 }
 
 export default function* () {
-  yield takeLeading(SIGN_IN_REQUEST, onSignInRequest);
+  yield takeLatest(SIGN_IN_REQUEST, onSignInRequest);
   yield takeLatest(SIGN_IN_SUCCESS, onSignInSuccess);
-  yield takeLeading(AUTO_SIGN_IN_REQUEST, onAutoSignInRequest);
+  yield takeLatest(AUTO_SIGN_IN_REQUEST, onAutoSignInRequest);
   yield takeLatest(AUTO_SIGN_IN_SUCCESS, onAutoSignInSuccess);
 }

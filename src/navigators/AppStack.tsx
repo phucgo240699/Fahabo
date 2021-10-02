@@ -1,11 +1,11 @@
+import MainStack from './MainStack';
 import React, {useEffect} from 'react';
 import {navigationOptions} from './index';
-import AuthenticationStack from './AuthenticationStack';
-import {AuthState, ScreenName, StackName} from '@constants/Constants';
-import {createStackNavigator} from '@react-navigation/stack';
-import MainStack from './MainStack';
-import SplashScreen from 'react-native-splash-screen';
 import FlashScreen from '@screens/flashScreen/index';
+import SplashScreen from 'react-native-splash-screen';
+import AuthenticationStack from './AuthenticationStack';
+import {createStackNavigator} from '@react-navigation/stack';
+import {AuthState, ScreenName, StackName} from '@constants/Constants';
 
 const Stack = createStackNavigator();
 interface Props {

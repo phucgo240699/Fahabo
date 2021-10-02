@@ -9,19 +9,28 @@ import LanguageScreen from '@screens/settings/LanguageScreen';
 import CountryCodeScreen from '@screens/signUp/CountryCodeScreen';
 import NewPasswordScreen from '@screens/signIn/NewPasswordScreen';
 import ForgotPasswordScreen from '@screens/signIn/ForgotPasswordScreen';
+import FamilyOptionsScreen from '@screens/families/FamilyOptionsScreen';
+import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
 
 const Stack = createStackNavigator();
 
 const AuthenticationStack = () => {
   return (
-    <Stack.Navigator screenOptions={navigationOptions}>
+    <Stack.Navigator
+      initialRouteName={ScreenName.SignInScreen}
+      screenOptions={navigationOptions}>
       <Stack.Screen name={ScreenName.SignInScreen} component={SignInScreen} />
       <Stack.Screen name={ScreenName.SignUpScreen} component={SignUpScreen} />
       <Stack.Screen name={ScreenName.PinCodeScreen} component={PinCodeScreen} />
       <Stack.Screen
-        name={ScreenName.LanguageScreen}
-        component={LanguageScreen}
+        name={ScreenName.FamilyOptionsScreen}
+        component={FamilyOptionsScreen}
       />
+      <Stack.Screen
+        name={ScreenName.ScanFamilyQRScreen}
+        component={ScanFamilyQRScreen}
+      />
+
       <Stack.Screen
         name={ScreenName.CountryCodeScreen}
         component={CountryCodeScreen}

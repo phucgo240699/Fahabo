@@ -11,6 +11,7 @@ import LanguageScreen from '@screens/settings/LanguageScreen';
 import MediaPickerScreen from '@screens/media/MediaPickerScreen';
 import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import FamiliesScreen from '@screens/families';
 
 interface Props {
   route?: any;
@@ -49,6 +50,10 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
       <Stack.Screen
         name={ScreenName.MyEventsScreen}
         component={MyEventsScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.FamiliesScreen}
+        component={FamiliesScreen}
       />
       <Stack.Screen
         name={ScreenName.SettingsScreen}

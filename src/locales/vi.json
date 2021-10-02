@@ -43,6 +43,14 @@
       "changePassword": "Đổi mật khẩu"
     }
   },
+  "family": {
+    "family": "Gia đình",
+    "createFamily": "Tạo gia đình",
+    "joinFamily": "Tham gia vào gia đình",
+    "name": "Tên",
+    "cancel": "Huỷ",
+    "save": "Lưu"
+  },
   "home": {
     "home": "Trang chủ"
   },
@@ -57,6 +65,7 @@
     "logOut": "Đăng xuất",
     "myChores": "Việc nhà của tôi",
     "myEvents": "Sự kiện của tôi",
+    "families": "Danh sách các gia đình",
     "settings": "Cài đặt",
     "album": "Tệp ảnh",
     "viewAll": "Xem tất cả",

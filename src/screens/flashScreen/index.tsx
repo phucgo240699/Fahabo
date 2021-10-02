@@ -4,10 +4,11 @@ import PrimaryIcon from '@components/PrimaryIcon';
 import {appIcon} from '@constants/sources';
 import {useDispatch, useSelector} from 'react-redux';
 import i18n from '@locales/index';
-import {NativeModules, Platform} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {autoSignInRequestAction} from '@store/actionTypes/signIn';
 import {userSelector} from '@store/selectors/authentication';
+import {getDefaultLanguageCode} from '@utils/index';
+import colors from '@themes/colors';
 
 const FlashScreen = () => {
   const dispatch = useDispatch();
@@ -16,18 +17,8 @@ const FlashScreen = () => {
   useEffect(() => {
     setTimeout(() => {
       // Device language
-      i18n.locale = `${
-        Platform.OS === 'ios'
-          ? NativeModules.SettingsManager.settings.AppleLocale ||
-            NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
-          : NativeModules.I18nManager.localeIdentifier
-      }`.split('_')[0];
-      i18n.defaultLocale = `${
-        Platform.OS === 'ios'
-          ? NativeModules.SettingsManager.settings.AppleLocale ||
-            NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
-          : NativeModules.I18nManager.localeIdentifier
-      }`.split('_')[0];
+      i18n.locale = getDefaultLanguageCode();
+      i18n.defaultLocale = getDefaultLanguageCode();
 
       dispatch(
         autoSignInRequestAction({
@@ -44,11 +35,11 @@ const FlashScreen = () => {
       safeArea
       alignItems={'center'}
       justifyContent={'center'}
-      bgColor={'#FFDE59'}>
+      bgColor={colors.FLASH_SCREEN}>
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
-        backgroundColor={'#FFDE59'}
+        backgroundColor={colors.FLASH_SCREEN}
       />
       <PrimaryIcon width={256} height={256} source={appIcon} />
     </Box>

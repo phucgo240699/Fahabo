@@ -3,13 +3,20 @@ import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
+import {
+  familySettingIcon,
+  editProfileIcon,
+  settingsIcon,
+} from '@constants/sources';
 
 interface Props {
+  onPressFamilies?: () => void;
   onPressSettings?: () => void;
   onPressUpdateProfile?: () => void;
 }
 
 const ProfileSettingsBox: React.FC<Props> = ({
+  onPressFamilies,
   onPressSettings,
   onPressUpdateProfile,
 }) => {
@@ -17,17 +24,22 @@ const ProfileSettingsBox: React.FC<Props> = ({
     <Container>
       <Label>{i18n.t('profile.settings')}</Label>
       <Content>
+        <SettingItem onPress={onPressFamilies}>
+          <SettingIcon source={familySettingIcon} />
+          <SettingTitle>{i18n.t('profile.families')}</SettingTitle>
+        </SettingItem>
+
+        <Line />
+
         <SettingItem onPress={onPressUpdateProfile}>
-          <SettingIcon
-            source={require('@assets/images/edit_profile_icon.png')}
-          />
+          <SettingIcon source={editProfileIcon} />
           <SettingTitle>{i18n.t('profile.profile')}</SettingTitle>
         </SettingItem>
 
         <Line />
 
         <SettingItem onPress={onPressSettings}>
-          <SettingIcon source={require('@assets/images/settings_icon.png')} />
+          <SettingIcon source={settingsIcon} />
           <SettingTitle>{i18n.t('profile.settings')}</SettingTitle>
         </SettingItem>
       </Content>
