@@ -28,6 +28,7 @@ const BottomTabs = () => {
     <Tab.Navigator
       backBehavior="history"
       screenOptions={({route}) => ({
+        tabBarStyle: {backgroundColor: colors.WHITE},
         tabBarIcon: ({focused, size}) => {
           let iconSource = homeIcon;
           let tintColor = colors.THEME_COLOR_5;

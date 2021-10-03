@@ -1,6 +1,6 @@
 import {Button, Link, Text} from 'native-base';
 import i18n from '@locales/index';
-import Colors from '@themes/colors';
+import colors from '@themes/colors';
 import React, {useEffect, useState} from 'react';
 import {
   CodeField,
@@ -9,14 +9,12 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import styled from 'styled-components/native';
-import {Constants, ScreenName, StackName} from '@constants/Constants';
+import {Constants, ScreenName} from '@constants/Constants';
 import {Keyboard, StyleSheet} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
-import {CommonActions, useNavigation} from '@react-navigation/native';
-import {navigate, navigateReset} from '@navigators/index';
-import {useDispatch, useSelector} from 'react-redux';
-import {userSelector} from '@store/selectors/authentication';
+import {navigate} from '@navigators/index';
+import {useDispatch} from 'react-redux';
 import {
   getOTPRequestAction,
   verifyUsernameRequestAction,
@@ -69,7 +67,7 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
         <Content>
           <FocusAwareStatusBar
             barStyle="dark-content"
-            backgroundColor={Colors.WHITE}
+            backgroundColor={colors.WHITE}
             translucent
           />
           <AuthenticationHeader
@@ -79,7 +77,7 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
             <Text
               mt={1}
               fontSize="md"
-              color={Colors.GRAY}
+              color={colors.GRAY}
               textAlign="center"
               alignSelf="center">
               {!isNull(username) &&
@@ -109,7 +107,7 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
             mt={8}
             size="lg"
             disabled={isNull(value) || value.length < CELL_COUNT}
-            _text={{color: Colors.WHITE}}
+            _text={{color: colors.WHITE}}
             onPress={onPressVerify}>
             {i18n.t('authentication.pinCode.verify')}
           </Button>
@@ -119,7 +117,7 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
             _text={{
               fontSize: 'sm',
               fontWeight: '700',
-              color: Colors.THEME_COLOR_7,
+              color: colors.THEME_COLOR_7,
             }}
             onPress={onPressSendAgain}>
             {i18n.t('authentication.pinCode.sendBack')}
@@ -132,12 +130,12 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
 
 const SafeView = styled.SafeAreaView`
   flex: 1;
-  background-color: ${Colors.WHITE};
+  background-color: ${colors.WHITE};
 `;
 const Container = styled.TouchableWithoutFeedback`
   width: ${Constants.MAX_WIDTH}px;
   height: ${Constants.MAX_HEIGHT}px;
-  background-color: ${Colors.WHITE};
+  background-color: ${colors.WHITE};
 `;
 const Content = styled.View`
   flex: 1;
@@ -155,7 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: '700',
     borderWidth: 2,
-    borderColor: Colors.SILVER,
+    borderColor: colors.SILVER,
     textAlign: 'center',
   },
   focusCell: {

@@ -5,8 +5,6 @@ import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import PrimaryButton from '@components/PrimaryButton';
 import {Box, Image} from 'native-base';
-import {StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Constants} from '@constants/Constants';
 
 const DATA = [

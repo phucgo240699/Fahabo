@@ -2,13 +2,8 @@ import React from 'react';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {navigateReset} from '@navigators/index';
-import {Avatar, Box, Button, FormControl, Input} from 'native-base';
-import {ImageBackground, StyleSheet} from 'react-native';
-import {Constants, StackName} from '@constants/Constants';
+import {Box, Button, Input} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {profileBackground, defaultAvatar} from '@constants/sources/index';
-import PrimaryButton from '@components/PrimaryButton';
 import i18n from '@locales/index';
 import ProfileHeader from '@components/ProfileHeader';
 

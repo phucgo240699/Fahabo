@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, Heading, VStack, Input, Link, Button, HStack} from 'native-base';
 import i18n from '@locales/index';
-import Colors from '@themes/colors';
+import colors from '@themes/colors';
 import {navigate} from '@navigators/index';
 import styled from 'styled-components/native';
 import {
@@ -81,7 +81,7 @@ const SignInScreen = () => {
     );
   };
   const onSignInWithAppleFail = (error: any) => {
-    console.log('Error', `Fail: ${error}`);
+    console.log(`onSignInWithAppleFail: ${error}`);
     dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
   };
 
@@ -104,7 +104,7 @@ const SignInScreen = () => {
     );
   };
   const onSignInWithGoogleFail = (error: any) => {
-    console.log('Error', `Fail: ${error}`);
+    console.log(`onSignInWithGoogleFail: ${error}`);
     dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
   };
   const onSignOutWithGoogle = async () => {
@@ -129,7 +129,7 @@ const SignInScreen = () => {
     );
   };
   const onSignInWithFacebookFail = (error: any) => {
-    console.log('Error', `Fail: ${error}`);
+    console.log(`onSignInWithFacebookFail: ${error}`);
     dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
   };
 
@@ -138,7 +138,7 @@ const SignInScreen = () => {
       {/* Status Bar */}
       <FocusAwareStatusBar
         barStyle="dark-content"
-        backgroundColor={Colors.WHITE}
+        backgroundColor={colors.WHITE}
         translucent
       />
       <Container onPressOut={onKeyboardDismiss}>
@@ -150,30 +150,30 @@ const SignInScreen = () => {
           showsVerticalScrollIndicator={false}>
           {/* Header */}
           <Banner source={authFamilyBanner} />
-          <Heading size="2xl" color={Colors.THEME_COLOR_5}>
+          <Heading size="2xl" color={colors.THEME_COLOR_5}>
             {i18n.t('authentication.signIn.welcome')}
           </Heading>
-          <Heading color={Colors.GRAY} size="xs">
+          <Heading color={colors.GRAY} size="xs">
             {i18n.t('authentication.signIn.subWelcome')}
           </Heading>
 
           {/* Form */}
           <VStack space={2} mt={5}>
             <Input
-              color={Colors.BLACK}
-              borderColor={Colors.SILVER}
+              color={colors.BLACK}
+              borderColor={colors.SILVER}
               keyboardType="email-address"
               onChangeText={onChangeEmail}
-              placeholderTextColor={Colors.SILVER}
+              placeholderTextColor={colors.SILVER}
               placeholder={i18n.t('authentication.signIn.accountPlaceHolder')}
             />
             <Input
               mt={3}
               type="password"
-              color={Colors.BLACK}
-              borderColor={Colors.SILVER}
+              color={colors.BLACK}
+              borderColor={colors.SILVER}
               onChangeText={onChangePassword}
-              placeholderTextColor={Colors.SILVER}
+              placeholderTextColor={colors.SILVER}
               placeholder={i18n.t('authentication.signIn.password')}
             />
             <Link
@@ -183,7 +183,7 @@ const SignInScreen = () => {
               _text={{
                 fontSize: 'xs',
                 fontWeight: '700',
-                color: Colors.THEME_COLOR_7,
+                color: colors.THEME_COLOR_7,
               }}
               onPress={onPressForgotPassword}>
               {i18n.t('authentication.signIn.forgotPassword')}
@@ -194,7 +194,7 @@ const SignInScreen = () => {
               mt={2}
               size="lg"
               disabled={isNull(email) || isNull(password)}
-              _text={{color: Colors.WHITE}}
+              _text={{color: colors.WHITE}}
               onPress={onSignIn}>
               {i18n.t('authentication.signIn.login')}
             </Button>
@@ -221,13 +221,13 @@ const SignInScreen = () => {
 
             {/* Encourage Sign up */}
             <HStack mt={10} alignItems="center" justifyContent="center">
-              <Text fontSize="sm" color={Colors.BLACK} fontWeight={400}>
+              <Text fontSize="sm" color={colors.BLACK} fontWeight={400}>
                 {i18n.t('authentication.signIn.signUpLabel')}
               </Text>
               <Link
                 p={1}
                 _text={{
-                  color: Colors.THEME_COLOR_7,
+                  color: colors.THEME_COLOR_7,
                   bold: true,
                   fontSize: 'sm',
                 }}
@@ -245,7 +245,7 @@ const SignInScreen = () => {
 const Container = styled.TouchableWithoutFeedback``;
 const SafeView = styled.SafeAreaView`
   flex: 1;
-  background-color: ${Colors.WHITE};
+  background-color: ${colors.WHITE};
 `;
 const Scroll = styled.ScrollView`
   flex: 1;
@@ -260,6 +260,7 @@ const Seperator = styled.Image`
   align-self: center;
   margin-top: 40px;
   margin-bottom: 40px;
+  tint-color: ${colors.TEXT};
 `;
 
 const styles = StyleSheet.create({

@@ -12,8 +12,8 @@ interface Props {}
 
 const LocationsScreen: React.FC<Props> = ({}) => {
   return (
-    <Box flex={1} bgColor={colors.WHITE}>
-      <Text>Locations</Text>
+    <Box flex={1} safeArea bgColor={colors.WHITE}>
+      <Text color={colors.TEXT}>Locations</Text>
     </Box>
   );
 };

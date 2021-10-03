@@ -57,8 +57,8 @@ const Content = styled.View`
   border-radius: 10px;
   background-color: ${colors.WHITE};
   shadow-color: ${colors.BLACK};
-  shadow-opacity: 0.15;
-  shadow-radius: 8px;
+  shadow-opacity: 0.3;
+  shadow-radius: 10px;
   elevation: 8;
 `;
 

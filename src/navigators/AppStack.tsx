@@ -9,15 +9,13 @@ import {ScreenName, StackName} from '@constants/Constants';
 
 const Stack = createStackNavigator();
 
-const AppStack: React.FC = () => {
+const AppStack = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
 
   return (
-    <Stack.Navigator
-      initialRouteName={StackName.MainStack}
-      screenOptions={navigationOptions}>
+    <Stack.Navigator screenOptions={navigationOptions}>
       <Stack.Screen name={ScreenName.FlashScreen} component={FlashScreen} />
       <Stack.Screen
         name={StackName.AuthenticationStack}

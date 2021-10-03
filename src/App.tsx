@@ -1,28 +1,29 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
-import React from 'react';
+import React, {useEffect} from 'react';
 import HUD from '@components/HUD';
 import {theme} from '@themes/index';
+import {Appearance} from 'react-native';
 import store, {persistor} from './store';
 import AppStack from '@navigators/AppStack';
+import RNRestart from 'react-native-restart';
 import {NativeBaseProvider} from 'native-base';
 import {navigationRef} from '@navigators/index';
 import {Provider, useSelector} from 'react-redux';
-import {getSessionLoading} from '@store/selectors/session';
-import {NavigationContainer} from '@react-navigation/native';
-import {PersistGate} from 'redux-persist/integration/react';
 import ToastSection from '@components/ToastSection';
+import {getSessionLoading} from '@store/selectors/session';
+import {PersistGate} from 'redux-persist/integration/react';
+import {NavigationContainer} from '@react-navigation/native';
 
 const RootComponent = () => {
   const loading = useSelector(getSessionLoading);
+
+  useEffect(() => {
+    Appearance.addChangeListener(onThemeChange);
+    return () => Appearance.removeChangeListener(onThemeChange);
+  }, []);
+
+  const onThemeChange = (e: any) => {
+    RNRestart.Restart();
+  };
 
   return (
     <NavigationContainer ref={navigationRef}>

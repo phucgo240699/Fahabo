@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
   profileContainer: {
     width: Constants.MAX_WIDTH,
     height: Constants.MAX_HEIGHT,
+    backgroundColor: colors.CONCRETE,
   },
   profileBackground: {
     width: Constants.MAX_WIDTH,

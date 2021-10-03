@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import i18n from '@locales/index';
-import Colors from '@themes/colors';
 import styled from 'styled-components/native';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
 import {navigate} from '@navigators/index';
@@ -177,7 +176,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
       <AuthenticationHeader />
       <FocusAwareStatusBar
         barStyle="dark-content"
-        backgroundColor={Colors.WHITE}
+        backgroundColor={colors.WHITE}
         translucent
       />
       <Container onPressOut={onPressBackground}>
@@ -188,10 +187,10 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollView}>
-          <Heading mt={14} size="2xl" color={Colors.THEME_COLOR_5}>
+          <Heading mt={14} size="2xl" color={colors.THEME_COLOR_5}>
             {i18n.t('authentication.signUp.signUp')}
           </Heading>
-          <Heading color={Colors.GRAY} size="xs">
+          <Heading color={colors.GRAY} size="xs">
             {i18n.t('authentication.signUp.subWelcome')}
           </Heading>
           {/* </HStack> */}
@@ -200,14 +199,14 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
           <VStack space={2} mt={5}>
             <FormControl>
               <FormControl.Label
-                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t('authentication.signUp.email')} *`}
               </FormControl.Label>
               <Input
                 mt={-1}
                 isRequired={true}
-                color={Colors.BLACK}
-                borderColor={Colors.SILVER}
+                color={colors.BLACK}
+                borderColor={colors.SILVER}
                 keyboardType={'email-address'}
                 onChangeText={onChangeEmail}
               />
@@ -215,41 +214,41 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
 
             <FormControl mt={3}>
               <FormControl.Label
-                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t('authentication.signUp.name')} *`}
               </FormControl.Label>
               <Input
                 mt={-1}
-                color={Colors.BLACK}
-                borderColor={Colors.SILVER}
+                color={colors.BLACK}
+                borderColor={colors.SILVER}
                 onChangeText={onChangeName}
               />
             </FormControl>
 
             <FormControl mt={3}>
               <FormControl.Label
-                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t('authentication.signUp.password')} *`}
               </FormControl.Label>
               <Input
                 mt={-1}
                 type="password"
-                color={Colors.BLACK}
-                borderColor={Colors.SILVER}
+                color={colors.BLACK}
+                borderColor={colors.SILVER}
                 onChangeText={onChangePassword}
               />
             </FormControl>
 
             <FormControl mt={3}>
               <FormControl.Label
-                _text={{color: Colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: colors.BLACK, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t('authentication.signUp.confirmPassword')} *`}
               </FormControl.Label>
               <Input
                 mt={-1}
                 type="password"
-                color={Colors.BLACK}
-                borderColor={Colors.SILVER}
+                color={colors.BLACK}
+                borderColor={colors.SILVER}
                 onChangeText={onChangeConfirmPassword}
               />
             </FormControl>
@@ -257,7 +256,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
             <Box mt={3}>
               <FormControl.Label
                 _text={{
-                  color: Colors.BLACK,
+                  color: colors.BLACK,
                   fontSize: 'sm',
                   fontWeight: 500,
                 }}>
@@ -268,15 +267,15 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
                   width={20}
                   variant="outline"
                   borderColor={colors.SILVER}
-                  _text={{color: Colors.GRAY}}
+                  _text={{color: colors.TEXT}}
                   onPress={onPressCountryCode}>
                   {countryCode === '' ? '--' : countryCode}
                 </Button>
                 <Input
                   ml={4}
                   flex={1}
-                  color={Colors.BLACK}
-                  borderColor={Colors.SILVER}
+                  color={colors.BLACK}
+                  borderColor={colors.SILVER}
                   keyboardType={'number-pad'}
                   onChangeText={onChangePhoneNumber}
                 />
@@ -285,7 +284,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
 
             {/* Button */}
             <VStack space={2} mt={5}>
-              <Button _text={{color: Colors.WHITE}} onPress={onSignUp}>
+              <Button _text={{color: colors.WHITE}} onPress={onSignUp}>
                 {i18n.t('authentication.signUp.signUp')}
               </Button>
             </VStack>
@@ -317,7 +316,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
 };
 const SafeView = styled.SafeAreaView`
   flex: 1;
-  background-color: ${Colors.WHITE};
+  background-color: ${colors.WHITE};
 `;
 
 const Container = styled.TouchableWithoutFeedback``;
@@ -326,13 +325,14 @@ const Seperator = styled.Image`
   align-self: center;
   margin-top: 40px;
   margin-bottom: 40px;
+  tint-color: ${colors.TEXT};
 `;
 
 const Icon = styled.Image`
   width: 32px;
   height: 32px;
   margin-left: 10px;
-  tint-color: ${Colors.THEME_COLOR_5};
+  tint-color: ${colors.THEME_COLOR_5};
 `;
 
 const styles = StyleSheet.create({

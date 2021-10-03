@@ -46,7 +46,7 @@ const QRPresenterScreen: React.FC<Props> = ({route}) => {
         />
         <Box
           p={8}
-          borderRadius={8}
+          borderRadius={16}
           alignItems={'center'}
           justifyContent={'center'}
           bgColor={colors.WHITE}>
