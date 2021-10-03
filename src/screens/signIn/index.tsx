@@ -4,7 +4,6 @@ import i18n from '@locales/index';
 import Colors from '@themes/colors';
 import {navigate} from '@navigators/index';
 import styled from 'styled-components/native';
-import {navigateReset} from '@navigators/index';
 import {
   configGoogleSignIn,
   signInWithApple,
@@ -12,10 +11,10 @@ import {
   signOutWithGoogle,
   signInWithFacebook,
 } from '@services/socialAuth';
-import {Keyboard, Platform, StyleSheet, Alert} from 'react-native';
+import {Keyboard, Platform, StyleSheet} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
-import {ScreenName, StackName} from '@constants/Constants';
+import {ScreenName} from '@constants/Constants';
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {
   authFamilyBanner,
@@ -24,15 +23,14 @@ import {
   googleIcon,
   orSeparator,
 } from '@constants/sources/index';
-import {useDispatch, useSelector} from 'react-redux';
-import {getToastsSelector} from '@store/selectors/session';
+import {useDispatch} from 'react-redux';
 import {signInRequestAction} from '@store/actionTypes/signIn';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
+import {isNull} from '@utils/index';
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
-  const toasts = useSelector(getToastsSelector);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -53,18 +51,16 @@ const SignInScreen = () => {
   };
 
   // Navigate
-  const navigateToSignUp = () => {
+  const onPressSignUp = () => {
     navigate(ScreenName.SignUpScreen);
   };
-  const navigateToForgotPassword = () => {
+  const onPressForgotPassword = () => {
     navigate(ScreenName.ForgotPasswordScreen);
   };
 
   // Sign in
   const onSignIn = () => {
-    // dispatch(signInRequestAction({username: email, password: password}));
-    // navigate(ScreenName.FamilyOptionsScreen);
-    navigateReset(StackName.MainStack);
+    dispatch(signInRequestAction({username: email, password: password}));
   };
 
   // Sign in with Apple
@@ -189,14 +185,15 @@ const SignInScreen = () => {
                 fontWeight: '700',
                 color: Colors.THEME_COLOR_7,
               }}
-              onPress={navigateToForgotPassword}>
+              onPress={onPressForgotPassword}>
               {i18n.t('authentication.signIn.forgotPassword')}
             </Link>
 
             {/* Button */}
             <Button
-              size="lg"
               mt={2}
+              size="lg"
+              disabled={isNull(email) || isNull(password)}
               _text={{color: Colors.WHITE}}
               onPress={onSignIn}>
               {i18n.t('authentication.signIn.login')}
@@ -234,7 +231,7 @@ const SignInScreen = () => {
                   bold: true,
                   fontSize: 'sm',
                 }}
-                onPress={navigateToSignUp}>
+                onPress={onPressSignUp}>
                 {i18n.t('authentication.signIn.signUp')}
               </Link>
             </HStack>

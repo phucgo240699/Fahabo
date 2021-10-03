@@ -9,25 +9,31 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import styled from 'styled-components/native';
-import {Constants, StackName} from '@constants/Constants';
+import {Constants, ScreenName, StackName} from '@constants/Constants';
 import {Keyboard, StyleSheet} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
 import {CommonActions, useNavigation} from '@react-navigation/native';
-import {navigateReset} from '@navigators/index';
+import {navigate, navigateReset} from '@navigators/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {userSelector} from '@store/selectors/authentication';
 import {
   getOTPRequestAction,
   verifyUsernameRequestAction,
 } from '@store/actionTypes/signUp';
+import {isNull} from 'lodash';
+
+interface Props {
+  route?: any;
+  fromForgotPassword?: boolean;
+}
 
 const CELL_COUNT = 6;
 
-const PinCodeScreen = () => {
+const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
   const dispatch = useDispatch();
   const [value, setValue] = useState('');
-  const username = useSelector(userSelector)?.username;
+  const [username, setUserName] = useState('');
 
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -35,15 +41,25 @@ const PinCodeScreen = () => {
     setValue,
   });
 
+  useEffect(() => {
+    if (route && route.params && route.params.username) {
+      setUserName(route.params.username);
+    }
+  }, [route]);
+
   const onPressBackground = () => {
     Keyboard.dismiss();
   };
 
   const onPressVerify = () => {
-    dispatch(verifyUsernameRequestAction({otp: value, username: username}));
+    if (fromForgotPassword === true) {
+      navigate(ScreenName.NewPasswordScreen, {otp: value});
+    } else {
+      dispatch(verifyUsernameRequestAction({otp: value, username: username}));
+    }
   };
 
-  const onPressSendBack = () => {
+  const onPressSendAgain = () => {
     dispatch(getOTPRequestAction({username: 'username'}));
   };
 
@@ -66,9 +82,8 @@ const PinCodeScreen = () => {
               color={Colors.GRAY}
               textAlign="center"
               alignSelf="center">
-              {`${i18n.t('authentication.pinCode.instruction')}\n ${
-                username ?? ''
-              }`}
+              {!isNull(username) &&
+                `${i18n.t('authentication.pinCode.instruction')}\n ${username}`}
             </Text>
           )}
           <CodeField
@@ -91,8 +106,9 @@ const PinCodeScreen = () => {
             )}
           />
           <Button
-            size="lg"
             mt={8}
+            size="lg"
+            disabled={isNull(value) || value.length < CELL_COUNT}
             _text={{color: Colors.WHITE}}
             onPress={onPressVerify}>
             {i18n.t('authentication.pinCode.verify')}
@@ -105,7 +121,7 @@ const PinCodeScreen = () => {
               fontWeight: '700',
               color: Colors.THEME_COLOR_7,
             }}
-            onPress={onPressSendBack}>
+            onPress={onPressSendAgain}>
             {i18n.t('authentication.pinCode.sendBack')}
           </Link>
         </Content>

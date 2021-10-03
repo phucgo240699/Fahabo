@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import {Keyboard} from 'react-native';
@@ -8,18 +8,28 @@ import {ScreenName} from '@constants/Constants';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
 import {Heading, VStack, FormControl, Input, Button} from 'native-base';
+import {isNull} from 'lodash';
 
 interface Props {
   route?: any;
 }
 
 const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
+  const [username, setUserName] = useState('');
+
   const onNavigateToPinCodeScreen = () => {
-    navigate(ScreenName.PinCodeScreen, {address: 'phucgo240699@gmail.com'});
+    navigate(ScreenName.PinCodeScreen, {
+      username: 'phucgo240699@gmail.com',
+      fromForgotPassword: true,
+    });
   };
 
   const onPressBackground = () => {
     Keyboard.dismiss();
+  };
+
+  const onChangeUsername = (text: string) => {
+    setUserName(text);
   };
 
   return (
@@ -38,23 +48,23 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
               {i18n.t('authentication.forgotPassword.forgotPassword')}
             </Heading>
             <Heading color={colors.GRAY} size="xs">
-              {route &&
-              route.params &&
-              route.params.isUsingPhone &&
-              route.params.isUsingPhone === true
-                ? i18n.t('authentication.forgotPassword.phoneInstruction')
-                : i18n.t('authentication.forgotPassword.emailInstruction')}
+              {i18n.t('authentication.forgotPassword.instruction')}
             </Heading>
 
             {/* Form */}
             <VStack space={2} mt={5}>
               <FormControl>
-                <Input color={colors.BLACK} borderColor={colors.SILVER} />
+                <Input
+                  color={colors.BLACK}
+                  borderColor={colors.SILVER}
+                  onChangeText={onChangeUsername}
+                />
               </FormControl>
 
               <VStack space={2} mt={5}>
                 <Button
                   size="lg"
+                  disabled={isNull(username)}
                   _text={{color: colors.WHITE}}
                   onPress={onNavigateToPinCodeScreen}>
                   {i18n.t('authentication.forgotPassword.getPinCode')}

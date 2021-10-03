@@ -5,14 +5,11 @@ import FlashScreen from '@screens/flashScreen/index';
 import SplashScreen from 'react-native-splash-screen';
 import AuthenticationStack from './AuthenticationStack';
 import {createStackNavigator} from '@react-navigation/stack';
-import {AuthState, ScreenName, StackName} from '@constants/Constants';
+import {ScreenName, StackName} from '@constants/Constants';
 
 const Stack = createStackNavigator();
-interface Props {
-  authState: AuthState;
-}
 
-const AppStack: React.FC<Props> = ({authState}) => {
+const AppStack: React.FC = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);

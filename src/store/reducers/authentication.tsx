@@ -1,10 +1,13 @@
 import {AnyAction} from 'redux';
 import {
   SIGN_UP_SUCCESS,
-  UPDATE_LANGUAGE_CODE_SUCCESS,
   VERIFY_USERNAME_SUCCESS,
 } from '@store/actionTypes/signUp';
-import {AUTO_SIGN_IN_SUCCESS, SIGN_IN_SUCCESS} from '@store/actionTypes/signIn';
+import {
+  AUTO_SIGN_IN_SUCCESS,
+  REFRESH_ACCESS_TOKEN_SUCCESS,
+  SIGN_IN_SUCCESS,
+} from '@store/actionTypes/signIn';
 import {AuthenticationResponseType} from '@constants/types/authentication';
 
 export type AuthenticationState = {
@@ -46,13 +49,11 @@ export default function authenticationReducer(
         ...state,
         ...action.payload,
       };
-    case UPDATE_LANGUAGE_CODE_SUCCESS:
+    case REFRESH_ACCESS_TOKEN_SUCCESS:
       return {
         ...state,
-        user: {
-          ...state.user,
-          languageCode: action.payload,
-        },
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
       };
     default:
       return state;

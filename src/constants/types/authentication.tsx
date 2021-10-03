@@ -1,20 +1,10 @@
-export type AuthenticationResponseType = {
-  id?: number;
-  contactId?: number;
-  email?: string;
-  password?: string;
-  name?: string;
-  username?: string;
-  phoneNumber?: string;
-  birthday?: string;
-  languageCode?: string;
-  isValidEmail?: boolean;
-  isValidPhoneNumber?: boolean;
-};
-
 export type SignInRequestType = {
   username?: string;
   password?: string;
+};
+
+export type RefreshAccessTokenRequestType = {
+  refreshToken?: string;
 };
 
 export type SignUpRequestType = {
@@ -35,8 +25,23 @@ export type VerifyUsernameRequestType = {
   username?: string;
 };
 
-export type RefreshAccessTokenRequestType = {
-  refreshToken?: string;
+export type ForgotPasswordRequestType = {
+  otp?: string;
+  newPassword?: string;
+};
+
+export type AuthenticationResponseType = {
+  id?: number;
+  contactId?: number;
+  email?: string;
+  password?: string;
+  name?: string;
+  username?: string;
+  phoneNumber?: string;
+  birthday?: string;
+  languageCode?: string;
+  isValidEmail?: boolean;
+  isValidPhoneNumber?: boolean;
 };
 
 export type RefreshAccessTokenResponseType = {

@@ -35,8 +35,7 @@
     "forgotPassword": {
       "forgotPassword": "Forgot password",
       "getPinCode": "Get PIN code",
-      "emailInstruction": "Enter your email to get PIN code",
-      "phoneInstruction": "Enter your phone number to get PIN code",
+      "instruction": "Enter your email to get PIN code",
       "enterNewPassword": "Enter New Password",
       "newPassword": "New password",
       "confirmNewPassword": "Confirm new password",
@@ -99,7 +98,8 @@
   "successMessage": {
     "signUpComplete": "Sign up completely",
     "verifySuccess": "Verify email successfully",
-    "gotOTP": "OTP was sent to"
+    "gotOTP": "OTP was sent to",
+    "resetPassword": "Reset password successfully"
   },
   "warningMessage": {
     "activeAccount": "You need to active this account"

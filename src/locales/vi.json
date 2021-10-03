@@ -99,7 +99,8 @@
   "successMessage": {
     "signUpComplete": "Đăng ký hoàn tất",
     "verifySuccess": "Xác thực email thành công",
-    "gotOTP": "OTP đã được gửi đến"
+    "gotOTP": "OTP đã được gửi đến",
+    "resetPassword": "Thay đổi mật khẩu thành công"
   },
   "warningMessage": {
     "activeAccount": "Bạn cần kích hoạt tài khoản này"

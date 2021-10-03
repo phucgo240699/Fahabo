@@ -7,10 +7,10 @@ export const GOOGLE_AUTH_WEB_CLIENT_ID = Config.GOOGLE_AUTH_WEB_CLIENT_ID;
 
 const {width, height} = Dimensions.get('window');
 
-export enum AuthState {
-  LOGGED_IN = 'LoggedIn',
-  UNAUTHORIZED = 'Unauthorized',
-}
+// export enum AuthState {
+//   LOGGED_IN = 'LoggedIn',
+//   UNAUTHORIZED = 'Unauthorized',
+// }
 
 export enum StackName {
   AppStack = 'AppStack',

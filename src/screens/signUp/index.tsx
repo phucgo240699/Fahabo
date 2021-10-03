@@ -30,6 +30,13 @@ import {signUpRequestAction} from '@store/actionTypes/signUp';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
 import {getPhoneNumber} from '@utils/index';
+import {
+  signInWithApple,
+  signInWithFacebook,
+  signInWithGoogle,
+  signOutWithGoogle,
+} from '@services/socialAuth';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 interface Props {
   route?: any;
@@ -47,10 +54,10 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
   useEffect(() => {
     if (route && route.params && route.params.countryCode) {
       setCountryCode(route.params.countryCode);
-      console.log('country code:', route.params.countryCode);
     }
   }, [route]);
 
+  // Sign up
   const onSignUp = () => {
     if (password === confirmPassword) {
       dispatch(
@@ -68,6 +75,80 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
     }
   };
 
+  // Sign up with Apple
+  const onSignUpWithApple = () => {
+    signInWithApple()
+      .then(onSignInWithAppleSuccess)
+      .catch(onSignInWithAppleFail);
+  };
+  const onSignInWithAppleSuccess = (
+    userCredential: FirebaseAuthTypes.UserCredential,
+  ) => {
+    console.log('Sign in with apple successfully:', userCredential);
+    dispatch(
+      signUpRequestAction({
+        email: userCredential.user.email ?? undefined,
+        name: userCredential.user.displayName ?? undefined,
+        password: userCredential.user.uid,
+      }),
+    );
+  };
+  const onSignInWithAppleFail = (error: any) => {
+    console.log('Error', `Fail: ${error}`);
+    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+  };
+
+  // Sign up with Google
+  const onSignUpWithGoogle = () => {
+    signInWithGoogle()
+      .then(onSignInWithGoogleSuccess)
+      .catch(onSignInWithGoogleFail)
+      .finally(onSignOutWithGoogle);
+  };
+  const onSignInWithGoogleSuccess = (
+    userCredential: FirebaseAuthTypes.UserCredential,
+  ) => {
+    console.log('Sign in with apple successfully:', userCredential);
+    dispatch(
+      signUpRequestAction({
+        email: userCredential.user.email ?? undefined,
+        name: userCredential.user.displayName ?? undefined,
+        password: userCredential.user.uid,
+      }),
+    );
+  };
+  const onSignInWithGoogleFail = (error: any) => {
+    console.log('Error', `Fail: ${error}`);
+    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+  };
+  const onSignOutWithGoogle = async () => {
+    await signOutWithGoogle();
+  };
+
+  // Sign up with Facebook
+  const onSignUpWithFacebook = () => {
+    signInWithFacebook()
+      .then(onSignInWithFacebookSuccess)
+      .catch(onSignInWithFacebookFail);
+  };
+  const onSignInWithFacebookSuccess = (
+    userCredential: FirebaseAuthTypes.UserCredential,
+  ) => {
+    console.log('Sign in with facebook successfully:', userCredential);
+    dispatch(
+      signUpRequestAction({
+        email: userCredential.user.email ?? undefined,
+        name: userCredential.user.displayName ?? undefined,
+        password: userCredential.user.uid,
+      }),
+    );
+  };
+  const onSignInWithFacebookFail = (error: any) => {
+    console.log('Error', `Fail: ${error}`);
+    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+  };
+
+  // On change text
   const onChangeEmail = (text: string) => {
     setEmail(text);
   };
@@ -83,11 +164,11 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
   const onChangePhoneNumber = (text: string) => {
     setPhoneNumber(text);
   };
-
   const onPressCountryCode = () => {
     navigate(ScreenName.CountryCodeScreen);
   };
 
+  // Keyboard
   const onPressBackground = () => {
     Keyboard.dismiss();
   };
@@ -214,10 +295,19 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
             {/* Third party Authentication */}
             <HStack alignItems="center" justifyContent="center">
               {Platform.OS === 'ios' && (
-                <ThirdPartyAuthButton sourceIcon={appleIcon} />
+                <ThirdPartyAuthButton
+                  sourceIcon={appleIcon}
+                  onPress={onSignUpWithApple}
+                />
               )}
-              <ThirdPartyAuthButton sourceIcon={googleIcon} />
-              <ThirdPartyAuthButton sourceIcon={facebookIcon} />
+              <ThirdPartyAuthButton
+                sourceIcon={googleIcon}
+                onPress={onSignUpWithGoogle}
+              />
+              <ThirdPartyAuthButton
+                sourceIcon={facebookIcon}
+                onPress={onSignUpWithFacebook}
+              />
             </HStack>
           </VStack>
         </KeyboardAwareScrollView>

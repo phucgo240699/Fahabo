@@ -13,7 +13,6 @@ import HUD from '@components/HUD';
 import {theme} from '@themes/index';
 import store, {persistor} from './store';
 import AppStack from '@navigators/AppStack';
-import {AuthState} from '@constants/Constants';
 import {NativeBaseProvider} from 'native-base';
 import {navigationRef} from '@navigators/index';
 import {Provider, useSelector} from 'react-redux';
@@ -28,7 +27,7 @@ const RootComponent = () => {
   return (
     <NavigationContainer ref={navigationRef}>
       <NativeBaseProvider theme={theme}>
-        <AppStack authState={AuthState.UNAUTHORIZED} />
+        <AppStack />
         <HUD loading={loading} />
         <ToastSection />
       </NativeBaseProvider>

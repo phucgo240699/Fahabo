@@ -1,5 +1,6 @@
 import {
   AuthenticationResponseType,
+  ForgotPasswordRequestType,
   GetOTPRequestType,
   SignUpRequestType,
   VerifyUsernameRequestType,
@@ -38,8 +39,15 @@ export const verifyUserSuccessAction = (payload: AuthenticationState) => ({
   payload,
 });
 
-export const UPDATE_LANGUAGE_CODE_SUCCESS = 'UPDATE_LANGUAGE_CODE_SUCCESS';
-export const updateLanguageCodeSuccessAction = (payload: any) => ({
-  type: UPDATE_LANGUAGE_CODE_SUCCESS,
-  payload,
+export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
+export const forgotPasswordRequestAction = (
+  body: ForgotPasswordRequestType,
+) => ({
+  type: FORGOT_PASSWORD_REQUEST,
+  body,
+});
+
+export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
+export const forgotPasswordSuccessAction = () => ({
+  type: FORGOT_PASSWORD_SUCCESS,
 });
