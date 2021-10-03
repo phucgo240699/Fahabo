@@ -2,7 +2,7 @@ import React from 'react';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {FlatList, Box} from 'native-base';
+import {FlatList, Box, useDisclose, Actionsheet} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {plusIcon} from '@constants/sources/index';
 import PrimaryButton from '@components/PrimaryButton';
@@ -11,6 +11,8 @@ import ProfileHeader from '@components/ProfileHeader';
 import HorizontalFamilyItem from './shared/HorizontalFamilyItem';
 import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
+import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
+import {getInset} from 'react-native-safe-area-view';
 
 const DATA = [
   {
@@ -36,6 +38,9 @@ const DATA = [
 interface Props {}
 
 const FamiliesScreen: React.FC<Props> = ({}) => {
+  const {isOpen, onOpen, onClose} = useDisclose();
+  const bottomInset = getInset('bottom', false);
+
   const renderItem = ({item}: {item: any}) => {
     return <HorizontalFamilyItem item={item} onPress={onPressItem} />;
   };
@@ -45,6 +50,14 @@ const FamiliesScreen: React.FC<Props> = ({}) => {
       instruction: 'Scan QR code to join family',
     });
   };
+  const onPressCreateFamily = () => {
+    onClose();
+  };
+  const onPressJoinFamily = () => {
+    onClose();
+    navigate(ScreenName.ScanFamilyQRScreen);
+  };
+
   return (
     <Box flex={1} safeArea bgColor={colors.WHITE}>
       <FocusAwareStatusBar
@@ -59,6 +72,7 @@ const FamiliesScreen: React.FC<Props> = ({}) => {
             marginRight={8}
             leftSource={plusIcon}
             leftTintColor={colors.THEME_COLOR_6}
+            onPress={onOpen}
           />
         }
       />
@@ -69,6 +83,28 @@ const FamiliesScreen: React.FC<Props> = ({}) => {
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
       />
+
+      <Actionsheet
+        pb={bottomInset}
+        isOpen={isOpen}
+        onClose={onClose}
+        bgColor={colors.WHITE}>
+        <PrimaryActionSheetItem
+          title={i18n.t('family.createFamily')}
+          onPress={onPressCreateFamily}
+        />
+        <HLine />
+        <PrimaryActionSheetItem
+          title={i18n.t('family.joinFamily')}
+          onPress={onPressJoinFamily}
+        />
+        <HLine />
+        <PrimaryActionSheetItem
+          title={i18n.t('family.cancel')}
+          titleColor={colors.RED_1}
+          onPress={onClose}
+        />
+      </Actionsheet>
     </Box>
   );
 };
@@ -80,6 +116,12 @@ const Label = styled(fonts.PrimaryFontBoldSize14)`
 const ScrollView = styled.ScrollView`
   padding-left: 30px;
   padding-right: 30px;
+`;
+
+const HLine = styled.View`
+  width: 80%;
+  height: 1px;
+  background-color: ${colors.CONCRETE};
 `;
 
 export default FamiliesScreen;

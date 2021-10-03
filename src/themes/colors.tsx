@@ -31,6 +31,7 @@ const applied = {
   TABBAR_INACTIVE: shades.WHITE,
   TABBAR_ACTIVE: shades.BLACK,
   TEXT: shades.ABBEY,
+  CAMERA_BACKGROUND: '#000000',
   WHITE_ALPHA50: `${shades.WHITE}60`,
   BLACK_ALPHA50: `${shades.BLACK}80`,
 };

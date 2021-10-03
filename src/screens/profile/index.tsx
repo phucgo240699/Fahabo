@@ -1,23 +1,25 @@
-import fonts from '@themes/fonts';
-import i18n from '@locales/index';
-import colors from '@themes/colors';
 import React from 'react';
-import {Avatar, Box, Actionsheet, useDisclose} from 'native-base';
-import styled from 'styled-components/native';
-import PrimaryIcon from '@components/PrimaryIcon';
-import PrimaryButton from '@components/PrimaryButton';
-import ProfileAlbumBox from './shared/ProfileAlbumBox';
-import {ImageBackground, StyleSheet} from 'react-native';
-import {navigate, navigateReset} from '@navigators/index';
-import ProfileRelationBox from './shared/ProfileRelationBox';
-import ProfileSettingsBox from './shared/ProfileSettingsBox';
-import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {Constants, ScreenName, StackName} from '@constants/Constants';
 import {
   profileBackground,
   defaultAvatar,
   cameraIcon,
 } from '@constants/sources/index';
+import fonts from '@themes/fonts';
+import i18n from '@locales/index';
+import colors from '@themes/colors';
+import styled from 'styled-components/native';
+import PrimaryIcon from '@components/PrimaryIcon';
+import PrimaryButton from '@components/PrimaryButton';
+import {getInset} from 'react-native-safe-area-view';
+import ProfileAlbumBox from './shared/ProfileAlbumBox';
+import {ImageBackground, StyleSheet} from 'react-native';
+import {navigate, navigateReset} from '@navigators/index';
+import ProfileRelationBox from './shared/ProfileRelationBox';
+import ProfileSettingsBox from './shared/ProfileSettingsBox';
+import {Avatar, Box, Actionsheet, useDisclose} from 'native-base';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import {Constants, ScreenName, StackName} from '@constants/Constants';
+import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 
 interface DataProps {
   name?: string;
@@ -38,6 +40,7 @@ interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
   const {isOpen, onOpen, onClose} = useDisclose();
+  const bottomInset = getInset('bottom', false);
 
   const onLogOut = () => {
     navigateReset(StackName.AuthenticationStack);
@@ -58,20 +61,14 @@ const ProfileScreen: React.FC<Props> = () => {
   const onPressEvents = () => {
     navigate(ScreenName.MyEventsScreen);
   };
-  const openPictureOptions = () => {
-    onOpen();
-  };
-  const closePictureOptions = () => {
-    onClose();
-  };
   const takePhoto = () => {
-    closePictureOptions();
+    onClose();
     setTimeout(() => {
       navigate(ScreenName.CameraScreen);
     }, 500);
   };
   const chooseFromGallery = () => {
-    closePictureOptions();
+    onClose();
     setTimeout(() => {
       navigate(ScreenName.MediaPickerScreen);
     }, 500);
@@ -119,7 +116,7 @@ const ProfileScreen: React.FC<Props> = () => {
             />
           </Content>
 
-          <AvatarContainer activeOpacity={0.7} onPress={openPictureOptions}>
+          <AvatarContainer activeOpacity={0.7} onPress={onOpen}>
             <Avatar
               size="2xl"
               backgroundColor={'transparent'}
@@ -131,22 +128,26 @@ const ProfileScreen: React.FC<Props> = () => {
           </AvatarContainer>
         </Scroll>
 
-        <Actionsheet isOpen={isOpen} onClose={onClose} bgColor={colors.WHITE}>
-          <PictureOptionContainer onPress={takePhoto}>
-            <PictureOptionText>{i18n.t('popUp.takePhoto')}</PictureOptionText>
-          </PictureOptionContainer>
+        <Actionsheet
+          pb={bottomInset}
+          isOpen={isOpen}
+          onClose={onClose}
+          bgColor={colors.WHITE}>
+          <PrimaryActionSheetItem
+            title={i18n.t('popUp.takePhoto')}
+            onPress={takePhoto}
+          />
           <HLine />
-          <PictureOptionContainer onPress={chooseFromGallery}>
-            <PictureOptionText>
-              {i18n.t('popUp.chooseFromGallery')}
-            </PictureOptionText>
-          </PictureOptionContainer>
+          <PrimaryActionSheetItem
+            title={i18n.t('popUp.chooseFromGallery')}
+            onPress={chooseFromGallery}
+          />
           <HLine />
-          <PictureOptionContainer onPress={closePictureOptions}>
-            <PictureOptionCancelText>
-              {i18n.t('popUp.cancel')}
-            </PictureOptionCancelText>
-          </PictureOptionContainer>
+          <PrimaryActionSheetItem
+            title={i18n.t('popUp.cancel')}
+            titleColor={colors.RED_1}
+            onPress={onClose}
+          />
         </Actionsheet>
       </ImageBackground>
     </Box>
@@ -196,31 +197,10 @@ const EmailText = styled(fonts.PrimaryFontMediumSize14)`
   color: ${colors.SILVER};
 `;
 
-const PictureOptionContainer = styled.TouchableOpacity<{marginTop?: number}>`
-  width: 100%;
-  height: 50px;
-  justify-content: center;
-  margin-top: ${props => props.marginTop ?? 0}px;
-`;
-
-const PictureOptionText = styled(fonts.PrimaryFontMediumSize16)`
-  margin-left: 30px;
-  margin-right: 30px;
-  text-align: center;
-  color: ${colors.DANUBE};
-`;
-
 const HLine = styled.View`
   width: 80%;
   height: 1px;
   background-color: ${colors.CONCRETE};
-`;
-
-const PictureOptionCancelText = styled(fonts.PrimaryFontMediumSize16)`
-  margin-left: 30px;
-  margin-right: 30px;
-  text-align: center;
-  color: ${colors.RED_1};
 `;
 
 const styles = StyleSheet.create({

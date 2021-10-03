@@ -12,6 +12,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.facebook.react.ReactApplication;
+import com.zoontek.rnpermissions.RNPermissionsPackage;
 import com.reactnativerestart.RestartPackage;
 //import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.facebook.react.PackageList;

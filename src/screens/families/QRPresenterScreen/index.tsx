@@ -56,7 +56,7 @@ const QRPresenterScreen: React.FC<Props> = ({route}) => {
               logoSize={48}
               logo={appIcon}
               logoBorderRadius={24}
-              value={'route.params.value'}
+              value={`${route.params.value}`}
             />
           )}
           {route && route.params && route.params.instruction && (

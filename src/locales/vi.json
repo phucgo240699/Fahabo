@@ -45,6 +45,7 @@
   },
   "family": {
     "family": "Gia đình",
+    "scanInstruction": "Scan QR code to join family",
     "createFamily": "Tạo gia đình",
     "joinFamily": "Tham gia vào gia đình",
     "name": "Tên",

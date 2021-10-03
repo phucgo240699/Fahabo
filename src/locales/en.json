@@ -44,6 +44,7 @@
   },
   "family": {
     "family": "Family",
+    "scanInstruction": "Scan QR code to join family",
     "createFamily": "Create family",
     "joinFamily": "Join family",
     "name": "Name",

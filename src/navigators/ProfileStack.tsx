@@ -13,6 +13,7 @@ import MediaPickerScreen from '@screens/media/MediaPickerScreen';
 import QRPresenterScreen from '@screens/families/QRPresenterScreen';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
+import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
 
 interface Props {
   route?: any;
@@ -60,7 +61,10 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
         name={ScreenName.QRPresenterScreen}
         component={QRPresenterScreen}
       />
-
+      <Stack.Screen
+        name={ScreenName.ScanFamilyQRScreen}
+        component={ScanFamilyQRScreen}
+      />
       <Stack.Screen
         name={ScreenName.SettingsScreen}
         component={SettingsScreen}
