@@ -2,6 +2,7 @@ import React from 'react';
 import {navigationOptions} from './index';
 import ProfileScreen from '@screens/profile';
 import SettingsScreen from '@screens/settings';
+import FamiliesScreen from '@screens/families';
 import {ScreenName} from '@constants/Constants';
 import CameraScreen from '@screens/media/CameraScreen';
 import MyChoresScreen from '@screens/chores/MyChoresScreen';
@@ -9,9 +10,9 @@ import MyEventsScreen from '@screens/events/MyEventsScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import LanguageScreen from '@screens/settings/LanguageScreen';
 import MediaPickerScreen from '@screens/media/MediaPickerScreen';
-import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
+import QRPresenterScreen from '@screens/families/QRPresenterScreen';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-import FamiliesScreen from '@screens/families';
+import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
 
 interface Props {
   route?: any;
@@ -55,6 +56,11 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
         name={ScreenName.FamiliesScreen}
         component={FamiliesScreen}
       />
+      <Stack.Screen
+        name={ScreenName.QRPresenterScreen}
+        component={QRPresenterScreen}
+      />
+
       <Stack.Screen
         name={ScreenName.SettingsScreen}
         component={SettingsScreen}

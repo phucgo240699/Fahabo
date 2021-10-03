@@ -15,7 +15,9 @@ const AppStack: React.FC = () => {
   }, []);
 
   return (
-    <Stack.Navigator screenOptions={navigationOptions}>
+    <Stack.Navigator
+      initialRouteName={StackName.MainStack}
+      screenOptions={navigationOptions}>
       <Stack.Screen name={ScreenName.FlashScreen} component={FlashScreen} />
       <Stack.Screen
         name={StackName.AuthenticationStack}

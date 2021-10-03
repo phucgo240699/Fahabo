@@ -20,7 +20,7 @@ function withDefault<T extends {defaultProps?: Partial<TDefaults>}, TDefaults>(
 
 const BasePrimaryFontLight = withDefault(
   styled.Text`
-    color: ${colors.BLACK};
+    color: ${colors.TEXT};
     font-family: ${RobotoLight};
     font-weight: 300;
   `,
@@ -31,7 +31,7 @@ const BasePrimaryFontLight = withDefault(
 
 const BasePrimaryFontRegular = withDefault(
   styled.Text`
-    color: ${colors.BLACK};
+    color: ${colors.TEXT};
     font-family: ${RobotoRegular};
     font-weight: 400;
   `,
@@ -42,7 +42,7 @@ const BasePrimaryFontRegular = withDefault(
 
 const BasePrimaryFontMedium = withDefault(
   styled.Text`
-    color: ${colors.BLACK};
+    color: ${colors.TEXT};
     font-family: ${RobotoMedium};
     font-weight: 500;
   `,
@@ -53,7 +53,7 @@ const BasePrimaryFontMedium = withDefault(
 
 const BasePrimaryFontBold = withDefault(
   styled.Text`
-    color: ${colors.BLACK};
+    color: ${colors.TEXT};
     font-family: ${RobotoBold};
     font-weight: 700;
   `,

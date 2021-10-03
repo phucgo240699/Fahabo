@@ -51,6 +51,9 @@
     "cancel": "Huỷ",
     "save": "Lưu"
   },
+  "qrCode": {
+    "qrCode": "Mã QR"
+  },
   "home": {
     "home": "Trang chủ"
   },

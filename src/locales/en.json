@@ -50,6 +50,9 @@
     "cancel": "Cancel",
     "save": "Save"
   },
+  "qrCode": {
+    "qrCode": "QR Code"
+  },
   "home": {
     "home": "Home"
   },

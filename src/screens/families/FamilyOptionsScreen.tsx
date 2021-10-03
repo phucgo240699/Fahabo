@@ -16,10 +16,10 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 const FamilyOptionsScreen = () => {
   const navigation = useNavigation();
   const [showCreationModal, setShowCreationModal] = useState(false);
+
   const onPressBack = () => {
     navigation.dispatch(CommonActions.goBack());
   };
-
   const onOpenCreationModal = () => {
     setShowCreationModal(true);
   };

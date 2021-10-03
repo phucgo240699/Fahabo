@@ -9,22 +9,27 @@ import PrimaryButton from '@components/PrimaryButton';
 import i18n from '@locales/index';
 import ProfileHeader from '@components/ProfileHeader';
 import HorizontalFamilyItem from './shared/HorizontalFamilyItem';
+import {navigate} from '@navigators/index';
+import {ScreenName} from '@constants/Constants';
 
 const DATA = [
   {
+    id: 1,
     title: 'Home',
     hostName: 'Phuc',
-    totalMembers: 5,
+    totalMembers: 1,
   },
   {
+    id: 2,
     title: 'Home',
-    hostName: 'Phuc',
-    totalMembers: 5,
+    hostName: 'Phuc Ly',
+    totalMembers: 2,
   },
   {
+    id: 3,
     title: 'Home',
-    hostName: 'Phuc',
-    totalMembers: 5,
+    hostName: 'Ly Hien Phuc',
+    totalMembers: 3,
   },
 ];
 
@@ -32,7 +37,13 @@ interface Props {}
 
 const FamiliesScreen: React.FC<Props> = ({}) => {
   const renderItem = ({item}: {item: any}) => {
-    return <HorizontalFamilyItem item={item} />;
+    return <HorizontalFamilyItem item={item} onPress={onPressItem} />;
+  };
+  const onPressItem = (item: any) => {
+    navigate(ScreenName.QRPresenterScreen, {
+      value: item.id,
+      instruction: 'Scan QR code to join family',
+    });
   };
   return (
     <Box flex={1} safeArea bgColor={colors.WHITE}>

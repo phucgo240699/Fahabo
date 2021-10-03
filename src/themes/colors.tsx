@@ -6,6 +6,7 @@ const shades = {
   GRAY: '#8C8C8C',
   DARK_GRAY: '#595959',
   BLACK: '#000000', // 090014
+  ABBEY: '#333333',
   THEME_COLOR_1: '#FFF1CC',
   THEME_COLOR_2: '#FFE9B3',
   THEME_COLOR_3: '#FFE299',
@@ -29,6 +30,7 @@ const applied = {
   BACKGROUND: shades.WHITE,
   TABBAR_INACTIVE: shades.WHITE,
   TABBAR_ACTIVE: shades.BLACK,
+  TEXT: shades.ABBEY,
   WHITE_ALPHA50: `${shades.WHITE}60`,
   BLACK_ALPHA50: `${shades.BLACK}80`,
 };

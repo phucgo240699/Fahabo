@@ -1,11 +1,10 @@
 import fonts from '@themes/fonts';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
-import React, {createRef, useRef} from 'react';
-import {Avatar, Box} from 'native-base';
+import React from 'react';
+import {Avatar, Box, Actionsheet, useDisclose} from 'native-base';
 import styled from 'styled-components/native';
 import PrimaryIcon from '@components/PrimaryIcon';
-import ActionSheet from 'react-native-actions-sheet';
 import PrimaryButton from '@components/PrimaryButton';
 import ProfileAlbumBox from './shared/ProfileAlbumBox';
 import {ImageBackground, StyleSheet} from 'react-native';
@@ -38,7 +37,8 @@ const DATA: DataProps = {
 interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
-  const pictureOptionsRef = useRef<ActionSheet>(); //= createRef();
+  const {isOpen, onOpen, onClose} = useDisclose();
+
   const onLogOut = () => {
     navigateReset(StackName.AuthenticationStack);
   };
@@ -59,7 +59,10 @@ const ProfileScreen: React.FC<Props> = () => {
     navigate(ScreenName.MyEventsScreen);
   };
   const openPictureOptions = () => {
-    pictureOptionsRef.current?.setModalVisible(true);
+    onOpen();
+  };
+  const closePictureOptions = () => {
+    onClose();
   };
   const takePhoto = () => {
     closePictureOptions();
@@ -72,9 +75,6 @@ const ProfileScreen: React.FC<Props> = () => {
     setTimeout(() => {
       navigate(ScreenName.MediaPickerScreen);
     }, 500);
-  };
-  const closePictureOptions = () => {
-    pictureOptionsRef.current?.setModalVisible(false);
   };
 
   return (
@@ -131,7 +131,7 @@ const ProfileScreen: React.FC<Props> = () => {
           </AvatarContainer>
         </Scroll>
 
-        <ActionSheet ref={pictureOptionsRef}>
+        <Actionsheet isOpen={isOpen} onClose={onClose} bgColor={colors.WHITE}>
           <PictureOptionContainer onPress={takePhoto}>
             <PictureOptionText>{i18n.t('popUp.takePhoto')}</PictureOptionText>
           </PictureOptionContainer>
@@ -147,7 +147,7 @@ const ProfileScreen: React.FC<Props> = () => {
               {i18n.t('popUp.cancel')}
             </PictureOptionCancelText>
           </PictureOptionContainer>
-        </ActionSheet>
+        </Actionsheet>
       </ImageBackground>
     </Box>
   );
@@ -211,10 +211,9 @@ const PictureOptionText = styled(fonts.PrimaryFontMediumSize16)`
 `;
 
 const HLine = styled.View`
+  width: 80%;
   height: 1px;
-  margin-left: 20px;
-  margin-right: 20px;
-  background-color: ${colors.SILVER};
+  background-color: ${colors.CONCRETE};
 `;
 
 const PictureOptionCancelText = styled(fonts.PrimaryFontMediumSize16)`
@@ -237,9 +236,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
     paddingBottom: 150,
     alignItems: 'center',
-  },
-  pictureOptions: {
-    backgroundColor: colors.WHITE,
   },
 });
 
