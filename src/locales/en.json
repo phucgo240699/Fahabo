@@ -11,7 +11,11 @@
       "forgotPassword": "Forgot Password?",
       "login": "Login",
       "signUpLabel": "Don't have an account?",
-      "signUp": "Sign up"
+      "signUp": "Sign up",
+      "manualSignIn": "Sign in with email",
+      "appleSignIn": "Sign in with apple",
+      "googleSignIn": "Sign in with google",
+      "facebookSignIn": "Sign in with facebook"
     },
     "signUp": {
       "signUp": "Sign up",

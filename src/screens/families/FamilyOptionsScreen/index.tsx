@@ -41,11 +41,10 @@ const FamilyOptionsScreen = () => {
         barStyle="dark-content"
         backgroundColor={colors.FLASH_SCREEN}
       />
-      <PrimaryButton
+      <CloseButton
         onPress={onPressBack}
         leftSource={closeIcon}
         leftTintColor={colors.WHITE}
-        containerStyle={styles.closeBtn}
       />
       <Touch onPressOut={onOpenCreationModal}>
         <ButtonContent>
@@ -116,12 +115,10 @@ const ButtonTitle = styled(fonts.PrimaryFontMediumSize20)`
   color: ${colors.DARK_GRAY};
 `;
 
-const styles = StyleSheet.create({
-  closeBtn: {
-    position: 'absolute',
-    top: getStatusBarHeight() + 5,
-    left: 15,
-  },
-});
+const CloseButton = styled(PrimaryButton)`
+  left: 15px;
+  top: ${getStatusBarHeight() + 5}px;
+  position: absolute;
+`;
 
 export default FamilyOptionsScreen;

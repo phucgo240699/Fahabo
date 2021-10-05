@@ -9,14 +9,14 @@ interface Props {
   titleColor?: string;
   titleFontSize?: number;
   titleFontWeight?: number;
-  leftSource?: ImageSourcePropType;
-  rightSource?: ImageSourcePropType;
   leftTintColor?: string;
-  rightTintColor?: string;
   leftIconWidth?: number;
   leftIconHeight?: number;
+  leftSource?: ImageSourcePropType;
+  rightTintColor?: string;
   rightIconWidth?: number;
   rightIconHeight?: number;
+  rightSource?: ImageSourcePropType;
   space?: number;
   padding?: number;
   containerStyle?: any;
@@ -32,14 +32,14 @@ const PrimaryButton: React.FC<Props> = ({
   titleColor = colors.BLACK,
   titleFontSize = 14,
   titleFontWeight = 400,
-  leftSource,
-  rightSource,
   leftTintColor,
-  rightTintColor,
   leftIconWidth = 24,
   leftIconHeight = 24,
+  leftSource,
+  rightTintColor,
   rightIconWidth = 24,
   rightIconHeight = 24,
+  rightSource,
   space = 4,
   padding = 4,
   containerStyle,
@@ -48,6 +48,7 @@ const PrimaryButton: React.FC<Props> = ({
   marginRight,
   marginBottom,
   onPress,
+  ...otherProps
 }) => {
   return (
     <Container
@@ -57,7 +58,8 @@ const PrimaryButton: React.FC<Props> = ({
       marginRight={marginRight}
       marginBottom={marginBottom}
       style={containerStyle}
-      onPress={onPress}>
+      onPress={onPress}
+      {...otherProps}>
       {leftSource && (
         <Icon
           width={leftIconWidth}

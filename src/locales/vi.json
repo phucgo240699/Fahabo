@@ -11,7 +11,11 @@
       "forgotPassword": "Quên mật khẩu?",
       "login": "Đăng nhập",
       "signUpLabel": "Nếu bạn chưa có mật khẩu, hãy",
-      "signUp": "Đăng ký"
+      "signUp": "Đăng ký",
+      "manualSignIn": "Đăng nhập bằng email",
+      "appleSignIn": "Đăng nhập bằng apple",
+      "googleSignIn": "Đăng nhập bằng google",
+      "facebookSignIn": "Đăng nhập bằng facebook"
     },
     "signUp": {
       "signUp": "Đăng ký",

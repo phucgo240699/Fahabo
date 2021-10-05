@@ -1,5 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Text, Heading, VStack, Input, Link, Button, HStack} from 'native-base';
+import {
+  Text,
+  Heading,
+  VStack,
+  Input,
+  Link,
+  Button,
+  HStack,
+  ScrollView,
+} from 'native-base';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import {navigate} from '@navigators/index';
@@ -15,7 +24,7 @@ import {Keyboard, Platform, StyleSheet} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import {ScreenName} from '@constants/Constants';
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {
   authFamilyBanner,
   appleIcon,
@@ -27,12 +36,11 @@ import {useDispatch} from 'react-redux';
 import {signInRequestAction} from '@store/actionTypes/signIn';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
-import {isNull} from '@utils/index';
+import SecondaryButton from '@components/SecondaryButton';
+import PrimaryIcon from '@components/PrimaryIcon';
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
 
   // Life cycle
   useEffect(() => {
@@ -43,24 +51,13 @@ const SignInScreen = () => {
   const onKeyboardDismiss = () => {
     Keyboard.dismiss();
   };
-  const onChangeEmail = (text: string) => {
-    setEmail(text);
-  };
-  const onChangePassword = (text: string) => {
-    setPassword(text);
-  };
 
   // Navigate
+  const onPressLoginManually = () => {
+    navigate(ScreenName.ManualSignInScreen);
+  };
   const onPressSignUp = () => {
     navigate(ScreenName.SignUpScreen);
-  };
-  const onPressForgotPassword = () => {
-    navigate(ScreenName.ForgotPasswordScreen);
-  };
-
-  // Sign in
-  const onSignIn = () => {
-    dispatch(signInRequestAction({username: email, password: password}));
   };
 
   // Sign in with Apple
@@ -151,101 +148,76 @@ const SignInScreen = () => {
         translucent
       />
       <Container onPressOut={onKeyboardDismiss}>
-        <Scroll
+        <ScrollView
+          flex={1}
           scrollEnabled
           overScrollMode="never"
-          contentContainerStyle={styles.scrollView}
           alwaysBounceVertical={false}
-          showsVerticalScrollIndicator={false}>
-          {/* Header */}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollView}>
           <Banner source={authFamilyBanner} />
-          <Heading size="2xl" color={colors.THEME_COLOR_5}>
-            {i18n.t('authentication.signIn.welcome')}
-          </Heading>
-          <Heading color={colors.GRAY} size="xs">
-            {i18n.t('authentication.signIn.subWelcome')}
-          </Heading>
 
-          {/* Form */}
-          <VStack space={2} mt={5}>
-            <Input
-              color={colors.BLACK}
-              borderColor={colors.SILVER}
-              keyboardType="email-address"
-              onChangeText={onChangeEmail}
-              placeholderTextColor={colors.SILVER}
-              placeholder={i18n.t('authentication.signIn.accountPlaceHolder')}
+          <ButtonArea>
+            <SecondaryButton
+              leftIcon={<EmptyIconView />}
+              title={i18n.t('authentication.signIn.manualSignIn')}
+              onPress={onPressLoginManually}
             />
-            <Input
-              mt={3}
-              type="password"
-              color={colors.BLACK}
-              borderColor={colors.SILVER}
-              onChangeText={onChangePassword}
-              placeholderTextColor={colors.SILVER}
-              placeholder={i18n.t('authentication.signIn.password')}
+            <SecondaryButton
+              marginTop={10}
+              backgroundColor={'#000000'}
+              leftIcon={
+                <PrimaryIcon
+                  width={36}
+                  height={36}
+                  tintColor={'#ffffff'}
+                  source={appleIcon}
+                />
+              }
+              title={i18n.t('authentication.signIn.appleSignIn')}
+              onPress={onSignInWithApple}
             />
+            <SecondaryButton
+              marginTop={10}
+              backgroundColor={'#4e86ec'}
+              leftIcon={
+                <WhiteIconWrapper>
+                  <PrimaryIcon width={36} height={36} source={googleIcon} />
+                </WhiteIconWrapper>
+              }
+              title={i18n.t('authentication.signIn.googleSignIn')}
+              onPress={onSignInWithGoogle}
+            />
+            <SecondaryButton
+              marginTop={10}
+              backgroundColor={'#304d95'}
+              leftIcon={
+                <WhiteIconWrapper>
+                  <PrimaryIcon width={36} height={36} source={facebookIcon} />
+                </WhiteIconWrapper>
+              }
+              title={i18n.t('authentication.signIn.facebookSignIn')}
+              onPress={onSignInWithFacebook}
+            />
+          </ButtonArea>
+
+          {/* Encourage Sign up */}
+          <HStack mt={10} alignItems="center" justifyContent="center">
+            <Text fontSize="sm" color={colors.BLACK} fontWeight={400}>
+              {i18n.t('authentication.signIn.signUpLabel')}
+            </Text>
             <Link
               p={1}
-              mr={-2}
-              alignSelf="flex-end"
               _text={{
-                fontSize: 'xs',
-                fontWeight: '700',
                 color: colors.THEME_COLOR_7,
+                bold: true,
+                fontSize: 'sm',
               }}
-              onPress={onPressForgotPassword}>
-              {i18n.t('authentication.signIn.forgotPassword')}
+              onPress={onPressSignUp}>
+              {i18n.t('authentication.signIn.signUp')}
             </Link>
-
-            {/* Button */}
-            <Button
-              mt={2}
-              size="lg"
-              disabled={isNull(email) || isNull(password)}
-              _text={{color: colors.WHITE}}
-              onPress={onSignIn}>
-              {i18n.t('authentication.signIn.login')}
-            </Button>
-
-            <Seperator source={orSeparator} />
-
-            {/* Third party Authentication */}
-            <HStack alignItems="center" justifyContent="center">
-              {Platform.OS === 'ios' && (
-                <ThirdPartyAuthButton
-                  sourceIcon={appleIcon}
-                  onPress={onSignInWithApple}
-                />
-              )}
-              <ThirdPartyAuthButton
-                sourceIcon={googleIcon}
-                onPress={onSignInWithGoogle}
-              />
-              <ThirdPartyAuthButton
-                sourceIcon={facebookIcon}
-                onPress={onSignInWithFacebook}
-              />
-            </HStack>
-
-            {/* Encourage Sign up */}
-            <HStack mt={10} alignItems="center" justifyContent="center">
-              <Text fontSize="sm" color={colors.BLACK} fontWeight={400}>
-                {i18n.t('authentication.signIn.signUpLabel')}
-              </Text>
-              <Link
-                p={1}
-                _text={{
-                  color: colors.THEME_COLOR_7,
-                  bold: true,
-                  fontSize: 'sm',
-                }}
-                onPress={onPressSignUp}>
-                {i18n.t('authentication.signIn.signUp')}
-              </Link>
-            </HStack>
-          </VStack>
-        </Scroll>
+          </HStack>
+        </ScrollView>
       </Container>
     </SafeView>
   );
@@ -256,20 +228,28 @@ const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.WHITE};
 `;
-const Scroll = styled.ScrollView`
-  flex: 1;
-`;
 
 const Banner = styled.Image`
-  width: 70%;
+  width: 100%;
   align-self: center;
   resize-mode: contain;
 `;
-const Seperator = styled.Image`
-  align-self: center;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  tint-color: ${colors.TEXT};
+
+const WhiteIconWrapper = styled.View`
+  border-radius: 19px;
+  padding: 1px;
+  background-color: #ffffff;
+`;
+
+const ButtonArea = styled.View`
+  margin-top: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
+`;
+
+const EmptyIconView = styled.View`
+  width: 36px;
+  height: 36px;
 `;
 
 const styles = StyleSheet.create({

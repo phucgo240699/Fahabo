@@ -5,21 +5,23 @@ import {ScreenName} from '@constants/Constants';
 import SignInScreen from '@screens/signIn';
 import SignUpScreen from '@screens/signUp';
 import PinCodeScreen from '@screens/signUp/PinCodeScreen';
-import LanguageScreen from '@screens/settings/LanguageScreen';
 import CountryCodeScreen from '@screens/signUp/CountryCodeScreen';
 import NewPasswordScreen from '@screens/signIn/NewPasswordScreen';
+import ManualSignInScreen from '@screens/signIn/ManualSignInScreen';
+import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
 import ForgotPasswordScreen from '@screens/signIn/ForgotPasswordScreen';
 import FamilyOptionsScreen from '@screens/families/FamilyOptionsScreen';
-import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
 
 const Stack = createStackNavigator();
 
 const AuthenticationStack = () => {
   return (
-    <Stack.Navigator
-      initialRouteName={ScreenName.SignInScreen}
-      screenOptions={navigationOptions}>
+    <Stack.Navigator screenOptions={navigationOptions}>
       <Stack.Screen name={ScreenName.SignInScreen} component={SignInScreen} />
+      <Stack.Screen
+        name={ScreenName.ManualSignInScreen}
+        component={ManualSignInScreen}
+      />
       <Stack.Screen name={ScreenName.SignUpScreen} component={SignUpScreen} />
       <Stack.Screen name={ScreenName.PinCodeScreen} component={PinCodeScreen} />
       <Stack.Screen
