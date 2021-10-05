@@ -76,9 +76,9 @@ const AlbumLabel = styled(fonts.PrimaryFontMediumSize18)`
 `;
 
 const PictureContainer = styled.TouchableOpacity<{marginLeft?: number}>`
-  margin: 4px;
-  width: ${Constants.MAX_WIDTH / 5}px;
-  height: ${Constants.MAX_WIDTH / 5}px;
+  margin-top: 5px;
+  width: ${(Constants.MAX_WIDTH - 110) / 3}px;
+  height: ${(Constants.MAX_WIDTH - 110) / 3}px;
 `;
 
 export default memo(ProfileAlbumBox);

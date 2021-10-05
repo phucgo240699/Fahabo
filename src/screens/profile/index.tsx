@@ -174,7 +174,7 @@ const EmptyView = styled.View`
 const Scroll = styled.ScrollView``;
 
 const Content = styled.View`
-  width: 90%;
+  width: ${Constants.MAX_WIDTH - 40}px;
   height: 200%;
   padding-top: 68px;
   padding-left: 30px;

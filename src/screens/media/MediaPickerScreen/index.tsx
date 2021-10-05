@@ -16,7 +16,7 @@ const MediaPickerScreen: React.FC<Props> = ({}) => {
   const [photos, setPhotos] = useState<CameraRoll.PhotoIdentifier[]>([]);
   useEffect(() => {
     CameraRoll.getPhotos({
-      first: 20,
+      first: 80,
       assetType: 'Photos',
     })
       .then(result => {
@@ -46,9 +46,7 @@ const MediaPickerScreen: React.FC<Props> = ({}) => {
               return (
                 <PhotoContainer key={index}>
                   <Image
-                    borderRadius={10}
-                    width={Constants.MAX_WIDTH / 5}
-                    height={Constants.MAX_WIDTH / 5}
+                    flex={1}
                     source={{uri: item.node.image.uri}}
                     alt={i18n.t('application.loading')}
                   />
@@ -73,8 +71,10 @@ const Container = styled.View`
   justify-content: center;
 `;
 
-const PhotoContainer = styled.TouchableOpacity<{marginLeft?: number}>`
-  margin: 5px;
+const PhotoContainer = styled.TouchableOpacity`
+  margin-top: 5px;
+  width: ${(Constants.MAX_WIDTH - 35) / 4}px;
+  height: ${(Constants.MAX_WIDTH - 35) / 4}px;
 `;
 
 const EmptyText = styled(fonts.PrimaryFontBoldSize25)`
@@ -83,7 +83,7 @@ const EmptyText = styled(fonts.PrimaryFontBoldSize25)`
 
 const styles = StyleSheet.create({
   scroll: {
-    padding: 10,
+    padding: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
