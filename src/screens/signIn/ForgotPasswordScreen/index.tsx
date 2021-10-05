@@ -21,7 +21,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const [username, setUserName] = useState('');
 
-  const onNavigateToPinCodeScreen = () => {
+  const onPressGetPinCode = () => {
     dispatch(getForgotPasswordOTPRequestAction({username: username}));
   };
 
@@ -67,7 +67,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
                   size="lg"
                   disabled={isNull(username)}
                   _text={{color: colors.WHITE}}
-                  onPress={onNavigateToPinCodeScreen}>
+                  onPress={onPressGetPinCode}>
                   {i18n.t('authentication.forgotPassword.getPinCode')}
                 </Button>
               </VStack>

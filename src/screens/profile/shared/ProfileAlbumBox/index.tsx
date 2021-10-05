@@ -7,48 +7,12 @@ import PrimaryButton from '@components/PrimaryButton';
 import {Box, Image} from 'native-base';
 import {Constants} from '@constants/Constants';
 
-const DATA = [
-  {
-    id: '1',
-    url: 'https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=gfj-D8f-ThUAX___DMV&_nc_ht=scontent-hkt1-2.xx&oh=549ee43899ea3723475b63f5ae5d50dd&oe=61696260',
-  },
-  {
-    id: '2',
-    url: 'https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=gfj-D8f-ThUAX___DMV&_nc_ht=scontent-hkt1-2.xx&oh=549ee43899ea3723475b63f5ae5d50dd&oe=61696260',
-  },
-  {
-    id: '3',
-    url: 'https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=gfj-D8f-ThUAX___DMV&_nc_ht=scontent-hkt1-2.xx&oh=549ee43899ea3723475b63f5ae5d50dd&oe=61696260',
-  },
-  {
-    id: '4',
-    url: 'https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=gfj-D8f-ThUAX___DMV&_nc_ht=scontent-hkt1-2.xx&oh=549ee43899ea3723475b63f5ae5d50dd&oe=61696260',
-  },
-  {
-    id: '5',
-    url: 'https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=gfj-D8f-ThUAX___DMV&_nc_ht=scontent-hkt1-2.xx&oh=549ee43899ea3723475b63f5ae5d50dd&oe=61696260',
-  },
-  {
-    id: '6',
-    url: 'https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=gfj-D8f-ThUAX___DMV&_nc_ht=scontent-hkt1-2.xx&oh=549ee43899ea3723475b63f5ae5d50dd&oe=61696260',
-  },
-  {
-    id: '7',
-    url: 'https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=gfj-D8f-ThUAX___DMV&_nc_ht=scontent-hkt1-2.xx&oh=549ee43899ea3723475b63f5ae5d50dd&oe=61696260',
-  },
-  {
-    id: '8',
-    url: 'https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=gfj-D8f-ThUAX___DMV&_nc_ht=scontent-hkt1-2.xx&oh=549ee43899ea3723475b63f5ae5d50dd&oe=61696260',
-  },
-  {
-    id: '9',
-    url: 'https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=gfj-D8f-ThUAX___DMV&_nc_ht=scontent-hkt1-2.xx&oh=549ee43899ea3723475b63f5ae5d50dd&oe=61696260',
-  },
-];
+interface Props {
+  data: any[];
+  onPressItem?: (index: number) => void;
+}
 
-interface Props {}
-
-const ProfileAlbumBox: React.FC<Props> = () => {
+const ProfileAlbumBox: React.FC<Props> = ({data, onPressItem}) => {
   return (
     <Container>
       <Header>
@@ -59,16 +23,14 @@ const ProfileAlbumBox: React.FC<Props> = () => {
         flexDirection={'row'}
         justifyContent={'space-between'}
         flexWrap={'wrap'}>
-        {DATA.map((item, index) => {
+        {data.map((item, index) => {
           return (
-            <PictureContainer key={item.id}>
-              <Image
-                flex={1}
-                borderRadius={10}
-                source={{uri: item.url}}
-                alt={i18n.t('application.loading')}
-              />
-            </PictureContainer>
+            <Picture
+              key={index}
+              item={item}
+              index={index}
+              onPress={onPressItem}
+            />
           );
         })}
       </Box>
@@ -76,7 +38,30 @@ const ProfileAlbumBox: React.FC<Props> = () => {
   );
 };
 
+const Picture: React.FC<{
+  item: any;
+  index: number;
+  onPress?: (index: number) => void;
+}> = ({item, index, onPress}) => {
+  const onPressContainer = () => {
+    if (onPress) {
+      onPress(index);
+    }
+  };
+  return (
+    <PictureContainer onPress={onPressContainer}>
+      <Image
+        flex={1}
+        borderRadius={10}
+        source={{uri: item.uri}}
+        alt={i18n.t('application.loading')}
+      />
+    </PictureContainer>
+  );
+};
+
 const Container = styled.View`
+  width: 100%;
   margin-top: 40px;
   margin-bottom: 30px;
 `;

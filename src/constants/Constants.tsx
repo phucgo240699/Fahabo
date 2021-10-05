@@ -27,6 +27,7 @@ export enum ScreenName {
   FlashScreen = 'FlashScreen',
   CameraScreen = 'CameraScreen',
   MediaPickerScreen = 'MediaPickerScreen',
+  ImageViewerScreen = 'ImageViewerScreen',
   FamilyOptionsScreen = 'FamilyOptionsScreen',
   QRPresenterScreen = 'QRPresenterScreen',
   ScanFamilyQRScreen = 'ScanFamilyQRScreen',

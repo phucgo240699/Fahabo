@@ -22,6 +22,8 @@ import {Constants, ScreenName, StackName} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {useDispatch} from 'react-redux';
 import {logOutAction} from '@store/actionTypes/signIn';
+import {ImageSource} from 'react-native-image-viewing/dist/@types';
+import {DisplayPictures} from '@constants/DummyData';
 
 interface DataProps {
   name?: string;
@@ -110,7 +112,15 @@ const ProfileScreen: React.FC<Props> = () => {
               onPressUpdateProfile={onPressProfile}
             />
 
-            <ProfileAlbumBox />
+            <ProfileAlbumBox
+              data={DisplayPictures}
+              onPressItem={index => {
+                navigate(ScreenName.ImageViewerScreen, {
+                  data: DisplayPictures,
+                  currentIndex: index,
+                });
+              }}
+            />
 
             <PrimaryButton
               titleColor={colors.RED_1}
