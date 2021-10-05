@@ -32,5 +32,5 @@ export function verifyForgotPasswordOTP(body: VerifyUsernameRequestType) {
 }
 
 export function forgotPassword(body: ForgotPasswordRequestType) {
-  return new apiProvider().post(`${BASE_URL}/forgotPassword`, body);
+  return new apiProvider().post(`${BASE_URL}/change_password`, body);
 }

@@ -7,6 +7,13 @@ export const parseVerifyUsernameRequest = (rawData: any) => {
   };
 };
 
+export const parseVerifyForgotPasswordRequest = (rawData: any) => {
+  return {
+    otp: get('otp', rawData),
+    username: get('username', rawData),
+  };
+};
+
 export const parseSignInResponse = (rawData: any) => {
   return {
     user: {

@@ -6,6 +6,7 @@ import {
   showToastAction,
 } from '@store/actionTypes/session';
 import {
+  forgotPasswordSuccessAction,
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_SUCCESS,
   getCountryCodeSuccessAction,
@@ -36,6 +37,7 @@ import {
 } from '@services/signUp';
 import {
   parseSignUpResponse,
+  parseVerifyForgotPasswordRequest,
   parseVerifyResponse,
   parseVerifyUsernameRequest,
 } from '@utils/parsers/authentication';
@@ -92,7 +94,10 @@ function* onSignUpRequest(action: AnyAction) {
 }
 
 function* onSignUpSuccess(action: AnyAction) {
-  navigate(ScreenName.PinCodeScreen, {username: action.payload.username});
+  console.log('navigate to PinCodeScreen: ', action.payload);
+  navigate(ScreenName.PinCodeScreen, {
+    ...action.payload,
+  });
 }
 
 function* onGetCountryCodeRequest(action: AnyAction) {
@@ -224,7 +229,10 @@ function* onGetForgotPasswordOTPRequest(action: AnyAction) {
 function* onVerifyForgotPasswordOTPRequest(action: AnyAction) {
   try {
     yield* put(showHUDAction());
-    const response = yield* call(verifyForgotPasswordOTP, action.body);
+    const response = yield* call(
+      verifyForgotPasswordOTP,
+      parseVerifyForgotPasswordRequest(action.body),
+    );
     if (response.status === 200) {
       navigate(ScreenName.NewPasswordScreen, {...action.body});
     } else {
@@ -255,6 +263,7 @@ function* onForgotPasswordRequest(action: AnyAction) {
           ToastType.SUCCESS,
         ),
       );
+      yield* put(forgotPasswordSuccessAction());
     } else {
       yield* put(
         showToastAction(

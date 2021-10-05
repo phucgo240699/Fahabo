@@ -56,7 +56,7 @@ function* onSignInRequest(action: AnyAction) {
           ),
         );
         navigate(ScreenName.PinCodeScreen, {
-          username: action.body.username,
+          ...action.body,
           sendOTPRequest: true,
         });
       }
@@ -90,28 +90,28 @@ function* onAutoSignInRequest(action: AnyAction) {
   try {
     if (!isNull(action.body.username) && !isNull(action.body.password)) {
       const response = yield* call(signIn, action.body);
-      if (response.status === 200) {
-        if (response.data.data.isValidEmail === true) {
-          if (!isNull(response.data.languageCode)) {
-            i18n.locale = response.data.languageCode;
-            i18n.defaultLocale = response.data.languageCode;
-          }
-          console.log(
-            'auto_sign_in_success: ',
+      console.log({statusCode: response.status});
+      console.log('isValidEmail: ', response.data.data.isValidEmail);
+      if (response.status === 200 && response.data.data.isValidEmail === true) {
+        if (!isNull(response.data.languageCode)) {
+          i18n.locale = response.data.languageCode;
+          i18n.defaultLocale = response.data.languageCode;
+        }
+        console.log(
+          'auto_sign_in_success: ',
+          parseSignInResponse({
+            ...response.data.data,
+            password: action.body.password,
+          }),
+        );
+        yield* put(
+          autoSignInSuccessAction(
             parseSignInResponse({
               ...response.data.data,
               password: action.body.password,
             }),
-          );
-          yield* put(
-            autoSignInSuccessAction(
-              parseSignInResponse({
-                ...response.data.data,
-                password: action.body.password,
-              }),
-            ),
-          );
-        }
+          ),
+        );
       } else {
         navigateReset(StackName.AuthenticationStack);
       }
