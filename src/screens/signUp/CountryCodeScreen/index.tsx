@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
@@ -8,146 +8,155 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
 import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCountryCodeRequestAction} from '@store/actionTypes/signUp';
+import {listCountryCodeSelector} from '@store/selectors/authentication';
 
 interface Props {
   route?: any;
 }
 
-const DATA = [
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-  {
-    id: '1',
-    countryName: 'England',
-    countryCode: '44',
-  },
-  {
-    id: '2',
-    countryName: 'Viet Nam',
-    countryCode: '84',
-  },
-];
+// const DATA = [
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+//   {
+//     id: '1',
+//     countryName: 'England',
+//     countryCode: '44',
+//   },
+//   {
+//     id: '2',
+//     countryName: 'Viet Nam',
+//     countryCode: '84',
+//   },
+// ];
 
 const CountryCodeScreen: React.FC<Props> = ({route}) => {
-  const [currentDATA, setCurrentDATA] = useState(DATA);
+  const dispatch = useDispatch();
+  // const [currentDATA, setCurrentDATA] = useState(DATA);
+  const listCountryCode = useSelector(listCountryCodeSelector);
+
+  useEffect(() => {
+    dispatch(getCountryCodeRequestAction());
+  }, [dispatch]);
 
   const renderSeparator = () => {
     return <HLine />;
@@ -157,21 +166,21 @@ const CountryCodeScreen: React.FC<Props> = ({route}) => {
     return (
       <ItemContainer
         onPress={() => {
-          onPressBack(item.countryCode);
+          onPressBack(item[1]);
         }}>
-        <ItemText>{item.countryName}</ItemText>
-        <ItemText>{`+${item.countryCode}`}</ItemText>
+        <ItemText>{item[0]}</ItemText>
+        <ItemText>{`+${item[1]}`}</ItemText>
       </ItemContainer>
     );
   };
 
-  const onSearching = (text: string) => {
-    setCurrentDATA(
-      DATA.filter((value, index) => {
-        return value.countryName.toLowerCase().includes(text.toLowerCase());
-      }),
-    );
-  };
+  // const onSearching = (text: string) => {
+  //   setCurrentDATA(
+  //     DATA.filter((value, index) => {
+  //       return value.countryName.toLowerCase().includes(text.toLowerCase());
+  //     }),
+  //   );
+  // };
 
   const onPressBack = (countryCode: string) => {
     navigate(ScreenName.SignUpScreen, {countryCode});
@@ -188,9 +197,9 @@ const CountryCodeScreen: React.FC<Props> = ({route}) => {
         translucent
       />
       <Container>
-        <PrimarySearchBar marginTop={20} onChangeText={onSearching} />
+        <PrimarySearchBar marginTop={20} /*onChangeText={onSearching}*/ />
         <List
-          data={currentDATA}
+          data={listCountryCode}
           renderItem={renderItem}
           keyboardDismissMode="on-drag"
           ItemSeparatorComponent={renderSeparator}

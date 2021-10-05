@@ -28,7 +28,7 @@ import {useDispatch} from 'react-redux';
 import {signUpRequestAction} from '@store/actionTypes/signUp';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
-import {getPhoneNumber} from '@utils/index';
+import {isNull} from '@utils/index';
 import {
   signInWithApple,
   signInWithFacebook,
@@ -47,14 +47,14 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [countryCode, setCountryCode] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  // const [countryCode, setCountryCode] = useState('');
+  // const [phoneNumber, setPhoneNumber] = useState('');
 
-  useEffect(() => {
-    if (route && route.params && route.params.countryCode) {
-      setCountryCode(route.params.countryCode);
-    }
-  }, [route]);
+  // useEffect(() => {
+  //   if (route && route.params && route.params.countryCode) {
+  //     setCountryCode(route.params.countryCode);
+  //   }
+  // }, [route]);
 
   // Sign up
   const onSignUp = () => {
@@ -64,7 +64,9 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
           email: email,
           name: name,
           password: password,
-          phoneNumber: getPhoneNumber(countryCode, '0', phoneNumber),
+          // phoneNumber: isNull(phoneNumber)
+          //   ? phoneNumber
+          //   : getPhoneNumber(countryCode, '0', phoneNumber),
         }),
       );
     } else {
@@ -86,15 +88,19 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
     console.log('Sign in with apple successfully:', userCredential);
     dispatch(
       signUpRequestAction({
-        email: userCredential.user.email ?? undefined,
-        name: userCredential.user.displayName ?? undefined,
+        email: userCredential.additionalUserInfo?.profile?.email ?? undefined,
+        name: !isNull(userCredential.user.displayName)
+          ? userCredential.user.displayName
+          : userCredential.additionalUserInfo?.profile?.email ?? undefined,
         password: userCredential.user.uid,
       }),
     );
   };
   const onSignInWithAppleFail = (error: any) => {
-    console.log('Error', `Fail: ${error}`);
-    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+    console.log(`Sign in with apple fail: ${error}`);
+    dispatch(
+      showToastAction(`Sign in with apple fail: ${error}`, ToastType.ERROR),
+    );
   };
 
   // Sign up with Google
@@ -107,18 +113,22 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
   const onSignInWithGoogleSuccess = (
     userCredential: FirebaseAuthTypes.UserCredential,
   ) => {
-    console.log('Sign in with apple successfully:', userCredential);
+    console.log('Sign in with google successfully:', userCredential);
     dispatch(
       signUpRequestAction({
-        email: userCredential.user.email ?? undefined,
-        name: userCredential.user.displayName ?? undefined,
+        email: userCredential.additionalUserInfo?.profile?.email ?? undefined,
+        name: !isNull(userCredential.user.displayName)
+          ? userCredential.user.displayName
+          : userCredential.additionalUserInfo?.profile?.email ?? undefined,
         password: userCredential.user.uid,
       }),
     );
   };
   const onSignInWithGoogleFail = (error: any) => {
-    console.log('Error', `Fail: ${error}`);
-    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+    console.log(`Sign in with google fail: ${error}`);
+    dispatch(
+      showToastAction(`Sign in with google fail: ${error}`, ToastType.ERROR),
+    );
   };
   const onSignOutWithGoogle = async () => {
     await signOutWithGoogle();
@@ -136,15 +146,19 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
     console.log('Sign in with facebook successfully:', userCredential);
     dispatch(
       signUpRequestAction({
-        email: userCredential.user.email ?? undefined,
-        name: userCredential.user.displayName ?? undefined,
+        email: userCredential.additionalUserInfo?.profile?.email ?? undefined,
+        name: !isNull(userCredential.user.displayName)
+          ? userCredential.user.displayName
+          : userCredential.additionalUserInfo?.profile?.email ?? undefined,
         password: userCredential.user.uid,
       }),
     );
   };
   const onSignInWithFacebookFail = (error: any) => {
-    console.log('Error', `Fail: ${error}`);
-    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+    console.log(`Sign in with facebook fail: ${error}`);
+    dispatch(
+      showToastAction(`Sign in with facebook fail: ${error}`, ToastType.ERROR),
+    );
   };
 
   // On change text
@@ -160,9 +174,9 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
   const onChangeConfirmPassword = (text: string) => {
     setConfirmPassword(text);
   };
-  const onChangePhoneNumber = (text: string) => {
-    setPhoneNumber(text);
-  };
+  // const onChangePhoneNumber = (text: string) => {
+  //   setPhoneNumber(text);
+  // };
   const onPressCountryCode = () => {
     navigate(ScreenName.CountryCodeScreen);
   };
@@ -253,7 +267,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               />
             </FormControl>
 
-            <Box mt={3}>
+            {/* <Box mt={3}>
               <FormControl.Label
                 _text={{
                   color: colors.BLACK,
@@ -277,14 +291,22 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
                   color={colors.BLACK}
                   borderColor={colors.SILVER}
                   keyboardType={'number-pad'}
-                  onChangeText={onChangePhoneNumber}
+                  // onChangeText={onChangePhoneNumber}
                 />
               </FormControl>
-            </Box>
+            </Box> */}
 
             {/* Button */}
             <VStack space={2} mt={5}>
-              <Button _text={{color: colors.WHITE}} onPress={onSignUp}>
+              <Button
+                _text={{color: colors.WHITE}}
+                onPress={onSignUp}
+                disabled={
+                  isNull(email) ||
+                  isNull(name) ||
+                  isNull(password) ||
+                  isNull(confirmPassword)
+                }>
                 {i18n.t('authentication.signUp.signUp')}
               </Button>
             </VStack>

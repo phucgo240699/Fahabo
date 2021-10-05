@@ -9,29 +9,32 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import styled from 'styled-components/native';
-import {Constants, ScreenName} from '@constants/Constants';
+import {Constants} from '@constants/Constants';
 import {Keyboard, StyleSheet} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
-import {navigate} from '@navigators/index';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   getOTPRequestAction,
+  getOTPRequestBackgroundAction,
+  verifyForgotPasswordOTPRequestAction,
   verifyUsernameRequestAction,
 } from '@store/actionTypes/signUp';
-import {isNull} from 'lodash';
+import {isNull} from '@utils/index';
+import {userSelector} from '@store/selectors/authentication';
 
 interface Props {
   route?: any;
   fromForgotPassword?: boolean;
 }
 
-const CELL_COUNT = 6;
+const CELL_COUNT = 4;
 
 const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
   const dispatch = useDispatch();
   const [value, setValue] = useState('');
   const [username, setUserName] = useState('');
+  const user = useSelector(userSelector);
 
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -45,20 +48,41 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
     }
   }, [route]);
 
+  useEffect(() => {
+    if (
+      route &&
+      route.params &&
+      route.params.username &&
+      route.params.sendOTPRequest === true
+    ) {
+      dispatch(
+        getOTPRequestBackgroundAction({username: route.params.username}),
+      );
+    }
+  }, [dispatch]);
+
   const onPressBackground = () => {
     Keyboard.dismiss();
   };
 
   const onPressVerify = () => {
     if (fromForgotPassword === true) {
-      navigate(ScreenName.NewPasswordScreen, {otp: value});
+      dispatch(
+        verifyForgotPasswordOTPRequestAction({otp: value, username: username}),
+      );
     } else {
-      dispatch(verifyUsernameRequestAction({otp: value, username: username}));
+      dispatch(
+        verifyUsernameRequestAction({
+          otp: value,
+          username: username,
+          password: user?.password,
+        }),
+      );
     }
   };
 
   const onPressSendAgain = () => {
-    dispatch(getOTPRequestAction({username: 'username'}));
+    dispatch(getOTPRequestAction({username: username}));
   };
 
   return (
@@ -73,15 +97,14 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
           <AuthenticationHeader
             title={i18n.t('authentication.pinCode.pinCode')}
           />
-          {username && (
+          {!isNull(username) && (
             <Text
               mt={1}
               fontSize="md"
               color={colors.GRAY}
               textAlign="center"
               alignSelf="center">
-              {!isNull(username) &&
-                `${i18n.t('authentication.pinCode.instruction')}\n ${username}`}
+              {`${i18n.t('authentication.pinCode.instruction')}\n ${username}`}
             </Text>
           )}
           <CodeField
@@ -146,11 +169,12 @@ const PinCell = styled.Text``;
 const styles = StyleSheet.create({
   codeFieldRoot: {marginTop: 40, alignSelf: 'center'},
   cell: {
-    width: 48,
-    height: 48,
+    width: 64,
+    height: 64,
     margin: 4,
+    paddingTop: 5,
     borderRadius: 12,
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: '700',
     borderWidth: 2,
     borderColor: colors.SILVER,

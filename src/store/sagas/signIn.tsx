@@ -4,12 +4,13 @@ import {
   autoSignInSuccessAction,
   AUTO_SIGN_IN_REQUEST,
   AUTO_SIGN_IN_SUCCESS,
+  LOG_OUT,
   signInSuccessAction,
   SIGN_IN_REQUEST,
   SIGN_IN_SUCCESS,
 } from '@store/actionTypes/signIn';
 import {signIn} from '@services/signIn';
-import {call, put, takeLeading} from 'typed-redux-saga';
+import {all, call, put} from 'typed-redux-saga';
 import {takeLatest} from 'redux-saga/effects';
 import {ScreenName, StackName} from '@constants/Constants';
 import {navigate, navigateReset} from '@navigators/index';
@@ -27,13 +28,25 @@ function* onSignInRequest(action: AnyAction) {
     yield* put(showHUDAction());
     const response = yield* call(signIn, action.body);
     if (response.status === 200) {
-      if (response.data.isValidEmail) {
-        if (response.data.languageCode) {
+      if (response.data.data.isValidEmail === true) {
+        if (!isNull(response.data.languageCode)) {
           i18n.locale = response.data.languageCode;
           i18n.defaultLocale = response.data.languageCode;
         }
+        console.log(
+          'sign_in_success: ',
+          parseSignInResponse({
+            ...response.data.data,
+            password: action.body.password,
+          }),
+        );
         yield* put(
-          signInSuccessAction(parseSignInResponse(response.data.data)),
+          signInSuccessAction(
+            parseSignInResponse({
+              ...response.data.data,
+              password: action.body.password,
+            }),
+          ),
         );
       } else {
         yield* put(
@@ -42,7 +55,10 @@ function* onSignInRequest(action: AnyAction) {
             ToastType.WARNING,
           ),
         );
-        navigate(ScreenName.PinCodeScreen);
+        navigate(ScreenName.PinCodeScreen, {
+          username: action.body.username,
+          sendOTPRequest: true,
+        });
       }
     } else {
       yield* put(
@@ -52,6 +68,9 @@ function* onSignInRequest(action: AnyAction) {
         ),
       );
     }
+    // console.log('login status:', response.status);
+    // console.log('login response:', response.data);
+    // console.log('login errors:', response.data.errors);
   } catch (error) {
     yield* put(
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
@@ -67,17 +86,30 @@ function* onSignInSuccess(action: AnyAction) {
 
 // Call from FlashScreen
 function* onAutoSignInRequest(action: AnyAction) {
+  console.log('Auto sign in request:', action.body);
   try {
     if (!isNull(action.body.username) && !isNull(action.body.password)) {
       const response = yield* call(signIn, action.body);
       if (response.status === 200) {
-        if (response.data.isValidEmail) {
-          if (response.data.languageCode) {
+        if (response.data.data.isValidEmail === true) {
+          if (!isNull(response.data.languageCode)) {
             i18n.locale = response.data.languageCode;
             i18n.defaultLocale = response.data.languageCode;
           }
+          console.log(
+            'auto_sign_in_success: ',
+            parseSignInResponse({
+              ...response.data.data,
+              password: action.body.password,
+            }),
+          );
           yield* put(
-            autoSignInSuccessAction(parseSignInResponse(response.data.data)),
+            autoSignInSuccessAction(
+              parseSignInResponse({
+                ...response.data.data,
+                password: action.body.password,
+              }),
+            ),
           );
         }
       } else {
@@ -95,9 +127,16 @@ function* onAutoSignInSuccess(action: AnyAction) {
   navigateReset(StackName.MainStack);
 }
 
+function* onLogOut(action: AnyAction) {
+  navigateReset(StackName.AuthenticationStack);
+}
+
 export default function* () {
-  yield takeLatest(SIGN_IN_REQUEST, onSignInRequest);
-  yield takeLatest(SIGN_IN_SUCCESS, onSignInSuccess);
-  yield takeLatest(AUTO_SIGN_IN_REQUEST, onAutoSignInRequest);
-  yield takeLatest(AUTO_SIGN_IN_SUCCESS, onAutoSignInSuccess);
+  yield* all([
+    takeLatest(SIGN_IN_REQUEST, onSignInRequest),
+    takeLatest(SIGN_IN_SUCCESS, onSignInSuccess),
+    takeLatest(AUTO_SIGN_IN_REQUEST, onAutoSignInRequest),
+    takeLatest(AUTO_SIGN_IN_SUCCESS, onAutoSignInSuccess),
+    takeLatest(LOG_OUT, onLogOut),
+  ]);
 }

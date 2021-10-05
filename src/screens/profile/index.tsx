@@ -20,6 +20,8 @@ import {Avatar, Box, Actionsheet, useDisclose} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {Constants, ScreenName, StackName} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
+import {useDispatch} from 'react-redux';
+import {logOutAction} from '@store/actionTypes/signIn';
 
 interface DataProps {
   name?: string;
@@ -33,17 +35,18 @@ const DATA: DataProps = {
   email: 'phucgo240699@gmail.com',
   phoneNumber: '0908376416',
   avatarUrl:
-    'https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=gfj-D8f-ThUAX___DMV&_nc_ht=scontent-hkt1-2.xx&oh=549ee43899ea3723475b63f5ae5d50dd&oe=61696260',
+    'https://www.ikea.com/au/en/images/products/djungelskog-soft-toy-panda__0710188_pe727391_s5.jpg',
 };
 
 interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
+  const dispatch = useDispatch();
   const {isOpen, onOpen, onClose} = useDisclose();
   const bottomInset = getInset('bottom', false);
 
   const onLogOut = () => {
-    navigateReset(StackName.AuthenticationStack);
+    dispatch(logOutAction());
   };
 
   const onPressFamilies = () => {

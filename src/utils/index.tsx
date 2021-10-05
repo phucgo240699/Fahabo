@@ -63,3 +63,12 @@ export const isNull = (data: any) => {
   }
   return false;
 };
+
+export const isNumber = (text: string) => {
+  for (let i = 0; i < text.length; ++i) {
+    if (text[i] < '0' || text[i] > '9') {
+      return false;
+    }
+  }
+  return true;
+};

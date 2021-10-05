@@ -35,8 +35,7 @@
     "forgotPassword": {
       "forgotPassword": "Quên mật khẩu",
       "getPinCode": "Nhận mã PIN",
-      "emailInstruction": "Nhập email để lấy mã PIN",
-      "phoneInstruction": "Nhập số điện thoại để lấy mã PIN",
+      "instruction": "Enter your email to get PIN code",
       "enterNewPassword": "Nhập Mật Khẩu Mới",
       "newPassword": "Mật khẩu mới",
       "confirmNewPassword": "Xác nhận lại mật khẩu mới",
@@ -136,6 +135,7 @@
         "fail": "Cập nhật mật khẩu thất bại!"
       },
       "verification": {
+        "hasBeenVerified": "Tài khoản đã được kích hoạt. Không cần kích hoạt lại.",
         "fail": "Mã không hợp lệ hoặc hết hiệu lực, vui lòng nhận mã mới và thử lại."
       },
       "fetchOTP": {
@@ -146,6 +146,7 @@
       "fail": "Lỗi hệ thống."
     },
     "validation": {
+      "otp": "Mã xác nhận không hợp lệ",
       "passwordRequired": "Bắt buộc nhập mật khẩu.",
       "usernameRequired": "Bắt buộc nhập tên tài khoản.",
       "unauthorized": "Không được phép truy cập.",

@@ -35,11 +35,13 @@ const NewPasswordScreen: React.FC<Props> = ({route}) => {
 
   const onPressChangePassword = () => {
     if (password === confirmPassword) {
-      if (route && route.params && route.params.otp) {
+      if (route && route.params && route.params.otp && route.params.username) {
         dispatch(
           forgotPasswordRequestAction({
             otp: route.params.otp,
-            newPassword: password,
+            username: route.params.username,
+            password: password,
+            repeatPassword: confirmPassword,
           }),
         );
       }

@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import HUD from '@components/HUD';
 import {theme} from '@themes/index';
-import {Appearance} from 'react-native';
+// import {Appearance} from 'react-native';
 import store, {persistor} from './store';
 import AppStack from '@navigators/AppStack';
-import RNRestart from 'react-native-restart';
+// import RNRestart from 'react-native-restart';
 import {NativeBaseProvider} from 'native-base';
 import {navigationRef} from '@navigators/index';
 import {Provider, useSelector} from 'react-redux';
@@ -16,14 +16,14 @@ import {NavigationContainer} from '@react-navigation/native';
 const RootComponent = () => {
   const loading = useSelector(getSessionLoading);
 
-  useEffect(() => {
-    Appearance.addChangeListener(onThemeChange);
-    return () => Appearance.removeChangeListener(onThemeChange);
-  }, []);
+  // useEffect(() => {
+  //   Appearance.addChangeListener(onThemeChange);
+  //   return () => Appearance.removeChangeListener(onThemeChange);
+  // }, []);
 
-  const onThemeChange = (e: any) => {
-    RNRestart.Restart();
-  };
+  // const onThemeChange = (e: any) => {
+  //   RNRestart.Restart();
+  // };
 
   return (
     <NavigationContainer ref={navigationRef}>

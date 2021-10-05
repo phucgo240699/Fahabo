@@ -2,26 +2,27 @@ import React, {useState} from 'react';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import {Keyboard} from 'react-native';
-import {navigate} from '@navigators/index';
+// import {navigate} from '@navigators/index';
 import styled from 'styled-components/native';
-import {ScreenName} from '@constants/Constants';
+// import {ScreenName} from '@constants/Constants';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
 import {Heading, VStack, FormControl, Input, Button} from 'native-base';
-import {isNull} from 'lodash';
+// import {isNull} from 'utils/index';
+import {useDispatch} from 'react-redux';
+import {getForgotPasswordOTPRequestAction} from '@store/actionTypes/signUp';
+import {isNull} from '@utils/index';
 
 interface Props {
   route?: any;
 }
 
 const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
+  const dispatch = useDispatch();
   const [username, setUserName] = useState('');
 
   const onNavigateToPinCodeScreen = () => {
-    navigate(ScreenName.PinCodeScreen, {
-      username: 'phucgo240699@gmail.com',
-      fromForgotPassword: true,
-    });
+    dispatch(getForgotPasswordOTPRequestAction({username: username}));
   };
 
   const onPressBackground = () => {

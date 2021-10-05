@@ -75,14 +75,17 @@ const SignInScreen = () => {
     console.log('Sign in with apple successfully:', userCredential);
     dispatch(
       signInRequestAction({
-        username: userCredential.user.email ?? undefined,
+        username:
+          userCredential.additionalUserInfo?.profile?.email ?? undefined,
         password: userCredential.user.uid,
       }),
     );
   };
   const onSignInWithAppleFail = (error: any) => {
-    console.log(`onSignInWithAppleFail: ${error}`);
-    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+    console.log(`Sign in with apple fail: ${error}`);
+    dispatch(
+      showToastAction(`Sign in with apple fail: ${error}`, ToastType.ERROR),
+    );
   };
 
   // Sign in with Google
@@ -95,17 +98,20 @@ const SignInScreen = () => {
   const onSignInWithGoogleSuccess = (
     userCredential: FirebaseAuthTypes.UserCredential,
   ) => {
-    console.log('Sign in with apple successfully:', userCredential);
+    console.log('Sign in with google successfully:', userCredential);
     dispatch(
       signInRequestAction({
-        username: userCredential.user.email ?? undefined,
+        username:
+          userCredential.additionalUserInfo?.profile?.email ?? undefined,
         password: userCredential.user.uid,
       }),
     );
   };
   const onSignInWithGoogleFail = (error: any) => {
-    console.log(`onSignInWithGoogleFail: ${error}`);
-    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+    console.log(`Sign in with google fail: ${error}`);
+    dispatch(
+      showToastAction(`Sign in with google fail: ${error}`, ToastType.ERROR),
+    );
   };
   const onSignOutWithGoogle = async () => {
     await signOutWithGoogle();
@@ -123,14 +129,17 @@ const SignInScreen = () => {
     console.log('Sign in with facebook successfully:', userCredential);
     dispatch(
       signInRequestAction({
-        username: userCredential.user.email ?? undefined,
+        username:
+          userCredential.additionalUserInfo?.profile?.email ?? undefined,
         password: userCredential.user.uid,
       }),
     );
   };
   const onSignInWithFacebookFail = (error: any) => {
-    console.log(`onSignInWithFacebookFail: ${error}`);
-    dispatch(showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR));
+    console.log(`Sign in with facebook fail: ${error}`);
+    dispatch(
+      showToastAction(`Sign in with facebook fail: ${error}`, ToastType.ERROR),
+    );
   };
 
   return (

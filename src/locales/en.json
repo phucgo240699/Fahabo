@@ -138,6 +138,7 @@
         "fail": "Refresh token is invalid or expired."
       },
       "verification": {
+        "hasBeenVerified": "Account has been verified successfully. No need to re-activate",
         "fail": "Verification is invalid or expired, please get a new one and try again."
       },
       "fetchOTP": {
@@ -148,6 +149,7 @@
       "fail": "System error."
     },
     "validation": {
+      "otp": "Invalid verification code",
       "passwordRequired": "Password is required.",
       "usernameRequired": "Username is required.",
       "unauthorized": "Require authorization to access",
@@ -160,7 +162,7 @@
       "email": "Email is required and must have format local-part@domain. Ex: johndoe@example.com",
       "langCode": "Invalid language code. see /api/v1/lang_code for more information.",
       "name": "Name is required and contains only alphabetic character.",
-      "passwordInvalid": "Password must be at least 8 characters in length, contains at least one uppercase character, one number and one special character.",
+      "passwordInvalid": "Password must be atleast 8 characters in length, contains atleast one uppercase character, one number and one special character.",
       "usernameInvalid": "Please input your email as your username."
     }
   }

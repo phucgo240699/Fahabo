@@ -1,3 +1,6 @@
+//
+// Request
+//
 export type SignInRequestType = {
   username?: string;
   password?: string;
@@ -23,13 +26,19 @@ export type GetOTPRequestType = {
 export type VerifyUsernameRequestType = {
   otp?: string;
   username?: string;
+  password?: string;
 };
 
 export type ForgotPasswordRequestType = {
   otp?: string;
-  newPassword?: string;
+  username?: string;
+  password?: string;
+  repeatPassword?: string;
 };
 
+//
+// Response
+//
 export type AuthenticationResponseType = {
   id?: number;
   contactId?: number;
@@ -42,6 +51,10 @@ export type AuthenticationResponseType = {
   languageCode?: string;
   isValidEmail?: boolean;
   isValidPhoneNumber?: boolean;
+};
+
+export type CountryCodeResponseType = {
+  data: Record<string, string>[];
 };
 
 export type RefreshAccessTokenResponseType = {
