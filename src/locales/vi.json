@@ -165,7 +165,8 @@
       "langCode": "Mã ngôn ngữ không hợp lệ. Vui lòng truy cập /api/v1/lang_code để xem mã hợp lệ.",
       "name": "Bắt buộc nhập tên, tên không được chứa chữ số và kí tự đặc biệt.",
       "passwordInvalid": "Mật khẩu phải dài ít nhất 8 kí tự, chứ ít nhất 1 kí tự in hoa, 1 chữ số và 1 kí tự đặc biệt.",
-      "usernameInvalid": "Vui lòng nhập email đăng ký tài khoản vào tên đăng nhập."
+      "usernameInvalid": "Vui lòng nhập email đăng ký tài khoản vào tên đăng nhập.",
+      "authTypeInvalid": "Loại xác thực phải được khai báo và phải thuộc 1 trong các giá trị sau /api/v1/supported_auth_types"
     }
   }
 }

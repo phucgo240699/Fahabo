@@ -168,7 +168,8 @@
       "langCode": "Invalid language code. see /api/v1/lang_code for more information.",
       "name": "Name is required and contains only alphabetic character.",
       "passwordInvalid": "Password must be atleast 8 characters in length, contains atleast one uppercase character, one number and one special character.",
-      "usernameInvalid": "Please input your email as your username."
+      "usernameInvalid": "Please input your email as your username.",
+      "authTypeInvalid": "Auth type is required and has to be one of the following values /api/v1/supported_auth_types"
     }
   }
 }
