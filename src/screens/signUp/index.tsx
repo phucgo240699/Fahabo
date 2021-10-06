@@ -1,9 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import i18n from '@locales/index';
 import styled from 'styled-components/native';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
-import {navigate} from '@navigators/index';
-import {ScreenName} from '@constants/Constants';
 import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
@@ -77,14 +75,11 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
 
   // Sign up with Apple
   const onSignUpWithApple = () => {
-    signInWithApple()
-      .then(onSignInWithAppleSuccess)
-      .catch(onSignInWithAppleFail);
+    signInWithApple().then(onSignInWithAppleSuccess);
   };
   const onSignInWithAppleSuccess = (
     userCredential: FirebaseAuthTypes.UserCredential,
   ) => {
-    console.log('Sign in with apple successfully:', userCredential);
     dispatch(
       signUpRequestAction({
         email: userCredential.additionalUserInfo?.profile?.email ?? undefined,
@@ -96,24 +91,16 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
       }),
     );
   };
-  const onSignInWithAppleFail = (error: any) => {
-    console.log(`Sign in with apple fail: ${error}`);
-    dispatch(
-      showToastAction(`Sign in with apple fail: ${error}`, ToastType.ERROR),
-    );
-  };
 
   // Sign up with Google
   const onSignUpWithGoogle = () => {
     signInWithGoogle()
       .then(onSignInWithGoogleSuccess)
-      .catch(onSignInWithGoogleFail)
       .finally(onSignOutWithGoogle);
   };
   const onSignInWithGoogleSuccess = (
     userCredential: FirebaseAuthTypes.UserCredential,
   ) => {
-    console.log('Sign in with google successfully:', userCredential);
     dispatch(
       signUpRequestAction({
         email: userCredential.additionalUserInfo?.profile?.email ?? undefined,
@@ -125,26 +112,17 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
       }),
     );
   };
-  const onSignInWithGoogleFail = (error: any) => {
-    console.log(`Sign in with google fail: ${error}`);
-    dispatch(
-      showToastAction(`Sign in with google fail: ${error}`, ToastType.ERROR),
-    );
-  };
   const onSignOutWithGoogle = async () => {
     await signOutWithGoogle();
   };
 
   // Sign up with Facebook
   const onSignUpWithFacebook = () => {
-    signInWithFacebook()
-      .then(onSignInWithFacebookSuccess)
-      .catch(onSignInWithFacebookFail);
+    signInWithFacebook().then(onSignInWithFacebookSuccess);
   };
   const onSignInWithFacebookSuccess = (
     userCredential: FirebaseAuthTypes.UserCredential,
   ) => {
-    console.log('Sign in with facebook successfully:', userCredential);
     dispatch(
       signUpRequestAction({
         email: userCredential.additionalUserInfo?.profile?.email ?? undefined,
@@ -154,12 +132,6 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
         password: userCredential.user.uid,
         authType: AuthType.FACEBOOK_AUTH,
       }),
-    );
-  };
-  const onSignInWithFacebookFail = (error: any) => {
-    console.log(`Sign in with facebook fail: ${error}`);
-    dispatch(
-      showToastAction(`Sign in with facebook fail: ${error}`, ToastType.ERROR),
     );
   };
 
@@ -175,12 +147,6 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
   };
   const onChangeConfirmPassword = (text: string) => {
     setConfirmPassword(text);
-  };
-  // const onChangePhoneNumber = (text: string) => {
-  //   setPhoneNumber(text);
-  // };
-  const onPressCountryCode = () => {
-    navigate(ScreenName.CountryCodeScreen);
   };
 
   // Keyboard
