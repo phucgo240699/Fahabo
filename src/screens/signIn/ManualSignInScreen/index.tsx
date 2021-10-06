@@ -11,7 +11,7 @@ import {
   signOutWithGoogle,
   signInWithFacebook,
 } from '@services/socialAuth';
-import {Keyboard, StyleSheet} from 'react-native';
+import {Keyboard, Platform, StyleSheet} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {ScreenName} from '@constants/Constants';
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
@@ -23,6 +23,7 @@ import {ToastType} from '@constants/types/session';
 import {isNull} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {useNavigation, CommonActions} from '@react-navigation/native';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 const ManualSignInScreen = () => {
   const dispatch = useDispatch();
@@ -178,7 +179,7 @@ const Seperator = styled.Image`
 
 const CloseButton = styled(PrimaryButton)`
   left: 15px;
-  top: 5px;
+  top: ${Platform.OS === 'android' ? getStatusBarHeight() + 10 : 10}px;
   position: absolute;
 `;
 
