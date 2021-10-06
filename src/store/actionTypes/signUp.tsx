@@ -63,6 +63,15 @@ export const getForgotPasswordOTPRequestAction = (body: GetOTPRequestType) => ({
   body,
 });
 
+export const GET_FORGOT_PASSWORD_OTP_REQUEST_AGAIN =
+  'GET_FORGOT_PASSWORD_OTP_REQUEST_AGAIN';
+export const getForgotPasswordOTPRequestAgainAction = (
+  body: GetOTPRequestType,
+) => ({
+  type: GET_FORGOT_PASSWORD_OTP_REQUEST_AGAIN,
+  body,
+});
+
 export const VERIFY_FORGOT_PASSWORD_OTP_REQUEST =
   'VERIFY_FORGOT_PASSWORD_OTP_REQUEST';
 export const verifyForgotPasswordOTPRequestAction = (

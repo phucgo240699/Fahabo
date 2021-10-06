@@ -12,6 +12,7 @@ import {
   getCountryCodeSuccessAction,
   GET_COUNTRY_CODE_REQUEST,
   GET_FORGOT_PASSWORD_OTP_REQUEST,
+  GET_FORGOT_PASSWORD_OTP_REQUEST_AGAIN,
   GET_OTP_REQUEST,
   GET_OTP_REQUEST_BACKGROUND,
   signUpSuccessAction,
@@ -227,6 +228,35 @@ function* onGetForgotPasswordOTPRequest(action: AnyAction) {
   }
 }
 
+function* onGetForgotPasswordOTPRequestAgain(action: AnyAction) {
+  console.log('onGetForgotPasswordOTPRequestAgain...');
+  try {
+    yield* put(showHUDAction());
+    const response = yield* call(getForgotPasswordOTP, action.body);
+    if (response.status === 200) {
+      yield* put(
+        showToastAction(
+          i18n.t(`successMessage.gotOTP ${action.body.username}`),
+          ToastType.SUCCESS,
+        ),
+      );
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(closeHUDAction());
+  }
+}
+
 function* onVerifyForgotPasswordOTPRequest(action: AnyAction) {
   try {
     yield* put(showHUDAction());
@@ -296,6 +326,10 @@ export default function* () {
     takeLatest(VERIFY_USERNAME_REQUEST, onVerifyUsernameRequest),
     takeLatest(VERIFY_USERNAME_SUCCESS, onVerifyUsernameSuccess),
     takeLatest(GET_FORGOT_PASSWORD_OTP_REQUEST, onGetForgotPasswordOTPRequest),
+    takeLatest(
+      GET_FORGOT_PASSWORD_OTP_REQUEST_AGAIN,
+      onGetForgotPasswordOTPRequestAgain,
+    ),
     takeLatest(
       VERIFY_FORGOT_PASSWORD_OTP_REQUEST,
       onVerifyForgotPasswordOTPRequest,

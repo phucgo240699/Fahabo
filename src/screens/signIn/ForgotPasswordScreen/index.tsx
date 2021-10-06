@@ -65,6 +65,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
               <FormControl>
                 <Input
                   color={colors.BLACK}
+                  autoCapitalize="none"
                   keyboardType={'email-address'}
                   borderColor={colors.SILVER}
                   onChangeText={onChangeUsername}
@@ -88,7 +89,12 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
                 maxWidth="400px"
                 borderRadius={20}
                 backgroundColor={colors.WHITE}>
-                <CloseButton leftSource={closeIcon} onPress={onCloseModal} />
+                <CloseButton
+                  leftIconWidth={22}
+                  leftIconHeight={22}
+                  leftSource={closeIcon}
+                  onPress={onCloseModal}
+                />
                 <InstructionWrapper>
                   <InstructionText>
                     {i18n.t('popUp.resetPasswordInstruction')}
@@ -133,9 +139,9 @@ const InstructionLink = styled(PrimaryHyperLink)`
 `;
 
 const InstructionWrapper = styled.View`
-  margin-top: 30px;
+  margin-top: 40px;
   margin-bottom: 50px;
-  margin-right: 30px;
+  margin-right: 20px;
 `;
 
 export default ForgotPasswordScreen;

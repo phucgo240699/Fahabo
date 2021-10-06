@@ -203,7 +203,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollView}>
-          <Heading mt={14} size="2xl" color={colors.THEME_COLOR_5}>
+          <Heading mt={4} size="2xl" color={colors.THEME_COLOR_5}>
             {i18n.t('authentication.signUp.signUp')}
           </Heading>
           <Heading color={colors.GRAY} size="xs">
@@ -222,6 +222,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
                 mt={-1}
                 isRequired={true}
                 color={colors.BLACK}
+                autoCapitalize="none"
                 borderColor={colors.SILVER}
                 keyboardType={'email-address'}
                 onChangeText={onChangeEmail}
@@ -236,6 +237,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               <Input
                 mt={-1}
                 color={colors.BLACK}
+                autoCapitalize="none"
                 borderColor={colors.SILVER}
                 onChangeText={onChangeName}
               />

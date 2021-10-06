@@ -15,6 +15,7 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  getForgotPasswordOTPRequestAgainAction,
   getOTPRequestAction,
   getOTPRequestBackgroundAction,
   verifyForgotPasswordOTPRequestAction,
@@ -66,7 +67,7 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
   };
 
   const onPressVerify = () => {
-    if (route.params.fromForgotPassword === true) {
+    if (route && route.params && route.params.fromForgotPassword === true) {
       dispatch(
         verifyForgotPasswordOTPRequestAction({otp: value, username: username}),
       );
@@ -82,7 +83,11 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
   };
 
   const onPressSendAgain = () => {
-    dispatch(getOTPRequestAction({username: username}));
+    if (route && route.params && route.params.fromForgotPassword === true) {
+      dispatch(getForgotPasswordOTPRequestAgainAction({username: username}));
+    } else {
+      dispatch(getOTPRequestAction({username: username}));
+    }
   };
 
   return (
