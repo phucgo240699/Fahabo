@@ -9,12 +9,12 @@ import {NativeBaseProvider} from 'native-base';
 import {navigationRef} from '@navigators/index';
 import {Provider, useSelector} from 'react-redux';
 import ToastSection from '@components/ToastSection';
-import {getSessionLoading} from '@store/selectors/session';
+import {isLoadingSelector} from '@store/selectors/session';
 import {PersistGate} from 'redux-persist/integration/react';
 import {NavigationContainer} from '@react-navigation/native';
 
 const RootComponent = () => {
-  const loading = useSelector(getSessionLoading);
+  const loading = useSelector(isLoadingSelector);
 
   // useEffect(() => {
   //   Appearance.addChangeListener(onThemeChange);

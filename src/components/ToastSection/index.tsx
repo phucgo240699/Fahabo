@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getToastsSelector} from '@store/selectors/session';
+import {toastsSelector} from '@store/selectors/session';
 import {useToast, Box, Text} from 'native-base';
 import colors from '@themes/colors';
 import {closeIcon} from '@constants/sources';
@@ -100,7 +100,7 @@ const Toast: React.FC<{
 };
 
 const ToastSection = () => {
-  const toasts = useSelector(getToastsSelector);
+  const toasts = useSelector(toastsSelector);
 
   return (
     <>

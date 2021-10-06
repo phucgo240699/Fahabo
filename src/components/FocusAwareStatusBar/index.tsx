@@ -2,7 +2,7 @@ import React from 'react';
 import {StatusBar} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import {getSessionLoading} from '@store/selectors/session';
+import {isLoadingSelector} from '@store/selectors/session';
 import colors from '@themes/colors';
 
 interface Props {
@@ -17,7 +17,7 @@ const FocusAwareStatusBar: React.FC<Props> = ({
   backgroundColor,
 }) => {
   const isFocused = useIsFocused();
-  const loading = useSelector(getSessionLoading);
+  const loading = useSelector(isLoadingSelector);
 
   return isFocused ? (
     <StatusBar

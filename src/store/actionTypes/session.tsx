@@ -12,6 +12,16 @@ export const closeHUDAction = () => ({
   type: CLOSE_HUD,
 });
 
+export const TURN_ON_REFRESHING_TOKEN = 'TURN_ON_REFRESHING_TOKEN';
+export const turnOnIsRefreshingTokenAction = () => ({
+  type: TURN_ON_REFRESHING_TOKEN,
+});
+
+export const TURN_OFF_REFRESHING_TOKEN = 'TURN_OFF_REFRESHING_TOKEN';
+export const turnOffIsRefreshingTokenAction = () => ({
+  type: TURN_OFF_REFRESHING_TOKEN,
+});
+
 export const CLEAR_SESSION = 'CLEAR_SESSION';
 export const clearSessionAction = () => ({
   type: CLEAR_SESSION,

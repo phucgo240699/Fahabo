@@ -5,6 +5,8 @@ import {
   CLOSE_TOAST,
   SHOW_HUD,
   SHOW_TOAST,
+  TURN_OFF_REFRESHING_TOKEN,
+  TURN_ON_REFRESHING_TOKEN,
 } from '@store/actionTypes/session';
 
 export type ToastState = {
@@ -14,13 +16,15 @@ export type ToastState = {
 };
 
 export type SessionState = {
-  loading?: boolean;
+  loading: boolean;
+  refreshingToken: boolean;
   toasts: {id: number; toast: ToastState}[];
 };
 
 const defaultState: SessionState = {
   toasts: [],
   loading: false,
+  refreshingToken: false,
 };
 
 export default function sessionReducer(
@@ -37,6 +41,16 @@ export default function sessionReducer(
       return {
         ...state,
         loading: false,
+      };
+    case TURN_ON_REFRESHING_TOKEN:
+      return {
+        ...state,
+        refreshingToken: true,
+      };
+    case TURN_OFF_REFRESHING_TOKEN:
+      return {
+        ...state,
+        refreshingToken: false,
       };
     case SHOW_TOAST:
       return {

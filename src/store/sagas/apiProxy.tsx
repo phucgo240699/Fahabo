@@ -2,14 +2,24 @@ import {
   logOutAction,
   refreshAccessTokenSuccessAction,
 } from '../actionTypes/signIn';
-import {showHUDAction} from '../actionTypes/session';
 import {call, put} from 'typed-redux-saga';
 import {refreshAccessToken} from '@services/signIn';
 import {useSelector} from 'react-redux';
 import {refreshTokenSelector} from '@store/selectors/authentication';
+import {isRefreshingTokenSelector} from '@store/selectors/session';
 
 export function* apiProxy(fn: any, ...args: any[]): any {
   try {
+    const isRefreshingToken = useSelector(isRefreshingTokenSelector);
+    if (isRefreshingToken) {
+      setInterval(() => {
+        const isRefresh = useSelector(isRefreshingTokenSelector);
+        if (isRefresh === false) {
+          return apiProxy(fn, ...args);
+        }
+      }, 1000);
+    }
+
     return yield call(fn, ...args);
   } catch (error: any) {
     console.log('apiProxy got error', error);
@@ -24,16 +34,20 @@ export function* apiProxy(fn: any, ...args: any[]): any {
         const refreshToken = useSelector(refreshTokenSelector);
         const response = yield* call(refreshAccessToken, {refreshToken});
         if (response.status === 200) {
-          put(
+          yield* put(
             refreshAccessTokenSuccessAction({
               accessToken: response.data.accessToken,
               refreshToken: response.data.refreshToken,
             }),
           );
+          return yield apiProxy(fn, ...args);
         } else {
-          put(logOutAction());
+          console.log('refreshToken expired');
+          yield* put(logOutAction());
         }
-      } catch (error) {}
+      } catch (err) {
+        throw err;
+      }
     } else {
       throw error;
     }
