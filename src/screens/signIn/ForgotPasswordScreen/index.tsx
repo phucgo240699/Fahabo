@@ -65,6 +65,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
               <FormControl>
                 <Input
                   color={colors.BLACK}
+                  keyboardType={'email-address'}
                   borderColor={colors.SILVER}
                   onChangeText={onChangeUsername}
                 />
@@ -92,7 +93,10 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
                   <InstructionText>
                     {i18n.t('popUp.resetPasswordInstruction')}
                   </InstructionText>
-                  <InstructionLink link={'https://www.google.com'} />
+                  <InstructionLink
+                    link={resetPassLink}
+                    onAfterOpenWeb={onCloseModal}
+                  />
                 </InstructionWrapper>
               </Modal.Content>
             </Modal>
@@ -124,11 +128,14 @@ const CloseButton = styled(PrimaryButton)`
 
 const InstructionText = styled(fonts.PrimaryFontMediumSize14)``;
 
-const InstructionLink = styled(PrimaryHyperLink)``;
+const InstructionLink = styled(PrimaryHyperLink)`
+  width: 100%;
+`;
 
 const InstructionWrapper = styled.View`
   margin-top: 30px;
   margin-bottom: 50px;
+  margin-right: 30px;
 `;
 
 export default ForgotPasswordScreen;

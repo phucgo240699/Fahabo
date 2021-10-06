@@ -7,14 +7,26 @@ import styled from 'styled-components/native';
 
 interface Props {
   link: string;
-  // onPress?: () => void;
+  onBeforeOpenWeb?: () => void;
+  onAfterOpenWeb?: () => void;
 }
 
-const PrimaryHyperLink: React.FC<Props> = ({link, ...otherProps}) => {
+const PrimaryHyperLink: React.FC<Props> = ({
+  link,
+  onBeforeOpenWeb,
+  onAfterOpenWeb,
+  ...otherProps
+}) => {
   const onPressContainer = () => {
     Linking.canOpenURL(link).then(allow => {
       if (allow) {
+        if (onBeforeOpenWeb) {
+          onBeforeOpenWeb();
+        }
         Linking.openURL(link);
+        if (onAfterOpenWeb) {
+          onAfterOpenWeb();
+        }
       }
     });
   };

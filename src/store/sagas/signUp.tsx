@@ -198,9 +198,11 @@ function* onGetForgotPasswordOTPRequest(action: AnyAction) {
     yield* put(showHUDAction());
     const response = yield* call(getForgotPasswordOTP, action.body);
     if (response.status === 200) {
-      if (response.data.resetPasswordLink) {
+      if (response.data.data.resetPasswordLink) {
         yield* put(
-          showResetPasswordLinkModalAction(response.data.resetPasswordLink),
+          showResetPasswordLinkModalAction(
+            response.data.data.resetPasswordLink,
+          ),
         );
       } else {
         navigate(ScreenName.PinCodeScreen, {
