@@ -16,12 +16,14 @@ interface ContainerProps {
 interface TitleProps {
   disabled?: boolean;
   transparent?: boolean;
+  titleColor?: string;
 }
 
 interface Props {
   disabled?: boolean;
   transparent?: boolean; // true: background is transparent, border color and text color is mango
   title: string;
+  titleColor?: string;
   leftIcon?: React.ReactNode;
   marginTop?: number;
   marginBottom?: number;
@@ -36,6 +38,7 @@ const SecondaryButton: React.FC<Props> = ({
   disabled = false,
   transparent = false,
   title,
+  titleColor = colors.WHITE,
   leftIcon,
   marginTop,
   marginBottom,
@@ -59,7 +62,11 @@ const SecondaryButton: React.FC<Props> = ({
       backgroundColor={backgroundColor}
       onPress={onPress}>
       {leftIcon}
-      <Title disabled={disabled} transparent={transparent} numberOfLines={1}>
+      <Title
+        disabled={disabled}
+        titleColor={titleColor}
+        transparent={transparent}
+        numberOfLines={1}>
         {title}
       </Title>
     </Container>
@@ -92,10 +99,10 @@ const Container = styled.TouchableOpacity<ContainerProps>`
 const Title = styled(fonts.PrimaryFontBoldSize16)<TitleProps>`
   color: ${props =>
     props.disabled === true
-      ? colors.WHITE
+      ? props.titleColor ?? colors.WHITE
       : props.transparent === true
       ? props.backgroundColor ?? colors.THEME_COLOR_6
-      : colors.WHITE};
+      : props.titleColor ?? colors.WHITE};
   padding-horizontal: 20px;
   font-weight: 700;
 `;

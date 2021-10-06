@@ -1,11 +1,11 @@
 package com.fahabo;
 
-//import android.os.Bundle;
+import android.os.Bundle;
 import android.app.Application;
 import android.content.Context;
 
-//import org.devio.rn.splashscreen.SplashScreen;
-//import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import org.devio.rn.splashscreen.SplashScreen;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -16,9 +16,9 @@ import com.zoontek.rnpermissions.RNPermissionsPackage;
 import com.reactnativerestart.RestartPackage;
 //import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.facebook.react.PackageList;
-//import com.facebook.FacebookSdk;
-//import com.facebook.appevents.AppEventsLogger;
-//import com.facebook.react.ReactActivity;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.react.ReactActivity;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 

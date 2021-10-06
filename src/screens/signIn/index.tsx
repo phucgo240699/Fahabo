@@ -165,12 +165,12 @@ const SignInScreen = () => {
             />
             <SecondaryButton
               marginTop={10}
-              backgroundColor={'#000000'}
+              backgroundColor={colors.BLACK}
               leftIcon={
                 <PrimaryIcon
                   width={36}
                   height={36}
-                  tintColor={'#ffffff'}
+                  tintColor={colors.WHITE}
                   source={appleIcon}
                 />
               }
@@ -179,7 +179,8 @@ const SignInScreen = () => {
             />
             <SecondaryButton
               marginTop={10}
-              backgroundColor={'#4e86ec'}
+              titleColor={'#ffffff'}
+              backgroundColor={colors.ROYAL_BLUE}
               leftIcon={
                 <WhiteIconWrapper>
                   <PrimaryIcon width={36} height={36} source={googleIcon} />
@@ -190,7 +191,8 @@ const SignInScreen = () => {
             />
             <SecondaryButton
               marginTop={10}
-              backgroundColor={'#304d95'}
+              titleColor={'#ffffff'}
+              backgroundColor={colors.SAPPHIRE}
               leftIcon={
                 <WhiteIconWrapper>
                   <PrimaryIcon width={36} height={36} source={facebookIcon} />
