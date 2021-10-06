@@ -36,6 +36,7 @@ import {
   signOutWithGoogle,
 } from '@services/socialAuth';
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {AuthType} from '@constants/types/authentication';
 
 interface Props {
   route?: any;
@@ -64,9 +65,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
           email: email,
           name: name,
           password: password,
-          // phoneNumber: isNull(phoneNumber)
-          //   ? phoneNumber
-          //   : getPhoneNumber(countryCode, '0', phoneNumber),
+          authType: AuthType.MANUAL_AUTH,
         }),
       );
     } else {
@@ -93,6 +92,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
           ? userCredential.user.displayName
           : userCredential.additionalUserInfo?.profile?.email ?? undefined,
         password: userCredential.user.uid,
+        authType: AuthType.APPLE_AUTH,
       }),
     );
   };
@@ -121,6 +121,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
           ? userCredential.user.displayName
           : userCredential.additionalUserInfo?.profile?.email ?? undefined,
         password: userCredential.user.uid,
+        authType: AuthType.GOOGLE_AUTH,
       }),
     );
   };
@@ -151,6 +152,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
           ? userCredential.user.displayName
           : userCredential.additionalUserInfo?.profile?.email ?? undefined,
         password: userCredential.user.uid,
+        authType: AuthType.FACEBOOK_AUTH,
       }),
     );
   };

@@ -236,8 +236,7 @@ const Banner = styled.Image`
 `;
 
 const WhiteIconWrapper = styled.View`
-  border-radius: 19px;
-  padding: 1px;
+  border-radius: 18px;
   background-color: #ffffff;
 `;
 

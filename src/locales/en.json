@@ -96,7 +96,8 @@
   "popUp": {
     "takePhoto": "Take photo",
     "chooseFromGallery": "Choose from Gallery",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "resetPasswordInstruction": "Access this link to reset password:"
   },
   "media": {
     "takeAPhoto": "Take a photo",

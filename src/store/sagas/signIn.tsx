@@ -33,13 +33,6 @@ function* onSignInRequest(action: AnyAction) {
           i18n.locale = response.data.languageCode;
           i18n.defaultLocale = response.data.languageCode;
         }
-        console.log(
-          'sign_in_success: ',
-          parseSignInResponse({
-            ...response.data.data,
-            password: action.body.password,
-          }),
-        );
         yield* put(
           signInSuccessAction(
             parseSignInResponse({
@@ -68,9 +61,6 @@ function* onSignInRequest(action: AnyAction) {
         ),
       );
     }
-    // console.log('login status:', response.status);
-    // console.log('login response:', response.data);
-    // console.log('login errors:', response.data.errors);
   } catch (error) {
     yield* put(
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
@@ -90,20 +80,11 @@ function* onAutoSignInRequest(action: AnyAction) {
   try {
     if (!isNull(action.body.username) && !isNull(action.body.password)) {
       const response = yield* call(signIn, action.body);
-      console.log({statusCode: response.status});
-      console.log('isValidEmail: ', response.data.data.isValidEmail);
       if (response.status === 200 && response.data.data.isValidEmail === true) {
         if (!isNull(response.data.languageCode)) {
           i18n.locale = response.data.languageCode;
           i18n.defaultLocale = response.data.languageCode;
         }
-        console.log(
-          'auto_sign_in_success: ',
-          parseSignInResponse({
-            ...response.data.data,
-            password: action.body.password,
-          }),
-        );
         yield* put(
           autoSignInSuccessAction(
             parseSignInResponse({

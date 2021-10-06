@@ -96,7 +96,8 @@
   "popUp": {
     "takePhoto": "Chụp ảnh",
     "chooseFromGallery": "Chọn từ thư viện ảnh",
-    "cancel": "Huỷ"
+    "cancel": "Huỷ",
+    "resetPasswordInstruction": "Truy cập đường dẫn này để đặt lại mật khẩu:"
   },
   "media": {
     "takeAPhoto": "Chụp 1 bức ảnh",

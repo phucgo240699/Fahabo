@@ -10,6 +10,13 @@ export type RefreshAccessTokenRequestType = {
   refreshToken?: string;
 };
 
+export enum AuthType {
+  MANUAL_AUTH = 'MANUAL_AUTH',
+  APPLE_AUTH = 'APPLE_AUTH',
+  GOOGLE_AUTH = 'GOOGLE_AUTH',
+  FACEBOOK_AUTH = 'FACEBOOK_AUTH',
+}
+
 export type SignUpRequestType = {
   email?: string;
   password?: string;
@@ -17,6 +24,7 @@ export type SignUpRequestType = {
   phoneNumber?: string;
   birthday?: string;
   languageCode?: string;
+  authType: AuthType;
 };
 
 export type GetOTPRequestType = {
@@ -42,15 +50,15 @@ export type ForgotPasswordRequestType = {
 export type AuthenticationResponseType = {
   id?: number;
   contactId?: number;
-  email?: string;
+  // email?: string;
   password?: string;
   name?: string;
   username?: string;
-  phoneNumber?: string;
-  birthday?: string;
+  // phoneNumber?: string;
+  // birthday?: string;
   languageCode?: string;
-  isValidEmail?: boolean;
-  isValidPhoneNumber?: boolean;
+  // isValidEmail?: boolean;
+  // isValidPhoneNumber?: boolean;
 };
 
 export type CountryCodeResponseType = {

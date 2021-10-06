@@ -41,6 +41,8 @@ import {
   parseVerifyResponse,
   parseVerifyUsernameRequest,
 } from '@utils/parsers/authentication';
+import {Alert} from 'react-native';
+import {showResetPasswordLinkModalAction} from '@store/actionTypes/modals';
 
 /*
 function *onExample(action: AnyAction) {
@@ -60,7 +62,6 @@ function *onExample(action: AnyAction) {
     yield* put(closeHUDAction());
   }
 }
-
 */
 
 function* onSignUpRequest(action: AnyAction) {
@@ -94,7 +95,6 @@ function* onSignUpRequest(action: AnyAction) {
 }
 
 function* onSignUpSuccess(action: AnyAction) {
-  console.log('navigate to PinCodeScreen: ', action.payload);
   navigate(ScreenName.PinCodeScreen, {
     ...action.payload,
   });
@@ -164,13 +164,6 @@ function* onVerifyUsernameRequest(action: AnyAction) {
       parseVerifyUsernameRequest(action.body),
     );
     if (response.status === 200) {
-      console.log(
-        'verify_success: ',
-        parseVerifyResponse({
-          ...response.data.data,
-          password: action.body.password,
-        }),
-      );
       yield* put(
         verifyUserSuccessAction(
           parseVerifyResponse({
@@ -205,10 +198,16 @@ function* onGetForgotPasswordOTPRequest(action: AnyAction) {
     yield* put(showHUDAction());
     const response = yield* call(getForgotPasswordOTP, action.body);
     if (response.status === 200) {
-      navigate(ScreenName.PinCodeScreen, {
-        ...action.body,
-        fromForgotPassword: true,
-      });
+      if (response.data.resetPasswordLink) {
+        yield* put(
+          showResetPasswordLinkModalAction(response.data.resetPasswordLink),
+        );
+      } else {
+        navigate(ScreenName.PinCodeScreen, {
+          ...action.body,
+          fromForgotPassword: true,
+        });
+      }
     } else {
       yield* put(
         showToastAction(

@@ -13,9 +13,10 @@ import authenticationReducer, {
 } from '@store/reducers/authentication';
 import {PersistConfig, persistReducer, persistStore} from 'redux-persist';
 import rootSaga from './sagas';
+import modalsReducer, {ModalsState} from '@store/reducers/modals';
 
 const persistConfig: PersistConfig<
-  CombinedState<{session: any; authentication: any}>,
+  CombinedState<{session: any; modals: any; authentication: any}>,
   any,
   any,
   any
@@ -38,6 +39,7 @@ middleware = [sagaMiddleware];
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  modals: modalsReducer,
   authentication: authenticationReducer,
 });
 
@@ -51,6 +53,7 @@ export const persistor = persistStore(store);
 
 export interface RootState {
   session: SessionState;
+  modals: ModalsState;
   authentication: AuthenticationState;
 }
 

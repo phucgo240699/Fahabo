@@ -2,16 +2,19 @@ import React, {useState} from 'react';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import {Keyboard} from 'react-native';
-// import {navigate} from '@navigators/index';
 import styled from 'styled-components/native';
-// import {ScreenName} from '@constants/Constants';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import AuthenticationHeader from '@components/AuthenticationHeader';
-import {Heading, VStack, FormControl, Input, Button} from 'native-base';
-// import {isNull} from 'utils/index';
-import {useDispatch} from 'react-redux';
+import {Heading, VStack, FormControl, Input, Button, Modal} from 'native-base';
+import {useDispatch, useSelector} from 'react-redux';
 import {getForgotPasswordOTPRequestAction} from '@store/actionTypes/signUp';
 import {isNull} from '@utils/index';
+import PrimaryHyperLink from '@components/PrimaryHyperLink';
+import PrimaryButton from '@components/PrimaryButton';
+import {closeIcon} from '@constants/sources/index';
+import fonts from '@themes/fonts';
+import {closeResetPasswordLinkModalAction} from '@store/actionTypes/modals';
+import {resetPasswordLinkSelector} from '@store/selectors/modals';
 
 interface Props {
   route?: any;
@@ -20,6 +23,7 @@ interface Props {
 const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const [username, setUserName] = useState('');
+  const resetPassLink = useSelector(resetPasswordLinkSelector);
 
   const onPressGetPinCode = () => {
     dispatch(getForgotPasswordOTPRequestAction({username: username}));
@@ -27,6 +31,10 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
 
   const onPressBackground = () => {
     Keyboard.dismiss();
+  };
+
+  const onCloseModal = () => {
+    dispatch(closeResetPasswordLinkModalAction());
   };
 
   const onChangeUsername = (text: string) => {
@@ -73,6 +81,22 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
               </VStack>
             </VStack>
           </Form>
+          {resetPassLink && (
+            <Modal isOpen={true} onClose={onCloseModal}>
+              <Modal.Content
+                maxWidth="400px"
+                borderRadius={20}
+                backgroundColor={colors.WHITE}>
+                <CloseButton leftSource={closeIcon} onPress={onCloseModal} />
+                <InstructionWrapper>
+                  <InstructionText>
+                    {i18n.t('popUp.resetPasswordInstruction')}
+                  </InstructionText>
+                  <InstructionLink link={'https://www.google.com'} />
+                </InstructionWrapper>
+              </Modal.Content>
+            </Modal>
+          )}
         </Content>
       </Container>
     </SafeView>
@@ -90,6 +114,21 @@ const Content = styled.View`
 const Form = styled.View`
   margin-left: 20px;
   margin-right: 20px;
+`;
+
+const CloseButton = styled(PrimaryButton)`
+  top: 10px;
+  right: 12px;
+  position: absolute;
+`;
+
+const InstructionText = styled(fonts.PrimaryFontMediumSize14)``;
+
+const InstructionLink = styled(PrimaryHyperLink)``;
+
+const InstructionWrapper = styled.View`
+  margin-top: 30px;
+  margin-bottom: 50px;
 `;
 
 export default ForgotPasswordScreen;
