@@ -6,10 +6,10 @@ import SignInScreen from '@screens/signIn';
 import SignUpScreen from '@screens/signUp';
 import PinCodeScreen from '@screens/signUp/PinCodeScreen';
 import CountryCodeScreen from '@screens/signUp/CountryCodeScreen';
-import NewPasswordScreen from '@screens/signIn/NewPasswordScreen';
+import NewPasswordScreen from '@screens/signUp/NewPasswordScreen';
 import ManualSignInScreen from '@screens/signIn/ManualSignInScreen';
 import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
-import ForgotPasswordScreen from '@screens/signIn/ForgotPasswordScreen';
+import ForgotPasswordScreen from '@screens/signUp/ForgotPasswordScreen';
 import FamilyOptionsScreen from '@screens/families/FamilyOptionsScreen';
 
 const Stack = createStackNavigator();

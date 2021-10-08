@@ -2,11 +2,16 @@ import {
   logOutAction,
   refreshAccessTokenSuccessAction,
 } from '../actionTypes/signIn';
-import {call, put} from 'typed-redux-saga';
+import {call, put, select} from 'typed-redux-saga';
 import {refreshAccessToken} from '@services/signIn';
 import {useSelector} from 'react-redux';
-import {refreshTokenSelector} from '@store/selectors/authentication';
+import {
+  accessTokenSelector,
+  refreshTokenSelector,
+} from '@store/selectors/authentication';
 import {isRefreshingTokenSelector} from '@store/selectors/session';
+import {updateProfile} from '@services/profile';
+import {AxiosResponse} from 'axios';
 
 export function* apiProxy(fn: any, ...args: any[]): any {
   try {

@@ -10,13 +10,21 @@ import {ScreenName} from '@constants/Constants';
 import PrimaryIcon from '@components/PrimaryIcon';
 import ProfileHeader from '@components/ProfileHeader';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {languageIcon, rightArrowIcon} from '@constants/sources/index';
+import {
+  languageIcon,
+  passwordColorIcon,
+  rightArrowIcon,
+} from '@constants/sources/index';
 
 interface Props {}
 
 const SettingsScreen: React.FC<Props> = ({}) => {
   const onNavigateToLanguage = () => {
     navigate(ScreenName.LanguageScreen);
+  };
+
+  const onNavigateToPassword = () => {
+    navigate(ScreenName.UpdatePasswordScreen);
   };
 
   return (
@@ -39,7 +47,18 @@ const SettingsScreen: React.FC<Props> = ({}) => {
             style={styles.rightArrow}
           />
         </ItemContainer>
-        {/* <HLine /> */}
+        <HLine />
+        <ItemContainer onPress={onNavigateToPassword}>
+          <PrimaryIcon source={passwordColorIcon} />
+          <ItemName>{i18n.t('settings.password.changePassword')}</ItemName>
+          <PrimaryIcon
+            width={16}
+            height={16}
+            tintColor={colors.SILVER}
+            source={rightArrowIcon}
+            style={styles.rightArrow}
+          />
+        </ItemContainer>
       </Box>
     </Box>
   );

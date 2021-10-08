@@ -78,7 +78,7 @@ const Container = styled.TouchableOpacity<ContainerProps>`
   align-items: center;
   height: 50px;
   border-width: 1px;
-  border-radius: 35px;
+  border-radius: 25px;
   padding-horizontal: 30px;
   margin-top: ${props => props.marginTop ?? 0}px;
   margin-bottom: ${props => props.marginBottom ?? 0}px;
@@ -104,7 +104,6 @@ const Title = styled(fonts.PrimaryFontBoldSize16)<TitleProps>`
       ? props.backgroundColor ?? colors.THEME_COLOR_6
       : props.titleColor ?? colors.WHITE};
   padding-horizontal: 20px;
-  font-weight: 700;
 `;
 
 export default SecondaryButton;

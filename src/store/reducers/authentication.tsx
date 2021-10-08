@@ -11,18 +11,23 @@ import {
   SIGN_IN_SUCCESS,
 } from '@store/actionTypes/signIn';
 import {AuthenticationResponseType} from '@constants/types/authentication';
+import {UPDATE_PROFILE_SUCCESS} from '@store/actionTypes/profile';
+import {ImageSource} from 'react-native-image-viewing/dist/@types';
 
 export type AuthenticationState = {
   user?: AuthenticationResponseType;
-  listCountryCode?: Record<string, string>[];
   accessToken?: string;
   refreshToken?: string;
+  listCountryCode?: Record<string, string>[];
+  previewAlbum?: ImageSource[];
 };
 
 const defaultState: AuthenticationState = {
   user: undefined,
   accessToken: undefined,
   refreshToken: undefined,
+  listCountryCode: [],
+  previewAlbum: [],
 };
 
 export default function authenticationReducer(
@@ -31,6 +36,13 @@ export default function authenticationReducer(
 ) {
   switch (action.type) {
     case SIGN_UP_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...action.payload,
+        },
+      };
+    case UPDATE_PROFILE_SUCCESS:
       return {
         ...state,
         user: {

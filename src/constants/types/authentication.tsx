@@ -48,14 +48,14 @@ export type ForgotPasswordRequestType = {
 // Response
 //
 export type AuthenticationResponseType = {
-  id?: number;
-  contactId?: number;
-  // email?: string;
+  // id?: number;
+  // contactId?: number;
+  email?: string;
   password?: string;
   name?: string;
   username?: string;
-  // phoneNumber?: string;
-  // birthday?: string;
+  phoneNumber?: string;
+  birthday?: string;
   languageCode?: string;
   // isValidEmail?: boolean;
   // isValidPhoneNumber?: boolean;

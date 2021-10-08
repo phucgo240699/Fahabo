@@ -14,6 +14,7 @@ import QRPresenterScreen from '@screens/families/QRPresenterScreen';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
 import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
+import UpdatePasswordScreen from '@screens/profile/UpdatePasswordScreen';
 
 interface Props {
   route?: any;
@@ -72,6 +73,10 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
       <Stack.Screen
         name={ScreenName.LanguageScreen}
         component={LanguageScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.UpdatePasswordScreen}
+        component={UpdatePasswordScreen}
       />
       <Stack.Screen
         name={ScreenName.UpdateProfileScreen}

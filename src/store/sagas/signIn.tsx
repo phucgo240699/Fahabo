@@ -10,8 +10,7 @@ import {
   SIGN_IN_SUCCESS,
 } from '@store/actionTypes/signIn';
 import {signIn} from '@services/signIn';
-import {all, call, put} from 'typed-redux-saga';
-import {takeLatest} from 'redux-saga/effects';
+import {all, call, put, takeLatest} from 'typed-redux-saga';
 import {ScreenName, StackName} from '@constants/Constants';
 import {navigate, navigateReset} from '@navigators/index';
 import {ToastType} from '@constants/types/session';

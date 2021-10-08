@@ -76,9 +76,10 @@
     "settings": "Cài đặt",
     "album": "Tệp ảnh",
     "viewAll": "Xem tất cả",
-    "email": "Email:",
-    "phoneNumber": "Số điện thoại:",
-    "name": "Tên:",
+    "email": "Email",
+    "phoneNumber": "Số điện thoại",
+    "name": "Tên",
+    "birthday": "Ngày sinh",
     "confirm": "Lưu"
   },
   "settings": {
@@ -88,6 +89,13 @@
       "save": "Lưu",
       "english": "Tiếng Anh",
       "vietnamese": "Tiếng Việt"
+    },
+    "password": {
+      "changePassword": "Đổi mật khẩu",
+      "currentPassword": "Mật khẩu hiện tại",
+      "newPassword": "Mật khẩu mới",
+      "confirmNewPassword": "Xác nhận lại mật khẩu mới",
+      "save": "Lưu"
     }
   },
   "application": {

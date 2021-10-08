@@ -76,9 +76,10 @@
     "settings": "Settings",
     "album": "Album",
     "viewAll": "View all",
-    "email": "Email:",
-    "phoneNumber": "Phone number:",
-    "name": "Name:",
+    "email": "Email",
+    "phoneNumber": "Phone number",
+    "name": "Name",
+    "birthday": "Birthday",
     "confirm": "Save"
   },
   "settings": {
@@ -88,6 +89,13 @@
       "save": "Save",
       "english": "English",
       "vietnamese": "Vietnamese"
+    },
+    "password": {
+      "changePassword": "Change password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmNewPassword": "Confirm new password",
+      "save": "Save"
     }
   },
   "application": {

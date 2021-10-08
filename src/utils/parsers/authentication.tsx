@@ -1,5 +1,8 @@
 import {get} from 'lodash/fp';
 
+//
+// Request
+//
 export const parseVerifyUsernameRequest = (rawData: any) => {
   return {
     otp: get('otp', rawData),
@@ -14,17 +17,20 @@ export const parseVerifyForgotPasswordRequest = (rawData: any) => {
   };
 };
 
+//
+// Response
+//
 export const parseSignInResponse = (rawData: any) => {
   return {
     user: {
-      id: get('user.id', rawData),
-      contactId: get('user.contactId', rawData),
-      // email: get('user.email', rawData),
+      // id: get('user.id', rawData),
+      // contactId: get('user.contactId', rawData),
+      email: get('user.email', rawData),
       password: get('password', rawData),
       name: get('user.name', rawData),
       username: get('user.username', rawData),
-      // phoneNumber: get('user.phoneNumber', rawData),
-      // birthday: get('user.birthday', rawData),
+      phoneNumber: get('user.phoneNumber', rawData),
+      birthday: get('user.birthday', rawData),
       languageCode: get('user.languageCode', rawData),
       // isValidEmail: get('user.isValidEmail', rawData),
       // isValidPhoneNumber: get('user.isValidPhoneNumber', rawData),
@@ -36,14 +42,14 @@ export const parseSignInResponse = (rawData: any) => {
 
 export const parseSignUpResponse = (rawData: any) => {
   return {
-    id: get('id', rawData),
-    contactId: get('contactId', rawData),
-    // email: get('email', rawData),
+    // id: get('id', rawData),
+    // contactId: get('contactId', rawData),
+    email: get('email', rawData),
     password: get('password', rawData),
     name: get('name', rawData),
     username: get('username', rawData),
-    // phoneNumber: get('phoneNumber', rawData),
-    // birthday: get('birthday', rawData),
+    phoneNumber: get('phoneNumber', rawData),
+    birthday: get('birthday', rawData),
     languageCode: get('languageCode', rawData),
     // isValidEmail: get('isValidEmail', rawData),
     // isValidPhoneNumber: get('isValidPhoneNumber', rawData),
@@ -53,14 +59,14 @@ export const parseSignUpResponse = (rawData: any) => {
 export const parseVerifyResponse = (rawData: any) => {
   return {
     user: {
-      id: get('user.id', rawData),
-      contactId: get('user.contactId', rawData),
-      // email: get('user.email', rawData),
+      // id: get('user.id', rawData),
+      // contactId: get('user.contactId', rawData),
+      email: get('user.email', rawData),
       password: get('password', rawData),
       name: get('user.name', rawData),
       username: get('user.username', rawData),
-      // phoneNumber: get('user.phoneNumber', rawData),
-      // birthday: get('user.birthday', rawData),
+      phoneNumber: get('user.phoneNumber', rawData),
+      birthday: get('user.birthday', rawData),
       languageCode: get('user.languageCode', rawData),
       // isValidEmail: get('user.isValidEmail', rawData),
       // isValidPhoneNumber: get('user.isValidPhoneNumber', rawData),
