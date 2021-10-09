@@ -12,6 +12,8 @@ export const errorInterceptor = (error: AxiosError) => {
 };
 
 export const requestInterceptor = (config: AxiosRequestConfig) => {
-  console.log({API_CONFIG: config});
+  console.log({
+    API_CONFIG: {url: config.url, body: config.params},
+  });
   return config;
 };

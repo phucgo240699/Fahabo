@@ -10,14 +10,22 @@ import {Constants} from '@constants/Constants';
 interface Props {
   data: any[];
   onPressItem?: (index: number) => void;
+  onPressViewAll?: () => void;
 }
 
-const ProfileAlbumBox: React.FC<Props> = ({data, onPressItem}) => {
+const ProfileAlbumBox: React.FC<Props> = ({
+  data,
+  onPressItem,
+  onPressViewAll,
+}) => {
   return (
     <Container>
       <Header>
         <AlbumLabel>{i18n.t('profile.album')}</AlbumLabel>
-        <PrimaryButton title={i18n.t('profile.viewAll')} />
+        <PrimaryButton
+          title={i18n.t('profile.viewAll')}
+          onPress={onPressViewAll}
+        />
       </Header>
       <Box
         flexDirection={'row'}

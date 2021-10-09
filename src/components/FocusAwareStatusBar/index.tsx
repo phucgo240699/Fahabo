@@ -6,7 +6,7 @@ import {isLoadingSelector} from '@store/selectors/session';
 import colors from '@themes/colors';
 
 interface Props {
-  barStyle: any;
+  barStyle: 'dark-content' | 'light-content' | 'default';
   translucent: boolean;
   backgroundColor: string;
 }

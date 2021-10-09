@@ -48,6 +48,15 @@ const ProfileScreen: React.FC<Props> = () => {
     dispatch(logOutAction());
   };
 
+  // Relations
+  const onPressChores = () => {
+    navigate(ScreenName.MyChoresScreen);
+  };
+  const onPressEvents = () => {
+    navigate(ScreenName.MyEventsScreen);
+  };
+
+  // Settings
   const onPressFamilies = () => {
     navigate(ScreenName.FamiliesScreen);
   };
@@ -57,12 +66,12 @@ const ProfileScreen: React.FC<Props> = () => {
   const onPressSettings = () => {
     navigate(ScreenName.SettingsScreen);
   };
-  const onPressChores = () => {
-    navigate(ScreenName.MyChoresScreen);
+
+  // Albums
+  const onPressViewAllAlbums = () => {
+    navigate(ScreenName.AlbumsScreen);
   };
-  const onPressEvents = () => {
-    navigate(ScreenName.MyEventsScreen);
-  };
+
   const takePhoto = () => {
     onClose();
     setTimeout(() => {
@@ -117,6 +126,7 @@ const ProfileScreen: React.FC<Props> = () => {
                   currentIndex: index,
                 });
               }}
+              onPressViewAll={onPressViewAllAlbums}
             />
 
             <PrimaryButton

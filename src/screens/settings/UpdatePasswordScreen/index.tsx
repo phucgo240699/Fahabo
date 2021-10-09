@@ -84,7 +84,6 @@ const UpdatePasswordScreen: React.FC<Props> = ({}) => {
           placeholderTextColor={colors.SILVER}
         />
         <Button
-          p={2}
           mt={10}
           size="lg"
           borderRadius={28}

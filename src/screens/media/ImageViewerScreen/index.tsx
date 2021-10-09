@@ -4,6 +4,10 @@ import React, {useEffect} from 'react';
 import ImageView from 'react-native-image-viewing';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 import {ImageSource} from 'react-native-image-viewing/dist/@types';
+import styled from 'styled-components/native';
+import colors from '@themes/colors';
+import fonts from '@themes/fonts';
+import ImageViewerFooter from './shared/ImageViewerFooter';
 
 interface Props {
   route?: any;
@@ -36,6 +40,9 @@ const ImageViewerScreen: React.FC<Props> = ({route}) => {
       images={data}
       imageIndex={currentIndex}
       swipeToCloseEnabled
+      FooterComponent={({imageIndex}) => (
+        <ImageViewerFooter imageIndex={imageIndex} imageCount={data.length} />
+      )}
       presentationStyle={
         Platform.OS === 'android' ? 'overFullScreen' : 'fullScreen'
       }

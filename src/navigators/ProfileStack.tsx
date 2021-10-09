@@ -15,6 +15,7 @@ import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
 import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
 import UpdatePasswordScreen from '@screens/settings/UpdatePasswordScreen';
+import AlbumsScreen from '@screens/albums';
 
 interface Props {
   route?: any;
@@ -82,6 +83,7 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
         name={ScreenName.UpdateProfileScreen}
         component={UpdateProfileScreen}
       />
+      <Stack.Screen name={ScreenName.AlbumsScreen} component={AlbumsScreen} />
     </Stack.Navigator>
   );
 };

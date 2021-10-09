@@ -99,6 +99,9 @@
       "save": "Save"
     }
   },
+  "album": {
+    "myAlbums": "My Albums"
+  },
   "application": {
     "loading": "Loading..."
   },

@@ -10,7 +10,7 @@
       "accountPlaceHolder": "Email",
       "forgotPassword": "Quên mật khẩu?",
       "login": "Đăng nhập",
-      "signUpLabel": "Nếu bạn chưa có mật khẩu, hãy",
+      "signUpLabel": "Nếu bạn chưa có tài khoản, hãy",
       "signUp": "Đăng ký",
       "manualSignIn": "Đăng nhập bằng email",
       "appleSignIn": "Đăng nhập bằng apple",
@@ -98,6 +98,9 @@
       "confirmNewPassword": "Xác nhận lại mật khẩu mới",
       "save": "Lưu"
     }
+  },
+  "album": {
+    "myAlbums": "Album của tôi"
   },
   "application": {
     "loading": "Đăng tải..."

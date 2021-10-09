@@ -49,11 +49,8 @@ export const applied = {
     Appearance.getColorScheme() === 'light' ? '#000000' : '#FFFFFF',
   TEXT: Appearance.getColorScheme() === 'light' ? '#333333' : '#f2f2f2',
   CAMERA_BACKGROUND: '#000000',
-  WHITE_ALPHA50: `${
-    Appearance.getColorScheme() === 'light' ? '#FFFFFF' : '#000000'
-  }60`,
   BLACK_ALPHA50: `${
-    Appearance.getColorScheme() === 'light' ? '#000000' : '#FFFFFF'
+    Appearance.getColorScheme() === 'light' ? '#000000' : '#595959'
   }80`,
 };
 

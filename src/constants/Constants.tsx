@@ -52,6 +52,7 @@ export enum ScreenName {
   SettingsScreen = 'SettingsScreen',
   LanguageScreen = 'LanguageScreen',
   UpdatePasswordScreen = 'UpdatePasswordScreen',
+  AlbumsScreen = 'AlbumsScreen',
 }
 
 export const Constants = {
