@@ -1,5 +1,6 @@
 import {
   GetAvatarResponseType,
+  UpdateLanguageRequestType,
   UpdatePasswordRequestType,
   UpdatePasswordResponseType,
   UpdateProfileAvatarRequestType,
@@ -41,6 +42,22 @@ export const updateProfileSuccessAction = (
   payload: AuthenticationResponseType,
 ) => ({
   type: UPDATE_PROFILE_SUCCESS,
+  payload,
+});
+
+export const UPDATE_LANGUAGE_REQUEST = 'UPDATE_LANGUAGE_REQUEST';
+export const updateLanguageRequestAction = (
+  body: UpdateLanguageRequestType,
+) => ({
+  type: UPDATE_LANGUAGE_REQUEST,
+  body,
+});
+
+export const UPDATE_LANGUAGE_SUCCESS = 'UPDATE_LANGUAGE_SUCCESS';
+export const updateLanguageSuccessAction = (
+  payload: AuthenticationResponseType,
+) => ({
+  type: UPDATE_LANGUAGE_SUCCESS,
   payload,
 });
 

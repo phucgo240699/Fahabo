@@ -5,19 +5,27 @@ export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const getDateString = (date: Date) => {
-  const validDay: string =
+export const getOriginDateString = (date: Date) => {
+  const day: string =
     date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
-  const validMonth: string =
+  const month: string =
     date.getMonth() + 1 < 10
       ? `0${date.getMonth() + 1}`
       : `${date.getMonth() + 1}`;
+  return `${date.getFullYear()}-${month}-${day}`; // YYYY-MM-DD
+};
+
+export const getDateStringFrom = (originDateString: string) => {
+  const elements = originDateString.split('-'); // YYYY-MM-DD
+  const day = elements[2];
+  const month = elements[1];
+  const year = elements[0];
   switch (i18n.locale) {
     case 'vi':
-      return `${validDay}-${validMonth}-${date.getFullYear()}`;
+      return `${day}-${month}-${year}`;
 
     default:
-      return `${validMonth}-${validDay}-${date.getFullYear()}`;
+      return `${month}-${day}-${year}`;
   }
 };
 

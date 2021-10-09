@@ -10,20 +10,25 @@ import {tickIcon} from '@constants/sources/index';
 import i18n from '@locales/index';
 import ProfileHeader from '@components/ProfileHeader';
 import PrimaryIcon from '@components/PrimaryIcon';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {languageCodeSelector} from '@store/selectors/authentication';
 import {getLanguageName} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
+import {updateProfileRequestAction} from '@store/actionTypes/profile';
 
 interface Props {}
 
 const LanguageScreen: React.FC<Props> = ({}) => {
+  const dispatch = useDispatch();
   const [languageCode, setLanguageCode] = useState(
     useSelector(languageCodeSelector),
   );
 
   const onChooseLanguage = (newLanguageCode: string) => {
     setLanguageCode(newLanguageCode);
+  };
+  const onPressSave = () => {
+    dispatch(updateProfileRequestAction({languageCode}));
   };
 
   const renderItem = ({item}: {item: any}) => {
@@ -54,10 +59,11 @@ const LanguageScreen: React.FC<Props> = ({}) => {
         title={i18n.t('settings.language.language')}
         rightComponent={
           <PrimaryButton
-            containerStyle={styles.saveBtn}
             titleFontSize={16}
-            title={i18n.t('settings.language.save')}
+            onPress={onPressSave}
+            containerStyle={styles.saveBtn}
             titleColor={colors.THEME_COLOR_7}
+            title={i18n.t('settings.language.save')}
           />
         }
       />

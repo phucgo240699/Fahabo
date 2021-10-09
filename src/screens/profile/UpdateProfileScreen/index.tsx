@@ -6,7 +6,7 @@ import {Box, Button, Input} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import i18n from '@locales/index';
 import ProfileHeader from '@components/ProfileHeader';
-import {getDateString, isNull} from '@utils/index';
+import {getDateStringFrom, getOriginDateString, isNull} from '@utils/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {userSelector} from '@store/selectors/authentication';
 import {updateProfileRequestAction} from '@store/actionTypes/profile';
@@ -36,12 +36,10 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
   const onPressBirthday = () => {
     setVisibleDatePicker(true);
   };
-  const onDatePickerChange = (date: Date) => {
-    // console.log({date});
-  };
+  const onDatePickerChange = (date: Date) => {};
   const onConfirmDatePicker = (date: Date) => {
     setVisibleDatePicker(false);
-    setBirthday(getDateString(date));
+    setBirthday(getOriginDateString(date));
   };
   const onCloseDatePicker = () => {
     setVisibleDatePicker(false);
@@ -107,7 +105,9 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
           borderColor={colors.SILVER}
           _text={{color: colors.GRAY}}
           onPress={onPressBirthday}>
-          {isNull(birthday) ? i18n.t('profile.formatDate') : birthday}
+          {isNull(birthday)
+            ? i18n.t('profile.formatDate')
+            : getDateStringFrom(birthday ?? '')}
         </Button>
         <Button
           mt={10}

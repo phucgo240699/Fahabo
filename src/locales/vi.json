@@ -119,7 +119,8 @@
     "gotOTP": "OTP đã được gửi đến",
     "resetPassword": "Thay đổi mật khẩu thành công",
     "updateProfile": "Cập nhật thông cá nhân thành công",
-    "updatePassword": "Cập nhật mật khẩu thành công"
+    "updatePassword": "Cập nhật mật khẩu thành công",
+    "updateLanguage": "Cập nhật ngôn ngữ thành công"
   },
   "warningMessage": {
     "activeAccount": "Bạn cần kích hoạt tài khoản này"

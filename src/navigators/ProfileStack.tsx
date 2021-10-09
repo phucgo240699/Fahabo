@@ -14,7 +14,7 @@ import QRPresenterScreen from '@screens/families/QRPresenterScreen';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
 import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
-import UpdatePasswordScreen from '@screens/profile/UpdatePasswordScreen';
+import UpdatePasswordScreen from '@screens/settings/UpdatePasswordScreen';
 
 interface Props {
   route?: any;

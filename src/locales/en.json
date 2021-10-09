@@ -119,7 +119,8 @@
     "gotOTP": "OTP was sent to",
     "resetPassword": "Reset password successfully",
     "updateProfile": "Update profile successfully",
-    "updatePassword": "Update password successfully"
+    "updatePassword": "Update password successfully",
+    "updateLanguage": "Update language successfully"
   },
   "warningMessage": {
     "activeAccount": "You need to active this account"

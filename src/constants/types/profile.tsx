@@ -9,6 +9,10 @@ export type UpdateProfileRequestType = {
   languageCode?: string;
 };
 
+export type UpdateLanguageRequestType = {
+  languageCode?: string;
+};
+
 export type UpdatePasswordRequestType = {
   currentPassword: string;
   newPassword: string;
