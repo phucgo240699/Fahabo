@@ -10,7 +10,7 @@ import {
   SIGN_IN_SUCCESS,
 } from '@store/actionTypes/signIn';
 import {signIn} from '@services/signIn';
-import {all, call, put, takeLatest} from 'typed-redux-saga';
+import {all, call, put, takeLatest, takeLeading} from 'typed-redux-saga';
 import {ScreenName, StackName} from '@constants/Constants';
 import {navigate, navigateReset} from '@navigators/index';
 import {ToastType} from '@constants/types/session';
@@ -113,10 +113,10 @@ function* onLogOut(action: AnyAction) {
 
 export default function* () {
   yield* all([
-    takeLatest(SIGN_IN_REQUEST, onSignInRequest),
-    takeLatest(SIGN_IN_SUCCESS, onSignInSuccess),
-    takeLatest(AUTO_SIGN_IN_REQUEST, onAutoSignInRequest),
-    takeLatest(AUTO_SIGN_IN_SUCCESS, onAutoSignInSuccess),
-    takeLatest(LOG_OUT, onLogOut),
+    takeLeading(SIGN_IN_REQUEST, onSignInRequest),
+    takeLeading(SIGN_IN_SUCCESS, onSignInSuccess),
+    takeLeading(AUTO_SIGN_IN_REQUEST, onAutoSignInRequest),
+    takeLeading(AUTO_SIGN_IN_SUCCESS, onAutoSignInSuccess),
+    takeLeading(LOG_OUT, onLogOut),
   ]);
 }

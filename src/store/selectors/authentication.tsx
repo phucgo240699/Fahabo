@@ -1,7 +1,7 @@
 import {RootState} from '@store/index';
 
 export const listCountryCodeSelector = (state: RootState) =>
-  state.authentication.listCountryCode;
+  state.authentication.listCountryCode ?? [];
 
 export const accessTokenSelector = (state: RootState) =>
   state.authentication.accessToken;

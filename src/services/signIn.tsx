@@ -10,5 +10,5 @@ export function signIn(body: SignInRequestType) {
 }
 
 export function refreshAccessToken(body: RefreshAccessTokenRequestType) {
-  return new apiProvider().get(`${BASE_URL}/token`, body);
+  return new apiProvider().post(`${BASE_URL}/token`, body);
 }

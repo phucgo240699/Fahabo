@@ -20,6 +20,12 @@ export const parseVerifyForgotPasswordRequest = (rawData: any) => {
 //
 // Response
 //
+export const parseRefreshAccessTokenResponse = (rawData: any) => {
+  return {
+    accessToken: get('accessToken', rawData),
+    refreshToken: get('refreshToken', rawData),
+  };
+};
 export const parseSignInResponse = (rawData: any) => {
   return {
     user: {
@@ -35,8 +41,8 @@ export const parseSignInResponse = (rawData: any) => {
       // isValidEmail: get('user.isValidEmail', rawData),
       // isValidPhoneNumber: get('user.isValidPhoneNumber', rawData),
     },
-    accessToken: get('accessToken', rawData),
-    refreshToken: get('refreshToken', rawData),
+    accessToken: get('access_token', rawData),
+    refreshToken: get('refresh_token', rawData),
   };
 };
 
@@ -71,7 +77,23 @@ export const parseVerifyResponse = (rawData: any) => {
       // isValidEmail: get('user.isValidEmail', rawData),
       // isValidPhoneNumber: get('user.isValidPhoneNumber', rawData),
     },
-    accessToken: get('accessToken', rawData),
-    refreshToken: get('refreshToken', rawData),
+    accessToken: get('access_token', rawData),
+    refreshToken: get('refresh_token', rawData),
+  };
+};
+
+export const parseUpdateProfileResponse = (rawData: any) => {
+  return {
+    // id: get('id', rawData),
+    // contactId: get('contactId', rawData),
+    email: get('email', rawData),
+    password: get('password', rawData),
+    name: get('name', rawData),
+    username: get('username', rawData),
+    phoneNumber: get('phoneNumber', rawData),
+    birthday: get('birthday', rawData),
+    languageCode: get('languageCode', rawData),
+    // isValidEmail: get('isValidEmail', rawData),
+    // isValidPhoneNumber: get('isValidPhoneNumber', rawData),
   };
 };

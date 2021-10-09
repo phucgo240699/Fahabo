@@ -6,11 +6,12 @@ import {Box, Button, Input} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import i18n from '@locales/index';
 import ProfileHeader from '@components/ProfileHeader';
-import {isNull} from '@utils/index';
+import {getDateString, isNull} from '@utils/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {userSelector} from '@store/selectors/authentication';
 import {updateProfileRequestAction} from '@store/actionTypes/profile';
 import {UpdateProfileRequestType} from '@constants/types/profile';
+import DatePicker from 'react-native-date-picker';
 
 interface Props {}
 
@@ -21,6 +22,7 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber);
   const [name, setName] = useState(user?.name);
   const [birthday, setBirthday] = useState(user?.birthday);
+  const [visibleDatePicker, setVisibleDatePicker] = useState(false);
 
   const onChangeEmail = (text: string) => {
     setEmail(text);
@@ -32,7 +34,17 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
     setName(text);
   };
   const onPressBirthday = () => {
-    // Open Date Picker
+    setVisibleDatePicker(true);
+  };
+  const onDatePickerChange = (date: Date) => {
+    // console.log({date});
+  };
+  const onConfirmDatePicker = (date: Date) => {
+    setVisibleDatePicker(false);
+    setBirthday(getDateString(date));
+  };
+  const onCloseDatePicker = () => {
+    setVisibleDatePicker(false);
   };
 
   const onPressUpdate = () => {
@@ -49,7 +61,7 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
     if (!isNull(birthday)) {
       params.birthday = birthday;
     }
-    dispatch(updateProfileRequestAction({...params}));
+    dispatch(updateProfileRequestAction(params));
   };
 
   return (
@@ -95,7 +107,7 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
           borderColor={colors.SILVER}
           _text={{color: colors.GRAY}}
           onPress={onPressBirthday}>
-          {isNull(birthday) ? 'dd-mm-yyy' : birthday}
+          {isNull(birthday) ? i18n.t('profile.formatDate') : birthday}
         </Button>
         <Button
           mt={10}
@@ -105,6 +117,16 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
           onPress={onPressUpdate}>
           {i18n.t('profile.confirm')}
         </Button>
+        <DatePicker
+          modal
+          mode="date"
+          locale={i18n.locale}
+          open={visibleDatePicker}
+          date={new Date()}
+          onDateChange={onDatePickerChange}
+          onConfirm={onConfirmDatePicker}
+          onCancel={onCloseDatePicker}
+        />
       </ScrollView>
     </Box>
   );

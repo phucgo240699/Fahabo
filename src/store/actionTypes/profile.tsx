@@ -1,4 +1,5 @@
 import {
+  GetAvatarResponseType,
   UpdatePasswordRequestType,
   UpdatePasswordResponseType,
   UpdateProfileAvatarRequestType,
@@ -7,6 +8,16 @@ import {
 } from '@constants/types/profile';
 import {AuthenticationResponseType} from '@constants/types/authentication';
 import {ImageSource} from 'react-native-image-viewing/dist/@types';
+
+export const GET_AVATAR_REQUEST = 'GET_AVATAR_REQUEST';
+export const getAvatarRequestAction = () => ({
+  type: GET_AVATAR_REQUEST,
+});
+export const GET_AVATAR_SUCCESS = 'GET_AVATAR_SUCCESS';
+export const getAvatarSuccessAction = (payload: GetAvatarResponseType) => ({
+  type: GET_AVATAR_SUCCESS,
+  payload,
+});
 
 export const GET_PREVIEW_ALBUM_REQUEST = 'GET_PREVIEW_ALBUM_REQUEST';
 export const getPreviewAlbumRequestAction = () => ({

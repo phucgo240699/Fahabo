@@ -16,7 +16,7 @@ const UpdatePasswordScreen: React.FC<Props> = ({}) => {
   const dispatch = useDispatch();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [repeatNewPassword, setRepeatNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
   const onChangeCurrentPassword = (text: string) => {
     setCurrentPassword(text);
@@ -24,21 +24,21 @@ const UpdatePasswordScreen: React.FC<Props> = ({}) => {
   const onChangeNewPassword = (text: string) => {
     setNewPassword(text);
   };
-  const onChangeRepeatNewPassword = (text: string) => {
-    setRepeatNewPassword(text);
+  const onChangeConfirmNewPassword = (text: string) => {
+    setConfirmNewPassword(text);
   };
 
   const onPressUpdate = () => {
     if (
       !isNull(currentPassword) &&
       !isNull(newPassword) &&
-      !isNull(repeatNewPassword)
+      !isNull(confirmNewPassword)
     ) {
       dispatch(
         updatePasswordRequestAction({
           currentPassword,
           newPassword,
-          repeatNewPassword,
+          confirmNewPassword,
         }),
       );
     }
@@ -77,10 +77,10 @@ const UpdatePasswordScreen: React.FC<Props> = ({}) => {
         <Label>{i18n.t('settings.password.confirmNewPassword')}</Label>
         <Input
           mt={1}
-          value={repeatNewPassword}
+          value={confirmNewPassword}
           color={colors.BLACK}
           borderColor={colors.SILVER}
-          onChangeText={onChangeRepeatNewPassword}
+          onChangeText={onChangeConfirmNewPassword}
           placeholderTextColor={colors.SILVER}
         />
         <Button

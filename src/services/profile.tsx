@@ -1,17 +1,29 @@
 import {apiProvider} from './apiProvider';
+import {call, select} from 'typed-redux-saga';
 import {BASE_URL} from '@constants/Constants';
-import {call, put, select} from 'typed-redux-saga';
-import {UpdateProfileAvatarRequestType} from '@constants/types/profile';
+import {
+  UpdatePasswordRequestType,
+  UpdateProfileAvatarRequestType,
+} from '@constants/types/profile';
 import {accessTokenSelector} from '@store/selectors/authentication';
 
-export function updateProfile(
-  accessToken: string,
-  body: UpdateProfileAvatarRequestType,
-) {
-  return new apiProvider(accessToken).put(`${BASE_URL}/profile`, body);
+export function getAvatarApi(accessToken?: string) {
+  return new apiProvider(accessToken).get(`${BASE_URL}/users/avatar`);
+}
+export function getPreviewAlbumApi(accessToken?: string) {
+  return new apiProvider(accessToken).get(`${BASE_URL}/users/preview_images`);
 }
 
-// export function* apiUpdateProfile(body: UpdateProfileAvatarRequestType) {
-//   const accessToken = yield* select(state => accessTokenSelector(state));
-//   return yield* call(updateProfile, accessToken, body);
-// }
+export function updateProfileApi(
+  accessToken?: string,
+  body?: UpdateProfileAvatarRequestType,
+) {
+  return new apiProvider(accessToken).put(`${BASE_URL}/users/profile`, body);
+}
+
+export function updatePasswordApi(
+  accessToken?: string,
+  body?: UpdatePasswordRequestType,
+) {
+  return new apiProvider(accessToken).put(`${BASE_URL}/change_password`, body);
+}

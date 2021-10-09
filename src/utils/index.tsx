@@ -5,6 +5,22 @@ export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+export const getDateString = (date: Date) => {
+  const validDay: string =
+    date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
+  const validMonth: string =
+    date.getMonth() + 1 < 10
+      ? `0${date.getMonth() + 1}`
+      : `${date.getMonth() + 1}`;
+  switch (i18n.locale) {
+    case 'vi':
+      return `${validDay}-${validMonth}-${date.getFullYear()}`;
+
+    default:
+      return `${validMonth}-${validDay}-${date.getFullYear()}`;
+  }
+};
+
 export const getLanguageName = (languageCode: string) => {
   switch (languageCode) {
     case 'vi':

@@ -57,6 +57,7 @@ export type AuthenticationResponseType = {
   phoneNumber?: string;
   birthday?: string;
   languageCode?: string;
+  avatarUrl?: string;
   // isValidEmail?: boolean;
   // isValidPhoneNumber?: boolean;
 };

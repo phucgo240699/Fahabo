@@ -2,59 +2,68 @@ import {
   logOutAction,
   refreshAccessTokenSuccessAction,
 } from '../actionTypes/signIn';
-import {call, put, select} from 'typed-redux-saga';
+import {call, delay, put, select} from 'typed-redux-saga';
 import {refreshAccessToken} from '@services/signIn';
-import {useSelector} from 'react-redux';
 import {
   accessTokenSelector,
   refreshTokenSelector,
 } from '@store/selectors/authentication';
 import {isRefreshingTokenSelector} from '@store/selectors/session';
-import {updateProfile} from '@services/profile';
 import {AxiosResponse} from 'axios';
+import {
+  turnOffIsRefreshingTokenAction,
+  turnOnIsRefreshingTokenAction,
+} from '@store/actionTypes/session';
+import {parseRefreshAccessTokenResponse} from '@utils/parsers/authentication';
 
-export function* apiProxy(fn: any, ...args: any[]): any {
+export function* apiProxy(
+  fn: (
+    accessToken?: string,
+    body?: any,
+    header?: any,
+  ) => Promise<AxiosResponse<any>>,
+  body?: any,
+  header?: any,
+): any {
   try {
-    const isRefreshingToken = useSelector(isRefreshingTokenSelector);
+    const isRefreshingToken = yield* select(state =>
+      isRefreshingTokenSelector(state),
+    );
+    console.log({isRefreshingToken});
     if (isRefreshingToken) {
-      setInterval(() => {
-        const isRefresh = useSelector(isRefreshingTokenSelector);
-        if (isRefresh === false) {
-          return apiProxy(fn, ...args);
-        }
-      }, 1000);
-    }
-
-    return yield call(fn, ...args);
-  } catch (error: any) {
-    console.log('apiProxy got error', error);
-    if (
-      error &&
-      error.response &&
-      error.response.status &&
-      error.response.status === 401
-    ) {
-      console.log('accessToken expired');
-      try {
-        const refreshToken = useSelector(refreshTokenSelector);
-        const response = yield* call(refreshAccessToken, {refreshToken});
-        if (response.status === 200) {
+      yield* delay(3000);
+      yield* put(turnOffIsRefreshingTokenAction());
+      return yield apiProxy(fn, body, header);
+    } else {
+      const accessToken = yield* select(state => accessTokenSelector(state));
+      const response = yield* call(fn, accessToken, body, header);
+      if (response.status === 401) {
+        yield* put(turnOnIsRefreshingTokenAction());
+        console.log('AccessToken expired');
+        const refreshToken = yield* select(state =>
+          refreshTokenSelector(state),
+        );
+        const refreshResponse = yield* call(refreshAccessToken, {refreshToken});
+        if (refreshResponse.status === 200) {
           yield* put(
-            refreshAccessTokenSuccessAction({
-              accessToken: response.data.accessToken,
-              refreshToken: response.data.refreshToken,
-            }),
+            refreshAccessTokenSuccessAction(
+              parseRefreshAccessTokenResponse(refreshResponse.data.data),
+            ),
           );
-          return yield apiProxy(fn, ...args);
+          yield* put(turnOffIsRefreshingTokenAction());
+          return yield apiProxy(fn, body, header);
         } else {
-          console.log('refreshToken expired');
+          console.log('RefreshToken expired');
+          yield* put(turnOffIsRefreshingTokenAction());
           yield* put(logOutAction());
         }
-      } catch (err) {
-        throw err;
+      } else {
+        return response;
       }
-    } else {
-      throw error;
     }
+  } catch (error) {
+    throw error;
+  } finally {
+    yield* put(turnOffIsRefreshingTokenAction());
   }
 }

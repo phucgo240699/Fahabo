@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   profileBackground,
   defaultAvatar,
@@ -13,39 +13,36 @@ import PrimaryButton from '@components/PrimaryButton';
 import {getInset} from 'react-native-safe-area-view';
 import ProfileAlbumBox from './shared/ProfileAlbumBox';
 import {ImageBackground, StyleSheet} from 'react-native';
-import {navigate, navigateReset} from '@navigators/index';
+import {navigate} from '@navigators/index';
 import ProfileRelationBox from './shared/ProfileRelationBox';
 import ProfileSettingsBox from './shared/ProfileSettingsBox';
 import {Avatar, Box, Actionsheet, useDisclose} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {Constants, ScreenName, StackName} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {logOutAction} from '@store/actionTypes/signIn';
-import {ImageSource} from 'react-native-image-viewing/dist/@types';
-import {DisplayPictures} from '@constants/DummyData';
-
-interface DataProps {
-  name?: string;
-  email?: string;
-  phoneNumber?: string;
-  avatarUrl?: string;
-}
-
-const DATA: DataProps = {
-  name: 'Lý Hiền Phúc',
-  email: 'phucgo240699@gmail.com',
-  phoneNumber: '0908376416',
-  avatarUrl:
-    'https://www.ikea.com/au/en/images/products/djungelskog-soft-toy-panda__0710188_pe727391_s5.jpg',
-};
+import {
+  getAvatarRequestAction,
+  getPreviewAlbumRequestAction,
+} from '@store/actionTypes/profile';
+import {userSelector} from '@store/selectors/authentication';
+import {isNull} from '@utils/index';
+import {previewAlbumSelector} from '@store/selectors/profile';
 
 interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
   const dispatch = useDispatch();
+  const user = useSelector(userSelector);
+  const previewAlbum = useSelector(previewAlbumSelector);
   const {isOpen, onOpen, onClose} = useDisclose();
   const bottomInset = getInset('bottom', false);
+
+  useEffect(() => {
+    dispatch(getAvatarRequestAction());
+    dispatch(getPreviewAlbumRequestAction());
+  }, [dispatch]);
 
   const onLogOut = () => {
     dispatch(logOutAction());
@@ -97,8 +94,8 @@ const ProfileScreen: React.FC<Props> = () => {
           <EmptyView />
           <Content>
             <Box alignItems="center" justifyContent="center">
-              <NameText>{DATA.name}</NameText>
-              <EmailText>{DATA.email ?? DATA.phoneNumber}</EmailText>
+              <NameText>{user?.name}</NameText>
+              <EmailText>{user?.username}</EmailText>
             </Box>
 
             <ProfileRelationBox
@@ -113,10 +110,10 @@ const ProfileScreen: React.FC<Props> = () => {
             />
 
             <ProfileAlbumBox
-              data={DisplayPictures}
+              data={previewAlbum}
               onPressItem={index => {
                 navigate(ScreenName.ImageViewerScreen, {
-                  data: DisplayPictures,
+                  data: previewAlbum,
                   currentIndex: index,
                 });
               }}
@@ -130,11 +127,19 @@ const ProfileScreen: React.FC<Props> = () => {
           </Content>
 
           <AvatarContainer activeOpacity={0.7} onPress={onOpen}>
-            <Avatar
-              size="2xl"
-              backgroundColor={'transparent'}
-              source={DATA.avatarUrl ? {uri: DATA.avatarUrl} : defaultAvatar}
-            />
+            {!isNull(user?.avatarUrl) ? (
+              <Avatar
+                size="2xl"
+                backgroundColor={'transparent'}
+                source={{uri: user?.avatarUrl ?? ''}}
+              />
+            ) : (
+              <Avatar
+                size="2xl"
+                backgroundColor={'transparent'}
+                source={defaultAvatar}
+              />
+            )}
             <CameraIconContainer>
               <PrimaryIcon width={24} height={24} source={cameraIcon} />
             </CameraIconContainer>

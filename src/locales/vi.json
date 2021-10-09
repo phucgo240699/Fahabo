@@ -80,7 +80,8 @@
     "phoneNumber": "Số điện thoại",
     "name": "Tên",
     "birthday": "Ngày sinh",
-    "confirm": "Lưu"
+    "confirm": "Lưu",
+    "formatDate": "dd-mm-yyyy"
   },
   "settings": {
     "settings": "Cài đặt",
@@ -116,7 +117,9 @@
     "signUpComplete": "Đăng ký hoàn tất",
     "verifySuccess": "Xác thực email thành công",
     "gotOTP": "OTP đã được gửi đến",
-    "resetPassword": "Thay đổi mật khẩu thành công"
+    "resetPassword": "Thay đổi mật khẩu thành công",
+    "updateProfile": "Cập nhật thông cá nhân thành công",
+    "updatePassword": "Cập nhật mật khẩu thành công"
   },
   "warningMessage": {
     "activeAccount": "Bạn cần kích hoạt tài khoản này"

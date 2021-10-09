@@ -24,7 +24,7 @@ import {
   VERIFY_USERNAME_SUCCESS,
 } from '@store/actionTypes/signUp';
 import {ToastType} from '@constants/types/session';
-import {all, call, put, takeLatest} from 'typed-redux-saga';
+import {all, call, put, takeLeading} from 'typed-redux-saga';
 import {navigate, navigateReset} from '@navigators/index';
 import {ScreenName, StackName} from '@constants/Constants';
 import {
@@ -42,28 +42,7 @@ import {
   parseVerifyResponse,
   parseVerifyUsernameRequest,
 } from '@utils/parsers/authentication';
-import {Alert} from 'react-native';
 import {showResetPasswordLinkModalAction} from '@store/actionTypes/modals';
-
-/*
-function *onExample(action: AnyAction) {
-  try {
-    yield* put(showHUDAction());
-    const response = yield* call(example, action.body);
-    if (response.status === 200) {
-
-    } else {
-
-    }
-  } catch (error) {
-    yield* put(
-      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
-    );
-  } finally {
-    yield* put(closeHUDAction());
-  }
-}
-*/
 
 function* onSignUpRequest(action: AnyAction) {
   try {
@@ -318,23 +297,23 @@ function* onForgotPasswordSuccess(action: AnyAction) {
 
 export default function* () {
   yield* all([
-    takeLatest(SIGN_UP_REQUEST, onSignUpRequest),
-    takeLatest(SIGN_UP_SUCCESS, onSignUpSuccess),
-    takeLatest(GET_COUNTRY_CODE_REQUEST, onGetCountryCodeRequest),
-    takeLatest(GET_OTP_REQUEST, onGetOTPRequest),
-    takeLatest(GET_OTP_REQUEST_BACKGROUND, onGetOTPRequestBackground),
-    takeLatest(VERIFY_USERNAME_REQUEST, onVerifyUsernameRequest),
-    takeLatest(VERIFY_USERNAME_SUCCESS, onVerifyUsernameSuccess),
-    takeLatest(GET_FORGOT_PASSWORD_OTP_REQUEST, onGetForgotPasswordOTPRequest),
-    takeLatest(
+    takeLeading(SIGN_UP_REQUEST, onSignUpRequest),
+    takeLeading(SIGN_UP_SUCCESS, onSignUpSuccess),
+    takeLeading(GET_COUNTRY_CODE_REQUEST, onGetCountryCodeRequest),
+    takeLeading(GET_OTP_REQUEST, onGetOTPRequest),
+    takeLeading(GET_OTP_REQUEST_BACKGROUND, onGetOTPRequestBackground),
+    takeLeading(VERIFY_USERNAME_REQUEST, onVerifyUsernameRequest),
+    takeLeading(VERIFY_USERNAME_SUCCESS, onVerifyUsernameSuccess),
+    takeLeading(GET_FORGOT_PASSWORD_OTP_REQUEST, onGetForgotPasswordOTPRequest),
+    takeLeading(
       GET_FORGOT_PASSWORD_OTP_REQUEST_AGAIN,
       onGetForgotPasswordOTPRequestAgain,
     ),
-    takeLatest(
+    takeLeading(
       VERIFY_FORGOT_PASSWORD_OTP_REQUEST,
       onVerifyForgotPasswordOTPRequest,
     ),
-    takeLatest(FORGOT_PASSWORD_REQUEST, onForgotPasswordRequest),
-    takeLatest(FORGOT_PASSWORD_SUCCESS, onForgotPasswordSuccess),
+    takeLeading(FORGOT_PASSWORD_REQUEST, onForgotPasswordRequest),
+    takeLeading(FORGOT_PASSWORD_SUCCESS, onForgotPasswordSuccess),
   ]);
 }

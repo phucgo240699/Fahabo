@@ -80,7 +80,8 @@
     "phoneNumber": "Phone number",
     "name": "Name",
     "birthday": "Birthday",
-    "confirm": "Save"
+    "confirm": "Save",
+    "formatDate": "mm-dd-yyyy"
   },
   "settings": {
     "settings": "Settings",
@@ -116,7 +117,9 @@
     "signUpComplete": "Sign up completely",
     "verifySuccess": "Verify email successfully",
     "gotOTP": "OTP was sent to",
-    "resetPassword": "Reset password successfully"
+    "resetPassword": "Reset password successfully",
+    "updateProfile": "Update profile successfully",
+    "updatePassword": "Update password successfully"
   },
   "warningMessage": {
     "activeAccount": "You need to active this account"

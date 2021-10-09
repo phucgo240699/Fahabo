@@ -11,7 +11,12 @@ import {
   SIGN_IN_SUCCESS,
 } from '@store/actionTypes/signIn';
 import {AuthenticationResponseType} from '@constants/types/authentication';
-import {UPDATE_PROFILE_SUCCESS} from '@store/actionTypes/profile';
+import {
+  GET_AVATAR_SUCCESS,
+  GET_PREVIEW_ALBUM_SUCCESS,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PROFILE_SUCCESS,
+} from '@store/actionTypes/profile';
 import {ImageSource} from 'react-native-image-viewing/dist/@types';
 
 export type AuthenticationState = {
@@ -39,14 +44,37 @@ export default function authenticationReducer(
       return {
         ...state,
         user: {
+          ...state.user,
           ...action.payload,
         },
+      };
+    case GET_AVATAR_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          avatarUrl: action.payload.uri,
+        },
+      };
+    case GET_PREVIEW_ALBUM_SUCCESS:
+      return {
+        ...state,
+        previewAlbum: action.payload,
       };
     case UPDATE_PROFILE_SUCCESS:
       return {
         ...state,
         user: {
+          ...state.user,
           ...action.payload,
+        },
+      };
+    case UPDATE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          password: action.payload.password,
         },
       };
     case GET_COUNTRY_CODE_SUCCESS:

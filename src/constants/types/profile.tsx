@@ -12,7 +12,7 @@ export type UpdateProfileRequestType = {
 export type UpdatePasswordRequestType = {
   currentPassword: string;
   newPassword: string;
-  repeatNewPassword: string;
+  confirmNewPassword: string;
 };
 
 export type UpdateProfileAvatarRequestType = {};
@@ -20,6 +20,10 @@ export type UpdateProfileAvatarRequestType = {};
 //
 // Response
 //
-export type UpdatePasswordResponseType = {};
+export type GetAvatarResponseType = {uri: string};
+
+export type UpdatePasswordResponseType = {
+  password?: string;
+};
 
 export type UpdateProfileAvatarResponseType = {};
