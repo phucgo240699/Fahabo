@@ -18,15 +18,15 @@ interface Props {}
 const UpdateProfileScreen: React.FC<Props> = ({}) => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
-  const [email, setEmail] = useState(user?.email);
+  // const [email, setEmail] = useState(user?.email);
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber);
   const [name, setName] = useState(user?.name);
   const [birthday, setBirthday] = useState(user?.birthday);
   const [visibleDatePicker, setVisibleDatePicker] = useState(false);
 
-  const onChangeEmail = (text: string) => {
-    setEmail(text);
-  };
+  // const onChangeEmail = (text: string) => {
+  //   setEmail(text);
+  // };
   const onChangePhoneNumber = (text: string) => {
     setPhoneNumber(text);
   };
@@ -47,9 +47,9 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
 
   const onPressUpdate = () => {
     const params: UpdateProfileRequestType = {};
-    if (!isNull(email)) {
-      params.email = email;
-    }
+    // if (!isNull(email)) {
+    //   params.email = email;
+    // }
     if (!isNull(phoneNumber)) {
       params.phoneNumber = phoneNumber;
     }
@@ -74,14 +74,14 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
         bounces={false}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}>
-        <Label>{`${i18n.t('profile.email')}:`}</Label>
+        {/* <Label>{`${i18n.t('profile.email')}:`}</Label>
         <Input
           mt={1}
           value={email}
           color={colors.TEXT}
           borderColor={colors.SILVER}
           onChangeText={onChangeEmail}
-        />
+        /> */}
         <Label>{`${i18n.t('profile.phoneNumber')}:`}</Label>
         <Input
           mt={1}

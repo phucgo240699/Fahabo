@@ -88,6 +88,11 @@ const UpdatePasswordScreen: React.FC<Props> = ({}) => {
           size="lg"
           borderRadius={28}
           _text={{color: colors.WHITE}}
+          disabled={
+            isNull(currentPassword) ||
+            isNull(newPassword) ||
+            isNull(confirmNewPassword)
+          }
           onPress={onPressUpdate}>
           {i18n.t('settings.password.save')}
         </Button>

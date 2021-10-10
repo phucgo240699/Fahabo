@@ -65,7 +65,7 @@ const SettingsScreen: React.FC<Props> = ({}) => {
 };
 
 const ItemContainer = styled.TouchableOpacity`
-  padding: 10px;
+  padding: 14px;
   flex-direction: row;
   align-items: center;
 `;

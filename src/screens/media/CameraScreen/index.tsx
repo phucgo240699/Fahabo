@@ -35,7 +35,7 @@ const CameraScreen: React.FC<Props> = ({}) => {
         captureAudio={false}
         type={RNCamera.Constants.Type.back}
         flashMode={RNCamera.Constants.FlashMode.on}>
-        {({camera, status, recordAudioPermissionStatus}) => {
+        {({camera, status}) => {
           if (status !== 'READY') {
             return <></>;
           }

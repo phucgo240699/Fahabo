@@ -3,7 +3,7 @@ import fonts from '@themes/fonts';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import {Box, FlatList} from 'native-base';
-import {StyleSheet} from 'react-native';
+import {DevSettings, StyleSheet} from 'react-native';
 import {languages} from '@constants/Constants';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {tickIcon} from '@constants/sources/index';
