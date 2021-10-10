@@ -29,8 +29,6 @@ target 'Fahabo' do
 
   pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
 
-  pod 'react-native-restart', :path => '../node_modules/react-native-restart'
-
   pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
 
   target 'FahaboTests' do

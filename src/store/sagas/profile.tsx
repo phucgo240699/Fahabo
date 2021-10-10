@@ -34,7 +34,7 @@ import {all, delay, put, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
 import {CommonActions} from '@react-navigation/native';
 import {parseUpdateProfileResponse} from '@utils/parsers/authentication';
-import RNRestart from 'react-native-restart';
+import { DevSettings } from 'react-native';
 
 function* onGetAvatarSaga(action: AnyAction) {
   try {
@@ -137,7 +137,7 @@ function* onUpdateLanguageSaga(action: AnyAction) {
 }
 function* onUpdateLanguageSuccessSaga(action: AnyAction) {
   yield* delay(1000);
-  RNRestart.Restart();
+  DevSettings.reload()
 }
 
 // Password
