@@ -740,14 +740,14 @@ SPEC CHECKSUMS:
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
-  Permission-Calendars: 4996a2d88982b45244e35d6a3d95488fe1e9c9e7
-  Permission-Camera: 24c37a846ff69e0eb7fd4264346550850d5b707a
-  Permission-LocationAlways: 92bf7638da5852ddba7c29fda18ecd0ac246c813
-  Permission-LocationWhenInUse: 1c1f3c5dc7e33029c0a4a0846b97b4bf89d3244b
-  Permission-Microphone: 4667fe94d91ca063175966062186ade404ed57d1
-  Permission-Notifications: 2662b6885535a98892b8e48da04b74fc898d70f8
-  Permission-PhotoLibrary: 48e58291bd650b4f197cf542dad53f41dea4e84f
-  Permission-PhotoLibraryAddOnly: 90b427e4a2acd37d1128618704b53364d73826c2
+  Permission-Calendars: 7524e233f7cec0c95b7e40f8cf017383183e9289
+  Permission-Camera: ac603073e4128e51e6ca3c39129778f05b4082fa
+  Permission-LocationAlways: 0704c3bcce11f98f8d6ddf34c49c65893ec64b09
+  Permission-LocationWhenInUse: e1168a583654f1d2d34d3a18c4c6518ce409ad2a
+  Permission-Microphone: f795f37089f6de4c71ae147b32770a5ebfdee08c
+  Permission-Notifications: 16ccd862111103378a7bab9fb1c5c71addffc348
+  Permission-PhotoLibrary: 0748c1a490fad126dfe36dbea8234dedfe59cc27
+  Permission-PhotoLibraryAddOnly: 224d33cea3c2f1f8982a2a4e343c0726fba3acf9
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   RCT-Folly: 0dd9e1eb86348ecab5ba76f910b56f4b5fef3c46
   RCTRequired: 6cf071ab2adfd769014b3d94373744ee6e789530
@@ -760,13 +760,13 @@ SPEC CHECKSUMS:
   React-jsi: 12913c841713a15f64eabf5c9ad98592c0ec5940
   React-jsiexecutor: 43f2542aed3c26e42175b339f8d37fe3dd683765
   React-jsinspector: 41e58e5b8e3e0bf061fdf725b03f2144014a8fb0
-  react-native-camera: 210a872c84d3aa0982a9223047ef9e743ed694fa
-  react-native-cameraroll: 7c6c7ca84844f93b3dac9a87670bbad6541684ec
+  react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
+  react-native-cameraroll: 88f4e62d9ecd0e1f253abe4f685474f2ea14bfa2
   react-native-config: 72d948053a442779b3178fddd571e37f118ef606
   react-native-date-picker: 52937fb39322ee5f6c44a10117456b3fa4225d4c
   react-native-fbsdk-next: 5a8e6915d7e4191dcb2c9843ea9771e3a29def9c
-  react-native-pager-view: f21658a2e12eced35ef998250375e4e4dc9b8487
-  react-native-safe-area-context: 5cf05f49df9d17261e40e518481f2e334c6cd4b5
+  react-native-pager-view: 5ab4d0b4b44d89f77310cb3eb8129745f274ce55
+  react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-perflogger: fd28ee1f2b5b150b00043f0301d96bd417fdc339
   React-RCTActionSheet: 7f3fa0855c346aa5d7c60f9ced16e067db6d29fa
@@ -781,13 +781,13 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 85187f19dd9c47a7c102f9994f9d14e4dc2110de
   ReactCommon: eafed38eec7b591c31751bfa7494801618460459
   RNAppleAuthentication: b295d98a2431322fb1f4adba887ddc9c645198b9
-  RNCAsyncStorage: 7f72b8273be1f92076b16f68b333160d562eebad
-  RNCMaskedView: d367b2a8df3992114e31b32b091a0c00dc800827
+  RNCAsyncStorage: 7102fe8985f889579a3ae148d957bbb3f308122b
+  RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
   RNFBApp: 46a6918f6b1bbb0b332fafb07ef1362bd96ca857
   RNFBAuth: a63fc58edf68af3e36eea2f02cadc733226b4c61
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNGoogleSignin: 9596e687e7d765a2960ca44dd254a23e810f9e66
-  RNPermissions: 3e5bb8afd93c787681bbacbf54d586a6272ecc92
+  RNGoogleSignin: 1b18b300f4eccd0a121f19f204ce28d6e8fb4bb5
+  RNPermissions: 7043bacbf928eae25808275cfe73799b8f618911
   RNScreens: e5139736fcf67f4ddaa849d13a8adccbb0cedf81
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
