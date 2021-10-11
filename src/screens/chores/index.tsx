@@ -4,27 +4,16 @@ import i18n from '@locales/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {
-  Animated,
-  Keyboard,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-} from 'react-native';
+import {Keyboard} from 'react-native';
 
-interface Props {
-  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
-}
+interface Props {}
 
-const ChoresScreen: React.FC<Props> = ({onScroll}) => {
+const ChoresScreen: React.FC<Props> = ({}) => {
   const onDismissKeyboard = () => {
     Keyboard.dismiss();
   };
   return (
-    <ScrollView
-      onScroll={onScroll}
-      bgColor={colors.WHITE}
-      scrollEventThrottle={16}>
-      {/* Status Bar */}
+    <ScrollView scrollEventThrottle={16}>
       <FocusAwareStatusBar
         barStyle="dark-content"
         backgroundColor={colors.WHITE}

@@ -2,20 +2,19 @@ import {Box} from 'native-base';
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
-import {Animated, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import ChoresScreen from '@screens/chores';
 import EventsScreen from '@screens/events';
 import styled from 'styled-components/native';
 import {Constants} from '@constants/Constants';
 import React, {useCallback, useState} from 'react';
-import PrimaryHeader, {headerHeight} from '@components/PrimaryHeader';
+import PrimaryHeader from '@components/PrimaryHeader';
 import {SceneMap, TabView, TabBar} from 'react-native-tab-view';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
 interface Props {}
 
 const HomeScreen: React.FC<Props> = () => {
-  const scrollY = new Animated.Value(0);
   const [searchText, setSearchText] = useState('');
   const [index, setIndex] = useState(0);
   const [routes] = useState([
@@ -24,16 +23,7 @@ const HomeScreen: React.FC<Props> = () => {
   ]);
 
   const renderScene = SceneMap({
-    chores: () => (
-      <ChoresScreen
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollY}}}],
-          {
-            useNativeDriver: false,
-          },
-        )}
-      />
-    ),
+    chores: () => <ChoresScreen />,
     events: () => <EventsScreen />,
   });
 
@@ -52,17 +42,14 @@ const HomeScreen: React.FC<Props> = () => {
         backgroundColor={colors.WHITE}
         translucent
       />
-      <PrimaryHeader scrollY={scrollY} onChangeText={onChangeSearchText} />
+      <PrimaryHeader onChangeText={onChangeSearchText} />
       <TabView
         renderTabBar={props => (
           <TabBar
             {...props}
             pressOpacity={1}
             pressColor={'transparent'}
-            style={{
-              marginTop: headerHeight - 6,
-              backgroundColor: colors.WHITE,
-            }}
+            style={styles.tabBar}
             indicatorStyle={styles.indicator}
             renderLabel={renderTabLabel}
           />
@@ -85,6 +72,9 @@ const TabTitle = styled(fonts.PrimaryFontMediumSize14)<{isFocus?: boolean}>`
 `;
 
 const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: colors.WHITE,
+  },
   indicator: {height: 4, backgroundColor: colors.THEME_COLOR_4},
 });
 
