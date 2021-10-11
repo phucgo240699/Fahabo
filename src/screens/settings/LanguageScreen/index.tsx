@@ -57,6 +57,7 @@ const LanguageScreen: React.FC<Props> = ({}) => {
       />
       <ProfileHeader
         title={i18n.t('settings.language.language')}
+        titleMarginLeft={10}
         rightComponent={
           <PrimaryButton
             titleFontSize={16}

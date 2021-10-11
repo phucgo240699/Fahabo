@@ -15,12 +15,18 @@ interface Props {
   item: any;
   maxWidth: number;
   maxHeight: number;
+  onPress?: (item: any) => void;
 }
 
-const AlbumItem: React.FC<Props> = ({item, maxWidth, maxHeight}) => {
+const AlbumItem: React.FC<Props> = ({item, maxWidth, maxHeight, onPress}) => {
+  const onPressTouchable = () => {
+    if (onPress) {
+      onPress(item);
+    }
+  };
   return (
     <Box mt={2} mr={4} width={maxWidth}>
-      <TouchableOpacity activeOpacity={0.8}>
+      <TouchableOpacity activeOpacity={0.8} onPress={onPressTouchable}>
         <Image
           borderRadius={4}
           width={maxWidth}
@@ -29,7 +35,7 @@ const AlbumItem: React.FC<Props> = ({item, maxWidth, maxHeight}) => {
           alt={i18n.t('application.loading')}
         />
       </TouchableOpacity>
-      <Title>{item.title}</Title>
+      <Title>{item.isDefault ? i18n.t('album.general') : item.title}</Title>
       <TotalNumber>{item.totalPictures}</TotalNumber>
     </Box>
   );

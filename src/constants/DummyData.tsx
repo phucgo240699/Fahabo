@@ -4,6 +4,7 @@ export const DummyAlbums = [
     uri: 'https://images.unsplash.com/photo-1571501679680-de32f1e7aad4',
     title: 'General',
     totalPictures: 1,
+    isDefault: true,
   },
   {
     id: 1,

@@ -100,10 +100,18 @@
     }
   },
   "album": {
-    "myAlbums": "Album của tôi"
+    "myAlbums": "Album của tôi",
+    "general": "Chung",
+    "choose": "Chọn",
+    "cancel": "Huỷ"
   },
   "application": {
-    "loading": "Đăng tải..."
+    "loading": "Đăng tải...",
+    "fahabo": "Fahabo"
+  },
+  "header": {
+    "search": "Tìm kiếm",
+    "cancel": "Huỷ"
   },
   "popUp": {
     "takePhoto": "Chụp ảnh",

@@ -16,6 +16,7 @@ import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
 import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
 import UpdatePasswordScreen from '@screens/settings/UpdatePasswordScreen';
 import AlbumsScreen from '@screens/albums';
+import AlbumDetailScreen from '@screens/albums/AlbumDetailScreen';
 
 interface Props {
   route?: any;
@@ -84,6 +85,10 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
         component={UpdateProfileScreen}
       />
       <Stack.Screen name={ScreenName.AlbumsScreen} component={AlbumsScreen} />
+      <Stack.Screen
+        name={ScreenName.AlbumDetailScreen}
+        component={AlbumDetailScreen}
+      />
     </Stack.Navigator>
   );
 };

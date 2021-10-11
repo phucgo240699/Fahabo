@@ -1,20 +1,21 @@
+import {Box} from 'native-base';
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
-import {Box} from 'native-base';
-import {StyleSheet} from 'react-native';
+import {Animated, StyleSheet} from 'react-native';
 import ChoresScreen from '@screens/chores';
 import EventsScreen from '@screens/events';
 import styled from 'styled-components/native';
 import {Constants} from '@constants/Constants';
 import React, {useCallback, useState} from 'react';
-import PrimaryHeader from '@components/PrimaryHeader';
+import PrimaryHeader, {headerHeight} from '@components/PrimaryHeader';
 import {SceneMap, TabView, TabBar} from 'react-native-tab-view';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
 interface Props {}
 
 const HomeScreen: React.FC<Props> = () => {
+  const scrollY = new Animated.Value(0);
   const [searchText, setSearchText] = useState('');
   const [index, setIndex] = useState(0);
   const [routes] = useState([
@@ -23,7 +24,16 @@ const HomeScreen: React.FC<Props> = () => {
   ]);
 
   const renderScene = SceneMap({
-    chores: () => <ChoresScreen />,
+    chores: () => (
+      <ChoresScreen
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {y: scrollY}}}],
+          {
+            useNativeDriver: false,
+          },
+        )}
+      />
+    ),
     events: () => <EventsScreen />,
   });
 
@@ -36,23 +46,23 @@ const HomeScreen: React.FC<Props> = () => {
   }, []);
 
   return (
-    <Box flex={1} safeArea pt={4} bgColor={colors.WHITE}>
-      {/* Status Bar */}
+    <Box flex={1} safeArea pt={2} bgColor={colors.WHITE}>
       <FocusAwareStatusBar
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
         translucent
       />
-
-      <PrimaryHeader onChangeText={onChangeSearchText} />
-
+      <PrimaryHeader scrollY={scrollY} onChangeText={onChangeSearchText} />
       <TabView
         renderTabBar={props => (
           <TabBar
             {...props}
             pressOpacity={1}
             pressColor={'transparent'}
-            style={styles.tabbar}
+            style={{
+              marginTop: headerHeight - 6,
+              backgroundColor: colors.WHITE,
+            }}
             indicatorStyle={styles.indicator}
             renderLabel={renderTabLabel}
           />
@@ -70,15 +80,11 @@ const TabTitle = styled(fonts.PrimaryFontMediumSize14)<{isFocus?: boolean}>`
   text-align: center;
   align-items: center;
   justify-content: center;
-  padding: 15px 8px 8px 8px;
   color: ${colors.THEME_COLOR_9};
   opacity: ${props => (props.isFocus ? 1 : 0.5)};
 `;
 
 const styles = StyleSheet.create({
-  tabbar: {
-    backgroundColor: colors.WHITE,
-  },
   indicator: {height: 4, backgroundColor: colors.THEME_COLOR_4},
 });
 

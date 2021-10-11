@@ -8,12 +8,16 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 
 interface Props {
   title?: string;
+  titleMarginLeft?: number;
+  titleMarginRight?: number;
   rightComponent?: any;
   backgroundColor?: string;
 }
 
 const ProfileHeader: React.FC<Props> = ({
   title,
+  titleMarginLeft,
+  titleMarginRight,
   rightComponent = <EmptyView />,
   backgroundColor = 'transparent',
 }) => {
@@ -33,7 +37,9 @@ const ProfileHeader: React.FC<Props> = ({
           leftTintColor={colors.THEME_COLOR_5}
           onPress={onPressBack}
         />
-        <Title>{title}</Title>
+        <Title marginLeft={titleMarginLeft} marginRight={titleMarginRight}>
+          {title}
+        </Title>
         {rightComponent}
       </Content>
       <BottomLine />
@@ -50,7 +56,13 @@ const Content = styled.View<{marginTop?: number}>`
   justify-content: space-between;
 `;
 
-const Title = styled(fonts.PrimaryFontBoldSize18)``;
+const Title = styled(fonts.PrimaryFontBoldSize18)<{
+  marginLeft?: number;
+  marginRight?: number;
+}>`
+  margin-left: ${props => props.marginLeft ?? 0}px;
+  margin-right: ${props => props.marginRight ?? 0}px;
+`;
 
 const EmptyView = styled.View`
   width: 24px;

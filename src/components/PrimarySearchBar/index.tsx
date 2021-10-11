@@ -6,6 +6,7 @@ import PrimaryIcon from '@components/PrimaryIcon';
 import React, {useState} from 'react';
 import PrimaryButton from '@components/PrimaryButton';
 import {searchIcon, clearIcon} from '@constants/sources/index';
+import i18n from '@locales/index';
 
 interface Props {
   marginTop?: number;
@@ -23,6 +24,7 @@ const PrimarySearchBar: React.FC<Props> = ({
   marginBottom,
   containerStyle,
   onChangeText,
+  ...otherProps
 }) => {
   const [text, setText] = useState('');
 
@@ -43,14 +45,15 @@ const PrimarySearchBar: React.FC<Props> = ({
       marginLeft={marginLeft}
       marginRight={marginRight}
       marginBottom={marginBottom}
-      style={containerStyle}>
+      style={containerStyle}
+      {...otherProps}>
       <Input
         py={2}
         value={text}
         borderRadius={10}
         variant="filled"
         alignSelf="center"
-        placeholder="Search"
+        placeholder={i18n.t('header.search')}
         bg={colors.CONCRETE}
         color={colors.BLACK}
         returnKeyType={'search'}

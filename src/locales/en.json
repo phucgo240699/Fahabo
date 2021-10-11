@@ -100,10 +100,17 @@
     }
   },
   "album": {
-    "myAlbums": "My Albums"
+    "myAlbums": "My Albums",
+    "general": "General",
+    "choose": "Choose",
+    "cancel": "Cancel"
   },
   "application": {
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "fahabo": "Fahabo"
+  },
+  "header": {
+    "search": "Search"
   },
   "popUp": {
     "takePhoto": "Take photo",

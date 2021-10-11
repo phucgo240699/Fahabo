@@ -1,19 +1,29 @@
 import React, {memo} from 'react';
-import {Box, Text} from 'native-base';
+import {Box, ScrollView, Text} from 'native-base';
 import i18n from '@locales/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {Keyboard} from 'react-native';
+import {
+  Animated,
+  Keyboard,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
 
-interface Props {}
+interface Props {
+  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+}
 
-const ChoresScreen: React.FC<Props> = () => {
+const ChoresScreen: React.FC<Props> = ({onScroll}) => {
   const onDismissKeyboard = () => {
     Keyboard.dismiss();
   };
   return (
-    <Box flex={1} safeArea bgColor={colors.WHITE}>
+    <ScrollView
+      onScroll={onScroll}
+      bgColor={colors.WHITE}
+      scrollEventThrottle={16}>
       {/* Status Bar */}
       <FocusAwareStatusBar
         barStyle="dark-content"
@@ -23,16 +33,48 @@ const ChoresScreen: React.FC<Props> = () => {
       <Touch onPress={onDismissKeyboard}>
         <Container>
           <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores</Text>
+          <Text color={colors.BLACK}>Chores End</Text>
         </Container>
       </Touch>
-    </Box>
+    </ScrollView>
   );
 };
 
 const Touch = styled.TouchableWithoutFeedback``;
 
 const Container = styled.View`
-  flex: 1;
+  margin: 20px;
 `;
 
 export default memo(ChoresScreen);

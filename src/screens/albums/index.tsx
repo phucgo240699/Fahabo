@@ -10,8 +10,9 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import PrimaryButton from '@components/PrimaryButton';
 import {DummyAlbums} from '@constants/DummyData';
 import AlbumItem from './shared/AlbumItem';
-import {Constants} from '@constants/Constants';
+import {Constants, ScreenName} from '@constants/Constants';
 import {StyleSheet} from 'react-native';
+import {navigate} from '@navigators/index';
 
 const itemHeight = (Constants.MAX_WIDTH - 36) / 2;
 const itemWidth = (Constants.MAX_WIDTH - 36) / 2;
@@ -19,9 +20,17 @@ const itemWidth = (Constants.MAX_WIDTH - 36) / 2;
 interface Props {}
 
 const AlbumsScreen: React.FC<Props> = ({}) => {
+  const onPressItem = (item: any) => {
+    navigate(ScreenName.AlbumDetailScreen, {item});
+  };
   const renderItem = ({item}: {item: any}) => {
     return (
-      <AlbumItem item={item} maxWidth={itemWidth} maxHeight={itemHeight} />
+      <AlbumItem
+        item={item}
+        maxWidth={itemWidth}
+        maxHeight={itemHeight}
+        onPress={onPressItem}
+      />
     );
   };
   return (
@@ -33,6 +42,7 @@ const AlbumsScreen: React.FC<Props> = ({}) => {
       />
       <ProfileHeader
         title={i18n.t('album.myAlbums')}
+        titleMarginLeft={8}
         rightComponent={
           <PrimaryButton
             marginRight={8}
@@ -55,9 +65,7 @@ const AlbumsScreen: React.FC<Props> = ({}) => {
 
 const styles = StyleSheet.create({
   list: {
-    paddingTop: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
+    padding: 10,
     flexDirection: 'column',
     // alignItems: 'center',
   },
