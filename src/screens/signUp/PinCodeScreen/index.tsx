@@ -23,6 +23,7 @@ import {
 } from '@store/actionTypes/signUp';
 import {isNull} from '@utils/index';
 import {userSelector} from '@store/selectors/authentication';
+import fonts from '@themes/fonts';
 
 interface Props {
   route?: any;
@@ -169,7 +170,7 @@ const Content = styled.View`
   flex: 1;
   align-items: center;
 `;
-const PinCell = styled.Text``;
+const PinCell = styled(fonts.PrimaryFontBoldSize25)``;
 
 const styles = StyleSheet.create({
   codeFieldRoot: {marginTop: 40, alignSelf: 'center'},
@@ -179,14 +180,14 @@ const styles = StyleSheet.create({
     margin: 4,
     paddingTop: 5,
     borderRadius: 12,
-    fontSize: 36,
+    fontSize: 40,
     fontWeight: '700',
     borderWidth: 2,
     borderColor: colors.SILVER,
     textAlign: 'center',
   },
   focusCell: {
-    borderColor: '#000',
+    borderColor: colors.BLACK,
   },
 });
 

@@ -28,9 +28,9 @@ function* onSignInRequest(action: AnyAction) {
     const response = yield* call(signIn, action.body);
     if (response.status === 200) {
       if (response.data.data.isValidEmail === true) {
-        if (!isNull(response.data.languageCode)) {
-          i18n.locale = response.data.languageCode;
-          i18n.defaultLocale = response.data.languageCode;
+        if (!isNull(response.data.data.user.languageCode)) {
+          i18n.locale = response.data.data.user.languageCode;
+          i18n.defaultLocale = response.data.data.user.languageCode;
         }
         yield* put(
           signInSuccessAction(
@@ -79,10 +79,11 @@ function* onAutoSignInRequest(action: AnyAction) {
   try {
     if (!isNull(action.body.username) && !isNull(action.body.password)) {
       const response = yield* call(signIn, action.body);
+      console.log({languageCode: response.data.data.user.languageCode});
       if (response.status === 200 && response.data.data.isValidEmail === true) {
-        if (!isNull(response.data.languageCode)) {
-          i18n.locale = response.data.languageCode;
-          i18n.defaultLocale = response.data.languageCode;
+        if (!isNull(response.data.data.user.languageCode)) {
+          i18n.locale = response.data.data.user.languageCode;
+          i18n.defaultLocale = response.data.data.user.languageCode;
         }
         yield* put(
           autoSignInSuccessAction(

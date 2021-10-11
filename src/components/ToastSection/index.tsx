@@ -72,10 +72,10 @@ const Toast: React.FC<{
           width={'90%'}
           color={
             type === ToastType.SUCCESS
-              ? colors.WHITE
+              ? '#ffffff'
               : type === ToastType.WARNING
-              ? colors.BLACK
-              : colors.WHITE
+              ? '#000000'
+              : '#ffffff'
           }
           fontWeight={500}>
           {message}
@@ -87,10 +87,10 @@ const Toast: React.FC<{
           leftSource={closeIcon}
           leftTintColor={
             type === ToastType.SUCCESS
-              ? colors.WHITE
+              ? '#ffffff'
               : type === ToastType.WARNING
-              ? colors.BLACK
-              : colors.WHITE
+              ? '#000000'
+              : '#ffffff'
           }
           onPress={onPressClose}
         />

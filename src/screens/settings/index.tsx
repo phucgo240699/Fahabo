@@ -15,10 +15,15 @@ import {
   passwordColorIcon,
   rightArrowIcon,
 } from '@constants/sources/index';
+import {useSelector} from 'react-redux';
+import {userSelector} from '@store/selectors/authentication';
+import {AuthType} from '@constants/types/authentication';
 
 interface Props {}
 
 const SettingsScreen: React.FC<Props> = ({}) => {
+  const user = useSelector(userSelector);
+
   const onNavigateToLanguage = () => {
     navigate(ScreenName.LanguageScreen);
   };
@@ -47,18 +52,22 @@ const SettingsScreen: React.FC<Props> = ({}) => {
             style={styles.rightArrow}
           />
         </ItemContainer>
-        <HLine />
-        <ItemContainer onPress={onNavigateToPassword}>
-          <PrimaryIcon source={passwordColorIcon} />
-          <ItemName>{i18n.t('settings.password.changePassword')}</ItemName>
-          <PrimaryIcon
-            width={16}
-            height={16}
-            tintColor={colors.SILVER}
-            source={rightArrowIcon}
-            style={styles.rightArrow}
-          />
-        </ItemContainer>
+        {user?.authType?.id === AuthType.MANUAL_AUTH && (
+          <>
+            <HLine />
+            <ItemContainer onPress={onNavigateToPassword}>
+              <PrimaryIcon source={passwordColorIcon} />
+              <ItemName>{i18n.t('settings.password.changePassword')}</ItemName>
+              <PrimaryIcon
+                width={16}
+                height={16}
+                tintColor={colors.SILVER}
+                source={rightArrowIcon}
+                style={styles.rightArrow}
+              />
+            </ItemContainer>
+          </>
+        )}
       </Box>
     </Box>
   );

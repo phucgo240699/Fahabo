@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {languageCodeSelector} from '@store/selectors/authentication';
 import {getLanguageName} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
-import {updateProfileRequestAction} from '@store/actionTypes/profile';
+import {updateLanguageRequestAction} from '@store/actionTypes/profile';
 
 interface Props {}
 
@@ -28,7 +28,7 @@ const LanguageScreen: React.FC<Props> = ({}) => {
     setLanguageCode(newLanguageCode);
   };
   const onPressSave = () => {
-    dispatch(updateProfileRequestAction({languageCode}));
+    dispatch(updateLanguageRequestAction({languageCode}));
   };
 
   const renderItem = ({item}: {item: any}) => {

@@ -56,6 +56,7 @@ export function* apiProxy(
           console.log('RefreshToken expired');
           yield* put(turnOffIsRefreshingTokenAction());
           yield* put(logOutAction());
+          return refreshResponse;
         }
       } else {
         return response;

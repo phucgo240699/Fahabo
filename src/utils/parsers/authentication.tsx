@@ -39,6 +39,10 @@ export const parseSignInResponse = (rawData: any) => {
       birthday: get('user.birthday', rawData),
       languageCode: get('user.languageCode', rawData),
       avatarUrl: get('user.avatar', rawData),
+      authType: {
+        id: get('user.authType.id', rawData),
+        name: get('user.authType.name', rawData),
+      },
       // isValidEmail: get('user.isValidEmail', rawData),
       // isValidPhoneNumber: get('user.isValidPhoneNumber', rawData),
     },
@@ -59,6 +63,10 @@ export const parseSignUpResponse = (rawData: any) => {
     birthday: get('birthday', rawData),
     languageCode: get('languageCode', rawData),
     avatarUrl: get('avatar', rawData),
+    authType: {
+      id: get('authType.id', rawData),
+      name: get('authType.name', rawData),
+    },
     // isValidEmail: get('isValidEmail', rawData),
     // isValidPhoneNumber: get('isValidPhoneNumber', rawData),
   };
@@ -77,6 +85,10 @@ export const parseVerifyResponse = (rawData: any) => {
       birthday: get('user.birthday', rawData),
       languageCode: get('user.languageCode', rawData),
       avatarUrl: get('user.avatar', rawData),
+      authType: {
+        id: get('user.authType.id', rawData),
+        name: get('user.authType.name', rawData),
+      },
       // isValidEmail: get('user.isValidEmail', rawData),
       // isValidPhoneNumber: get('user.isValidPhoneNumber', rawData),
     },
@@ -96,6 +108,10 @@ export const parseUpdateProfileResponse = (rawData: any) => {
     birthday: get('birthday', rawData),
     languageCode: get('languageCode', rawData),
     avatarUrl: get('avatar', rawData),
+    authType: {
+      id: get('authType.id', rawData),
+      name: get('authType.name', rawData),
+    },
     // isValidEmail: get('isValidEmail', rawData),
     // isValidPhoneNumber: get('isValidPhoneNumber', rawData),
   };

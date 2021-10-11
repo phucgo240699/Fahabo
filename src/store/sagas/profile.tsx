@@ -176,7 +176,7 @@ function* onUpdateLanguageSaga(action: AnyAction) {
   }
 }
 function* onUpdateLanguageSuccessSaga(action: AnyAction) {
-  yield* delay(1000);
+  yield* delay(300);
   DevSettings.reload();
 }
 

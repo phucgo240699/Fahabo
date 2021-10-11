@@ -162,7 +162,7 @@
         "fail": "Password can't be changed!"
       },
       "refreshToken": {
-        "fail": "Refresh token is invalid or expired."
+        "fail": "Sign in session has expired."
       },
       "verification": {
         "hasBeenVerified": "Account has been verified successfully. No need to re-activate",

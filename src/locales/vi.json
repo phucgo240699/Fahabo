@@ -162,6 +162,9 @@
         "success": "Cập nhật mật khẩu thành công!",
         "fail": "Cập nhật mật khẩu thất bại!"
       },
+      "refreshToken": {
+        "fail": "Phiên đăng nhập đã hết hiệu lực."
+      },
       "verification": {
         "hasBeenVerified": "Tài khoản đã được kích hoạt. Không cần kích hoạt lại.",
         "fail": "Mã không hợp lệ hoặc hết hiệu lực, vui lòng nhận mã mới và thử lại."
