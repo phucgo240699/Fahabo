@@ -9,11 +9,35 @@ import React, {useEffect, useState} from 'react';
 import ProfileHeader from '@components/ProfileHeader';
 import CameraRoll from '@react-native-community/cameraroll';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import Photo from './shared/Photo';
+import {useDispatch} from 'react-redux';
+import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
+import {convertToBase64String, isNull} from '@utils/index';
 
-interface Props {}
+interface Props {
+  route?: any;
+}
 
-const MediaPickerScreen: React.FC<Props> = ({}) => {
+const MediaPickerScreen: React.FC<Props> = ({route}) => {
+  const dispatch = useDispatch();
   const [photos, setPhotos] = useState<CameraRoll.PhotoIdentifier[]>([]);
+
+  const onChoosePhoto = (item: any) => {
+    console.log(item.node.image.uri);
+    if (route && route.params && route.params.updateProfileAvatar) {
+      convertToBase64String(item.node.image.uri).then(base64 => {
+        dispatch(
+          updateProfileAvatarRequestAction({
+            avatar: {
+              name: 'avatar.jpeg',
+              base64Data: base64,
+            },
+          }),
+        );
+      });
+    }
+  };
+
   useEffect(() => {
     CameraRoll.getPhotos({
       first: 80,
@@ -44,13 +68,14 @@ const MediaPickerScreen: React.FC<Props> = ({}) => {
           <ScrollView contentContainerStyle={styles.scroll}>
             {photos.map((item, index) => {
               return (
-                <PhotoContainer key={index}>
-                  <Image
-                    flex={1}
-                    source={{uri: item.node.image.uri}}
-                    alt={i18n.t('application.loading')}
-                  />
-                </PhotoContainer>
+                // <PhotoContainer key={index}>
+                //   <Image
+                //     flex={1}
+                //     source={{uri: item.node.image.uri}}
+                //     alt={i18n.t('application.loading')}
+                //   />
+                // </PhotoContainer>
+                <Photo key={index} item={item} onPress={onChoosePhoto} />
               );
             })}
           </ScrollView>

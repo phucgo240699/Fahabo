@@ -22,10 +22,7 @@ import {Constants, ScreenName, StackName} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOutAction} from '@store/actionTypes/signIn';
-import {
-  getAvatarRequestAction,
-  getPreviewAlbumRequestAction,
-} from '@store/actionTypes/profile';
+import {getPreviewAlbumRequestAction} from '@store/actionTypes/profile';
 import {userSelector} from '@store/selectors/authentication';
 import {isNull} from '@utils/index';
 import {previewAlbumSelector} from '@store/selectors/profile';
@@ -40,7 +37,6 @@ const ProfileScreen: React.FC<Props> = () => {
   const bottomInset = getInset('bottom', false);
 
   useEffect(() => {
-    dispatch(getAvatarRequestAction());
     dispatch(getPreviewAlbumRequestAction());
   }, [dispatch]);
 
@@ -75,13 +71,13 @@ const ProfileScreen: React.FC<Props> = () => {
   const takePhoto = () => {
     onClose();
     setTimeout(() => {
-      navigate(ScreenName.CameraScreen);
+      navigate(ScreenName.CameraScreen, {updateProfileAvatar: true});
     }, 500);
   };
   const chooseFromGallery = () => {
     onClose();
     setTimeout(() => {
-      navigate(ScreenName.MediaPickerScreen);
+      navigate(ScreenName.MediaPickerScreen, {updateProfileAvatar: true});
     }, 500);
   };
 

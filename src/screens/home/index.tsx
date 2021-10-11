@@ -1,8 +1,7 @@
-import {Box} from 'native-base';
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import ChoresScreen from '@screens/chores';
 import EventsScreen from '@screens/events';
 import styled from 'styled-components/native';
@@ -11,6 +10,7 @@ import React, {useCallback, useState} from 'react';
 import PrimaryHeader from '@components/PrimaryHeader';
 import {SceneMap, TabView, TabBar} from 'react-native-tab-view';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 interface Props {}
 
@@ -36,7 +36,7 @@ const HomeScreen: React.FC<Props> = () => {
   }, []);
 
   return (
-    <Box flex={1} safeArea pt={2} bgColor={colors.WHITE}>
+    <SafeView>
       <FocusAwareStatusBar
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
@@ -59,9 +59,15 @@ const HomeScreen: React.FC<Props> = () => {
         onIndexChange={setIndex}
         initialLayout={{width: Constants.MAX_WIDTH}}
       />
-    </Box>
+    </SafeView>
   );
 };
+
+const SafeView = styled.SafeAreaView`
+  flex: 1;
+  background-color: ${colors.WHITE};
+  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
+`;
 
 const TabTitle = styled(fonts.PrimaryFontMediumSize14)<{isFocus?: boolean}>`
   text-align: center;

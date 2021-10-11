@@ -8,15 +8,31 @@ import styled from 'styled-components/native';
 import PrimaryIcon from '@components/PrimaryIcon';
 import ProfileHeader from '@components/ProfileHeader';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import {useDispatch} from 'react-redux';
+import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
 
-interface Props {}
+interface Props {
+  route?: any;
+}
 
-const CameraScreen: React.FC<Props> = ({}) => {
+const CameraScreen: React.FC<Props> = ({route}) => {
+  const dispatch = useDispatch();
+
   const takePicture = async function (camera: any) {
     const options = {quality: 0.5, base64: true};
     const data = await camera.takePictureAsync(options);
     //  eslint-disable-next-line
-    console.log(data.uri);
+    console.log({uri: data.uri});
+    if (route && route.params && route.params.updateProfileAvatar) {
+      dispatch(
+        updateProfileAvatarRequestAction({
+          avatar: {
+            name: 'avatar.jpeg',
+            base64Data: data.base64,
+          },
+        }),
+      );
+    }
   };
 
   return (

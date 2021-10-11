@@ -59,6 +59,7 @@ const UpdatePasswordScreen: React.FC<Props> = ({}) => {
         <Label>{i18n.t('settings.password.currentPassword')}</Label>
         <Input
           mt={1}
+          type="password"
           value={currentPassword}
           color={colors.BLACK}
           borderColor={colors.SILVER}
@@ -68,6 +69,7 @@ const UpdatePasswordScreen: React.FC<Props> = ({}) => {
         <Label>{i18n.t('settings.password.newPassword')}</Label>
         <Input
           mt={1}
+          type="password"
           value={newPassword}
           color={colors.BLACK}
           borderColor={colors.SILVER}
@@ -77,6 +79,7 @@ const UpdatePasswordScreen: React.FC<Props> = ({}) => {
         <Label>{i18n.t('settings.password.confirmNewPassword')}</Label>
         <Input
           mt={1}
+          type="password"
           value={confirmNewPassword}
           color={colors.BLACK}
           borderColor={colors.SILVER}

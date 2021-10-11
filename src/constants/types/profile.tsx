@@ -19,7 +19,12 @@ export type UpdatePasswordRequestType = {
   confirmNewPassword: string;
 };
 
-export type UpdateProfileAvatarRequestType = {};
+export type UpdateProfileAvatarRequestType = {
+  avatar: {
+    name?: string;
+    base64Data?: string;
+  };
+};
 
 //
 // Response
@@ -30,4 +35,9 @@ export type UpdatePasswordResponseType = {
   password?: string;
 };
 
-export type UpdateProfileAvatarResponseType = {};
+export type UpdateProfileAvatarResponseType = {
+  avatar: {
+    name?: string;
+    uri?: string;
+  };
+};

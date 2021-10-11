@@ -137,20 +137,22 @@ const SignInScreen = () => {
               title={i18n.t('authentication.signIn.manualSignIn')}
               onPress={onPressLoginManually}
             />
-            <SecondaryButton
-              marginTop={10}
-              backgroundColor={colors.BLACK}
-              leftIcon={
-                <PrimaryIcon
-                  width={36}
-                  height={36}
-                  tintColor={colors.WHITE}
-                  source={appleIcon}
-                />
-              }
-              title={i18n.t('authentication.signIn.appleSignIn')}
-              onPress={onSignInWithApple}
-            />
+            {Platform.OS === 'ios' && (
+              <SecondaryButton
+                marginTop={10}
+                backgroundColor={colors.BLACK}
+                leftIcon={
+                  <PrimaryIcon
+                    width={36}
+                    height={36}
+                    tintColor={colors.WHITE}
+                    source={appleIcon}
+                  />
+                }
+                title={i18n.t('authentication.signIn.appleSignIn')}
+                onPress={onSignInWithApple}
+              />
+            )}
             <SecondaryButton
               marginTop={10}
               titleColor={'#ffffff'}

@@ -46,7 +46,7 @@ export class apiProvider {
 
     this.config = {};
     this.headers = {
-      ...formHeader,
+      // ...formHeader,
       ...authHeader,
       ...defaultHeader,
     };

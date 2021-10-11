@@ -184,14 +184,20 @@
       "nameRequired": "Name is required.",
       "birthdayRequired": "Birthday is required.",
       "languageCodeRequired": "Language code is required.",
-      "confirmPasswordMustMatch": "Confirm password must match.",
+      "confirmPasswordMustMatch": "Your password and confirm password must match.",
       "birthday": "Date must have format dd-mm-yyyy and must be a valid date",
       "email": "Email is required and must have format local-part@domain. Ex: johndoe@example.com",
       "langCode": "Invalid language code. see /api/v1/lang_code for more information.",
       "name": "Name is required and contains only alphabetic character.",
       "passwordInvalid": "Password must be atleast 8 characters in length, contains atleast one uppercase character, one number and one special character.",
       "usernameInvalid": "Please input your email as your username.",
-      "authTypeInvalid": "Auth type is required and has to be one of the following values /api/v1/supported_auth_types"
+      "authTypeInvalid": "Auth type is required and has to be one of the following values /api/v1/supported_auth_types",
+      "newPasswordRequired": "You must enter your new password",
+      "confirmNewPasswordMustMatch": "Your new password and confirm new password must match.",
+      "emailFormatInvalid": "Email must have format local-part@domain. Ex: johndoe@example.com"
+    },
+    "upload": {
+      "fail": "Failed to upload files. Please make sure your file name does not exists and try again."
     }
   }
 }

@@ -22,38 +22,6 @@ const ChoresScreen: React.FC<Props> = ({}) => {
       <Touch onPress={onDismissKeyboard}>
         <Container>
           <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores</Text>
-          <Text color={colors.BLACK}>Chores End</Text>
         </Container>
       </Touch>
     </ScrollView>
@@ -63,7 +31,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
 const Touch = styled.TouchableWithoutFeedback``;
 
 const Container = styled.View`
-  margin: 20px;
+  padding: 20px;
 `;
 
 export default memo(ChoresScreen);

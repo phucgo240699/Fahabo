@@ -189,7 +189,13 @@
       "name": "Bắt buộc nhập tên, tên không được chứa chữ số và kí tự đặc biệt.",
       "passwordInvalid": "Mật khẩu phải dài ít nhất 8 kí tự, chứ ít nhất 1 kí tự in hoa, 1 chữ số và 1 kí tự đặc biệt.",
       "usernameInvalid": "Vui lòng nhập email đăng ký tài khoản vào tên đăng nhập.",
-      "authTypeInvalid": "Loại xác thực phải được khai báo và phải thuộc 1 trong các giá trị sau /api/v1/supported_auth_types"
+      "authTypeInvalid": "Loại xác thực phải được khai báo và phải thuộc 1 trong các giá trị sau /api/v1/supported_auth_types",
+      "newPasswordRequired": "Vui lòng nhập lại mật khẩu mới.",
+      "confirmNewPasswordMustMatch": "Mật khẩu mới và và xác nhận mật khẩu mới không trùng khớp.",
+      "emailFormatInvalid": "Email phải có định dạng local-part@domain. Ví dụ: johndoe@example.com"
+    },
+    "upload": {
+      "fail": "Tải lên tập tin thất bại. Vui lòng đảm bảo tên tệp của bạn không bị trùng lặp lại và thử lại sau."
     }
   }
 }

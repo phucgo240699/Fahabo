@@ -12,10 +12,11 @@ import {
 } from '@store/actionTypes/signIn';
 import {AuthenticationResponseType} from '@constants/types/authentication';
 import {
-  GET_AVATAR_SUCCESS,
+  // GET_AVATAR_SUCCESS,
   GET_PREVIEW_ALBUM_SUCCESS,
   UPDATE_LANGUAGE_SUCCESS,
   UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PROFILE_AVATAR_SUCCESS,
   UPDATE_PROFILE_SUCCESS,
 } from '@store/actionTypes/profile';
 import {ImageSource} from 'react-native-image-viewing/dist/@types';
@@ -49,18 +50,26 @@ export default function authenticationReducer(
           ...action.payload,
         },
       };
-    case GET_AVATAR_SUCCESS:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          avatarUrl: action.payload.uri,
-        },
-      };
+    // case GET_AVATAR_SUCCESS:
+    //   return {
+    //     ...state,
+    //     user: {
+    //       ...state.user,
+    //       avatarUrl: action.payload.uri,
+    //     },
+    //   };
     case GET_PREVIEW_ALBUM_SUCCESS:
       return {
         ...state,
         previewAlbum: action.payload,
+      };
+    case UPDATE_PROFILE_AVATAR_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          avatarUrl: action.payload.avatar.uri,
+        },
       };
     case UPDATE_PROFILE_SUCCESS:
       return {

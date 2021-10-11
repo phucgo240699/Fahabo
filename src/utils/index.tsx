@@ -5,6 +5,19 @@ export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+export const convertToBase64String = (file: any) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload(() => {
+      resolve(fileReader.result);
+    });
+    fileReader.onerror(error => {
+      reject(error);
+    });
+  });
+};
+
 export const getOriginDateString = (date: Date) => {
   const day: string =
     date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
