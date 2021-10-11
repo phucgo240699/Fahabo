@@ -12,7 +12,6 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import Photo from './shared/Photo';
 import {useDispatch} from 'react-redux';
 import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
-import {convertToBase64String, isNull} from '@utils/index';
 
 interface Props {
   route?: any;
@@ -25,16 +24,6 @@ const MediaPickerScreen: React.FC<Props> = ({route}) => {
   const onChoosePhoto = (item: any) => {
     console.log(item.node.image.uri);
     if (route && route.params && route.params.updateProfileAvatar) {
-      convertToBase64String(item.node.image.uri).then(base64 => {
-        dispatch(
-          updateProfileAvatarRequestAction({
-            avatar: {
-              name: 'avatar.jpeg',
-              base64Data: base64,
-            },
-          }),
-        );
-      });
     }
   };
 

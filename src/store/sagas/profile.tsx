@@ -49,7 +49,7 @@ import {ScreenName} from '@constants/Constants';
 //       );
 //     } else {
 //       yield* put(
-//         showToastAction(`${response.data.errors[0]}`, ToastType.ERROR),
+//         showToastAction(i18n.t(`backend.${response.data.errors[0]}`), ToastType.ERROR),
 //       );
 //     }
 //   } catch (error) {
@@ -65,7 +65,10 @@ function* onGetPreviewAlbumSaga(action: AnyAction) {
       yield* put(getPreviewAlbumSuccessAction(response.data.data));
     } else {
       yield* put(
-        showToastAction(`${response.data.errors[0]}`, ToastType.ERROR),
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
       );
     }
   } catch (error) {
@@ -78,19 +81,24 @@ function* onGetPreviewAlbumSaga(action: AnyAction) {
 // Avatar
 function* onUpdateProfileAvatarSaga(action: AnyAction) {
   try {
+    yield* put(showHUDAction());
     const response: any = yield* apiProxy(updateProfileAvatarApi, action.body);
     if (response.status === 200) {
-      console.log('onUpdateProfileAvatarSaga: ', response.data);
       yield* put(updateProfileAvatarSuccessAction(response.data.data));
     } else {
       yield* put(
-        showToastAction(`${response.data.errors[0]}`, ToastType.ERROR),
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
       );
     }
   } catch (error) {
     yield* put(
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
+  } finally {
+    yield* put(closeHUDAction());
   }
 }
 function* onUpdateProfileAvatarSuccessSaga(action: AnyAction) {
@@ -116,7 +124,10 @@ function* onUpdateProfileSaga(action: AnyAction) {
       );
     } else {
       yield* put(
-        showToastAction(`${response.data.errors[0]}`, ToastType.ERROR),
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
       );
     }
   } catch (error) {
@@ -150,7 +161,10 @@ function* onUpdateLanguageSaga(action: AnyAction) {
       );
     } else {
       yield* put(
-        showToastAction(`${response.data.errors[0]}`, ToastType.ERROR),
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
       );
     }
   } catch (error) {
@@ -181,7 +195,10 @@ function* onUpdatePasswordSaga(action: AnyAction) {
       yield* put(updatePasswordSuccessAction({password: action.body.password}));
     } else {
       yield* put(
-        showToastAction(`${response.data.errors[0]}`, ToastType.ERROR),
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
       );
     }
   } catch (error) {

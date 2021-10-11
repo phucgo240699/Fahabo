@@ -26,6 +26,8 @@ import {getPreviewAlbumRequestAction} from '@store/actionTypes/profile';
 import {userSelector} from '@store/selectors/authentication';
 import {isNull} from '@utils/index';
 import {previewAlbumSelector} from '@store/selectors/profile';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
 
 interface Props {}
 
@@ -77,7 +79,24 @@ const ProfileScreen: React.FC<Props> = () => {
   const chooseFromGallery = () => {
     onClose();
     setTimeout(() => {
-      navigate(ScreenName.MediaPickerScreen, {updateProfileAvatar: true});
+      launchImageLibrary(
+        {mediaType: 'photo', includeBase64: true},
+        response => {
+          if (
+            response.assets !== undefined &&
+            !isNull(response.assets[0]?.base64)
+          ) {
+            dispatch(
+              updateProfileAvatarRequestAction({
+                avatar: {
+                  name: 'avatar.jpg',
+                  base64Data: response.assets[0]?.base64,
+                },
+              }),
+            );
+          }
+        },
+      );
     }, 500);
   };
 

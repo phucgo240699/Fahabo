@@ -27,7 +27,7 @@ const CameraScreen: React.FC<Props> = ({route}) => {
       dispatch(
         updateProfileAvatarRequestAction({
           avatar: {
-            name: 'avatar.jpeg',
+            name: 'avatar.jpg',
             base64Data: data.base64,
           },
         }),

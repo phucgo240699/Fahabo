@@ -386,6 +386,8 @@ PODS:
   - react-native-fbsdk-next/Share (4.3.1):
     - FBSDKShareKit (~> 9.3)
     - React-Core
+  - react-native-image-picker (4.1.1):
+    - React-Core
   - react-native-pager-view (5.4.4):
     - React-Core
   - react-native-safe-area-context (3.3.2):
@@ -537,6 +539,7 @@ DEPENDENCIES:
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -654,6 +657,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-date-picker"
   react-native-fbsdk-next:
     :path: "../node_modules/react-native-fbsdk-next"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
@@ -765,6 +770,7 @@ SPEC CHECKSUMS:
   react-native-config: 72d948053a442779b3178fddd571e37f118ef606
   react-native-date-picker: 52937fb39322ee5f6c44a10117456b3fa4225d4c
   react-native-fbsdk-next: 5a8e6915d7e4191dcb2c9843ea9771e3a29def9c
+  react-native-image-picker: 7c37cd600a9b7338ced8609cc3ad108ebe6c444f
   react-native-pager-view: 5ab4d0b4b44d89f77310cb3eb8129745f274ce55
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
