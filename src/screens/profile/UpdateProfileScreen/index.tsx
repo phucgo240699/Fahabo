@@ -123,6 +123,8 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
           locale={i18n.locale}
           open={visibleDatePicker}
           date={new Date()}
+          maximumDate={new Date()}
+          textColor={colors.BLACK}
           onDateChange={onDatePickerChange}
           onConfirm={onConfirmDatePicker}
           onCancel={onCloseDatePicker}

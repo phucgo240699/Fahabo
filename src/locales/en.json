@@ -130,7 +130,8 @@
     "resetPassword": "Reset password successfully",
     "updateProfile": "Update profile successfully",
     "updatePassword": "Update password successfully",
-    "updateLanguage": "Update language successfully"
+    "updateLanguage": "Update language successfully",
+    "updateAvatar": "Update avatar successfully"
   },
   "warningMessage": {
     "activeAccount": "You need to active this account"

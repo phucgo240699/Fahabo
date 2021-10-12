@@ -84,6 +84,12 @@ function* onUpdateProfileAvatarSaga(action: AnyAction) {
     yield* put(showHUDAction());
     const response: any = yield* apiProxy(updateProfileAvatarApi, action.body);
     if (response.status === 200) {
+      yield* put(
+        showToastAction(
+          i18n.t('successMessage.updateAvatar'),
+          ToastType.SUCCESS,
+        ),
+      );
       yield* put(updateProfileAvatarSuccessAction(response.data.data));
     } else {
       yield* put(

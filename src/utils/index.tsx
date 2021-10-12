@@ -12,14 +12,14 @@ export const getOriginDateString = (date: Date) => {
     date.getMonth() + 1 < 10
       ? `0${date.getMonth() + 1}`
       : `${date.getMonth() + 1}`;
-  return `${date.getFullYear()}-${month}-${day}`; // YYYY-MM-DD
+  return `${day}-${month}-${date.getFullYear()}`; // DD-MM-YYYY
 };
 
 export const getDateStringFrom = (originDateString: string) => {
-  const elements = originDateString.split('-'); // YYYY-MM-DD
-  const day = elements[2];
+  const elements = originDateString.split('-'); // DD-MM-YYYY
+  const day = elements[0];
   const month = elements[1];
-  const year = elements[0];
+  const year = elements[2];
   switch (i18n.locale) {
     case 'vi':
       return `${day}-${month}-${year}`;
