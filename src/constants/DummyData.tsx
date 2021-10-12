@@ -49,3 +49,24 @@ export const DummyAlbums = [
     totalPictures: 1,
   },
 ];
+
+export const DummyFamilies = [
+  {
+    id: 1,
+    title: 'The First Family',
+    hostName: 'Phuc',
+    totalMembers: 1,
+  },
+  {
+    id: 2,
+    title: 'The Second Family',
+    hostName: 'Phuc Ly',
+    totalMembers: 2,
+  },
+  {
+    id: 3,
+    title: 'The Third Family',
+    hostName: 'Ly Hien Phuc',
+    totalMembers: 3,
+  },
+];

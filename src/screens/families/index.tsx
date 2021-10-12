@@ -13,27 +13,7 @@ import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {getInset} from 'react-native-safe-area-view';
-
-const DATA = [
-  {
-    id: 1,
-    title: 'Home',
-    hostName: 'Phuc',
-    totalMembers: 1,
-  },
-  {
-    id: 2,
-    title: 'Home',
-    hostName: 'Phuc Ly',
-    totalMembers: 2,
-  },
-  {
-    id: 3,
-    title: 'Home',
-    hostName: 'Ly Hien Phuc',
-    totalMembers: 3,
-  },
-];
+import {DummyFamilies} from '@constants/DummyData';
 
 interface Props {}
 
@@ -79,7 +59,7 @@ const FamiliesScreen: React.FC<Props> = ({}) => {
 
       <FlatList
         pt={4}
-        data={DATA}
+        data={DummyFamilies}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
       />

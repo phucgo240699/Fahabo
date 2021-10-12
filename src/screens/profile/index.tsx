@@ -11,7 +11,7 @@ import styled from 'styled-components/native';
 import PrimaryIcon from '@components/PrimaryIcon';
 import PrimaryButton from '@components/PrimaryButton';
 import {getInset} from 'react-native-safe-area-view';
-import ProfileAlbumBox from './shared/ProfileAlbumBox';
+import PreviewAlbumBox from '../albums/shared/PreviewAlbumBox';
 import {ImageBackground, StyleSheet} from 'react-native';
 import {navigate} from '@navigators/index';
 import ProfileRelationBox from './shared/ProfileRelationBox';
@@ -28,23 +28,16 @@ import {isNull} from '@utils/index';
 import {previewAlbumSelector} from '@store/selectors/profile';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
+import PreviewFamilyBox from '@screens/families/shared/PreviewFamilyBox';
+import {DummyFamilies} from '@constants/DummyData';
 
 interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
-  const previewAlbum = useSelector(previewAlbumSelector);
   const {isOpen, onOpen, onClose} = useDisclose();
   const bottomInset = getInset('bottom', false);
-
-  useEffect(() => {
-    dispatch(getPreviewAlbumRequestAction());
-  }, [dispatch]);
-
-  const onLogOut = () => {
-    dispatch(logOutAction());
-  };
 
   // Relations
   const onPressChores = () => {
@@ -65,17 +58,7 @@ const ProfileScreen: React.FC<Props> = () => {
     navigate(ScreenName.SettingsScreen);
   };
 
-  // Albums
-  const onPressPicture = (index: number) => {
-    navigate(ScreenName.ImageViewerScreen, {
-      data: previewAlbum,
-      currentIndex: index,
-    });
-  };
-  const onPressViewAllAlbums = () => {
-    navigate(ScreenName.AlbumsScreen);
-  };
-
+  // ActionSheet
   const takePhoto = () => {
     onClose();
     setTimeout(() => {
@@ -106,6 +89,11 @@ const ProfileScreen: React.FC<Props> = () => {
     }, 500);
   };
 
+  // Log out
+  const onLogOut = () => {
+    dispatch(logOutAction());
+  };
+
   return (
     <Box flex={1}>
       <FocusAwareStatusBar
@@ -133,19 +121,18 @@ const ProfileScreen: React.FC<Props> = () => {
               onPressEvents={onPressEvents}
             />
 
+            <PreviewFamilyBox
+              data={DummyFamilies}
+              onPressViewAll={onPressFamilies}
+            />
+
             <ProfileSettingsBox
-              onPressFamilies={onPressFamilies}
               onPressSettings={onPressSettings}
               onPressUpdateProfile={onPressProfile}
             />
 
-            <ProfileAlbumBox
-              data={previewAlbum}
-              onPressItem={onPressPicture}
-              onPressViewAll={onPressViewAllAlbums}
-            />
-
             <PrimaryButton
+              marginTop={40}
               titleColor={colors.RED_1}
               title={i18n.t('profile.logOut')}
               onPress={onLogOut}
@@ -208,8 +195,6 @@ const Content = styled.View`
   width: ${Constants.MAX_WIDTH - 40}px;
   height: 200%;
   padding-top: 68px;
-  padding-left: 30px;
-  padding-right: 30px;
   align-items: center;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;

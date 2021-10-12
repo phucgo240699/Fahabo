@@ -8,15 +8,14 @@ import {
   editProfileIcon,
   settingsIcon,
 } from '@constants/sources';
+import {Constants} from '@constants/Constants';
 
 interface Props {
-  onPressFamilies?: () => void;
   onPressSettings?: () => void;
   onPressUpdateProfile?: () => void;
 }
 
 const ProfileSettingsBox: React.FC<Props> = ({
-  onPressFamilies,
   onPressSettings,
   onPressUpdateProfile,
 }) => {
@@ -24,13 +23,6 @@ const ProfileSettingsBox: React.FC<Props> = ({
     <Container>
       <Label>{i18n.t('profile.settings')}</Label>
       <Content>
-        <SettingItem onPress={onPressFamilies}>
-          <SettingIcon source={familySettingIcon} />
-          <SettingTitle>{i18n.t('profile.families')}</SettingTitle>
-        </SettingItem>
-
-        <Line />
-
         <SettingItem onPress={onPressUpdateProfile}>
           <SettingIcon source={editProfileIcon} />
           <SettingTitle>{i18n.t('profile.profile')}</SettingTitle>
@@ -48,8 +40,8 @@ const ProfileSettingsBox: React.FC<Props> = ({
 };
 
 const Container = styled.View`
-  width: 100%;
-  margin-top: 30px;
+  margin-top: 15px;
+  width: ${Constants.MAX_WIDTH - 100}px;
 `;
 
 const Content = styled.View`
@@ -62,7 +54,7 @@ const Content = styled.View`
   elevation: 8;
 `;
 
-const Label = styled(fonts.PrimaryFontBoldSize12)`
+const Label = styled(fonts.PrimaryFontMediumSize16)`
   color: ${colors.BLACK};
 `;
 

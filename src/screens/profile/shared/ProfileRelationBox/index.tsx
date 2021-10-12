@@ -4,6 +4,7 @@ import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import styled from 'styled-components/native';
 import {choresIcon, eventsIcon} from '@constants/sources/index';
+import {Constants} from '@constants/Constants';
 
 interface Props {
   onPressChores?: () => void;
@@ -30,7 +31,7 @@ const ProfileRelationBox: React.FC<Props> = ({
 };
 
 const Container = styled.View`
-  width: 100%;
+  width: ${Constants.MAX_WIDTH - 100}px;
   margin-top: 30px;
   padding-top: 10px;
   padding-bottom: 10px;
