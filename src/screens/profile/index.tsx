@@ -47,10 +47,15 @@ const ProfileScreen: React.FC<Props> = () => {
     navigate(ScreenName.MyEventsScreen);
   };
 
-  // Settings
-  const onPressFamilies = () => {
+  // Family
+  const onPressFamilyItem = (item: any) => {
+    navigate(ScreenName.FamilyDetailScreen);
+  };
+  const onPressViewAllFamily = () => {
     navigate(ScreenName.FamiliesScreen);
   };
+
+  // Settings
   const onPressProfile = () => {
     navigate(ScreenName.UpdateProfileScreen);
   };
@@ -123,7 +128,8 @@ const ProfileScreen: React.FC<Props> = () => {
 
             <PreviewFamilyBox
               data={DummyFamilies}
-              onPressViewAll={onPressFamilies}
+              onPressItem={onPressFamilyItem}
+              onPressViewAll={onPressViewAllFamily}
             />
 
             <ProfileSettingsBox

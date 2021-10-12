@@ -22,7 +22,7 @@ const VerticalFamilyItem: React.FC<Props> = ({
     }
   };
   return (
-    <Touch onPress={onPressContainer} activeOpacity={0.6}>
+    <Touch onPress={onPressContainer} activeOpacity={0.8}>
       <Container style={containerStyle}>
         <Thumbnail source={defaultFamilyThumbnail} />
         <Title numberOfLines={2}>{item.title}</Title>
@@ -41,7 +41,7 @@ const VerticalFamilyItem: React.FC<Props> = ({
 const Touch = styled.TouchableOpacity``;
 
 const Container = styled.View`
-  elevation: 5;
+  elevation: 10;
   width: 150px;
   height: 200px;
   margin-right: 15px;

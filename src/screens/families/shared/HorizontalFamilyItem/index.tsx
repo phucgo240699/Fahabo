@@ -44,15 +44,15 @@ const HorizontalFamilyItem: React.FC<Props> = ({
 const Touch = styled.TouchableOpacity``;
 
 const Container = styled.View`
-  elevation: 5;
+  elevation: 10;
   padding: 10px;
   shadow-radius: 10px;
   border-radius: 10px;
   flex-direction: row;
-  shadow-opacity: 0.5;
+  shadow-opacity: 0.2;
   align-items: center;
-  margin: 10px 20px 0px 20px;
-  shadow-color: ${colors.SILVER};
+  margin: 15px 20px 0px 20px;
+  shadow-color: ${colors.BLACK};
   background-color: ${colors.WHITE};
 `;
 

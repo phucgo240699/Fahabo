@@ -23,6 +23,7 @@ const ProfileAlbumBox: React.FC<Props> = ({
       <Header>
         <AlbumLabel>{i18n.t('profile.album')}</AlbumLabel>
         <PrimaryButton
+          titleColor={colors.HYPER_LINK}
           title={i18n.t('profile.viewAll')}
           onPress={onPressViewAll}
         />
@@ -69,8 +70,9 @@ const Picture: React.FC<{
 };
 
 const Container = styled.View`
-  width: 100%;
   margin-top: 40px;
+  margin-left: 30px;
+  margin-right: 30px;
   margin-bottom: 30px;
 `;
 
@@ -85,8 +87,8 @@ const AlbumLabel = styled(fonts.PrimaryFontMediumSize18)`
 
 const PictureContainer = styled.TouchableOpacity<{marginLeft?: number}>`
   margin-top: 5px;
-  width: ${(Constants.MAX_WIDTH - 110) / 3}px;
-  height: ${(Constants.MAX_WIDTH - 110) / 3}px;
+  width: ${(Constants.MAX_WIDTH - 80) / 3}px;
+  height: ${(Constants.MAX_WIDTH - 80) / 3}px;
 `;
 
 export default memo(ProfileAlbumBox);

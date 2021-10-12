@@ -48,6 +48,7 @@
   },
   "family": {
     "family": "Family",
+    "families": "List of families",
     "viewAll": "View all",
     "scanInstruction": "Scan QR code to join family",
     "createFamily": "Create family",

@@ -48,6 +48,7 @@
   },
   "family": {
     "family": "Gia đình",
+    "families": "Danh sách các gia đình",
     "viewAll": "View all",
     "scanInstruction": "Scan QR code to join family",
     "createFamily": "Tạo gia đình",

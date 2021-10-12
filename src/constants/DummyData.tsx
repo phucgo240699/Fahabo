@@ -70,3 +70,38 @@ export const DummyFamilies = [
     totalMembers: 3,
   },
 ];
+
+export const DummyDetailFamily = {
+  members: [
+    {
+      name: '1a',
+      avatarUrl:
+        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=FyroJeNkFFEAX_xe6eN&_nc_ht=scontent.fsgn13-2.fna&oh=ebf6b9f30f8b08ef9eb848849fef88eb&oe=618CFAE0',
+    },
+    {
+      name: '1b',
+      avatarUrl:
+        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=FyroJeNkFFEAX_xe6eN&_nc_ht=scontent.fsgn13-2.fna&oh=ebf6b9f30f8b08ef9eb848849fef88eb&oe=618CFAE0',
+    },
+    {
+      name: '1c',
+      avatarUrl:
+        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=FyroJeNkFFEAX_xe6eN&_nc_ht=scontent.fsgn13-2.fna&oh=ebf6b9f30f8b08ef9eb848849fef88eb&oe=618CFAE0',
+    },
+    {
+      name: '1d',
+      avatarUrl:
+        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=FyroJeNkFFEAX_xe6eN&_nc_ht=scontent.fsgn13-2.fna&oh=ebf6b9f30f8b08ef9eb848849fef88eb&oe=618CFAE0',
+    },
+    {
+      name: '1e',
+      avatarUrl:
+        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=FyroJeNkFFEAX_xe6eN&_nc_ht=scontent.fsgn13-2.fna&oh=ebf6b9f30f8b08ef9eb848849fef88eb&oe=618CFAE0',
+    },
+    {
+      name: '1f',
+      avatarUrl:
+        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=FyroJeNkFFEAX_xe6eN&_nc_ht=scontent.fsgn13-2.fna&oh=ebf6b9f30f8b08ef9eb848849fef88eb&oe=618CFAE0',
+    },
+  ],
+};

@@ -26,8 +26,9 @@ const PreviewFamilyBox: React.FC<Props> = ({
   return (
     <Container>
       <Header>
-        <Label>{i18n.t('family.family')}</Label>
+        <Label>{i18n.t('family.families')}</Label>
         <PrimaryButton
+          titleColor={colors.HYPER_LINK}
           title={i18n.t('family.viewAll')}
           onPress={onPressViewAll}
         />

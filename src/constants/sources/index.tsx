@@ -58,6 +58,7 @@ export const profileBackground = require('@assets/images/profile_background.png'
 // Family
 //
 export const defaultFamilyThumbnail = require('@assets/images/default_family_thumbnail.png');
+export const backButtonIcon = require('@assets/images/back_button_icon.png');
 export const plusIcon = require('@assets/images/plus_icon.png');
 
 //

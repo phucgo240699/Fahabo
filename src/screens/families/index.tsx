@@ -46,7 +46,7 @@ const FamiliesScreen: React.FC<Props> = ({}) => {
         backgroundColor={colors.WHITE}
       />
       <ProfileHeader
-        title={i18n.t('family.family')}
+        title={i18n.t('family.families')}
         rightComponent={
           <PrimaryButton
             marginRight={8}
