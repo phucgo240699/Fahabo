@@ -66,6 +66,12 @@ const ProfileScreen: React.FC<Props> = () => {
   };
 
   // Albums
+  const onPressPicture = (index: number) => {
+    navigate(ScreenName.ImageViewerScreen, {
+      data: previewAlbum,
+      currentIndex: index,
+    });
+  };
   const onPressViewAllAlbums = () => {
     navigate(ScreenName.AlbumsScreen);
   };
@@ -135,12 +141,7 @@ const ProfileScreen: React.FC<Props> = () => {
 
             <ProfileAlbumBox
               data={previewAlbum}
-              onPressItem={index => {
-                navigate(ScreenName.ImageViewerScreen, {
-                  data: previewAlbum,
-                  currentIndex: index,
-                });
-              }}
+              onPressItem={onPressPicture}
               onPressViewAll={onPressViewAllAlbums}
             />
 

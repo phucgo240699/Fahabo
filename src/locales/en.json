@@ -110,7 +110,8 @@
     "fahabo": "Fahabo"
   },
   "header": {
-    "search": "Search"
+    "search": "Search",
+    "cancel": "Cancel"
   },
   "popUp": {
     "takePhoto": "Take photo",

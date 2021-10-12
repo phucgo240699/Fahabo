@@ -41,7 +41,10 @@ const ImageViewerScreen: React.FC<Props> = ({route}) => {
       imageIndex={currentIndex}
       swipeToCloseEnabled
       FooterComponent={({imageIndex}) => (
-        <ImageViewerFooter imageIndex={imageIndex} imageCount={data.length} />
+        <ImageViewerFooter
+          imageIndex={imageIndex + 1}
+          imageCount={data.length}
+        />
       )}
       presentationStyle={
         Platform.OS === 'android' ? 'overFullScreen' : 'fullScreen'
