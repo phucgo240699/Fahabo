@@ -480,6 +480,8 @@ PODS:
     - React-Core
   - RNPermissions (3.0.5):
     - React-Core
+  - RNQrGenerator (1.1.7):
+    - React
   - RNScreens (3.7.1):
     - React-Core
     - React-RCTImage
@@ -566,6 +568,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
+  - RNQrGenerator (from `../node_modules/rn-qr-generator`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -710,6 +713,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-google-signin/google-signin"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
+  RNQrGenerator:
+    :path: "../node_modules/rn-qr-generator"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -800,6 +805,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNGoogleSignin: 1b18b300f4eccd0a121f19f204ce28d6e8fb4bb5
   RNPermissions: 7043bacbf928eae25808275cfe73799b8f618911
+  RNQrGenerator: 1d9ad6533d6648dc528ea8fb05b2f4fb8db106d4
   RNScreens: e5139736fcf67f4ddaa849d13a8adccbb0cedf81
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4

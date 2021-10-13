@@ -49,7 +49,8 @@
   "family": {
     "family": "Gia đình",
     "families": "Danh sách các gia đình",
-    "viewAll": "View all",
+    "viewAll": "Xem tất cả",
+    "members": "Các thành viên",
     "scanInstruction": "Scan QR code to join family",
     "createFamily": "Tạo gia đình",
     "joinFamily": "Tham gia vào gia đình",
@@ -141,7 +142,8 @@
   },
   "errorMessage": {
     "general": "Có lỗi trong quá trình thao tác.\nXin kiểm tra lại",
-    "passwordMatch": "Xác nhận lại mật khẩu chưa trùng khớp"
+    "passwordMatch": "Xác nhận lại mật khẩu chưa trùng khớp",
+    "qrCodeInvalid": "Mã QR không hợp lệ"
   },
   "backend": {
     "authentication": {

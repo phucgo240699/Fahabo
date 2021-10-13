@@ -11,6 +11,7 @@ import PrimaryButton from '@components/PrimaryButton';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import fonts from '@themes/fonts';
 import styled from 'styled-components/native';
+import {QR_SALT_CODE} from '@constants/Constants';
 
 interface Props {
   route?: any;
@@ -56,7 +57,7 @@ const QRPresenterScreen: React.FC<Props> = ({route}) => {
               logoSize={48}
               logo={appIcon}
               logoBorderRadius={24}
-              value={`${route.params.value}`}
+              value={`${QR_SALT_CODE}_${route.params.value}`}
             />
           )}
           {route && route.params && route.params.instruction && (

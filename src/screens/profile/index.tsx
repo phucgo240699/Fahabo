@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   profileBackground,
   defaultAvatar,
@@ -11,7 +11,6 @@ import styled from 'styled-components/native';
 import PrimaryIcon from '@components/PrimaryIcon';
 import PrimaryButton from '@components/PrimaryButton';
 import {getInset} from 'react-native-safe-area-view';
-import PreviewAlbumBox from '../albums/shared/PreviewAlbumBox';
 import {ImageBackground, StyleSheet} from 'react-native';
 import {navigate} from '@navigators/index';
 import ProfileRelationBox from './shared/ProfileRelationBox';
@@ -22,10 +21,8 @@ import {Constants, ScreenName, StackName} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOutAction} from '@store/actionTypes/signIn';
-import {getPreviewAlbumRequestAction} from '@store/actionTypes/profile';
 import {userSelector} from '@store/selectors/authentication';
 import {isNull} from '@utils/index';
-import {previewAlbumSelector} from '@store/selectors/profile';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
 import PreviewFamilyBox from '@screens/families/shared/PreviewFamilyBox';
@@ -137,7 +134,7 @@ const ProfileScreen: React.FC<Props> = () => {
               onPressUpdateProfile={onPressProfile}
             />
 
-            <PrimaryButton
+            <LogOutButton
               marginTop={40}
               titleColor={colors.RED_1}
               title={i18n.t('profile.logOut')}
@@ -236,6 +233,14 @@ const HLine = styled.View`
   width: 80%;
   height: 1px;
   background-color: ${colors.CONCRETE};
+`;
+
+const LogOutButton = styled(PrimaryButton)`
+  padding-left: 1px;
+  padding-right: 1px;
+  padding-bottom: 0px;
+  border-bottom-width: 1px;
+  border-bottom-color: ${colors.RED_1};
 `;
 
 const styles = StyleSheet.create({

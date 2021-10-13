@@ -3,6 +3,7 @@ import {Dimensions} from 'react-native';
 import {Config} from 'react-native-config';
 
 export const BASE_URL = 'http://167.99.67.30:8080/api/v1';
+export const QR_SALT_CODE = Config.QR_SALT_CODE;
 export const GOOGLE_AUTH_WEB_CLIENT_ID = Config.GOOGLE_AUTH_WEB_CLIENT_ID;
 
 const {width, height} = Dimensions.get('window');

@@ -50,6 +50,7 @@
     "family": "Family",
     "families": "List of families",
     "viewAll": "View all",
+    "members": "Members",
     "scanInstruction": "Scan QR code to join family",
     "createFamily": "Create family",
     "joinFamily": "Join family",
@@ -141,7 +142,8 @@
   },
   "errorMessage": {
     "general": "Something went wrong.\nPlease try again",
-    "passwordMatch": "Confirm password not match"
+    "passwordMatch": "Confirm password not match",
+    "qrCodeInvalid": "QR code is invalid"
   },
   "backend": {
     "authentication": {

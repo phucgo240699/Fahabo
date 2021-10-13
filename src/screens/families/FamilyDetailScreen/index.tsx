@@ -12,6 +12,7 @@ import {StyleSheet} from 'react-native';
 import {DummyAlbums, DummyDetailFamily} from '@constants/DummyData';
 import fonts from '@themes/fonts';
 import PreviewAlbumBox from '@screens/albums/shared/PreviewAlbumBox';
+import i18n from '@locales/index';
 
 interface Props {}
 
@@ -53,8 +54,11 @@ const FamilyDetailScreen: React.FC<Props> = ({}) => {
           </ThumbnailContainer>
           <Content>
             <MemberHeader>
-              <MemberLabel>Members</MemberLabel>
-              <PrimaryButton titleColor={colors.HYPER_LINK} title="View all" />
+              <MemberLabel>{i18n.t('family.members')}</MemberLabel>
+              <PrimaryButton
+                titleColor={colors.HYPER_LINK}
+                title={i18n.t('family.viewAll')}
+              />
             </MemberHeader>
             <FlatList
               horizontal

@@ -7,10 +7,54 @@ import ProfileHeader from '@components/ProfileHeader';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {Box} from 'native-base';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import PrimaryButton from '@components/PrimaryButton';
+import {galleryIcon} from '@constants/sources';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {isNull} from '@utils/index';
+import RNQRGenerator from 'rn-qr-generator';
+import {QR_SALT_CODE} from '@constants/Constants';
+import {useDispatch} from 'react-redux';
+import {showToastAction} from '@store/actionTypes/session';
+import {ToastType} from '@constants/types/session';
 
 const ScanFamilyQRScreen = () => {
+  const dispatch = useDispatch();
+
   const onSuccess = (e: BarCodeReadEvent) => {
     console.log('Got code:', e.data);
+  };
+
+  const onPressQRCode = () => {
+    launchImageLibrary({mediaType: 'photo', includeBase64: true}, response => {
+      if (response.assets !== undefined && !isNull(response.assets[0]?.uri)) {
+        console.log(response.assets[0]?.uri);
+        RNQRGenerator.detect({uri: response.assets[0]?.uri})
+          .then(response => {
+            const {values} = response; // Array of detected QR code values. Empty if nothing found.
+            if (!isNull(values)) {
+              const [qrSaltCode, familyId] = values[0].split('_');
+              if (qrSaltCode === QR_SALT_CODE) {
+                // TODO: request API
+              } else {
+                dispatch(
+                  showToastAction(
+                    i18n.t('errorMessage.qrCodeInvalid'),
+                    ToastType.ERROR,
+                  ),
+                );
+              }
+            }
+          })
+          .catch(error =>
+            dispatch(
+              showToastAction(
+                i18n.t('errorMessage.qrCodeInvalid'),
+                ToastType.ERROR,
+              ),
+            ),
+          );
+      }
+    });
   };
 
   return (
@@ -21,8 +65,17 @@ const ScanFamilyQRScreen = () => {
         backgroundColor={colors.WHITE}
       />
       <ProfileHeader
+        titleMarginLeft={8}
         title={i18n.t('family.scanInstruction')}
         backgroundColor={colors.WHITE}
+        rightComponent={
+          <PrimaryButton
+            marginRight={8}
+            leftSource={galleryIcon}
+            leftTintColor={colors.THEME_COLOR_6}
+            onPress={onPressQRCode}
+          />
+        }
       />
       <Box flex={1} bgColor={colors.CAMERA_BACKGROUND}>
         <QRCodeScanner onRead={onSuccess} />
