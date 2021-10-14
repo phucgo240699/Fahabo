@@ -11,7 +11,7 @@ const HUD = ({loading}: {loading: boolean}) => {
     <DimmedOverlay>
       <ActivityIndicator
         animating={loading}
-        color={colors.WHITE}
+        color={colors.CONCRETE}
         size="large"
       />
     </DimmedOverlay>
