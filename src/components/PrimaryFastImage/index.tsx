@@ -1,5 +1,5 @@
 import colors from '@themes/colors';
-import React, {memo} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components/native';
@@ -19,15 +19,22 @@ const PrimaryFastImage: React.FC<Props> = ({
   imageShape = 'square',
   ...otherProps
 }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const onLoadEnd = useCallback(() => {
+    setIsLoading(false);
+  }, []);
   return (
     <Container {...otherProps}>
-      <PlaceHolderImage
-        source={
-          imageShape === 'square' ? squarePlaceHolder : rectanglePlaceHolder
-        }
-        style={StyleSheet.absoluteFill}
-      />
+      {isLoading && (
+        <PlaceHolderImage
+          source={
+            imageShape === 'square' ? squarePlaceHolder : rectanglePlaceHolder
+          }
+          style={StyleSheet.absoluteFill}
+        />
+      )}
       <FastImage
+        onLoadEnd={onLoadEnd}
         source={{
           ...source,
           priority: FastImage.priority.high,

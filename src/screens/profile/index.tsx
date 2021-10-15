@@ -206,13 +206,11 @@ const CacheAvatar = styled(PrimaryFastImage)`
   width: 128px;
   height: 128px;
   border-radius: 64px;
-  background-color: transparent;
 `;
 const Avatar = styled.Image`
   width: 128px;
   height: 128px;
   border-radius: 64px;
-  background-color: transparent;
 `;
 
 const CameraIconContainer = styled.View`
