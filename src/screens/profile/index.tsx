@@ -15,7 +15,7 @@ import {ImageBackground, StyleSheet} from 'react-native';
 import {navigate} from '@navigators/index';
 import ProfileRelationBox from './shared/ProfileRelationBox';
 import ProfileSettingsBox from './shared/ProfileSettingsBox';
-import {Avatar, Box, Actionsheet, useDisclose} from 'native-base';
+import {Box, Actionsheet, useDisclose} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {Constants, ScreenName, StackName} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
@@ -27,6 +27,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
 import PreviewFamilyBox from '@screens/families/shared/PreviewFamilyBox';
 import {DummyFamilies} from '@constants/DummyData';
+import PrimaryFastImage from '@components/PrimaryFastImage';
 
 interface Props {}
 
@@ -144,17 +145,9 @@ const ProfileScreen: React.FC<Props> = () => {
 
           <AvatarContainer activeOpacity={0.7} onPress={onOpen}>
             {!isNull(user?.avatarUrl) ? (
-              <Avatar
-                size="2xl"
-                backgroundColor={'transparent'}
-                source={{uri: user?.avatarUrl ?? ''}}
-              />
+              <CacheAvatar source={{uri: user?.avatarUrl ?? ''}} />
             ) : (
-              <Avatar
-                size="2xl"
-                backgroundColor={'transparent'}
-                source={defaultAvatar}
-              />
+              <Avatar source={defaultAvatar} />
             )}
             <CameraIconContainer>
               <PrimaryIcon width={24} height={24} source={cameraIcon} />
@@ -207,6 +200,19 @@ const Content = styled.View`
 const AvatarContainer = styled.TouchableOpacity`
   align-self: center;
   position: absolute;
+`;
+
+const CacheAvatar = styled(PrimaryFastImage)`
+  width: 128px;
+  height: 128px;
+  border-radius: 64px;
+  background-color: transparent;
+`;
+const Avatar = styled.Image`
+  width: 128px;
+  height: 128px;
+  border-radius: 64px;
+  background-color: transparent;
 `;
 
 const CameraIconContainer = styled.View`

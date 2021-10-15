@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import colors from '@themes/colors';
 import fonts from '@themes/fonts';
 import styled from 'styled-components/native';
-import {defaultAvatar, profileIcon} from '@constants/sources';
+import {defaultFamilyThumbnail, profileIcon} from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
 
 interface Props {
@@ -24,7 +24,7 @@ const HorizontalFamilyItem: React.FC<Props> = ({
   return (
     <Touch onPress={onPressContainer}>
       <Container style={containerStyle}>
-        <Thumbnail source={defaultAvatar} />
+        <Thumbnail source={defaultFamilyThumbnail} />
         <Content>
           <Title numberOfLines={2}>{item.title}</Title>
           <Description numberOfLines={1}>{item.hostName}</Description>

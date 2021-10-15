@@ -10,7 +10,7 @@ import {Animated, Easing} from 'react-native';
 import {Constants} from '@constants/Constants';
 
 const animationTime = 200;
-const searchBarWidth = Constants.MAX_WIDTH - 85;
+const searchBarWidth = Constants.MAX_WIDTH - 65;
 
 interface Props {
   title?: string;
