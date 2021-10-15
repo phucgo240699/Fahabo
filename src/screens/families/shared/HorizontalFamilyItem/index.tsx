@@ -47,9 +47,9 @@ const Container = styled.View`
   elevation: 10;
   padding: 10px;
   shadow-radius: 10px;
+  shadow-opacity: 0.2;
   border-radius: 10px;
   flex-direction: row;
-  shadow-opacity: 0.2;
   align-items: center;
   margin: 15px 20px 0px 20px;
   shadow-color: ${colors.BLACK};

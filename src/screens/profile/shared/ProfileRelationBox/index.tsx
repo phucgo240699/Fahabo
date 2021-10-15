@@ -31,18 +31,18 @@ const ProfileRelationBox: React.FC<Props> = ({
 };
 
 const Container = styled.View`
-  width: ${Constants.MAX_WIDTH - 100}px;
+  elevation: 6;
   margin-top: 30px;
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 10px;
   flex-direction: row;
-  justify-content: space-around;
-  background-color: ${colors.WHITE};
-  shadow-color: ${colors.BLACK};
-  shadow-opacity: 0.15;
+  shadow-opacity: 0.2;
   shadow-radius: 10px;
-  elevation: 6;
+  justify-content: space-around;
+  shadow-color: ${colors.BLACK};
+  background-color: ${colors.WHITE};
+  width: ${Constants.MAX_WIDTH - 100}px;
 `;
 
 const Button = styled.TouchableOpacity`

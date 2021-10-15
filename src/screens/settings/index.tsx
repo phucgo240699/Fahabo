@@ -40,7 +40,7 @@ const SettingsScreen: React.FC<Props> = ({}) => {
         backgroundColor={colors.WHITE}
       />
       <ProfileHeader title={i18n.t('settings.settings')} />
-      <Box m={4} borderRadius={8} bgColor={colors.WHITE} shadow={4}>
+      <Content>
         <ItemContainer onPress={onNavigateToLanguage}>
           <PrimaryIcon source={languageIcon} />
           <ItemName>{i18n.t('settings.language.language')}</ItemName>
@@ -68,10 +68,19 @@ const SettingsScreen: React.FC<Props> = ({}) => {
             </ItemContainer>
           </>
         )}
-      </Box>
+      </Content>
     </Box>
   );
 };
+
+const Content = styled.View`
+  margin: 16px;
+  border-radius: 8px;
+  shadow-radius: 10px;
+  shadow-opacity: 0.2;
+  shadow-color: ${colors.BLACK};
+  background-color: ${colors.WHITE};
+`;
 
 const ItemContainer = styled.TouchableOpacity`
   padding: 14px;

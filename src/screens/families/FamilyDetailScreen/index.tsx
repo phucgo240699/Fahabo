@@ -7,12 +7,14 @@ import PrimaryButton from '@components/PrimaryButton';
 import {backButtonIcon, defaultFamilyThumbnail} from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {CommonActions, useNavigation} from '@react-navigation/native';
-import {Constants} from '@constants/Constants';
-import {StyleSheet} from 'react-native';
+import {Constants, ScreenName} from '@constants/Constants';
+import {Platform, ScrollViewBase, StyleSheet} from 'react-native';
 import {DummyAlbums, DummyDetailFamily} from '@constants/DummyData';
 import fonts from '@themes/fonts';
 import PreviewAlbumBox from '@screens/albums/shared/PreviewAlbumBox';
 import i18n from '@locales/index';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {navigate} from '@navigators/index';
 
 interface Props {}
 
@@ -31,49 +33,61 @@ const FamilyDetailScreen: React.FC<Props> = ({}) => {
     );
   };
 
+  const onPressPhotoItem = (index: number) => {
+    navigate(ScreenName.ImageViewerScreen, {
+      data: DummyAlbums,
+      currentIndex: index,
+    });
+  };
+
   return (
-    <Box flex={1} safeArea bgColor={colors.THEME_COLOR_4}>
+    <SafeView>
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
         backgroundColor={colors.THEME_COLOR_4}
       />
-      <Box flex={1} alignItems={'center'} bgColor={colors.WHITE}>
-        <ScrollView
-          width={'100%'}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.scroll}>
-          <Banner>
-            <BackButton onPress={onPressBack}>
-              <PrimaryIcon width={48} height={48} source={backButtonIcon} />
-            </BackButton>
-          </Banner>
-          <ThumbnailContainer>
-            <Thumbnail source={defaultFamilyThumbnail} />
-          </ThumbnailContainer>
-          <Content>
-            <MemberHeader>
-              <MemberLabel>{i18n.t('family.members')}</MemberLabel>
-              <PrimaryButton
-                titleColor={colors.HYPER_LINK}
-                title={i18n.t('family.viewAll')}
-              />
-            </MemberHeader>
-            <FlatList
-              horizontal
-              renderItem={renderItem}
-              data={DummyDetailFamily.members}
-              contentContainerStyle={styles.members}
-              keyExtractor={(item, index) => index.toString()}
+      <ScrollView
+        bounces={false}
+        bgColor={colors.WHITE}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.scroll}>
+        <Banner>
+          <BackButton onPress={onPressBack}>
+            <PrimaryIcon width={48} height={48} source={backButtonIcon} />
+          </BackButton>
+        </Banner>
+        <ThumbnailContainer>
+          <Thumbnail source={defaultFamilyThumbnail} />
+        </ThumbnailContainer>
+        <Content>
+          <MemberHeader>
+            <MemberLabel>{i18n.t('family.members')}</MemberLabel>
+            <PrimaryButton
+              titleColor={colors.HYPER_LINK}
+              title={i18n.t('family.viewAll')}
             />
-            <PreviewAlbumBox data={DummyAlbums} />
-          </Content>
-        </ScrollView>
-      </Box>
-    </Box>
+          </MemberHeader>
+          <FlatList
+            horizontal
+            renderItem={renderItem}
+            data={DummyDetailFamily.members}
+            contentContainerStyle={styles.members}
+            keyExtractor={(item, index) => index.toString()}
+          />
+          <PreviewAlbumBox data={DummyAlbums} onPressItem={onPressPhotoItem} />
+        </Content>
+      </ScrollView>
+    </SafeView>
   );
 };
+
+const SafeView = styled.SafeAreaView`
+  flex: 1;
+  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
+  background-color: ${colors.THEME_COLOR_4};
+`;
 
 const Banner = styled.View`
   width: 100%;

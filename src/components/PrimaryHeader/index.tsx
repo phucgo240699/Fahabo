@@ -28,7 +28,7 @@ const PrimaryHeader: React.FC<Props> = ({
 
   const turnOnSearching = () => {
     Animated.timing(nonSearchingOpacityAnim, {
-      duration: animationTime,
+      duration: animationTime / 2,
       toValue: 0,
       easing: Easing.linear,
       useNativeDriver: false,
@@ -61,14 +61,14 @@ const PrimaryHeader: React.FC<Props> = ({
       }),
       Animated.timing(searchBarWidthAnim, {
         duration: animationTime,
-        toValue: 0,
+        toValue: 24,
         easing: Easing.linear,
         useNativeDriver: false,
       }),
     ]).start(() => {
       setIsSearching(false);
       Animated.timing(nonSearchingOpacityAnim, {
-        duration: animationTime,
+        duration: animationTime / 2,
         toValue: 1,
         easing: Easing.linear,
         useNativeDriver: false,
