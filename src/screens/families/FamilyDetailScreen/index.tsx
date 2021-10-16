@@ -26,11 +26,7 @@ const FamilyDetailScreen: React.FC<Props> = ({}) => {
   };
 
   const renderItem = ({item}: {item: any}) => {
-    return (
-      <Avatar mr={2} source={{uri: item.avatarUrl}}>
-        <Avatar.Badge bg="green.500" />
-      </Avatar>
-    );
+    return <Avatar mr={2} source={{uri: item.avatarUrl}} />;
   };
 
   const onPressPhotoItem = (index: number) => {
@@ -70,10 +66,10 @@ const FamilyDetailScreen: React.FC<Props> = ({}) => {
             />
           </MemberHeader>
           <FlatList
+            mt={1}
             horizontal
             renderItem={renderItem}
             data={DummyDetailFamily.members}
-            contentContainerStyle={styles.members}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
           />
@@ -116,13 +112,11 @@ const Thumbnail = styled.Image`
 `;
 
 const Content = styled.View`
-  width: 100%;
-  margin-top: 30px;
+  flex: 1;
+  padding: 30px;
 `;
 
 const MemberHeader = styled.View`
-  margin-left: 30px;
-  margin-right: 30px;
   flex-direction: row;
   justify-content: space-between;
 `;
@@ -132,10 +126,6 @@ const MemberLabel = styled(fonts.PrimaryFontMediumSize14)``;
 const styles = StyleSheet.create({
   scroll: {
     alignItems: 'center',
-  },
-  members: {
-    marginTop: 8,
-    paddingLeft: 30,
   },
 });
 

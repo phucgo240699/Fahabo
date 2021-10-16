@@ -74,7 +74,7 @@ const PrimarySearchBar: React.FC<Props> = ({
           leftIconHeight={18}
           leftSource={clearIcon}
           leftTintColor={colors.SILVER}
-          containerStyle={{position: 'absolute', right: 30}}
+          containerStyle={{position: 'absolute', top: 6, right: 6}}
           onPress={onClearText}
         />
       )}

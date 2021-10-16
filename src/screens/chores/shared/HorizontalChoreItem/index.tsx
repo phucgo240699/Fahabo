@@ -24,8 +24,8 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   };
   const renderItem = ({item}: {item: any}) => {
     return (
-      <Avatar mr={2} size="xs" source={{uri: item.avatarUrl}}>
-        <Avatar.Badge bg="green.500" />
+      <Avatar mr={2} size="sm" source={{uri: item.avatarUrl}}>
+        {/* <Avatar.Badge bg="green.500" /> */}
       </Avatar>
     );
   };
@@ -58,7 +58,7 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
         <HLine />
         <FlatList
           left={3}
-          bottom={3}
+          bottom={2}
           horizontal
           position="absolute"
           scrollEnabled={false}
@@ -98,7 +98,9 @@ const Container = styled.View`
   background-color: ${colors.WHITE};
 `;
 
-const Title = styled(fonts.PrimaryFontBoldSize16)``;
+const Title = styled(fonts.PrimaryFontBoldSize16)`
+  margin-right: 86px;
+`;
 
 const Deadline = styled(fonts.PrimaryFontRegularSize12)`
   margin-top: 4px;
@@ -106,8 +108,8 @@ const Deadline = styled(fonts.PrimaryFontRegularSize12)`
 `;
 
 const HLine = styled.View`
-  top: 75px;
   left: 10px;
+  bottom: 46px;
   width: 100%;
   height: 1px;
   opacity: 0.6;
@@ -121,7 +123,7 @@ const StatusButton = styled(PrimaryButton)<{backgroundColor: string}>`
   width: 80px;
   position: absolute;
   border-radius: 16px;
-  padding: 6px 8px 8px 8px;
+  padding-bottom: 6px;
   background-color: ${props => props.backgroundColor};
 `;
 

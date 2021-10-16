@@ -86,6 +86,8 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
         <Input
           mt={1}
           value={phoneNumber}
+          height={50}
+          borderRadius={25}
           color={colors.TEXT}
           borderColor={colors.SILVER}
           onChangeText={onChangePhoneNumber}
@@ -94,6 +96,8 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
         <Input
           mt={1}
           value={name}
+          height={50}
+          borderRadius={25}
           color={colors.TEXT}
           borderColor={colors.SILVER}
           onChangeText={onChangeName}
@@ -102,8 +106,10 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
         <Button
           mt={1}
           variant="outline"
+          height={50}
+          borderRadius={25}
           borderColor={colors.SILVER}
-          _text={{color: colors.GRAY}}
+          _text={{color: isNull(birthday) ? colors.SILVER : colors.TEXT}}
           onPress={onPressBirthday}>
           {isNull(birthday)
             ? i18n.t('profile.formatDate')

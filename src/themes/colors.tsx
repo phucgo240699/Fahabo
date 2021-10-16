@@ -33,7 +33,7 @@ export const shades = {
   RED_1: '#ff4000', //ff0011
   YELLOW_1: '#FFE600',
   GREEN_1: '#00b359',
-  DANUBE: '#6988D7',
+  DANUBE: Appearance.getColorScheme() === 'light' ? '#5e7fd4' : '#728fda',
   ZEST: '#E87E24',
   ROYAL_BLUE: '#4680ec',
   SAPPHIRE: '#324f9a',

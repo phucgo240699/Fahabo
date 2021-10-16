@@ -187,7 +187,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               <Input
                 mt={-1}
                 isRequired={true}
-                color={colors.BLACK}
+                color={colors.TEXT}
                 autoCapitalize="none"
                 borderColor={colors.SILVER}
                 keyboardType={'email-address'}
@@ -202,7 +202,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               </FormControl.Label>
               <Input
                 mt={-1}
-                color={colors.BLACK}
+                color={colors.TEXT}
                 autoCapitalize="none"
                 borderColor={colors.SILVER}
                 onChangeText={onChangeName}
@@ -217,7 +217,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               <Input
                 mt={-1}
                 type="password"
-                color={colors.BLACK}
+                color={colors.TEXT}
                 borderColor={colors.SILVER}
                 onChangeText={onChangePassword}
               />
@@ -231,40 +231,11 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               <Input
                 mt={-1}
                 type="password"
-                color={colors.BLACK}
+                color={colors.TEXT}
                 borderColor={colors.SILVER}
                 onChangeText={onChangeConfirmPassword}
               />
             </FormControl>
-
-            {/* <Box mt={3}>
-              <FormControl.Label
-                _text={{
-                  color: colors.BLACK,
-                  fontSize: 'sm',
-                  fontWeight: 500,
-                }}>
-                {i18n.t('authentication.signUp.phoneNumber')}
-              </FormControl.Label>
-              <FormControl flexDirection={'row'}>
-                <Button
-                  width={20}
-                  variant="outline"
-                  borderColor={colors.SILVER}
-                  _text={{color: colors.TEXT}}
-                  onPress={onPressCountryCode}>
-                  {countryCode === '' ? '--' : countryCode}
-                </Button>
-                <Input
-                  ml={4}
-                  flex={1}
-                  color={colors.BLACK}
-                  borderColor={colors.SILVER}
-                  keyboardType={'number-pad'}
-                  // onChangeText={onChangePhoneNumber}
-                />
-              </FormControl>
-            </Box> */}
 
             {/* Button */}
             <VStack space={2} mt={5}>

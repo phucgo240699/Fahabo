@@ -68,7 +68,11 @@
     "chores": "Việc nhà",
     "done": "Xong",
     "inProgress": "Đang làm",
-    "expired": "Trễ"
+    "expired": "Trễ",
+    "createNewChore": "Tạo công việc mới",
+    "title": "Tên công việc",
+    "deadline": "Thời hạn: dd/mm/yyyy",
+    "assign": "Phân công"
   },
   "events": {
     "events": "Sự kiện"

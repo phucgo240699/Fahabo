@@ -10,16 +10,18 @@ import {Animated, Easing} from 'react-native';
 import {Constants} from '@constants/Constants';
 
 const animationTime = 200;
-const searchBarWidth = Constants.MAX_WIDTH - 65;
+const searchBarWidth = Constants.MAX_WIDTH - 90;
 
 interface Props {
   title?: string;
   onChangeText?: (text: string) => void;
+  onPressPlus?: () => void;
 }
 
 const PrimaryHeader: React.FC<Props> = ({
   title = i18n.t('application.fahabo'),
   onChangeText,
+  onPressPlus,
 }) => {
   const [isSearching, setIsSearching] = useState(false);
   const cancelOpacityAnim = useRef(new Animated.Value(0)).current;
@@ -108,6 +110,7 @@ const PrimaryHeader: React.FC<Props> = ({
             marginLeft={4}
             leftSource={plusIcon}
             leftTintColor={colors.THEME_COLOR_7}
+            onPress={onPressPlus}
           />
         </SearchIconLayer>
       )}
@@ -163,6 +166,7 @@ const SearchBarLayer = styled(Animated.View)`
 
 const CancelButton = styled(PrimaryButton)`
   flex: 1;
+  width: 60px;
 `;
 const CancelButtonLayer = styled(Animated.View)`
   height: 100%;

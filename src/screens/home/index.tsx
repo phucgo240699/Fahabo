@@ -5,35 +5,45 @@ import {Platform, StyleSheet} from 'react-native';
 import ChoresScreen from '@screens/chores';
 import EventsScreen from '@screens/events';
 import styled from 'styled-components/native';
-import {Constants} from '@constants/Constants';
+import {Constants, ScreenName} from '@constants/Constants';
 import React, {useCallback, useState} from 'react';
 import PrimaryHeader from '@components/PrimaryHeader';
 import {SceneMap, TabView, TabBar} from 'react-native-tab-view';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {navigate} from '@navigators/index';
 
 interface Props {}
 
 const HomeScreen: React.FC<Props> = () => {
   const [searchText, setSearchText] = useState('');
   const [index, setIndex] = useState(0);
+
+  // TabView
   const [routes] = useState([
     {key: 'chores', title: i18n.t('chores.chores')},
     {key: 'events', title: i18n.t('events.events')},
   ]);
-
   const renderScene = SceneMap({
     chores: () => <ChoresScreen />,
     events: () => <EventsScreen />,
   });
-
   const renderTabLabel = ({route, focused}: {route: any; focused: boolean}) => {
     return <TabTitle isFocus={focused}>{route.title}</TabTitle>;
   };
 
+  // Search
   const onChangeSearchText = useCallback((text: string) => {
     setSearchText(text);
   }, []);
+
+  // Creation
+  const onPressPlusButton = () => {
+    // Chore
+    if (index === 0) {
+      navigate(ScreenName.CreateChoreScreen);
+    }
+  };
 
   return (
     <SafeView>
@@ -42,7 +52,10 @@ const HomeScreen: React.FC<Props> = () => {
         backgroundColor={colors.WHITE}
         translucent
       />
-      <PrimaryHeader onChangeText={onChangeSearchText} />
+      <PrimaryHeader
+        onChangeText={onChangeSearchText}
+        onPressPlus={onPressPlusButton}
+      />
       <TabView
         renderTabBar={props => (
           <TabBar

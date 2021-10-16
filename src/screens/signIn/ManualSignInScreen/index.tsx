@@ -68,7 +68,7 @@ const ManualSignInScreen = () => {
           {/* Form */}
           <VStack space={2} mt={5}>
             <Input
-              color={colors.BLACK}
+              color={colors.TEXT}
               autoCapitalize="none"
               borderColor={colors.SILVER}
               keyboardType="email-address"
@@ -79,7 +79,7 @@ const ManualSignInScreen = () => {
             <Input
               mt={3}
               type="password"
-              color={colors.BLACK}
+              color={colors.TEXT}
               borderColor={colors.SILVER}
               onChangeText={onChangePassword}
               placeholderTextColor={colors.SILVER}

@@ -71,9 +71,6 @@ const Picture: React.FC<{
 
 const Container = styled.View`
   margin-top: 40px;
-  margin-left: 30px;
-  margin-right: 30px;
-  margin-bottom: 30px;
 `;
 
 const Header = styled.View`
