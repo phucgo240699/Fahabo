@@ -5,7 +5,7 @@ import React, {useRef, useState} from 'react';
 import styled from 'styled-components/native';
 import PrimaryButton from '@components/PrimaryButton';
 import PrimarySearchBar from '@components/PrimarySearchBar';
-import {searchIcon, bellIcon} from '@constants/sources/index';
+import {searchIcon, bellIcon, plusIcon} from '@constants/sources/index';
 import {Animated, Easing} from 'react-native';
 import {Constants} from '@constants/Constants';
 
@@ -23,11 +23,11 @@ const PrimaryHeader: React.FC<Props> = ({
 }) => {
   const [isSearching, setIsSearching] = useState(false);
   const cancelOpacityAnim = useRef(new Animated.Value(0)).current;
-  const nonSearchingOpacityAnim = useRef(new Animated.Value(1)).current;
+  const searchIconOpacityAnim = useRef(new Animated.Value(1)).current;
   const searchBarWidthAnim = useRef(new Animated.Value(0)).current;
 
   const turnOnSearching = () => {
-    Animated.timing(nonSearchingOpacityAnim, {
+    Animated.timing(searchIconOpacityAnim, {
       duration: animationTime / 2,
       toValue: 0,
       easing: Easing.linear,
@@ -67,7 +67,7 @@ const PrimaryHeader: React.FC<Props> = ({
       }),
     ]).start(() => {
       setIsSearching(false);
-      Animated.timing(nonSearchingOpacityAnim, {
+      Animated.timing(searchIconOpacityAnim, {
         duration: animationTime / 2,
         toValue: 1,
         easing: Easing.linear,
@@ -79,13 +79,23 @@ const PrimaryHeader: React.FC<Props> = ({
   return (
     <Container searchingMode={isSearching}>
       {!isSearching && (
-        <TitleLayer style={{opacity: nonSearchingOpacityAnim}}>
+        <TitleLayer style={{opacity: searchIconOpacityAnim}}>
           <Title numberOfLines={1}>{title}</Title>
         </TitleLayer>
       )}
       {!isSearching && (
-        <SearchIconLayer style={{opacity: nonSearchingOpacityAnim}}>
+        <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
           <PrimaryButton
+            marginLeft={10}
+            leftSource={bellIcon}
+            leftTintColor={colors.THEME_COLOR_7}
+          />
+        </SearchIconLayer>
+      )}
+      {!isSearching && (
+        <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
+          <PrimaryButton
+            marginLeft={10}
             leftSource={searchIcon}
             leftTintColor={colors.THEME_COLOR_7}
             onPress={turnOnSearching}
@@ -93,13 +103,13 @@ const PrimaryHeader: React.FC<Props> = ({
         </SearchIconLayer>
       )}
       {!isSearching && (
-        <BellIconLayer style={{opacity: nonSearchingOpacityAnim}}>
+        <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
           <PrimaryButton
-            marginLeft={10}
-            leftSource={bellIcon}
+            marginLeft={4}
+            leftSource={plusIcon}
             leftTintColor={colors.THEME_COLOR_7}
           />
-        </BellIconLayer>
+        </SearchIconLayer>
       )}
 
       {isSearching && (
@@ -143,9 +153,6 @@ const SearchBar = styled(PrimarySearchBar)`
   flex: 1;
 `;
 const SearchIconLayer = styled(Animated.View)`
-  height: 100%;
-`;
-const BellIconLayer = styled(Animated.View)`
   height: 100%;
 `;
 const SearchBarLayer = styled(Animated.View)`

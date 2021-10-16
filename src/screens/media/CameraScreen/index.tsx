@@ -21,8 +21,6 @@ const CameraScreen: React.FC<Props> = ({route}) => {
   const takePicture = async function (camera: any) {
     const options = {quality: 0.5, base64: true};
     const data = await camera.takePictureAsync(options);
-    //  eslint-disable-next-line
-    console.log({uri: data.uri});
     if (route && route.params && route.params.updateProfileAvatar) {
       dispatch(
         updateProfileAvatarRequestAction({

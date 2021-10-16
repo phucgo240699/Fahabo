@@ -1,4 +1,14 @@
 //
+// Enum
+//
+export enum AuthType {
+  MANUAL_AUTH = 'MANUAL_AUTH',
+  APPLE_AUTH = 'APPLE_AUTH',
+  GOOGLE_AUTH = 'GOOGLE_AUTH',
+  FACEBOOK_AUTH = 'FACEBOOK_AUTH',
+}
+
+//
 // Request
 //
 export type SignInRequestType = {
@@ -9,13 +19,6 @@ export type SignInRequestType = {
 export type RefreshAccessTokenRequestType = {
   refreshToken?: string;
 };
-
-export enum AuthType {
-  MANUAL_AUTH = 'MANUAL_AUTH',
-  APPLE_AUTH = 'APPLE_AUTH',
-  GOOGLE_AUTH = 'GOOGLE_AUTH',
-  FACEBOOK_AUTH = 'FACEBOOK_AUTH',
-}
 
 export type SignUpRequestType = {
   email?: string;

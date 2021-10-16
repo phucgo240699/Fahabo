@@ -4,8 +4,6 @@ import {
   StackNavigationOptions,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-// import {DrawerNavigationOptions} from '@react-navigation/drawer';
-// import colors from '@themes/colors';
 
 export const navigationOptions: StackNavigationOptions = {
   headerShown: false,
@@ -13,11 +11,6 @@ export const navigationOptions: StackNavigationOptions = {
   gestureDirection: 'horizontal',
   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 };
-
-// export const drawerOptions: DrawerNavigationOptions = {
-//   headerShown: false,
-//   drawerActiveTintColor: colors.THEME_COLOR_7,
-// };
 
 export const navigationRef: any = createRef<any>();
 

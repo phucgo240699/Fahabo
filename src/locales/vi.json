@@ -65,7 +65,10 @@
     "home": "Trang chủ"
   },
   "chores": {
-    "chores": "Việc nhà"
+    "chores": "Việc nhà",
+    "done": "Xong",
+    "inProgress": "Đang làm",
+    "expired": "Trễ"
   },
   "events": {
     "events": "Sự kiện"

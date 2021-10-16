@@ -1,7 +1,10 @@
 import React from 'react';
 import BottomTabs from './BottomTabs';
 import {navigationOptions} from './index';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from '@react-navigation/stack';
 import {ScreenName} from '@constants/Constants';
 import ImageViewerScreen from '@screens/media/ImageViewerScreen';
 
@@ -14,6 +17,10 @@ const MainStack = () => {
       <Stack.Screen
         name={ScreenName.ImageViewerScreen}
         component={ImageViewerScreen}
+        options={{
+          gestureDirection: 'vertical',
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+        }}
       />
     </Stack.Navigator>
   );

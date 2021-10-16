@@ -74,6 +74,7 @@ const FamilyDetailScreen: React.FC<Props> = ({}) => {
             renderItem={renderItem}
             data={DummyDetailFamily.members}
             contentContainerStyle={styles.members}
+            showsHorizontalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
           />
           <PreviewAlbumBox data={DummyAlbums} onPressItem={onPressPhotoItem} />

@@ -105,3 +105,27 @@ export const DummyDetailFamily = {
     },
   ],
 };
+
+export const DummyChores = [
+  {
+    id: 0,
+    thumbnail:
+      'https://www.verywellfamily.com/thmb/BjTm8AUVhLAc_vVuEFgzjvscRR4=/1333x1000/smart/filters:no_upscale()/how-to-divide-chores-among-your-kids-4777709_text-741d17b6be9a4b80a9cd7f9e1d359aba.png',
+    title: 'Chore 1',
+    deadline: '01/10/2021',
+  },
+  {
+    id: 1,
+    thumbnail:
+      'https://www.verywellfamily.com/thmb/BjTm8AUVhLAc_vVuEFgzjvscRR4=/1333x1000/smart/filters:no_upscale()/how-to-divide-chores-among-your-kids-4777709_text-741d17b6be9a4b80a9cd7f9e1d359aba.png',
+    title: 'Chore 2',
+    deadline: '02/10/2021',
+  },
+  {
+    id: 3,
+    thumbnail:
+      'https://www.verywellfamily.com/thmb/BjTm8AUVhLAc_vVuEFgzjvscRR4=/1333x1000/smart/filters:no_upscale()/how-to-divide-chores-among-your-kids-4777709_text-741d17b6be9a4b80a9cd7f9e1d359aba.png',
+    title: 'Chore 3',
+    deadline: '03/10/2021',
+  },
+];

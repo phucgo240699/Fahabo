@@ -125,12 +125,12 @@ function* onGetOTPRequestBackground(action: AnyAction) {
   try {
     const response = yield* call(getOTP, action.body);
     if (response.status === 200) {
-      console.log(i18n.t(`successMessage.gotOTP ${action.body.username}`));
+      // console.log(i18n.t(`successMessage.gotOTP ${action.body.username}`));
     } else {
-      console.log(i18n.t(`backend.${response.data.errors[0]}`));
+      // console.log(i18n.t(`backend.${response.data.errors[0]}`));
     }
   } catch (error) {
-    console.log({error});
+    // console.log({error});
   } finally {
     yield* put(closeHUDAction());
   }
@@ -208,7 +208,6 @@ function* onGetForgotPasswordOTPRequest(action: AnyAction) {
 }
 
 function* onGetForgotPasswordOTPRequestAgain(action: AnyAction) {
-  console.log('onGetForgotPasswordOTPRequestAgain...');
   try {
     yield* put(showHUDAction());
     const response = yield* call(getForgotPasswordOTP, action.body);

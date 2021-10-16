@@ -22,7 +22,6 @@ const MediaPickerScreen: React.FC<Props> = ({route}) => {
   const [photos, setPhotos] = useState<CameraRoll.PhotoIdentifier[]>([]);
 
   const onChoosePhoto = (item: any) => {
-    console.log(item.node.image.uri);
     if (route && route.params && route.params.updateProfileAvatar) {
     }
   };
@@ -35,9 +34,7 @@ const MediaPickerScreen: React.FC<Props> = ({route}) => {
       .then(result => {
         setPhotos(result.edges);
       })
-      .catch(err => {
-        console.log({err});
-      });
+      .catch(err => {});
   }, []);
   return (
     <SafeView>

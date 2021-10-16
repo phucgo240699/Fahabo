@@ -65,7 +65,10 @@
     "home": "Home"
   },
   "chores": {
-    "chores": "Chores"
+    "chores": "Chores",
+    "done": "Done",
+    "inProgress": "In Progress",
+    "expired": "Expired"
   },
   "events": {
     "events": "Events"

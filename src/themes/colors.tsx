@@ -43,6 +43,11 @@ export const shades = {
 export const applied = {
   BACKGROUND: Appearance.getColorScheme() === 'light' ? '#FFFFFF' : '#000000',
   HYPER_LINK: '#0078f0',
+  EXPIRED_CHORE:
+    Appearance.getColorScheme() === 'light' ? '#cc3300' : '#ff531a',
+  IN_PROGRESS_CHORE:
+    Appearance.getColorScheme() === 'light' ? '#324f9a' : '#5273c7',
+  DONE_CHORE: Appearance.getColorScheme() === 'light' ? '#009444' : '#00CC5F',
   TABBAR_INACTIVE:
     Appearance.getColorScheme() === 'light' ? '#FFFFFF' : '#000000',
   TABBAR_ACTIVE:

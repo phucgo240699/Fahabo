@@ -75,11 +75,9 @@ function* onSignInSuccess(action: AnyAction) {
 
 // Call from FlashScreen
 function* onAutoSignInRequest(action: AnyAction) {
-  console.log('Auto sign in request:', action.body);
   try {
     if (!isNull(action.body.username) && !isNull(action.body.password)) {
       const response = yield* call(signIn, action.body);
-      console.log({languageCode: response.data.data.user.languageCode});
       if (response.status === 200 && response.data.data.isValidEmail === true) {
         if (!isNull(response.data.data.user.languageCode)) {
           i18n.locale = response.data.data.user.languageCode;

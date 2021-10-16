@@ -20,14 +20,11 @@ import {ToastType} from '@constants/types/session';
 const ScanFamilyQRScreen = () => {
   const dispatch = useDispatch();
 
-  const onSuccess = (e: BarCodeReadEvent) => {
-    console.log('Got code:', e.data);
-  };
+  const onSuccess = (e: BarCodeReadEvent) => {};
 
   const onPressQRCode = () => {
     launchImageLibrary({mediaType: 'photo', includeBase64: true}, response => {
       if (response.assets !== undefined && !isNull(response.assets[0]?.uri)) {
-        console.log(response.assets[0]?.uri);
         RNQRGenerator.detect({uri: response.assets[0]?.uri})
           .then(response => {
             const {values} = response; // Array of detected QR code values. Empty if nothing found.

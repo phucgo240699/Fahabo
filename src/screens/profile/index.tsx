@@ -102,7 +102,7 @@ const ProfileScreen: React.FC<Props> = () => {
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
-        backgroundColor={colors.THEME_COLOR_4}
+        backgroundColor={'#FFD466'}
       />
       <ImageBackground
         source={profileBackground}

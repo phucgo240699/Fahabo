@@ -29,7 +29,6 @@ export function* apiProxy(
     const isRefreshingToken = yield* select(state =>
       isRefreshingTokenSelector(state),
     );
-    console.log({isRefreshingToken});
     if (isRefreshingToken) {
       yield* delay(3000);
       yield* put(turnOffIsRefreshingTokenAction());
@@ -39,7 +38,6 @@ export function* apiProxy(
       const response = yield* call(fn, accessToken, body, header);
       if (response.status === 401) {
         yield* put(turnOnIsRefreshingTokenAction());
-        console.log('AccessToken expired');
         const refreshToken = yield* select(state =>
           refreshTokenSelector(state),
         );
@@ -53,7 +51,6 @@ export function* apiProxy(
           yield* put(turnOffIsRefreshingTokenAction());
           return yield apiProxy(fn, body, header);
         } else {
-          console.log('RefreshToken expired');
           yield* put(turnOffIsRefreshingTokenAction());
           yield* put(logOutAction());
           return refreshResponse;
