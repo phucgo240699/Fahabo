@@ -12,6 +12,7 @@ interface Props {
   titleMarginRight?: number;
   rightComponent?: any;
   backgroundColor?: string;
+  onCustomNavigateBack?: () => void;
 }
 
 const ProfileHeader: React.FC<Props> = ({
@@ -20,11 +21,16 @@ const ProfileHeader: React.FC<Props> = ({
   titleMarginRight,
   rightComponent = <EmptyView />,
   backgroundColor = 'transparent',
+  onCustomNavigateBack,
 }) => {
   const navigation = useNavigation();
 
   const onPressBack = () => {
-    navigation.dispatch(CommonActions.goBack());
+    if (onCustomNavigateBack) {
+      onCustomNavigateBack();
+    } else {
+      navigation.dispatch(CommonActions.goBack());
+    }
   };
 
   return (

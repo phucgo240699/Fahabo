@@ -7,7 +7,7 @@ import {
 } from '@store/actionTypes/session';
 import {apiProxy} from './apiProxy';
 import {ToastType} from '@constants/types/session';
-import {createFamilyApi, getMyFamiliesApi} from '@services/families';
+import {createFamilyApi, getMyFamiliesApi} from '@services/family';
 import {all, put, select, takeLatest, takeLeading} from 'typed-redux-saga';
 import {
   createFamilySuccessAction,
@@ -24,6 +24,41 @@ import {userSelector} from '@store/selectors/authentication';
 import {isNull} from '@utils/index';
 
 function* createFamilyRequestSaga({
+  body,
+}: {
+  type: string;
+  body: CreateFamilyRequestType;
+}) {
+  try {
+    yield* put(showHUDAction());
+    const response = yield* apiProxy(createFamilyApi, body);
+    if (response.status === 200) {
+      yield* put(createFamilySuccessAction(parseFamily(response.data.data)));
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(closeHUDAction());
+  }
+}
+
+function* createFamilySuccessSaga(action: AnyAction) {
+  const user = yield* select(state => userSelector(state));
+  if (isNull(user?.totalFamilies) || user?.totalFamilies === 0) {
+    navigateReset(StackName.MainStack);
+  }
+}
+
+function* joinFamilyRequestSaga({
   body,
 }: {
   type: string;
@@ -51,7 +86,7 @@ function* createFamilyRequestSaga({
   }
 }
 
-function* createFamilySuccessSaga(action: AnyAction) {
+function* joinFamilySuccessSaga(action: AnyAction) {
   const user = yield* select(state => userSelector(state));
   if (isNull(user?.totalFamilies) || user?.totalFamilies === 0) {
     navigateReset(StackName.MainStack);

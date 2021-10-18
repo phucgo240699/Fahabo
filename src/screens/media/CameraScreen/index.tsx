@@ -12,6 +12,7 @@ import {useDispatch} from 'react-redux';
 import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
 import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 
 interface Props {
   route?: any;
@@ -19,6 +20,21 @@ interface Props {
 
 const CameraScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const onPressBack = () => {
+    if (route && route.params && route.params.fromFamilyOptions) {
+      navigate(ScreenName.FamilyOptionsScreen, {
+        showCreationModal: true,
+      });
+    } else if (route && route.params && route.params.fromFamilies) {
+      navigate(ScreenName.FamiliesScreen, {
+        showCreationModal: true,
+      });
+    } else {
+      navigation.dispatch(CommonActions.goBack());
+    }
+  };
 
   const takePicture = async function (camera: any) {
     const options = {quality: 0.5, base64: true};
@@ -32,10 +48,17 @@ const CameraScreen: React.FC<Props> = ({route}) => {
           },
         }),
       );
-    } else if (route && route.params && route.params.getFamilyThumbnail) {
+    } else if (route && route.params && route.params.fromFamilyOptions) {
       navigate(ScreenName.FamilyOptionsScreen, {
         thumbnailUri: data.uri,
         thumbnailBase64: data.base64,
+        showCreationModal: true,
+      });
+    } else if (route && route.params && route.params.fromFamilies) {
+      navigate(ScreenName.FamiliesScreen, {
+        thumbnailUri: data.uri,
+        thumbnailBase64: data.base64,
+        showCreationModal: true,
       });
     }
   };
@@ -50,6 +73,7 @@ const CameraScreen: React.FC<Props> = ({route}) => {
       <ProfileHeader
         title={i18n.t('media.takeAPhoto')}
         backgroundColor={colors.WHITE}
+        onCustomNavigateBack={onPressBack}
       />
       <RNCamera
         style={styles.preview}

@@ -4,6 +4,7 @@ import fonts from '@themes/fonts';
 import styled from 'styled-components/native';
 import {defaultFamilyThumbnail, profileIcon} from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
+import {isNull} from '@utils/index';
 
 interface Props {
   item?: any;
@@ -24,10 +25,14 @@ const HorizontalFamilyItem: React.FC<Props> = ({
   return (
     <Touch onPress={onPressContainer}>
       <Container style={containerStyle}>
-        <Thumbnail source={defaultFamilyThumbnail} />
+        {isNull(item.thumbnail) ? (
+          <Thumbnail source={defaultFamilyThumbnail} />
+        ) : (
+          <Thumbnail source={{uri: item.thumbnail}} />
+        )}
         <Content>
-          <Title numberOfLines={2}>{item.title}</Title>
-          <Description numberOfLines={1}>{item.hostName}</Description>
+          <Title numberOfLines={2}>{item.name}</Title>
+          {/* <Description numberOfLines={1}>{item.hostName}</Description> */}
           <HLine />
           <BottomContainer>
             <TotalMembersText numberOfLines={1}>

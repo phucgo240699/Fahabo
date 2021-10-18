@@ -79,8 +79,6 @@ export function getMyFamiliesApi(
       size = body?.size ?? Pagination.Family;
     }
   }
-  console.log(`${BASE_URL}/users/get_families?page=${page}&size=${size}`);
-  console.log({accessToken});
   return new apiProvider(accessToken).get(
     `${BASE_URL}/users/get_families?page=${page}&size=${size}`,
   );

@@ -22,15 +22,18 @@ import {ScreenName} from '@constants/Constants';
 import {getInset} from 'react-native-safe-area-view';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {isNull} from '@utils/index';
 import PrimaryIcon from '@components/PrimaryIcon';
+import {createFamilyRequestAction} from '@store/actionTypes/family';
+import {useDispatch} from 'react-redux';
 
 interface Props {
   route?: any;
 }
 
 const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const bottomInset = getInset('bottom', false);
   const {isOpen, onOpen, onClose} = useDisclose();
@@ -41,19 +44,16 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
 
   // Life Cycle
   useEffect(() => {
-    if (
-      route &&
-      route.params &&
-      route.params.thumbnailUri &&
-      route.params.thumbnailBase64
-    ) {
+    if (route && route.params) {
       if (
         !isNull(route.params.thumbnailUri) &&
         !isNull(route.params.thumbnailBase64)
       ) {
-        setShowCreationModal(true);
         setThumbnailUri(route.params.thumbnailUri);
         setThumbnailBase64(route.params.thumbnailBase64);
+      }
+      if (route.params.showCreationModal === true) {
+        setShowCreationModal(true);
       }
     }
   }, [route]);
@@ -69,11 +69,11 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
   const onOpenCreationModal = () => {
     setShowCreationModal(true);
   };
-  const onDestroyCreationModal = () => {
-    setShowCreationModal(false);
+  const onPressCancel = () => {
     setName('');
     setThumbnailUri('');
     setThumbnailBase64('');
+    setShowCreationModal(false);
   };
 
   // Text Input
@@ -86,7 +86,7 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
     onClose();
     setShowCreationModal(false);
     setTimeout(() => {
-      navigate(ScreenName.CameraScreen, {getFamilyThumbnail: true});
+      navigate(ScreenName.CameraScreen, {fromFamilyOptions: true});
     }, 100);
   };
   const chooseFromGallery = () => {
@@ -110,11 +110,16 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
 
   // Button Create & Join
   const onCreateNewFamily = () => {
-    console.log({name});
-    console.log({thumbnailBase64});
-    // onDestroyCreationModal();
-    // setShowCreationModal(false);
-    // TODO: Call api create family
+    onPressCancel();
+
+    setTimeout(() => {
+      dispatch(
+        createFamilyRequestAction({
+          familyName: name,
+          thumbnail: {name: 'familyThumbnail', base64Data: thumbnailBase64},
+        }),
+      );
+    }, 100);
   };
   const onPressJoinFamily = () => {
     navigate(ScreenName.ScanFamilyQRScreen);
@@ -150,10 +155,7 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
         </ButtonContent>
       </Touch>
 
-      <Modal
-        mt={-100}
-        isOpen={showCreationModal}
-        onClose={onDestroyCreationModal}>
+      <Modal mt={-100} isOpen={showCreationModal} onClose={onPressCancel}>
         <Modal.Content maxWidth="400px" backgroundColor={colors.WHITE}>
           <Modal.Body>
             <FormControl>
@@ -192,7 +194,7 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
                 variant="ghost"
                 bgColor={colors.CONCRETE}
                 _text={{color: colors.BLACK}}
-                onPress={onDestroyCreationModal}>
+                onPress={onPressCancel}>
                 {i18n.t('family.cancel')}
               </Button>
               <Button width={100} onPress={onCreateNewFamily}>
