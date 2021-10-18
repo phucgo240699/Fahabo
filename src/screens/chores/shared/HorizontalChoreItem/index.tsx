@@ -51,7 +51,7 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   };
 
   return (
-    <Touch onPress={onPressTouch}>
+    <Touch onPress={onPressTouch} activeOpacity={0.8}>
       <Container>
         <Title numberOfLines={2}>{item.title}</Title>
         <Deadline numberOfLines={1}>{item.deadline}</Deadline>
@@ -81,7 +81,9 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   );
 };
 
-const Touch = styled.TouchableOpacity``;
+const Touch = styled.TouchableOpacity`
+  border-radius: 10px;
+`;
 
 const Container = styled.View`
   flex: 1;

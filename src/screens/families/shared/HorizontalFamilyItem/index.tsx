@@ -23,7 +23,7 @@ const HorizontalFamilyItem: React.FC<Props> = ({
     }
   };
   return (
-    <Touch onPress={onPressContainer}>
+    <Touch onPress={onPressContainer} activeOpacity={0.8}>
       <Container style={containerStyle}>
         {isNull(item.thumbnail) ? (
           <Thumbnail source={defaultFamilyThumbnail} />
@@ -46,7 +46,9 @@ const HorizontalFamilyItem: React.FC<Props> = ({
   );
 };
 
-const Touch = styled.TouchableOpacity``;
+const Touch = styled.TouchableOpacity`
+  border-radius: 10px;
+`;
 
 const Container = styled.View`
   elevation: 10;

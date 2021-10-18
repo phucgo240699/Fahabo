@@ -18,7 +18,7 @@ import {cameraIcon, closeIcon, placeholderImage} from '@constants/sources';
 import {Alert, StyleSheet} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {navigate} from '@navigators/index';
-import {ScreenName} from '@constants/Constants';
+import {Constants, ScreenName} from '@constants/Constants';
 import {getInset} from 'react-native-safe-area-view';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
@@ -235,8 +235,8 @@ const Touch = styled.TouchableOpacity`
 `;
 
 const ThumbnailContainer = styled.TouchableOpacity`
-  width: 320px;
-  height: 200px;
+  width: ${Constants.MAX_WIDTH - 80}px;
+  height: ${10 * ((Constants.MAX_WIDTH - 80) / 16)}px;
   align-items: center;
   justify-content: center;
 `;

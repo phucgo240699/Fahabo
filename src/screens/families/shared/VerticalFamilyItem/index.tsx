@@ -43,7 +43,9 @@ const VerticalFamilyItem: React.FC<Props> = ({
   );
 };
 
-const Touch = styled.TouchableOpacity``;
+const Touch = styled.TouchableOpacity`
+  border-radius: 10px;
+`;
 
 const Container = styled.View`
   elevation: 10;

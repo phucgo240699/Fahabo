@@ -51,6 +51,7 @@
     "families": "List of families",
     "viewAll": "View all",
     "members": "Members",
+    "leave": "Leave",
     "scanInstruction": "Scan QR code to join family",
     "createFamily": "Create family",
     "joinFamily": "Join family",

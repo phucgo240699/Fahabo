@@ -32,6 +32,8 @@ import {
 import {isNull} from '@utils/index';
 import {launchImageLibrary} from 'react-native-image-picker';
 import PrimaryIcon from '@components/PrimaryIcon';
+import {Platform, StyleSheet} from 'react-native';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 interface Props {
   route?: any;
@@ -75,10 +77,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
     return <HorizontalFamilyItem item={item} onPress={onPressItem} />;
   };
   const onPressItem = (item: any) => {
-    navigate(ScreenName.QRPresenterScreen, {
-      value: item.id,
-      instruction: 'Scan QR code to join family',
-    });
+    navigate(ScreenName.FamilyDetailScreen, {item});
   };
 
   // Modal
@@ -153,7 +152,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   };
 
   return (
-    <Box flex={1} safeArea bgColor={colors.WHITE}>
+    <SafeView>
       <FocusAwareStatusBar
         translucent={true}
         barStyle="dark-content"
@@ -172,9 +171,9 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
       />
 
       <FlatList
-        pt={4}
         data={families}
         renderItem={renderItem}
+        contentContainerStyle={styles.list}
         keyExtractor={(item, index) => index.toString()}
       />
 
@@ -274,9 +273,15 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
           onPress={onCloseTakePhotoActionSheet}
         />
       </Actionsheet>
-    </Box>
+    </SafeView>
   );
 };
+
+const SafeView = styled.SafeAreaView`
+  flex: 1;
+  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
+  background-color: ${colors.WHITE};
+`;
 
 const Label = styled(fonts.PrimaryFontBoldSize14)`
   margin-top: 20px;
@@ -311,5 +316,11 @@ const Thumbnail = styled.Image`
   position: absolute;
   border-radius: 10px;
 `;
+
+const styles = StyleSheet.create({
+  list: {
+    paddingBottom: 30,
+  },
+});
 
 export default FamiliesScreen;

@@ -64,7 +64,7 @@ const ProfileScreen: React.FC<Props> = () => {
 
   // Family
   const onPressFamilyItem = (item: any) => {
-    navigate(ScreenName.FamilyDetailScreen);
+    navigate(ScreenName.FamilyDetailScreen, {item});
   };
   const onPressViewAllFamily = () => {
     navigate(ScreenName.FamiliesScreen);

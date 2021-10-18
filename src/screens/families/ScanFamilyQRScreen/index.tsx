@@ -17,11 +17,26 @@ import {useDispatch} from 'react-redux';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
 import {joinFamilyRequestAction} from '@store/actionTypes/family';
+import {Platform} from 'react-native';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 const ScanFamilyQRScreen = () => {
   const dispatch = useDispatch();
 
-  const onSuccess = (e: BarCodeReadEvent) => {};
+  const onSuccess = (e: BarCodeReadEvent) => {
+    const [qrSaltCode, familyId] = e.data.split('_');
+    if (qrSaltCode === QR_SALT_CODE) {
+      // TODO: request API
+      dispatch(joinFamilyRequestAction({familyId: parseInt(familyId)}));
+    } else {
+      dispatch(
+        showToastAction(i18n.t('errorMessage.qrCodeInvalid'), ToastType.ERROR),
+      );
+    }
+    console.log({familyId});
+    console.log({qrSaltCode});
+    console.log({QR_SALT_CODE});
+  };
 
   const onPressQRCode = () => {
     launchImageLibrary({mediaType: 'photo', includeBase64: true}, response => {
@@ -96,6 +111,7 @@ const ScanFamilyQRScreen = () => {
 
 const SafeView = styled.SafeAreaView`
   flex: 1;
+  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
   background-color: ${colors.WHITE};
 `;
 

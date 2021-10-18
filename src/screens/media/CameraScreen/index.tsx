@@ -1,7 +1,7 @@
 import React from 'react';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {cameraIcon} from '@constants/sources';
 import styled from 'styled-components/native';
@@ -13,6 +13,7 @@ import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
 import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
 import {CommonActions, useNavigation} from '@react-navigation/native';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 interface Props {
   route?: any;
@@ -100,6 +101,7 @@ const CameraScreen: React.FC<Props> = ({route}) => {
 
 const SafeView = styled.SafeAreaView`
   flex: 1;
+  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
   background-color: ${colors.WHITE};
 `;
 

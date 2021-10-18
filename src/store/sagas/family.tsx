@@ -11,31 +11,30 @@ import {
   createFamilyApi,
   getMyFamiliesApi,
   joinFamilyApi,
+  leaveFamilyApi,
 } from '@services/family';
-import {all, put, select, takeLatest, takeLeading} from 'typed-redux-saga';
+import {all, put, takeLatest, takeLeading} from 'typed-redux-saga';
 import {
   createFamilySuccessAction,
   CREATE_FAMILY_REQUEST,
-  CREATE_FAMILY_SUCCESS,
+  getFamiliesRequestAction,
   getFamiliesSuccessAction,
   GET_FAMILIES_REQUEST,
   joinFamilySuccessAction,
   JOIN_FAMILY_REQUEST,
-  JOIN_FAMILY_SUCCESS,
+  LEAVE_FAMILY_REQUEST,
 } from '@store/actionTypes/family';
 import {
   CreateFamilyRequestType,
-  FamilyType,
   JoinFamilyRequestType,
+  LeaveFamilyRequestType,
 } from '@constants/types/family';
 import {parseFamilies, parseFamily} from '@utils/parsers/family';
-import {navigate, navigateReset, navigationRef} from '@navigators/index';
-import {ScreenName, StackName} from '@constants/Constants';
-import {userSelector} from '@store/selectors/authentication';
-import {isNull} from '@utils/index';
+import {navigateReset, navigationRef} from '@navigators/index';
+import {StackName} from '@constants/Constants';
 import {CommonActions} from '@react-navigation/native';
 
-function* createFamilyRequestSaga({
+function* createFamilySaga({
   body,
 }: {
   type: string;
@@ -45,8 +44,10 @@ function* createFamilyRequestSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(createFamilyApi, body);
     if (response.status === 200) {
-      yield* put(createFamilySuccessAction(parseFamily(response.data.data)));
-      if (response.data.data.alreadyHadFamily === true) {
+      yield* put(
+        createFamilySuccessAction(parseFamily(response.data.data.family)),
+      );
+      if (response.data.data.alreadyHadFamily !== true) {
         navigateReset(StackName.MainStack);
       }
     } else {
@@ -66,21 +67,18 @@ function* createFamilyRequestSaga({
   }
 }
 
-function* joinFamilyRequestSaga({
-  body,
-}: {
-  type: string;
-  body: JoinFamilyRequestType;
-}) {
+function* joinFamilySaga({body}: {type: string; body: JoinFamilyRequestType}) {
   try {
     yield* put(showHUDAction());
     const response = yield* apiProxy(joinFamilyApi, body);
     if (response.status === 200) {
-      yield* put(joinFamilySuccessAction(parseFamily(response.data.data)));
-      if (response.data.data.alreadyHadFamily === true) {
-        navigateReset(StackName.MainStack);
+      yield* put(
+        joinFamilySuccessAction(parseFamily(response.data.data.family)),
+      );
+      if (response.data.data.alreadyHadFamily == true) {
+        navigationRef.current.dispatch(CommonActions.goBack());
       } else {
-        navigationRef.dispatch(CommonActions.goBack());
+        navigateReset(StackName.MainStack);
       }
     } else {
       yield* put(
@@ -99,12 +97,34 @@ function* joinFamilyRequestSaga({
   }
 }
 
-// function* joinFamilySuccessSaga(action: AnyAction) {
-//   const user = yield* select(state => userSelector(state));
-//   if (isNull(user?.totalFamilies) || user?.totalFamilies === 0) {
-//     navigateReset(StackName.MainStack);
-//   }
-// }
+function* leaveFamilySaga({
+  body,
+}: {
+  type: string;
+  body: LeaveFamilyRequestType;
+}) {
+  try {
+    yield* put(showHUDAction());
+    const response = yield* apiProxy(leaveFamilyApi, body);
+    if (response.status === 200) {
+      yield* put(getFamiliesRequestAction());
+      navigationRef.current.dispatch(CommonActions.goBack());
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(closeHUDAction());
+  }
+}
 
 function* getFamiliesSaga(action: AnyAction) {
   try {
@@ -130,10 +150,9 @@ function* getFamiliesSaga(action: AnyAction) {
 
 export default function* () {
   yield* all([
-    takeLatest(CREATE_FAMILY_REQUEST, createFamilyRequestSaga),
-    // takeLatest(CREATE_FAMILY_SUCCESS, createFamilySuccessSaga),
-    takeLatest(JOIN_FAMILY_REQUEST, joinFamilyRequestSaga),
-    // takeLatest(JOIN_FAMILY_SUCCESS, joinFamilySuccessSaga),
-    takeLatest(GET_FAMILIES_REQUEST, getFamiliesSaga),
+    takeLeading(CREATE_FAMILY_REQUEST, createFamilySaga),
+    takeLeading(JOIN_FAMILY_REQUEST, joinFamilySaga),
+    takeLeading(LEAVE_FAMILY_REQUEST, leaveFamilySaga),
+    takeLeading(GET_FAMILIES_REQUEST, getFamiliesSaga),
   ]);
 }
