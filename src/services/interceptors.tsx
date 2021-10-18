@@ -18,7 +18,12 @@ export const errorInterceptor = (error: AxiosError) => {
 export const requestInterceptor = (config: AxiosRequestConfig) => {
   if (__DEV__) {
     console.log({
-      API_CONFIG: {url: config.url, body: config.data},
+      API_CONFIG: {
+        url: config.url,
+        body: config.data,
+        method: config.method,
+        accessToken: config.headers.Authorization,
+      },
     });
   }
   return config;

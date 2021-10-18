@@ -61,7 +61,7 @@ export function getFamilyMembersApi(
     }
   }
   return new apiProvider(accessToken).post(
-    `${BASE_URL}/users/users_in_family?page=${page}&size=${size}`,
+    `${BASE_URL}/families/users_in_family?page=${page}&size=${size}`,
     {familyId: body?.familyId},
   );
 }

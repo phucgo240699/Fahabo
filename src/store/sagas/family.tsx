@@ -9,6 +9,7 @@ import {apiProxy} from './apiProxy';
 import {ToastType} from '@constants/types/session';
 import {
   createFamilyApi,
+  getFamilyMembersApi,
   getMyFamiliesApi,
   joinFamilyApi,
   leaveFamilyApi,
@@ -19,7 +20,9 @@ import {
   CREATE_FAMILY_REQUEST,
   getFamiliesRequestAction,
   getFamiliesSuccessAction,
+  getFamilyMembersSuccessAction,
   GET_FAMILIES_REQUEST,
+  GET_FAMILY_MEMBERS_REQUEST,
   joinFamilySuccessAction,
   JOIN_FAMILY_REQUEST,
   LEAVE_FAMILY_REQUEST,
@@ -29,7 +32,7 @@ import {
   JoinFamilyRequestType,
   LeaveFamilyRequestType,
 } from '@constants/types/family';
-import {parseFamilies, parseFamily} from '@utils/parsers/family';
+import {parseFamilies, parseFamily, parseMembers} from '@utils/parsers/family';
 import {navigateReset, navigationRef} from '@navigators/index';
 import {StackName} from '@constants/Constants';
 import {CommonActions} from '@react-navigation/native';
@@ -131,7 +134,29 @@ function* getFamiliesSaga(action: AnyAction) {
     const response = yield* apiProxy(getMyFamiliesApi);
     if (response.status === 200) {
       yield* put(getFamiliesSuccessAction(parseFamilies(response.data.data)));
-      console.log(response.data.data);
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    console.log({error});
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  }
+}
+
+function* getFamilyMembersSaga(action: AnyAction) {
+  try {
+    const response = yield* apiProxy(getFamilyMembersApi);
+    if (response.status === 200) {
+      yield* put(
+        getFamilyMembersSuccessAction(parseMembers(response.data.data)),
+      );
     } else {
       yield* put(
         showToastAction(
@@ -153,6 +178,7 @@ export default function* () {
     takeLeading(CREATE_FAMILY_REQUEST, createFamilySaga),
     takeLeading(JOIN_FAMILY_REQUEST, joinFamilySaga),
     takeLeading(LEAVE_FAMILY_REQUEST, leaveFamilySaga),
+    takeLeading(GET_FAMILY_MEMBERS_REQUEST, getFamilyMembersSaga),
     takeLeading(GET_FAMILIES_REQUEST, getFamiliesSaga),
   ]);
 }

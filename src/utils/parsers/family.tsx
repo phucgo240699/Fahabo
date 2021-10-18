@@ -3,12 +3,7 @@ import {FamilyType, MemberType} from '@constants/types/family';
 
 export function parseFamilies(rawData: any[]): FamilyType[] {
   const result: FamilyType[] = rawData.map(item => {
-    return {
-      id: get('familyId', item),
-      thumbnail: get('thumbnail', item),
-      name: get('familyName', item),
-      totalMembers: get('memberNum', item),
-    };
+    return parseFamily(item);
   });
   return result;
 }
@@ -20,6 +15,13 @@ export function parseFamily(rawData: any): FamilyType {
     name: get('familyName', rawData),
     totalMembers: get('memberNum', rawData),
   };
+}
+
+export function parseMembers(rawData: any[]): MemberType[] {
+  const result: MemberType[] = rawData.map(item => {
+    return parseMember(item);
+  });
+  return result;
 }
 
 export function parseMember(rawData: any): MemberType {

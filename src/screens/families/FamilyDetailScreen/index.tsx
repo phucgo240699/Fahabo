@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Avatar, Box, FlatList, ScrollView} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -19,8 +19,12 @@ import PreviewAlbumBox from '@screens/albums/shared/PreviewAlbumBox';
 import i18n from '@locales/index';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {navigate} from '@navigators/index';
-import {useDispatch} from 'react-redux';
-import {leaveFamilyRequestAction} from '@store/actionTypes/family';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getFamilyMembersRequestAction,
+  leaveFamilyRequestAction,
+} from '@store/actionTypes/family';
+import {membersInFamilySelector} from '@store/selectors/family';
 
 interface Props {
   route?: any;
@@ -29,10 +33,22 @@ interface Props {
 const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const membersInFamily = useSelector(membersInFamilySelector);
 
+  // Life Cycle
+  useEffect(() => {
+    if (route && route.params && route.params.item) {
+      dispatch(getFamilyMembersRequestAction({familyId: route.params.item.id}));
+    }
+    console.log({familyId: route.params.item.id});
+  }, []);
+
+  // Navigate Back
   const onPressBack = () => {
     navigation.dispatch(CommonActions.goBack());
   };
+
+  // QR Button
   const onPressQRCode = () => {
     if (route && route.params && route.params.item) {
       navigate(ScreenName.QRPresenterScreen, {
@@ -42,10 +58,12 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
     }
   };
 
+  // Members
   const renderItem = ({item}: {item: any}) => {
-    return <Avatar mr={2} source={{uri: item.avatarUrl}} />;
+    return <Avatar mr={2} source={{uri: item.avatar}} />;
   };
 
+  // Photo
   const onPressPhotoItem = (index: number) => {
     navigate(ScreenName.ImageViewerScreen, {
       data: DummyAlbums,
@@ -53,6 +71,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
     });
   };
 
+  // Leave
   const onPressLeave = () => {
     if (route && route.params && route.params.item) {
       dispatch(leaveFamilyRequestAction({familyId: route.params.item.id}));
@@ -112,7 +131,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
             mt={1}
             horizontal
             renderItem={renderItem}
-            data={DummyDetailFamily.members}
+            data={membersInFamily}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
           />
