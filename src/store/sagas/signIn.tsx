@@ -10,7 +10,7 @@ import {
   SIGN_IN_SUCCESS,
 } from '@store/actionTypes/signIn';
 import {signIn} from '@services/signIn';
-import {all, call, put, takeLatest, takeLeading} from 'typed-redux-saga';
+import {all, call, put, takeLeading} from 'typed-redux-saga';
 import {ScreenName, StackName} from '@constants/Constants';
 import {navigate, navigateReset} from '@navigators/index';
 import {ToastType} from '@constants/types/session';
@@ -27,19 +27,39 @@ function* onSignInRequest(action: AnyAction) {
     yield* put(showHUDAction());
     const response = yield* call(signIn, action.body);
     if (response.status === 200) {
+      // Check is Active
       if (response.data.data.isValidEmail === true) {
-        if (!isNull(response.data.data.user.languageCode)) {
-          i18n.locale = response.data.data.user.languageCode;
-          i18n.defaultLocale = response.data.data.user.languageCode;
+        // Check is join Family
+        if (response.data.data.user.familyNum > 0) {
+          if (!isNull(response.data.data.user.languageCode)) {
+            i18n.locale = response.data.data.user.languageCode;
+            i18n.defaultLocale = response.data.data.user.languageCode;
+          }
+          yield* put(
+            signInSuccessAction(
+              parseSignInResponse({
+                ...response.data.data,
+                password: action.body.password,
+              }),
+            ),
+          );
+
+          navigateReset(StackName.MainStack);
+        } else {
+          if (!isNull(response.data.data.user.languageCode)) {
+            i18n.locale = response.data.data.user.languageCode;
+            i18n.defaultLocale = response.data.data.user.languageCode;
+          }
+          yield* put(
+            signInSuccessAction(
+              parseSignInResponse({
+                ...response.data.data,
+                password: action.body.password,
+              }),
+            ),
+          );
+          navigate(ScreenName.FamilyOptionsScreen, {allowNavigateBack: true});
         }
-        yield* put(
-          signInSuccessAction(
-            parseSignInResponse({
-              ...response.data.data,
-              password: action.body.password,
-            }),
-          ),
-        );
       } else {
         yield* put(
           showToastAction(
@@ -69,28 +89,49 @@ function* onSignInRequest(action: AnyAction) {
   }
 }
 
-function* onSignInSuccess(action: AnyAction) {
-  navigateReset(StackName.MainStack);
-}
+// function* onSignInSuccess(action: AnyAction) {
+//   navigateReset(StackName.MainStack);
+// }
 
 // Call from FlashScreen
 function* onAutoSignInRequest(action: AnyAction) {
   try {
+    console.log(action.body);
     if (!isNull(action.body.username) && !isNull(action.body.password)) {
       const response = yield* call(signIn, action.body);
+      // Check is Active
       if (response.status === 200 && response.data.data.isValidEmail === true) {
-        if (!isNull(response.data.data.user.languageCode)) {
-          i18n.locale = response.data.data.user.languageCode;
-          i18n.defaultLocale = response.data.data.user.languageCode;
+        // Check is join Family
+        if (response.data.data.user.familyNum > 0) {
+          if (!isNull(response.data.data.user.languageCode)) {
+            i18n.locale = response.data.data.user.languageCode;
+            i18n.defaultLocale = response.data.data.user.languageCode;
+          }
+          yield* put(
+            autoSignInSuccessAction(
+              parseSignInResponse({
+                ...response.data.data,
+                password: action.body.password,
+              }),
+            ),
+          );
+
+          navigateReset(StackName.MainStack);
+        } else {
+          if (!isNull(response.data.data.user.languageCode)) {
+            i18n.locale = response.data.data.user.languageCode;
+            i18n.defaultLocale = response.data.data.user.languageCode;
+          }
+          yield* put(
+            signInSuccessAction(
+              parseSignInResponse({
+                ...response.data.data,
+                password: action.body.password,
+              }),
+            ),
+          );
+          navigateReset(ScreenName.FamilyOptionsScreen);
         }
-        yield* put(
-          autoSignInSuccessAction(
-            parseSignInResponse({
-              ...response.data.data,
-              password: action.body.password,
-            }),
-          ),
-        );
       } else {
         navigateReset(StackName.AuthenticationStack);
       }
@@ -113,7 +154,7 @@ function* onLogOut(action: AnyAction) {
 export default function* () {
   yield* all([
     takeLeading(SIGN_IN_REQUEST, onSignInRequest),
-    takeLeading(SIGN_IN_SUCCESS, onSignInSuccess),
+    // takeLeading(SIGN_IN_SUCCESS, onSignInSuccess),
     takeLeading(AUTO_SIGN_IN_REQUEST, onAutoSignInRequest),
     takeLeading(AUTO_SIGN_IN_SUCCESS, onAutoSignInSuccess),
     takeLeading(LOG_OUT, onLogOut),

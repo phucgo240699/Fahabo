@@ -61,7 +61,8 @@ export const defaultFamilyThumbnail = require('@assets/images/default_family_thu
 export const backButtonIcon = require('@assets/images/back_button_icon.png');
 export const plusIcon = require('@assets/images/plus_icon.png');
 export const qrCodeIcon = require('@assets/images/qr_code_icon.png');
-export const galleryIcon = require('@assets/images/gallery_icon.png')
+export const galleryIcon = require('@assets/images/gallery_icon.png');
+export const placeholderImage = require('@assets/images/placeholder_image.png');
 
 //
 // Settings

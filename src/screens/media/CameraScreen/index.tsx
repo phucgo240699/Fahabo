@@ -10,6 +10,8 @@ import ProfileHeader from '@components/ProfileHeader';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {useDispatch} from 'react-redux';
 import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
+import {navigate} from '@navigators/index';
+import {ScreenName} from '@constants/Constants';
 
 interface Props {
   route?: any;
@@ -30,6 +32,11 @@ const CameraScreen: React.FC<Props> = ({route}) => {
           },
         }),
       );
+    } else if (route && route.params && route.params.getFamilyThumbnail) {
+      navigate(ScreenName.FamilyOptionsScreen, {
+        thumbnailUri: data.uri,
+        thumbnailBase64: data.base64,
+      });
     }
   };
 
@@ -48,7 +55,7 @@ const CameraScreen: React.FC<Props> = ({route}) => {
         style={styles.preview}
         captureAudio={false}
         type={RNCamera.Constants.Type.back}
-        flashMode={RNCamera.Constants.FlashMode.on}>
+        flashMode={RNCamera.Constants.FlashMode.off}>
         {({camera, status}) => {
           if (status !== 'READY') {
             return <></>;

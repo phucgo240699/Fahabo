@@ -4,8 +4,11 @@ import {navigationOptions} from './index';
 import FlashScreen from '@screens/flashScreen/index';
 import SplashScreen from 'react-native-splash-screen';
 import AuthenticationStack from './AuthenticationStack';
-import {createStackNavigator} from '@react-navigation/stack';
 import {ScreenName, StackName} from '@constants/Constants';
+import {createStackNavigator} from '@react-navigation/stack';
+import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
+import FamilyOptionsScreen from '@screens/families/FamilyOptionsScreen';
+import CameraScreen from '@screens/media/CameraScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +24,15 @@ const AppStack = () => {
         name={StackName.AuthenticationStack}
         component={AuthenticationStack}
       />
+      <Stack.Screen
+        name={ScreenName.FamilyOptionsScreen}
+        component={FamilyOptionsScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.ScanFamilyQRScreen}
+        component={ScanFamilyQRScreen}
+      />
+      <Stack.Screen name={ScreenName.CameraScreen} component={CameraScreen} />
       <Stack.Screen name={StackName.MainStack} component={MainStack} />
     </Stack.Navigator>
   );

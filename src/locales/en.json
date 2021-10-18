@@ -55,6 +55,7 @@
     "createFamily": "Create family",
     "joinFamily": "Join family",
     "name": "Name",
+    "thumbnail": "Thumbnail",
     "cancel": "Cancel",
     "save": "Save"
   },
@@ -189,6 +190,8 @@
       "fail": "System error."
     },
     "validation": {
+      "familyIdInvalid": "Family doesn't exist.",
+      "familyNameInvalid": "Family name is required and must be unique",
       "otp": "Invalid verification code",
       "passwordRequired": "Password is required.",
       "usernameRequired": "Username is required.",
@@ -211,6 +214,12 @@
     },
     "upload": {
       "fail": "Failed to upload files. Please make sure your file name does not exists and try again."
+    },
+    "user": {
+      "doesNotExist": "User does not exist."
+    },
+    "family": {
+      "kickMemberFailure": "Kick member unsuccessfully."
     }
   }
 }

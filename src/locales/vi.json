@@ -55,6 +55,7 @@
     "createFamily": "Tạo gia đình",
     "joinFamily": "Tham gia vào gia đình",
     "name": "Tên",
+    "thumbnail": "Ảnh đại diện",
     "cancel": "Huỷ",
     "save": "Lưu"
   },
@@ -89,6 +90,7 @@
     "email": "Email",
     "phoneNumber": "Số điện thoại",
     "name": "Tên",
+    "thumbnail": "Ảnh đại diện",
     "birthday": "Ngày sinh",
     "confirm": "Lưu",
     "formatDate": "dd-mm-yyyy"
@@ -189,6 +191,8 @@
       "fail": "Lỗi hệ thống."
     },
     "validation": {
+      "familyIdInvalid": "Gia đình không tồn tại.",
+      "familyNameInvalid": "Bắt buộc nhập tên gia đình và tên gia đình không được trùng lặp",
       "otp": "Mã xác nhận không hợp lệ",
       "passwordRequired": "Bắt buộc nhập mật khẩu.",
       "usernameRequired": "Bắt buộc nhập tên tài khoản.",
@@ -211,6 +215,13 @@
     },
     "upload": {
       "fail": "Tải lên tập tin thất bại. Vui lòng đảm bảo tên tệp của bạn không bị trùng lặp lại và thử lại sau."
-    }
+    },
+    "user": {
+      "doesNotExist": "Tài khoản không tồn tại."
+    },
+    "family": {
+      "kickMemberFailure": "Xóa thành viên không thành công."
+    },
+    "unknownError": "Lỗi hệ thống."
   }
 }

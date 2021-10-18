@@ -34,8 +34,8 @@ interface Props {}
 const ProfileScreen: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
-  const {isOpen, onOpen, onClose} = useDisclose();
   const bottomInset = getInset('bottom', false);
+  const {isOpen, onOpen, onClose} = useDisclose();
 
   // Relations
   const onPressChores = () => {
