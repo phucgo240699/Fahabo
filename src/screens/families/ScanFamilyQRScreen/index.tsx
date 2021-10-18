@@ -16,6 +16,7 @@ import {QR_SALT_CODE} from '@constants/Constants';
 import {useDispatch} from 'react-redux';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
+import {joinFamilyRequestAction} from '@store/actionTypes/family';
 
 const ScanFamilyQRScreen = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,9 @@ const ScanFamilyQRScreen = () => {
               const [qrSaltCode, familyId] = values[0].split('_');
               if (qrSaltCode === QR_SALT_CODE) {
                 // TODO: request API
+                dispatch(
+                  joinFamilyRequestAction({familyId: parseInt(familyId)}),
+                );
               } else {
                 dispatch(
                   showToastAction(
@@ -40,16 +44,25 @@ const ScanFamilyQRScreen = () => {
                   ),
                 );
               }
+            } else {
+              dispatch(
+                showToastAction(
+                  i18n.t('errorMessage.qrCodeInvalid'),
+                  ToastType.ERROR,
+                ),
+              );
             }
           })
-          .catch(error =>
+          .catch(error => {
+            console.log({error});
+
             dispatch(
               showToastAction(
                 i18n.t('errorMessage.qrCodeInvalid'),
                 ToastType.ERROR,
               ),
-            ),
-          );
+            );
+          });
       }
     });
   };

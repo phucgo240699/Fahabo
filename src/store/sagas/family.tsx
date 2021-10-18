@@ -7,7 +7,11 @@ import {
 } from '@store/actionTypes/session';
 import {apiProxy} from './apiProxy';
 import {ToastType} from '@constants/types/session';
-import {createFamilyApi, getMyFamiliesApi} from '@services/family';
+import {
+  createFamilyApi,
+  getMyFamiliesApi,
+  joinFamilyApi,
+} from '@services/family';
 import {all, put, select, takeLatest, takeLeading} from 'typed-redux-saga';
 import {
   createFamilySuccessAction,
@@ -15,13 +19,21 @@ import {
   CREATE_FAMILY_SUCCESS,
   getFamiliesSuccessAction,
   GET_FAMILIES_REQUEST,
+  joinFamilySuccessAction,
+  JOIN_FAMILY_REQUEST,
+  JOIN_FAMILY_SUCCESS,
 } from '@store/actionTypes/family';
-import {CreateFamilyRequestType, FamilyType} from '@constants/types/family';
+import {
+  CreateFamilyRequestType,
+  FamilyType,
+  JoinFamilyRequestType,
+} from '@constants/types/family';
 import {parseFamilies, parseFamily} from '@utils/parsers/family';
-import {navigateReset} from '@navigators/index';
-import {StackName} from '@constants/Constants';
+import {navigate, navigateReset, navigationRef} from '@navigators/index';
+import {ScreenName, StackName} from '@constants/Constants';
 import {userSelector} from '@store/selectors/authentication';
 import {isNull} from '@utils/index';
+import {CommonActions} from '@react-navigation/native';
 
 function* createFamilyRequestSaga({
   body,
@@ -34,6 +46,9 @@ function* createFamilyRequestSaga({
     const response = yield* apiProxy(createFamilyApi, body);
     if (response.status === 200) {
       yield* put(createFamilySuccessAction(parseFamily(response.data.data)));
+      if (response.data.data.alreadyHadFamily === true) {
+        navigateReset(StackName.MainStack);
+      }
     } else {
       yield* put(
         showToastAction(
@@ -51,24 +66,22 @@ function* createFamilyRequestSaga({
   }
 }
 
-function* createFamilySuccessSaga(action: AnyAction) {
-  const user = yield* select(state => userSelector(state));
-  if (isNull(user?.totalFamilies) || user?.totalFamilies === 0) {
-    navigateReset(StackName.MainStack);
-  }
-}
-
 function* joinFamilyRequestSaga({
   body,
 }: {
   type: string;
-  body: CreateFamilyRequestType;
+  body: JoinFamilyRequestType;
 }) {
   try {
-    put(showHUDAction());
-    const response = yield* apiProxy(createFamilyApi, body);
+    yield* put(showHUDAction());
+    const response = yield* apiProxy(joinFamilyApi, body);
     if (response.status === 200) {
-      yield* put(createFamilySuccessAction(parseFamily(response.data.data)));
+      yield* put(joinFamilySuccessAction(parseFamily(response.data.data)));
+      if (response.data.data.alreadyHadFamily === true) {
+        navigateReset(StackName.MainStack);
+      } else {
+        navigationRef.dispatch(CommonActions.goBack());
+      }
     } else {
       yield* put(
         showToastAction(
@@ -82,16 +95,16 @@ function* joinFamilyRequestSaga({
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
   } finally {
-    put(closeHUDAction());
+    yield* put(closeHUDAction());
   }
 }
 
-function* joinFamilySuccessSaga(action: AnyAction) {
-  const user = yield* select(state => userSelector(state));
-  if (isNull(user?.totalFamilies) || user?.totalFamilies === 0) {
-    navigateReset(StackName.MainStack);
-  }
-}
+// function* joinFamilySuccessSaga(action: AnyAction) {
+//   const user = yield* select(state => userSelector(state));
+//   if (isNull(user?.totalFamilies) || user?.totalFamilies === 0) {
+//     navigateReset(StackName.MainStack);
+//   }
+// }
 
 function* getFamiliesSaga(action: AnyAction) {
   try {
@@ -118,7 +131,9 @@ function* getFamiliesSaga(action: AnyAction) {
 export default function* () {
   yield* all([
     takeLatest(CREATE_FAMILY_REQUEST, createFamilyRequestSaga),
-    takeLatest(CREATE_FAMILY_SUCCESS, createFamilySuccessSaga),
+    // takeLatest(CREATE_FAMILY_SUCCESS, createFamilySuccessSaga),
+    takeLatest(JOIN_FAMILY_REQUEST, joinFamilyRequestSaga),
+    // takeLatest(JOIN_FAMILY_SUCCESS, joinFamilySuccessSaga),
     takeLatest(GET_FAMILIES_REQUEST, getFamiliesSaga),
   ]);
 }
