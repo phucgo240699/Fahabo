@@ -14,6 +14,7 @@ import {AuthenticationResponseType} from '@constants/types/authentication';
 import {
   // GET_AVATAR_SUCCESS,
   GET_PREVIEW_ALBUM_SUCCESS,
+  GET_PROFILE_SUCCESS,
   UPDATE_LANGUAGE_SUCCESS,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PROFILE_AVATAR_SUCCESS,
@@ -50,14 +51,14 @@ export default function authenticationReducer(
           ...action.payload,
         },
       };
-    // case GET_AVATAR_SUCCESS:
-    //   return {
-    //     ...state,
-    //     user: {
-    //       ...state.user,
-    //       avatarUrl: action.payload.uri,
-    //     },
-    //   };
+    case GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.payload,
+        },
+      };
     case GET_PREVIEW_ALBUM_SUCCESS:
       return {
         ...state,

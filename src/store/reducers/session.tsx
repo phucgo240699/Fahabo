@@ -7,6 +7,7 @@ import {
   SHOW_TOAST,
   TURN_OFF_REFRESHING_TOKEN,
   TURN_ON_REFRESHING_TOKEN,
+  UPDATE_IS_REFRESHING_PROFILE,
 } from '@store/actionTypes/session';
 
 export type ToastState = {
@@ -18,6 +19,7 @@ export type ToastState = {
 export type SessionState = {
   loading: boolean;
   refreshingToken: boolean;
+  isRefreshingProfile: boolean;
   toasts: {id: number; toast: ToastState}[];
 };
 
@@ -25,6 +27,7 @@ const defaultState: SessionState = {
   toasts: [],
   loading: false,
   refreshingToken: false,
+  isRefreshingProfile: false,
 };
 
 export default function sessionReducer(
@@ -51,6 +54,11 @@ export default function sessionReducer(
       return {
         ...state,
         refreshingToken: false,
+      };
+    case UPDATE_IS_REFRESHING_PROFILE:
+      return {
+        ...state,
+        isRefreshingProfile: action.payload,
       };
     case SHOW_TOAST:
       return {

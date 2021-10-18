@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   profileBackground,
   defaultAvatar,
@@ -11,31 +11,48 @@ import styled from 'styled-components/native';
 import PrimaryIcon from '@components/PrimaryIcon';
 import PrimaryButton from '@components/PrimaryButton';
 import {getInset} from 'react-native-safe-area-view';
-import {ImageBackground, StyleSheet} from 'react-native';
+import {ImageBackground, RefreshControl, StyleSheet} from 'react-native';
 import {navigate} from '@navigators/index';
 import ProfileRelationBox from './shared/ProfileRelationBox';
 import ProfileSettingsBox from './shared/ProfileSettingsBox';
 import {Box, Actionsheet, useDisclose} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {Constants, ScreenName, StackName} from '@constants/Constants';
+import {
+  Constants,
+  Pagination,
+  ScreenName,
+  StackName,
+} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOutAction} from '@store/actionTypes/signIn';
 import {userSelector} from '@store/selectors/authentication';
 import {isNull} from '@utils/index';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
+import {
+  getProfileRequestAction,
+  updateProfileAvatarRequestAction,
+} from '@store/actionTypes/profile';
 import PreviewFamilyBox from '@screens/families/shared/PreviewFamilyBox';
 import {DummyFamilies} from '@constants/DummyData';
 import PrimaryFastImage from '@components/PrimaryFastImage';
+import {isRefreshingProfileSelector} from '@store/selectors/session';
+import {getFamiliesRequestAction} from '@store/actionTypes/family';
+import {myFamiliesSelector} from '@store/selectors/family';
 
 interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
+  const families = useSelector(myFamiliesSelector);
   const bottomInset = getInset('bottom', false);
   const {isOpen, onOpen, onClose} = useDisclose();
+
+  // Life Cycle
+  useEffect(() => {
+    dispatch(getFamiliesRequestAction({page: 0, size: Pagination.Family}));
+  }, [dispatch]);
 
   // Relations
   const onPressChores = () => {
@@ -109,7 +126,7 @@ const ProfileScreen: React.FC<Props> = () => {
         style={styles.profileContainer}
         imageStyle={styles.profileBackground}>
         <Scroll
-          scrollEnabled
+          scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollView}>
           <EmptyView />
@@ -125,7 +142,7 @@ const ProfileScreen: React.FC<Props> = () => {
             />
 
             <PreviewFamilyBox
-              data={DummyFamilies}
+              data={families}
               onPressItem={onPressFamilyItem}
               onPressViewAll={onPressViewAllFamily}
             />

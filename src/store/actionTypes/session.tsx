@@ -1,6 +1,13 @@
 import {SessionState} from '@store/reducers/session';
 import {ToastType} from '@constants/types/session';
 
+// Refresh Control
+export const UPDATE_IS_REFRESHING_PROFILE = 'UPDATE_IS_REFRESHING_PROFILE';
+export const updateIsRefreshingProfileAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_PROFILE,
+  payload,
+});
+
 // HUD
 export const SHOW_HUD = 'SHOW_HUD';
 export const showHUDAction = () => ({

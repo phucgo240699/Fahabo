@@ -118,19 +118,7 @@ function* onAutoSignInRequest(action: AnyAction) {
 
           navigateReset(StackName.MainStack);
         } else {
-          if (!isNull(response.data.data.user.languageCode)) {
-            i18n.locale = response.data.data.user.languageCode;
-            i18n.defaultLocale = response.data.data.user.languageCode;
-          }
-          yield* put(
-            signInSuccessAction(
-              parseSignInResponse({
-                ...response.data.data,
-                password: action.body.password,
-              }),
-            ),
-          );
-          navigateReset(ScreenName.FamilyOptionsScreen);
+          navigateReset(StackName.AuthenticationStack);
         }
       } else {
         navigateReset(StackName.AuthenticationStack);
@@ -143,9 +131,9 @@ function* onAutoSignInRequest(action: AnyAction) {
   }
 }
 
-function* onAutoSignInSuccess(action: AnyAction) {
-  navigateReset(StackName.MainStack);
-}
+// function* onAutoSignInSuccess(action: AnyAction) {
+//   navigateReset(StackName.MainStack);
+// }
 
 function* onLogOut(action: AnyAction) {
   navigateReset(StackName.AuthenticationStack);
@@ -156,7 +144,7 @@ export default function* () {
     takeLeading(SIGN_IN_REQUEST, onSignInRequest),
     // takeLeading(SIGN_IN_SUCCESS, onSignInSuccess),
     takeLeading(AUTO_SIGN_IN_REQUEST, onAutoSignInRequest),
-    takeLeading(AUTO_SIGN_IN_SUCCESS, onAutoSignInSuccess),
+    // takeLeading(AUTO_SIGN_IN_SUCCESS, onAutoSignInSuccess),
     takeLeading(LOG_OUT, onLogOut),
   ]);
 }

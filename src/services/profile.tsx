@@ -1,14 +1,22 @@
 import {apiProvider} from './apiProvider';
 import {BASE_URL} from '@constants/Constants';
 import {
+  GetMyProfileRequestType,
   UpdatePasswordRequestType,
   UpdateProfileAvatarRequestType,
   UpdateProfileRequestType,
 } from '@constants/types/profile';
 
-// export function getAvatarApi(accessToken?: string) {
-//   return new apiProvider(accessToken).get(`${BASE_URL}/users/avatar`);
-// }
+export function getProfileApi(
+  accessToken?: string,
+  body?: GetMyProfileRequestType,
+) {
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/users/get_profile`,
+    body,
+  );
+}
+
 export function getPreviewAlbumApi(accessToken?: string) {
   return new apiProvider(accessToken).get(`${BASE_URL}/users/preview_images`);
 }

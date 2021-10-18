@@ -144,14 +144,27 @@ function* onVerifyUsernameRequest(action: AnyAction) {
       parseVerifyUsernameRequest(action.body),
     );
     if (response.status === 200) {
-      yield* put(
-        verifyUserSuccessAction(
-          parseVerifyResponse({
-            ...response.data.data,
-            password: action.body.password,
-          }),
-        ),
-      );
+      if (response.data.data.user.familyNum > 0) {
+        yield* put(
+          verifyUserSuccessAction(
+            parseVerifyResponse({
+              ...response.data.data,
+              password: action.body.password,
+            }),
+          ),
+        );
+        navigateReset(StackName.MainStack);
+      } else {
+        yield* put(
+          verifyUserSuccessAction(
+            parseVerifyResponse({
+              ...response.data.data,
+              password: action.body.password,
+            }),
+          ),
+        );
+        navigate(ScreenName.FamilyOptionsScreen, {allowNavigateBack: true});
+      }
     } else {
       yield* put(
         showToastAction(
@@ -169,9 +182,9 @@ function* onVerifyUsernameRequest(action: AnyAction) {
   }
 }
 
-function* onVerifyUsernameSuccess(action: AnyAction) {
-  navigateReset(StackName.MainStack);
-}
+// function* onVerifyUsernameSuccess(action: AnyAction) {
+//   navigateReset(StackName.MainStack);
+// }
 
 function* onGetForgotPasswordOTPRequest(action: AnyAction) {
   try {
@@ -302,7 +315,7 @@ export default function* () {
     takeLeading(GET_OTP_REQUEST, onGetOTPRequest),
     takeLeading(GET_OTP_REQUEST_BACKGROUND, onGetOTPRequestBackground),
     takeLeading(VERIFY_USERNAME_REQUEST, onVerifyUsernameRequest),
-    takeLeading(VERIFY_USERNAME_SUCCESS, onVerifyUsernameSuccess),
+    // takeLeading(VERIFY_USERNAME_SUCCESS, onVerifyUsernameSuccess),
     takeLeading(GET_FORGOT_PASSWORD_OTP_REQUEST, onGetForgotPasswordOTPRequest),
     takeLeading(
       GET_FORGOT_PASSWORD_OTP_REQUEST_AGAIN,

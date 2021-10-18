@@ -63,3 +63,8 @@ export const languages: {key: string; value: string}[] = [
   {key: 'en', value: i18n.t('settings.language.english')},
   {key: 'vi', value: i18n.t('settings.language.vietnamese')},
 ];
+
+export const Pagination = {
+  Family: 10,
+  FamilyMembers: 10,
+};

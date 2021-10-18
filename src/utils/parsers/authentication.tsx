@@ -1,3 +1,4 @@
+import {AuthenticationResponseType} from '@constants/types/authentication';
 import {get} from 'lodash/fp';
 
 //
@@ -26,35 +27,8 @@ export const parseRefreshAccessTokenResponse = (rawData: any) => {
     refreshToken: get('refreshToken', rawData),
   };
 };
-export const parseSignInResponse = (rawData: any) => {
+export function parseUser(rawData: any): AuthenticationResponseType {
   return {
-    user: {
-      // id: get('user.id', rawData),
-      // contactId: get('user.contactId', rawData),
-      email: get('user.email', rawData),
-      password: get('password', rawData),
-      name: get('user.name', rawData),
-      username: get('user.username', rawData),
-      phoneNumber: get('user.phoneNumber', rawData),
-      birthday: get('user.birthday', rawData),
-      languageCode: get('user.languageCode', rawData),
-      avatarUrl: get('user.avatar', rawData),
-      authType: {
-        id: get('user.authType.id', rawData),
-        name: get('user.authType.name', rawData),
-      },
-      // isValidEmail: get('user.isValidEmail', rawData),
-      // isValidPhoneNumber: get('user.isValidPhoneNumber', rawData),
-    },
-    accessToken: get('access_token', rawData),
-    refreshToken: get('refresh_token', rawData),
-  };
-};
-
-export const parseSignUpResponse = (rawData: any) => {
-  return {
-    // id: get('id', rawData),
-    // contactId: get('contactId', rawData),
     email: get('email', rawData),
     password: get('password', rawData),
     name: get('name', rawData),
@@ -63,34 +37,36 @@ export const parseSignUpResponse = (rawData: any) => {
     birthday: get('birthday', rawData),
     languageCode: get('languageCode', rawData),
     avatarUrl: get('avatar', rawData),
+    totalFamilies: get('familyNum', rawData),
     authType: {
       id: get('authType.id', rawData),
       name: get('authType.name', rawData),
     },
-    // isValidEmail: get('isValidEmail', rawData),
-    // isValidPhoneNumber: get('isValidPhoneNumber', rawData),
+  };
+}
+export const parseSignInResponse = (rawData: any) => {
+  return {
+    user: {
+      ...parseUser(rawData.user),
+      password: get('password', rawData),
+    },
+    accessToken: get('access_token', rawData),
+    refreshToken: get('refresh_token', rawData),
+  };
+};
+
+export const parseSignUpResponse = (rawData: any) => {
+  return {
+    ...parseUser(rawData),
+    password: get('password', rawData),
   };
 };
 
 export const parseVerifyResponse = (rawData: any) => {
   return {
     user: {
-      // id: get('user.id', rawData),
-      // contactId: get('user.contactId', rawData),
-      email: get('user.email', rawData),
+      ...parseUser(rawData.user),
       password: get('password', rawData),
-      name: get('user.name', rawData),
-      username: get('user.username', rawData),
-      phoneNumber: get('user.phoneNumber', rawData),
-      birthday: get('user.birthday', rawData),
-      languageCode: get('user.languageCode', rawData),
-      avatarUrl: get('user.avatar', rawData),
-      authType: {
-        id: get('user.authType.id', rawData),
-        name: get('user.authType.name', rawData),
-      },
-      // isValidEmail: get('user.isValidEmail', rawData),
-      // isValidPhoneNumber: get('user.isValidPhoneNumber', rawData),
     },
     accessToken: get('access_token', rawData),
     refreshToken: get('refresh_token', rawData),
@@ -99,20 +75,6 @@ export const parseVerifyResponse = (rawData: any) => {
 
 export const parseUpdateProfileResponse = (rawData: any) => {
   return {
-    // id: get('id', rawData),
-    // contactId: get('contactId', rawData),
-    email: get('email', rawData),
-    name: get('name', rawData),
-    username: get('username', rawData),
-    phoneNumber: get('phoneNumber', rawData),
-    birthday: get('birthday', rawData),
-    languageCode: get('languageCode', rawData),
-    avatarUrl: get('avatar', rawData),
-    authType: {
-      id: get('authType.id', rawData),
-      name: get('authType.name', rawData),
-    },
-    // isValidEmail: get('isValidEmail', rawData),
-    // isValidPhoneNumber: get('isValidPhoneNumber', rawData),
+    ...parseUser(rawData.user),
   };
 };

@@ -26,6 +26,10 @@ export type UpdateProfileAvatarRequestType = {
   };
 };
 
+export type GetMyProfileRequestType = {
+  id?: number;
+};
+
 //
 // Response
 //

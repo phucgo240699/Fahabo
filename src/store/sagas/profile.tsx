@@ -4,6 +4,7 @@ import {navigationRef, navigate} from '@navigators/index';
 import {
   // getAvatarApi,
   getPreviewAlbumApi,
+  getProfileApi,
   updatePasswordApi,
   updateProfileApi,
   updateProfileAvatarApi,
@@ -11,8 +12,10 @@ import {
 import {
   // getAvatarSuccessAction,
   getPreviewAlbumSuccessAction,
+  getProfileSuccessAction,
   // GET_AVATAR_REQUEST,
   GET_PREVIEW_ALBUM_REQUEST,
+  GET_PROFILE_REQUEST,
   updateLanguageSuccessAction,
   updatePasswordSuccessAction,
   updateProfileAvatarSuccessAction,
@@ -30,34 +33,21 @@ import {
   closeHUDAction,
   showHUDAction,
   showToastAction,
+  updateIsRefreshingProfileAction,
 } from '@store/actionTypes/session';
 import {parseGetAvatarResponse} from '@utils/parsers/profile';
 import {AnyAction} from 'redux';
-import {all, delay, put, takeLeading} from 'typed-redux-saga';
+import {all, delay, put, select, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
 import {CommonActions} from '@react-navigation/native';
-import {parseUpdateProfileResponse} from '@utils/parsers/authentication';
+import {
+  parseUpdateProfileResponse,
+  parseUser,
+} from '@utils/parsers/authentication';
 import RNRestart from 'react-native-restart';
 import {ScreenName} from '@constants/Constants';
+import {isRefreshingProfileSelector} from '@store/selectors/session';
 
-// function* onGetAvatarSaga(action: AnyAction) {
-//   try {
-//     const response: any = yield* apiProxy(getAvatarApi);
-//     if (response.status === 200) {
-//       yield* put(
-//         getAvatarSuccessAction(parseGetAvatarResponse(response.data.data)),
-//       );
-//     } else {
-//       yield* put(
-//         showToastAction(i18n.t(`backend.${response.data.errors[0]}`), ToastType.ERROR),
-//       );
-//     }
-//   } catch (error) {
-//     yield* put(
-//       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
-//     );
-//   }
-// }
 function* onGetPreviewAlbumSaga(action: AnyAction) {
   try {
     const response: any = yield* apiProxy(getPreviewAlbumApi);
@@ -112,6 +102,29 @@ function* onUpdateProfileAvatarSuccessSaga(action: AnyAction) {
 }
 
 // Profile
+
+function* onGetProfileSaga(action: AnyAction) {
+  try {
+    yield* put(updateIsRefreshingProfileAction(true));
+    const response: any = yield* apiProxy(getProfileApi);
+    if (response.status === 200) {
+      yield* put(getProfileSuccessAction(parseUser(response.data.data)));
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(updateIsRefreshingProfileAction(false));
+  }
+}
 function* onUpdateProfileSaga(action: AnyAction) {
   try {
     yield* put(showHUDAction());
@@ -228,7 +241,8 @@ export default function* () {
       UPDATE_PROFILE_AVATAR_SUCCESS,
       onUpdateProfileAvatarSuccessSaga,
     ),
-    takeLeading(UPDATE_PROFILE_REQUEST, onUpdateProfileSaga), // Profile
+    takeLeading(GET_PROFILE_REQUEST, onGetProfileSaga), // Profile
+    takeLeading(UPDATE_PROFILE_REQUEST, onUpdateProfileSaga),
     takeLeading(UPDATE_PROFILE_SUCCESS, onUpdateProfileSuccessSaga),
     takeLeading(UPDATE_LANGUAGE_REQUEST, onUpdateLanguageSaga), // Language
     takeLeading(UPDATE_LANGUAGE_SUCCESS, onUpdateLanguageSuccessSaga),

@@ -4,6 +4,7 @@ import fonts from '@themes/fonts';
 import styled from 'styled-components/native';
 import {defaultFamilyThumbnail, profileIcon} from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
+import {isNull} from '@utils/index';
 
 interface Props {
   item?: any;
@@ -24,8 +25,12 @@ const VerticalFamilyItem: React.FC<Props> = ({
   return (
     <Touch onPress={onPressContainer} activeOpacity={0.8}>
       <Container style={containerStyle}>
-        <Thumbnail source={defaultFamilyThumbnail} />
-        <Title numberOfLines={2}>{item.title}</Title>
+        {isNull(item.thumbnail) ? (
+          <Thumbnail source={defaultFamilyThumbnail} />
+        ) : (
+          <Thumbnail source={{uri: item.thumbnail}} />
+        )}
+        <Title numberOfLines={2}>{item.name}</Title>
         <HLine />
         <BottomContainer>
           <TotalMembersText numberOfLines={1}>
