@@ -52,7 +52,7 @@ const ProfileScreen: React.FC<Props> = () => {
   // Life Cycle
   useEffect(() => {
     dispatch(getFamiliesRequestAction({page: 0, size: Pagination.Family}));
-  }, [dispatch]);
+  }, []);
 
   // Relations
   const onPressChores = () => {

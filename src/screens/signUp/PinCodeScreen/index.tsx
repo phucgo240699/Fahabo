@@ -61,7 +61,7 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
         getOTPRequestBackgroundAction({username: route.params.username}),
       );
     }
-  }, [dispatch]);
+  }, []);
 
   const onPressBackground = () => {
     Keyboard.dismiss();

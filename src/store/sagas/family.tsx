@@ -29,6 +29,7 @@ import {
 } from '@store/actionTypes/family';
 import {
   CreateFamilyRequestType,
+  GetFamilyMembersRequestType,
   JoinFamilyRequestType,
   LeaveFamilyRequestType,
 } from '@constants/types/family';
@@ -150,9 +151,14 @@ function* getFamiliesSaga(action: AnyAction) {
   }
 }
 
-function* getFamilyMembersSaga(action: AnyAction) {
+function* getFamilyMembersSaga({
+  body,
+}: {
+  type: string;
+  body: GetFamilyMembersRequestType;
+}) {
   try {
-    const response = yield* apiProxy(getFamilyMembersApi);
+    const response = yield* apiProxy(getFamilyMembersApi, body);
     if (response.status === 200) {
       yield* put(
         getFamilyMembersSuccessAction(parseMembers(response.data.data)),

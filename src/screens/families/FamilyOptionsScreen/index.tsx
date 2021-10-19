@@ -27,6 +27,8 @@ import {isNull} from '@utils/index';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {createFamilyRequestAction} from '@store/actionTypes/family';
 import {useDispatch} from 'react-redux';
+import FamilyCreationModal from '../shared/FamilyCreationModal';
+import PrimaryActionSheet from '@components/PrimaryActionSheet';
 
 interface Props {
   route?: any;
@@ -109,7 +111,7 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
   };
 
   // Button Create & Join
-  const onCreateNewFamily = () => {
+  const onPressSave = () => {
     onPressCancel();
 
     setTimeout(() => {
@@ -155,7 +157,33 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
         </ButtonContent>
       </Touch>
 
-      <Modal mt={-100} isOpen={showCreationModal} onClose={onPressCancel}>
+      <FamilyCreationModal
+        isOpen={showCreationModal}
+        onClose={onPressCancel}
+        name={name}
+        thumbnailUri={thumbnailUri}
+        onChangeName={onChangeName}
+        onPressThumbnail={onOpen}
+        onPressCancel={onPressCancel}
+        onPressSave={onPressSave}
+      />
+
+      <PrimaryActionSheet
+        isOpen={isOpen}
+        onClose={onClose}
+        items={[
+          {
+            title: i18n.t('popUp.takePhoto'),
+            onPress: takePhoto,
+          },
+          {
+            title: i18n.t('popUp.chooseFromGallery'),
+            onPress: chooseFromGallery,
+          },
+        ]}
+      />
+
+      {/* <Modal isOpen={showCreationModal} onClose={onPressCancel}>
         <Modal.Content maxWidth="400px" backgroundColor={colors.WHITE}>
           <Modal.Body>
             <FormControl>
@@ -197,14 +225,14 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
                 onPress={onPressCancel}>
                 {i18n.t('family.cancel')}
               </Button>
-              <Button width={100} onPress={onCreateNewFamily}>
+              <Button width={100} onPress={onPressSave}>
                 {i18n.t('family.save')}
               </Button>
             </Button.Group>
           </Modal.Footer>
         </Modal.Content>
-      </Modal>
-      <Actionsheet
+      </Modal> */}
+      {/* <Actionsheet
         pb={bottomInset}
         isOpen={isOpen}
         onClose={onClose}
@@ -224,7 +252,7 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
           titleColor={colors.RED_1}
           onPress={onClose}
         />
-      </Actionsheet>
+      </Actionsheet> */}
     </Box>
   );
 };

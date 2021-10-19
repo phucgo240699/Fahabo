@@ -37,10 +37,14 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
 
   // Life Cycle
   useEffect(() => {
-    if (route && route.params && route.params.item) {
-      dispatch(getFamilyMembersRequestAction({familyId: route.params.item.id}));
-    }
-    console.log({familyId: route.params.item.id});
+    setTimeout(() => {
+      if (route && route.params && route.params.item) {
+        dispatch(
+          getFamilyMembersRequestAction({familyId: route.params.item.id}),
+        );
+      }
+      console.log({familyId: route.params.item.id});
+    }, 200);
   }, []);
 
   // Navigate Back

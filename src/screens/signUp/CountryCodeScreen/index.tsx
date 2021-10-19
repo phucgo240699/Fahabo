@@ -156,7 +156,7 @@ const CountryCodeScreen: React.FC<Props> = ({route}) => {
 
   useEffect(() => {
     dispatch(getCountryCodeRequestAction());
-  }, [dispatch]);
+  }, []);
 
   const renderSeparator = () => {
     return <HLine />;

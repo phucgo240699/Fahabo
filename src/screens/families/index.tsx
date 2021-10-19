@@ -34,6 +34,9 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {Platform, StyleSheet} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
+import PrimaryActionSheet from '@components/PrimaryActionSheet';
+import {FamilyType} from '@constants/types/family';
+import FamilyCreationModal from './shared/FamilyCreationModal';
 
 interface Props {
   route?: any;
@@ -178,7 +181,50 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
       />
 
       {/* Modal Create Family */}
-      <Modal mt={-100} isOpen={showCreationModal} onClose={onPressCancel}>
+      <FamilyCreationModal
+        isOpen={showCreationModal}
+        onClose={onPressCancel}
+        name={name}
+        thumbnailUri={thumbnailUri}
+        onChangeName={onChangeName}
+        onPressThumbnail={onOpenTakePhotoActionSheet}
+        onPressCancel={onPressCancel}
+        onPressSave={onPressSave}
+      />
+
+      {/* Family Options ActionSheet */}
+      <PrimaryActionSheet
+        isOpen={isOpen}
+        onClose={onClose}
+        items={[
+          {
+            title: i18n.t('family.createFamily'),
+            onPress: onPressCreateFamily,
+          },
+          {
+            title: i18n.t('family.joinFamily'),
+            onPress: onPressJoinFamily,
+          },
+        ]}
+      />
+
+      {/* Take photo ActionSheet */}
+      <PrimaryActionSheet
+        isOpen={showTakePhotoActionSheet}
+        onClose={onCloseTakePhotoActionSheet}
+        items={[
+          {
+            title: i18n.t('popUp.takePhoto'),
+            onPress: takePhoto,
+          },
+          {
+            title: i18n.t('popUp.chooseFromGallery'),
+            onPress: chooseFromGallery,
+          },
+        ]}
+      />
+
+      {/* <Modal isOpen={showCreationModal} onClose={onPressCancel}>
         <Modal.Content maxWidth="400px" backgroundColor={colors.WHITE}>
           <Modal.Body>
             <FormControl>
@@ -226,10 +272,8 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
             </Button.Group>
           </Modal.Footer>
         </Modal.Content>
-      </Modal>
-
-      {/* Family Options ActionSheet */}
-      <Actionsheet
+      </Modal> */}
+      {/* <Actionsheet
         pb={bottomInset}
         isOpen={isOpen}
         onClose={onClose}
@@ -249,10 +293,8 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
           titleColor={colors.RED_1}
           onPress={onClose}
         />
-      </Actionsheet>
-
-      {/* Take photo ActionSheet */}
-      <Actionsheet
+      </Actionsheet> */}
+      {/* <Actionsheet
         pb={bottomInset}
         isOpen={showTakePhotoActionSheet}
         onClose={onCloseTakePhotoActionSheet}
@@ -272,7 +314,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
           titleColor={colors.RED_1}
           onPress={onCloseTakePhotoActionSheet}
         />
-      </Actionsheet>
+      </Actionsheet> */}
     </SafeView>
   );
 };

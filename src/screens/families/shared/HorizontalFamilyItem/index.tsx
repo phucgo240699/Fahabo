@@ -5,9 +5,10 @@ import styled from 'styled-components/native';
 import {defaultFamilyThumbnail, profileIcon} from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {isNull} from '@utils/index';
+import {FamilyType} from '@constants/types/family';
 
 interface Props {
-  item?: any;
+  item?: FamilyType;
   containerStyle?: any;
   onPress?: (item: any) => void;
 }
@@ -25,18 +26,18 @@ const HorizontalFamilyItem: React.FC<Props> = ({
   return (
     <Touch onPress={onPressContainer} activeOpacity={0.8}>
       <Container style={containerStyle}>
-        {isNull(item.thumbnail) ? (
+        {isNull(item?.thumbnail) ? (
           <Thumbnail source={defaultFamilyThumbnail} />
         ) : (
-          <Thumbnail source={{uri: item.thumbnail}} />
+          <Thumbnail source={{uri: item?.thumbnail}} />
         )}
         <Content>
-          <Title numberOfLines={2}>{item.name}</Title>
+          <Title numberOfLines={2}>{item?.name}</Title>
           {/* <Description numberOfLines={1}>{item.hostName}</Description> */}
           <HLine />
           <BottomContainer>
             <TotalMembersText numberOfLines={1}>
-              {item.totalMembers}
+              {item?.totalMembers}
             </TotalMembersText>
             <PrimaryIcon width={14} height={14} source={profileIcon} />
           </BottomContainer>

@@ -221,8 +221,12 @@
       "doesNotExist": "Tài khoản không tồn tại."
     },
     "family": {
-      "kickMemberFailure": "Xóa thành viên không thành công."
+      "kickMemberFailure": "Xóa thành viên không thành công.",
+      "hasBeenJoined": "Người dùng hiện đang là thành viên trong gia đình này."
     },
-    "unknownError": "Lỗi hệ thống."
+    "unknownError": "Lỗi hệ thống.",
+    "avatar": {
+      "unavailable": "Avatar không khả dụng."
+    }
   }
 }
