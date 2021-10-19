@@ -83,6 +83,13 @@ export const updateFamilyInfoSuccessAction = (payload: any) => ({
 });
 
 // Get Families
+export const GET_REFRESH_FAMILIES_REQUEST = 'GET_REFRESH_FAMILIES_REQUEST';
+export const getRefreshFamiliesRequestAction = (
+  body?: GetMyFamiliesRequestType,
+) => ({
+  type: GET_REFRESH_FAMILIES_REQUEST,
+  body,
+});
 export const GET_FAMILIES_REQUEST = 'GET_FAMILIES_REQUEST';
 export const getFamiliesRequestAction = (body?: GetMyFamiliesRequestType) => ({
   type: GET_FAMILIES_REQUEST,
@@ -100,6 +107,14 @@ export const getFamilyDetailRequestAction = (
   body?: GetFamilyDetailRequestType,
 ) => ({
   type: GET_FAMILY_DETAIL_REQUEST,
+  body,
+});
+export const GET_REFRESH_FAMILY_DETAIL_REQUEST =
+  'GET_REFRESH_FAMILY_DETAIL_REQUEST';
+export const getRefreshFamilyDetailRequestAction = (
+  body?: GetFamilyDetailRequestType,
+) => ({
+  type: GET_REFRESH_FAMILY_DETAIL_REQUEST,
   body,
 });
 export const GET_FAMILY_DETAIL_SUCCESS = 'GET_FAMILY_DETAIL_SUCCESS';

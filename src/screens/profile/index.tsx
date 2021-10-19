@@ -50,12 +50,17 @@ const ProfileScreen: React.FC<Props> = () => {
   const user = useSelector(userSelector);
   const families = useSelector(myFamiliesSelector);
   const bottomInset = getInset('bottom', false);
+  const isRefreshing = useSelector(isRefreshingProfileSelector);
   const {isOpen, onOpen, onClose} = useDisclose();
 
   // Life Cycle
   useEffect(() => {
     dispatch(getFamiliesRequestAction({page: 0, size: Pagination.Family}));
   }, []);
+
+  const onRefreshProfile = () => {
+    dispatch(getProfileRequestAction());
+  };
 
   // Relations
   const onPressChores = () => {
@@ -131,7 +136,13 @@ const ProfileScreen: React.FC<Props> = () => {
         <Scroll
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollView}>
+          contentContainerStyle={styles.scrollView}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefreshProfile}
+            />
+          }>
           <EmptyView />
           <Content>
             <Box alignItems="center" justifyContent="center">

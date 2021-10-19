@@ -4,6 +4,8 @@ import {
   closeHUDAction,
   showHUDAction,
   showToastAction,
+  updateIsRefreshingFamiliesAction,
+  updateIsRefreshingFamilyDetailAction,
 } from '@store/actionTypes/session';
 import {apiProxy} from './apiProxy';
 import {ToastType} from '@constants/types/session';
@@ -30,6 +32,8 @@ import {
   GET_FAMILIES_REQUEST,
   GET_FAMILY_DETAIL_REQUEST,
   GET_FAMILY_MEMBERS_REQUEST,
+  GET_REFRESH_FAMILIES_REQUEST,
+  GET_REFRESH_FAMILY_DETAIL_REQUEST,
   joinFamilySuccessAction,
   JOIN_FAMILY_REQUEST,
   KICK_FAMILY_MEMBER_REQUEST,
@@ -253,6 +257,29 @@ function* getFamiliesSaga(action: AnyAction) {
   }
 }
 
+function* getRefreshFamiliesSaga(action: AnyAction) {
+  try {
+    yield* put(updateIsRefreshingFamiliesAction(true));
+    const response = yield* apiProxy(getMyFamiliesApi);
+    if (response.status === 200) {
+      yield* put(getFamiliesSuccessAction(parseFamilies(response.data.data)));
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(updateIsRefreshingFamiliesAction(false));
+  }
+}
+
 function* getFamilyDetailSage({
   body,
 }: {
@@ -262,7 +289,7 @@ function* getFamilyDetailSage({
   try {
     yield* put(showHUDAction());
     const response = yield* apiProxy(getFamilyDetailApi, body);
-    console.log({response: response.data});
+
     if (response.status === 200) {
       yield* put(getFamilyDetailSuccessAction(parseFamily(response.data.data)));
       navigate(ScreenName.FamilyDetailScreen);
@@ -280,6 +307,36 @@ function* getFamilyDetailSage({
     );
   } finally {
     yield* put(closeHUDAction());
+  }
+}
+
+function* getRefreshFamilyDetailSage({
+  body,
+}: {
+  type: string;
+  body: GetFamilyDetailRequestType;
+}) {
+  try {
+    yield* put(updateIsRefreshingFamilyDetailAction(true));
+    const response = yield* apiProxy(getFamilyDetailApi, body);
+
+    if (response.status === 200) {
+      yield* put(getFamilyDetailSuccessAction(parseFamily(response.data.data)));
+      navigate(ScreenName.FamilyDetailScreen);
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${response.data.errors[0]}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(updateIsRefreshingFamilyDetailAction(false));
   }
 }
 
@@ -319,7 +376,9 @@ export default function* () {
     takeLeading(UPDATE_FAMILY_INFO_REQUEST, updateFamilyInfoSaga),
     takeLeading(UPDATE_FAMILY_THUMBNAIL_REQUEST, updateFamilyThumbnailSaga),
     takeLeading(GET_FAMILIES_REQUEST, getFamiliesSaga),
+    takeLeading(GET_REFRESH_FAMILIES_REQUEST, getRefreshFamiliesSaga),
     takeLeading(GET_FAMILY_DETAIL_REQUEST, getFamilyDetailSage),
+    takeLeading(GET_REFRESH_FAMILY_DETAIL_REQUEST, getRefreshFamilyDetailSage),
     takeLeading(GET_FAMILY_MEMBERS_REQUEST, getFamilyMembersSaga),
   ]);
 }

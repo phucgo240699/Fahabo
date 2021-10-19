@@ -16,7 +16,12 @@ import {
 import PrimaryIcon from '@components/PrimaryIcon';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {Constants, ScreenName} from '@constants/Constants';
-import {Platform, ScrollViewBase, StyleSheet} from 'react-native';
+import {
+  Platform,
+  RefreshControl,
+  ScrollViewBase,
+  StyleSheet,
+} from 'react-native';
 import {DummyAlbums, DummyDetailFamily} from '@constants/DummyData';
 import fonts, {PrimaryFontBold} from '@themes/fonts';
 import PreviewAlbumBox from '@screens/albums/shared/PreviewAlbumBox';
@@ -26,6 +31,7 @@ import {navigate} from '@navigators/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getFamilyMembersRequestAction,
+  getRefreshFamilyDetailRequestAction,
   kickFamilyMemberRequestAction,
   leaveFamilyRequestAction,
   updateFamilyInfoRequestAction,
@@ -39,6 +45,7 @@ import {isNull} from '@utils/index';
 import {launchImageLibrary} from 'react-native-image-picker';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import {userSelector} from '@store/selectors/authentication';
+import {isRefreshingFamilyDetailSelector} from '@store/selectors/session';
 
 interface Props {
   route?: any;
@@ -49,6 +56,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const navigation = useNavigation();
   const {isOpen, onOpen, onClose} = useDisclose();
   const user = useSelector(userSelector);
+  const isRefreshing = useSelector(isRefreshingFamilyDetailSelector);
   const familyDetail = useSelector(familyDetailSelector);
   const membersInFamily = useSelector(membersInFamilySelector);
   const [allowEdit, setAllowEdit] = useState(false);
@@ -75,6 +83,10 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
       setThumbnailBase64(route.params.thumbnailBase64);
     }
   }, [route]);
+
+  const onRefreshingFamilyDetail = () => {
+    dispatch(getRefreshFamilyDetailRequestAction({familyId: familyDetail?.id}));
+  };
 
   // Navigate Back
   const onPressBack = () => {
@@ -196,8 +208,13 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
         backgroundColor={colors.THEME_COLOR_4}
       />
       <ScrollView
-        bounces={false}
         bgColor={colors.WHITE}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefreshingFamilyDetail}
+          />
+        }
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scroll}>

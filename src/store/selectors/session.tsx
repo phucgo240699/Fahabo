@@ -8,4 +8,9 @@ export const isRefreshingTokenSelector = (state: RootState) =>
 export const isRefreshingProfileSelector = (state: RootState) =>
   state.session.isRefreshingProfile;
 
+export const isRefreshingFamiliesSelector = (state: RootState) =>
+  state.session.isRefreshingFamilies;
+
+export const isRefreshingFamilyDetailSelector = (state: RootState) =>
+  state.session.isRefreshingFamilyDetail;
 export const toastsSelector = (state: RootState) => state.session.toasts;

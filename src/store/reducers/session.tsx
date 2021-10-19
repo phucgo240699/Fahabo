@@ -7,6 +7,8 @@ import {
   SHOW_TOAST,
   TURN_OFF_REFRESHING_TOKEN,
   TURN_ON_REFRESHING_TOKEN,
+  UPDATE_IS_REFRESHING_FAMILIES,
+  UPDATE_IS_REFRESHING_FAMILY_DETAIL,
   UPDATE_IS_REFRESHING_PROFILE,
 } from '@store/actionTypes/session';
 
@@ -20,6 +22,8 @@ export type SessionState = {
   loading: boolean;
   refreshingToken: boolean;
   isRefreshingProfile: boolean;
+  isRefreshingFamilies: boolean;
+  isRefreshingFamilyDetail: boolean;
   toasts: {id: number; toast: ToastState}[];
 };
 
@@ -28,6 +32,8 @@ const defaultState: SessionState = {
   loading: false,
   refreshingToken: false,
   isRefreshingProfile: false,
+  isRefreshingFamilies: false,
+  isRefreshingFamilyDetail: false,
 };
 
 export default function sessionReducer(
@@ -59,6 +65,16 @@ export default function sessionReducer(
       return {
         ...state,
         isRefreshingProfile: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_FAMILIES:
+      return {
+        ...state,
+        isRefreshingFamilies: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_FAMILY_DETAIL:
+      return {
+        ...state,
+        isRefreshingFamilyDetail: action.payload,
       };
     case SHOW_TOAST:
       return {

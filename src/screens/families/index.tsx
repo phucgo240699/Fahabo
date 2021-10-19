@@ -29,15 +29,17 @@ import {
   createFamilyRequestAction,
   getFamiliesRequestAction,
   getFamilyDetailRequestAction,
+  getRefreshFamiliesRequestAction,
 } from '@store/actionTypes/family';
 import {isNull} from '@utils/index';
 import {launchImageLibrary} from 'react-native-image-picker';
 import PrimaryIcon from '@components/PrimaryIcon';
-import {Platform, StyleSheet} from 'react-native';
+import {Platform, RefreshControl, StyleSheet} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import {FamilyType} from '@constants/types/family';
 import FamilyCreationModal from './shared/FamilyCreationModal';
+import {isRefreshingFamiliesSelector} from '@store/selectors/session';
 
 interface Props {
   route?: any;
@@ -47,6 +49,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const bottomInset = getInset('bottom', false);
   const families = useSelector(myFamiliesSelector);
+  const isRefreshing = useSelector(isRefreshingFamiliesSelector);
 
   const [showTakePhotoActionSheet, setShowTakePhotoActionSheet] =
     useState(false);
@@ -77,6 +80,9 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   }, [route]);
 
   // List
+  const onRefreshFamilies = () => {
+    dispatch(getRefreshFamiliesRequestAction());
+  };
   const renderItem = ({item}: {item: any}) => {
     return <HorizontalFamilyItem item={item} onPress={onPressItem} />;
   };
@@ -177,6 +183,12 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
       <FlatList
         data={families}
         renderItem={renderItem}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefreshFamilies}
+          />
+        }
         contentContainerStyle={styles.list}
         keyExtractor={(item, index) => index.toString()}
       />

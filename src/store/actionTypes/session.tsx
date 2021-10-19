@@ -7,6 +7,17 @@ export const updateIsRefreshingProfileAction = (payload: boolean) => ({
   type: UPDATE_IS_REFRESHING_PROFILE,
   payload,
 });
+export const UPDATE_IS_REFRESHING_FAMILIES = 'UPDATE_IS_REFRESHING_FAMILIES';
+export const updateIsRefreshingFamiliesAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_FAMILIES,
+  payload,
+});
+export const UPDATE_IS_REFRESHING_FAMILY_DETAIL =
+  'UPDATE_IS_REFRESHING_FAMILY_DETAIL';
+export const updateIsRefreshingFamilyDetailAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_FAMILY_DETAIL,
+  payload,
+});
 
 // HUD
 export const SHOW_HUD = 'SHOW_HUD';

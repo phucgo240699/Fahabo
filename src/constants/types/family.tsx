@@ -35,7 +35,7 @@ export type GetMyFamiliesRequestType = {
 };
 
 export type GetFamilyDetailRequestType = {
-  familyId: number;
+  familyId?: number;
 };
 
 export type UpdateFamilyThumbnailRequestType = {
