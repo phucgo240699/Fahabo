@@ -63,7 +63,7 @@ const PrimaryHeader: React.FC<Props> = ({
       }),
       Animated.timing(searchBarWidthAnim, {
         duration: animationTime,
-        toValue: 24,
+        toValue: 40,
         easing: Easing.linear,
         useNativeDriver: false,
       }),
@@ -88,16 +88,7 @@ const PrimaryHeader: React.FC<Props> = ({
       {!isSearching && (
         <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
           <PrimaryButton
-            marginLeft={10}
-            leftSource={bellIcon}
-            leftTintColor={colors.THEME_COLOR_7}
-          />
-        </SearchIconLayer>
-      )}
-      {!isSearching && (
-        <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
-          <PrimaryButton
-            marginLeft={10}
+            marginLeft={6}
             leftSource={searchIcon}
             leftTintColor={colors.THEME_COLOR_7}
             onPress={turnOnSearching}
@@ -107,10 +98,19 @@ const PrimaryHeader: React.FC<Props> = ({
       {!isSearching && (
         <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
           <PrimaryButton
-            marginLeft={4}
+            marginLeft={6}
             leftSource={plusIcon}
             leftTintColor={colors.THEME_COLOR_7}
             onPress={onPressPlus}
+          />
+        </SearchIconLayer>
+      )}
+      {!isSearching && (
+        <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
+          <PrimaryButton
+            marginLeft={6}
+            leftSource={bellIcon}
+            leftTintColor={colors.THEME_COLOR_7}
           />
         </SearchIconLayer>
       )}
@@ -134,12 +134,13 @@ const PrimaryHeader: React.FC<Props> = ({
 };
 
 const Container = styled.View<{searchingMode: boolean}>`
-  height: 40px;
+  height: 46px;
+  padding-top: 6px;
   padding-left: 10px;
   padding-right: 10px;
   flex-direction: row;
   align-items: center;
-  justify-content: ${props => (props.searchingMode ? 'flex-end' : 'flex-end')};
+  justify-content: flex-end;
 `;
 
 const TitleLayer = styled(Animated.View)`

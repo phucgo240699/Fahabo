@@ -102,7 +102,6 @@ function* onUpdateProfileAvatarSuccessSaga(action: AnyAction) {
 }
 
 // Profile
-
 function* onGetProfileSaga(action: AnyAction) {
   try {
     yield* put(updateIsRefreshingProfileAction(true));

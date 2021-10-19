@@ -1,20 +1,24 @@
-import React, {useEffect} from 'react';
-import {Avatar, Box, FlatList, ScrollView} from 'native-base';
+import React, {useEffect, useState} from 'react';
+import {Avatar, Box, FlatList, ScrollView, useDisclose} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import PrimaryButton from '@components/PrimaryButton';
 import {
   backButtonIcon,
+  cameraIcon,
+  clearIcon,
   defaultFamilyThumbnail,
+  editProfileIcon,
   qrCodeIcon,
+  tickIcon,
 } from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {Constants, ScreenName} from '@constants/Constants';
 import {Platform, ScrollViewBase, StyleSheet} from 'react-native';
 import {DummyAlbums, DummyDetailFamily} from '@constants/DummyData';
-import fonts from '@themes/fonts';
+import fonts, {PrimaryFontBold} from '@themes/fonts';
 import PreviewAlbumBox from '@screens/albums/shared/PreviewAlbumBox';
 import i18n from '@locales/index';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
@@ -22,9 +26,19 @@ import {navigate} from '@navigators/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getFamilyMembersRequestAction,
+  kickFamilyMemberRequestAction,
   leaveFamilyRequestAction,
+  updateFamilyInfoRequestAction,
+  updateFamilyThumbnailRequestAction,
 } from '@store/actionTypes/family';
-import {membersInFamilySelector} from '@store/selectors/family';
+import {
+  familyDetailSelector,
+  membersInFamilySelector,
+} from '@store/selectors/family';
+import {isNull} from '@utils/index';
+import {launchImageLibrary} from 'react-native-image-picker';
+import PrimaryActionSheet from '@components/PrimaryActionSheet';
+import {userSelector} from '@store/selectors/authentication';
 
 interface Props {
   route?: any;
@@ -33,38 +47,104 @@ interface Props {
 const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const {isOpen, onOpen, onClose} = useDisclose();
+  const user = useSelector(userSelector);
+  const familyDetail = useSelector(familyDetailSelector);
   const membersInFamily = useSelector(membersInFamilySelector);
+  const [allowEdit, setAllowEdit] = useState(false);
+  const [name, setName] = useState(familyDetail?.name);
+  const [thumbnailUri, setThumbnailUri] = useState(familyDetail?.thumbnail);
+  const [thumbnailBase64, setThumbnailBase64] = useState('');
 
   // Life Cycle
   useEffect(() => {
-    setTimeout(() => {
-      if (route && route.params && route.params.item) {
-        dispatch(
-          getFamilyMembersRequestAction({familyId: route.params.item.id}),
-        );
-      }
-      console.log({familyId: route.params.item.id});
-    }, 200);
+    if (!isNull(familyDetail?.id)) {
+      dispatch(getFamilyMembersRequestAction({familyId: familyDetail?.id}));
+    }
   }, []);
+  useEffect(() => {
+    if (
+      route &&
+      route.params &&
+      route.params.thumbnailUri &&
+      route.params.thumbnailBase64
+    ) {
+      console.log({uri: route.params.thumbnailUri});
+      console.log({base: route.params.thumbnailBase64[0]});
+      setThumbnailUri(route.params.thumbnailUri);
+      setThumbnailBase64(route.params.thumbnailBase64);
+    }
+  }, [route]);
 
   // Navigate Back
   const onPressBack = () => {
     navigation.dispatch(CommonActions.goBack());
   };
 
+  // Edit Button
+  const onPressEdit = () => {
+    setAllowEdit(true);
+  };
+
   // QR Button
   const onPressQRCode = () => {
-    if (route && route.params && route.params.item) {
+    if (!isNull(familyDetail?.id)) {
       navigate(ScreenName.QRPresenterScreen, {
-        value: route.params.item.id,
+        value: familyDetail?.id,
         instruction: i18n.t('family.scanInstruction'),
       });
     }
   };
 
+  // Update
+  const onPressThumbnail = () => {
+    onOpen();
+  };
+  const onChangeName = (text: string) => {
+    setName(text);
+  };
+  const onUpdate = () => {
+    setAllowEdit(false);
+    if (!isNull(name)) {
+      dispatch(
+        updateFamilyInfoRequestAction({familyId: familyDetail?.id, name: name}),
+      );
+    }
+    if (!isNull(thumbnailUri)) {
+      dispatch(
+        updateFamilyThumbnailRequestAction({
+          familyId: familyDetail?.id,
+          thumbnail: {base64Data: thumbnailBase64},
+        }),
+      );
+    }
+  };
+  const onPressKickMember = (item: any) => {
+    dispatch(
+      kickFamilyMemberRequestAction({
+        familyId: familyDetail?.id,
+        userIdToKick: item.id,
+      }),
+    );
+  };
+
   // Members
   const renderItem = ({item}: {item: any}) => {
-    return <Avatar mr={2} source={{uri: item.avatar}} />;
+    const onPressContainer = () => {
+      onPressKickMember(item);
+    };
+    return (
+      <>
+        {allowEdit ? (
+          <AvatarContainer onPress={onPressContainer}>
+            <Avatar source={{uri: item.avatar}} />
+            <KickIcon source={clearIcon} />
+          </AvatarContainer>
+        ) : (
+          <Avatar mr={3} source={{uri: item.avatar}} />
+        )}
+      </>
+    );
   };
 
   // Photo
@@ -77,9 +157,35 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
 
   // Leave
   const onPressLeave = () => {
-    if (route && route.params && route.params.item) {
-      dispatch(leaveFamilyRequestAction({familyId: route.params.item.id}));
+    if (!isNull(familyDetail?.id)) {
+      dispatch(leaveFamilyRequestAction({familyId: familyDetail?.id}));
     }
+  };
+
+  // ActionSheet
+  const takePhoto = () => {
+    onClose();
+    setTimeout(() => {
+      navigate(ScreenName.CameraScreen, {fromFamilyDetail: true});
+    }, 500);
+  };
+  const chooseFromGallery = () => {
+    onClose();
+    setTimeout(() => {
+      launchImageLibrary(
+        {mediaType: 'photo', includeBase64: true},
+        response => {
+          if (
+            response.assets !== undefined &&
+            !isNull(response.assets[0]?.uri) &&
+            !isNull(response.assets[0]?.base64)
+          ) {
+            setThumbnailUri(response.assets[0]?.uri ?? '');
+            setThumbnailBase64(response.assets[0]?.base64 ?? '');
+          }
+        },
+      );
+    }, 500);
   };
 
   return (
@@ -99,46 +205,80 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
           <BackButton onPress={onPressBack}>
             <PrimaryIcon width={48} height={48} source={backButtonIcon} />
           </BackButton>
+          {allowEdit ? (
+            <EditButton
+              leftIconWidth={28}
+              leftIconHeight={28}
+              onPress={onUpdate}
+              leftSource={tickIcon}
+              leftTintColor={colors.BLACK}
+            />
+          ) : (
+            <EditButton
+              leftIconWidth={28}
+              leftIconHeight={28}
+              onPress={onPressEdit}
+              leftSource={editProfileIcon}
+              leftTintColor={colors.BLACK}
+            />
+          )}
           <QRButton
-            leftIconWidth={28}
-            leftIconHeight={28}
-            leftTintColor={colors.BLACK}
             leftSource={qrCodeIcon}
             onPress={onPressQRCode}
+            leftTintColor={colors.BLACK}
           />
         </Banner>
-        {route && route.params && route.params.item ? (
-          <ThumbnailContainer>
-            <Thumbnail source={{uri: route.params.item.thumbnail}} />
+        {!isNull(familyDetail?.thumbnail) ? (
+          <ThumbnailContainer
+            disabled={!allowEdit}
+            activeOpacity={0.6}
+            onPress={onPressThumbnail}>
+            <Thumbnail source={{uri: thumbnailUri}} />
+            {allowEdit && (
+              <CameraIconContainer>
+                <CameraIconImage source={cameraIcon} />
+              </CameraIconContainer>
+            )}
           </ThumbnailContainer>
         ) : (
-          <ThumbnailContainer>
+          <ThumbnailContainer
+            disabled={!allowEdit}
+            activeOpacity={0.6}
+            onPress={onPressThumbnail}>
             <Thumbnail source={defaultFamilyThumbnail} />
+            {allowEdit && (
+              <CameraIconContainer>
+                <CameraIconImage source={cameraIcon} />
+              </CameraIconContainer>
+            )}
           </ThumbnailContainer>
         )}
         <Content>
-          <Name>
-            {route &&
-              route.params &&
-              route.params.item &&
-              route.params.item.name}
-          </Name>
+          <Name value={name} editable={allowEdit} onChangeText={onChangeName} />
           <HLine />
-          <MemberHeader>
-            <MemberLabel>{i18n.t('family.members')}</MemberLabel>
-            <PrimaryButton
-              titleColor={colors.HYPER_LINK}
-              title={i18n.t('family.viewAll')}
-            />
-          </MemberHeader>
-          <FlatList
-            mt={1}
-            horizontal
-            renderItem={renderItem}
-            data={membersInFamily}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-          />
+          {membersInFamily.filter(member => {
+            return member.id !== user?.id;
+          }).length > 0 && (
+            <>
+              <MemberHeader>
+                <MemberLabel>{i18n.t('family.members')}</MemberLabel>
+                <PrimaryButton
+                  titleColor={colors.HYPER_LINK}
+                  title={i18n.t('family.viewAll')}
+                />
+              </MemberHeader>
+              <FlatList
+                mt={1}
+                horizontal
+                renderItem={renderItem}
+                data={membersInFamily.filter(member => {
+                  return member.id !== user?.id;
+                })}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </>
+          )}
           <PreviewAlbumBox data={DummyAlbums} onPressItem={onPressPhotoItem} />
 
           <PrimaryButton
@@ -146,6 +286,21 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
             titleColor={colors.RED_1}
             title={i18n.t('family.leave')}
             onPress={onPressLeave}
+          />
+
+          <PrimaryActionSheet
+            isOpen={isOpen}
+            onClose={onClose}
+            items={[
+              {
+                title: i18n.t('popUp.takePhoto'),
+                onPress: takePhoto,
+              },
+              {
+                title: i18n.t('popUp.chooseFromGallery'),
+                onPress: chooseFromGallery,
+              },
+            ]}
           />
         </Content>
       </ScrollView>
@@ -167,13 +322,22 @@ const Banner = styled.View`
   background-color: ${colors.THEME_COLOR_4};
 `;
 
-const Name = styled(fonts.PrimaryFontBoldSize18)`
+const Name = styled.TextInput`
+  font-size: 25px;
   text-align: center;
+  color: ${colors.BLACK};
+  font-family: ${PrimaryFontBold};
 `;
 
 const BackButton = styled.TouchableOpacity`
   margin-top: 10px;
   margin-left: 10px;
+`;
+
+const EditButton = styled(PrimaryButton)`
+  top: 8px;
+  right: 70px;
+  position: absolute;
 `;
 
 const QRButton = styled(PrimaryButton)`
@@ -185,19 +349,28 @@ const QRButton = styled(PrimaryButton)`
   border-color: ${colors.BLACK};
 `;
 
-const ThumbnailContainer = styled.View`
+const ThumbnailContainer = styled.TouchableOpacity`
   overflow: hidden;
   margin-top: -80px;
   border-radius: 10px;
-  shadow-radius: 10px;
-  shadow-opacity: 0.8;
-  shadow-color: ${colors.BLACK};
+  align-items: center;
+  justify-content: center;
 `;
 const Thumbnail = styled.Image`
   resize-mode: contain;
   background-color: ${colors.WHITE};
   width: ${Constants.MAX_WIDTH - 100}px;
   height: ${Constants.MAX_WIDTH - 200}px;
+`;
+const CameraIconContainer = styled.View`
+  padding: 10px;
+  position: absolute;
+  border-radius: 30px;
+  background-color: #f2f2f2;
+`;
+const CameraIconImage = styled.Image`
+  width: 32px;
+  height: 32px;
 `;
 
 const Content = styled.View`
@@ -219,6 +392,21 @@ const MemberHeader = styled.View`
 `;
 
 const MemberLabel = styled(fonts.PrimaryFontMediumSize14)``;
+
+const AvatarContainer = styled.TouchableOpacity`
+  margin-right: 12px;
+`;
+
+const KickIcon = styled.Image`
+  width: 16px;
+  right: -2px;
+  bottom: 0px;
+  height: 16px;
+  border-radius: 8px;
+  position: absolute;
+  tint-color: #c0c0c0;
+  background-color: #ffffff;
+`;
 
 const styles = StyleSheet.create({
   scroll: {

@@ -28,6 +28,7 @@ import {myFamiliesSelector} from '@store/selectors/family';
 import {
   createFamilyRequestAction,
   getFamiliesRequestAction,
+  getFamilyDetailRequestAction,
 } from '@store/actionTypes/family';
 import {isNull} from '@utils/index';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -80,7 +81,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
     return <HorizontalFamilyItem item={item} onPress={onPressItem} />;
   };
   const onPressItem = (item: any) => {
-    navigate(ScreenName.FamilyDetailScreen, {item});
+    dispatch(getFamilyDetailRequestAction({familyId: item.id}));
   };
 
   // Modal

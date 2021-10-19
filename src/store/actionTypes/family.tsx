@@ -1,12 +1,15 @@
 import {
   CreateFamilyRequestType,
   FamilyType,
+  GetFamilyDetailRequestType,
   GetFamilyMembersRequestType,
   GetMyFamiliesRequestType,
   JoinFamilyRequestType,
   KickFamilyMemberRequestType,
   LeaveFamilyRequestType,
   MemberType,
+  UpdateFamilyInfoRequestType,
+  UpdateFamilyThumbnailRequestType,
 } from '@constants/types/family';
 
 // Create
@@ -49,7 +52,37 @@ export const kickFamilyMemberRequestAction = (
   body,
 });
 
-// Get families
+// Update Thumbnail
+export const UPDATE_FAMILY_THUMBNAIL_REQUEST =
+  'UPDATE_FAMILY_THUMBNAIL_REQUEST';
+export const updateFamilyThumbnailRequestAction = (
+  body: UpdateFamilyThumbnailRequestType,
+) => ({
+  type: UPDATE_FAMILY_THUMBNAIL_REQUEST,
+  body,
+});
+export const UPDATE_FAMILY_THUMBNAIL_SUCCESS =
+  'UPDATE_FAMILY_THUMBNAIL_SUCCESS';
+export const updateFamilyThumbnailSuccessAction = (payload: any) => ({
+  type: UPDATE_FAMILY_THUMBNAIL_SUCCESS,
+  payload,
+});
+
+// Update Info
+export const UPDATE_FAMILY_INFO_REQUEST = 'UPDATE_FAMILY_INFO_REQUEST';
+export const updateFamilyInfoRequestAction = (
+  body: UpdateFamilyInfoRequestType,
+) => ({
+  type: UPDATE_FAMILY_INFO_REQUEST,
+  body,
+});
+export const UPDATE_FAMILY_INFO_SUCCESS = 'UPDATE_FAMILY_INFO_SUCCESS';
+export const updateFamilyInfoSuccessAction = (payload: any) => ({
+  type: UPDATE_FAMILY_INFO_SUCCESS,
+  payload,
+});
+
+// Get Families
 export const GET_FAMILIES_REQUEST = 'GET_FAMILIES_REQUEST';
 export const getFamiliesRequestAction = (body?: GetMyFamiliesRequestType) => ({
   type: GET_FAMILIES_REQUEST,
@@ -61,7 +94,21 @@ export const getFamiliesSuccessAction = (payload: FamilyType[]) => ({
   payload,
 });
 
-// Get members
+// Get Family Detail
+export const GET_FAMILY_DETAIL_REQUEST = 'GET_FAMILY_DETAIL_REQUEST';
+export const getFamilyDetailRequestAction = (
+  body?: GetFamilyDetailRequestType,
+) => ({
+  type: GET_FAMILY_DETAIL_REQUEST,
+  body,
+});
+export const GET_FAMILY_DETAIL_SUCCESS = 'GET_FAMILY_DETAIL_SUCCESS';
+export const getFamilyDetailSuccessAction = (payload?: FamilyType) => ({
+  type: GET_FAMILY_DETAIL_SUCCESS,
+  payload,
+});
+
+// Get Members
 export const GET_FAMILY_MEMBERS_REQUEST = 'GET_FAMILY_MEMBERS_REQUEST';
 export const getFamilyMembersRequestAction = (
   body: GetFamilyMembersRequestType,

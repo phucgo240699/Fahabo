@@ -34,6 +34,22 @@ export type GetMyFamiliesRequestType = {
   size?: number;
 };
 
+export type GetFamilyDetailRequestType = {
+  familyId: number;
+};
+
+export type UpdateFamilyThumbnailRequestType = {
+  familyId?: number;
+  thumbnail: {
+    base64Data?: string;
+  };
+};
+
+export type UpdateFamilyInfoRequestType = {
+  familyId?: number;
+  name?: string;
+};
+
 //
 // Response
 //

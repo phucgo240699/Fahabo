@@ -214,7 +214,8 @@
       "emailFormatInvalid": "Email must have format local-part@domain. Ex: johndoe@example.com"
     },
     "upload": {
-      "fail": "Failed to upload files. Please make sure your file name does not exists and try again."
+      "fail": "Failed to upload files. Please make sure your file name does not exists and try again.",
+      "invalidFile": "Failed to upload files. Please make sure your file is valid."
     },
     "user": {
       "doesNotExist": "User does not exist."

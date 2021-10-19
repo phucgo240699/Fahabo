@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import {defaultFamilyThumbnail, profileIcon} from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {isNull} from '@utils/index';
+import {Platform} from 'react-native';
 
 interface Props {
   item?: any;
@@ -23,7 +24,9 @@ const VerticalFamilyItem: React.FC<Props> = ({
     }
   };
   return (
-    <Touch onPress={onPressContainer} activeOpacity={0.8}>
+    <Touch
+      onPress={onPressContainer}
+      activeOpacity={Platform.OS === 'ios' ? 0.6 : 1.0}>
       <Container style={containerStyle}>
         {isNull(item.thumbnail) ? (
           <Thumbnail source={defaultFamilyThumbnail} />
@@ -44,6 +47,8 @@ const VerticalFamilyItem: React.FC<Props> = ({
 };
 
 const Touch = styled.TouchableOpacity`
+  width: 150px;
+  height: 200px;
   border-radius: 10px;
 `;
 
@@ -65,13 +70,6 @@ const Thumbnail = styled.Image`
   resize-mode: contain;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-`;
-
-const Content = styled.View`
-  flex: 1;
-  justify-content: center;
-  margin-left: 10px;
-  margin-right: 10px;
 `;
 
 const Title = styled(fonts.PrimaryFontBoldSize14)`

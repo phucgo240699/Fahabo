@@ -37,7 +37,10 @@ import PreviewFamilyBox from '@screens/families/shared/PreviewFamilyBox';
 import {DummyFamilies} from '@constants/DummyData';
 import PrimaryFastImage from '@components/PrimaryFastImage';
 import {isRefreshingProfileSelector} from '@store/selectors/session';
-import {getFamiliesRequestAction} from '@store/actionTypes/family';
+import {
+  getFamiliesRequestAction,
+  getFamilyDetailRequestAction,
+} from '@store/actionTypes/family';
 import {myFamiliesSelector} from '@store/selectors/family';
 
 interface Props {}
@@ -64,7 +67,7 @@ const ProfileScreen: React.FC<Props> = () => {
 
   // Family
   const onPressFamilyItem = (item: any) => {
-    navigate(ScreenName.FamilyDetailScreen, {item});
+    dispatch(getFamilyDetailRequestAction({familyId: item.id}));
   };
   const onPressViewAllFamily = () => {
     navigate(ScreenName.FamiliesScreen);

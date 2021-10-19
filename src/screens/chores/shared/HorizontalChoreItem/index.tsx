@@ -2,11 +2,9 @@ import React from 'react';
 import styled from 'styled-components/native';
 import colors from '@themes/colors';
 import fonts from '@themes/fonts';
-import PrimaryFastImage from '@components/PrimaryFastImage';
 import {Avatar, FlatList} from 'native-base';
-import {StyleSheet} from 'react-native';
+import {Platform} from 'react-native';
 import {DummyDetailFamily} from '@constants/DummyData';
-import {isNull} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {ChoreStatus} from '@constants/types/chores';
 import i18n from '@locales/index';
@@ -51,7 +49,9 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   };
 
   return (
-    <Touch onPress={onPressTouch} activeOpacity={0.8}>
+    <Touch
+      onPress={onPressTouch}
+      activeOpacity={Platform.OS === 'ios' ? 0.6 : 1.0}>
       <Container>
         <Title numberOfLines={2}>{item.title}</Title>
         <Deadline numberOfLines={1}>{item.deadline}</Deadline>
@@ -128,39 +128,5 @@ const StatusButton = styled(PrimaryButton)<{backgroundColor: string}>`
   padding-bottom: 6px;
   background-color: ${props => props.backgroundColor};
 `;
-
-// const Content = styled.View`
-//   flex: 1;
-//   margin: 8px;
-// `;
-
-// const CacheThumbnail = styled(PrimaryFastImage)`
-//   width: 100px;
-//   height: 100px;
-//   margin-left: 10px;
-//   align-self: center;
-//   border-radius: 6px;
-// `;
-
-// const Thumbnail = styled.Image`
-//   width: 100px;
-//   height: 100px;
-//   margin-left: 10px;
-//   align-self: center;
-//   border-radius: 6px;
-// `;
-
-// const StatusTouch = styled.TouchableOpacity`
-//   top: 10px;
-//   right: 10px;
-//   position: absolute;
-// `;
-
-// const StatusLabel = styled(fonts.PrimaryFontMediumSize12)`
-//   border-radius: 16px;
-//   color: ${colors.WHITE};
-//   padding: 2px 8px 5px 8px;
-//   background-color: ${colors.IN_PROGRESS_CHORE};
-// `;
 
 export default React.memo(HorizontalChoreItem);

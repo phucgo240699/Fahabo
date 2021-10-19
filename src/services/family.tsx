@@ -2,11 +2,14 @@ import {apiProvider} from './apiProvider';
 import {BASE_URL, Pagination} from '@constants/Constants';
 import {
   CreateFamilyRequestType,
+  GetFamilyDetailRequestType,
   GetFamilyMembersRequestType,
   GetMyFamiliesRequestType,
   JoinFamilyRequestType,
   KickFamilyMemberRequestType,
   LeaveFamilyRequestType,
+  UpdateFamilyInfoRequestType,
+  UpdateFamilyThumbnailRequestType,
 } from '@constants/types/family';
 import {isNull} from '@utils/index';
 
@@ -46,6 +49,53 @@ export function kickFamilyMemberApi(
     body,
   );
 }
+
+export function updateFamilyThumbnailApi(
+  accessToken?: string,
+  body?: UpdateFamilyThumbnailRequestType,
+) {
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/families/update_thumbnail`,
+    body,
+  );
+}
+
+export function updateFamilyInfoApi(
+  accessToken?: string,
+  body?: UpdateFamilyInfoRequestType,
+) {
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/families/update_family`,
+    body,
+  );
+}
+
+export function getMyFamiliesApi(
+  accessToken?: string,
+  body?: GetMyFamiliesRequestType,
+) {
+  let page = 0;
+  let size = Pagination.Family;
+  if (!isNull(body)) {
+    if (!isNull(body?.page)) {
+      page = body?.page ?? 0;
+    }
+    if (!isNull(body?.size)) {
+      size = body?.size ?? Pagination.Family;
+    }
+  }
+  return new apiProvider(accessToken).get(
+    `${BASE_URL}/users/get_families?page=${page}&size=${size}`,
+  );
+}
+
+export function getFamilyDetailApi(
+  accessToken?: string,
+  body?: GetFamilyDetailRequestType,
+) {
+  return new apiProvider(accessToken).post(`${BASE_URL}/families/detail`, body);
+}
+
 export function getFamilyMembersApi(
   accessToken?: string,
   body?: GetFamilyMembersRequestType,
@@ -63,23 +113,5 @@ export function getFamilyMembersApi(
   return new apiProvider(accessToken).post(
     `${BASE_URL}/families/users_in_family?page=${page}&size=${size}`,
     {familyId: body?.familyId},
-  );
-}
-export function getMyFamiliesApi(
-  accessToken?: string,
-  body?: GetMyFamiliesRequestType,
-) {
-  let page = 0;
-  let size = Pagination.Family;
-  if (!isNull(body)) {
-    if (!isNull(body?.page)) {
-      page = body?.page ?? 0;
-    }
-    if (!isNull(body?.size)) {
-      size = body?.size ?? Pagination.Family;
-    }
-  }
-  return new apiProvider(accessToken).get(
-    `${BASE_URL}/users/get_families?page=${page}&size=${size}`,
   );
 }

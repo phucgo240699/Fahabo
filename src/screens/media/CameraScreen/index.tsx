@@ -61,6 +61,11 @@ const CameraScreen: React.FC<Props> = ({route}) => {
         thumbnailBase64: data.base64,
         showCreationModal: true,
       });
+    } else if (route && route.params && route.params.fromFamilyDetail) {
+      navigate(ScreenName.FamilyDetailScreen, {
+        thumbnailUri: data.uri,
+        thumbnailBase64: data.base64,
+      });
     }
   };
 

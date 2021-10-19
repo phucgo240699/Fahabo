@@ -215,7 +215,8 @@
       "emailFormatInvalid": "Email phải có định dạng local-part@domain. Ví dụ: johndoe@example.com"
     },
     "upload": {
-      "fail": "Tải lên tập tin thất bại. Vui lòng đảm bảo tên tệp của bạn không bị trùng lặp lại và thử lại sau."
+      "fail": "Tải lên tập tin thất bại. Vui lòng đảm bảo tên tệp của bạn không bị trùng lặp lại và thử lại sau.",
+      "invalidFile": "Tải lên tập tin thất bại. Vui lòng đảm bảo tập tin của bạn hợp lệ."
     },
     "user": {
       "doesNotExist": "Tài khoản không tồn tại."

@@ -29,6 +29,7 @@ export const parseRefreshAccessTokenResponse = (rawData: any) => {
 };
 export function parseUser(rawData: any): AuthenticationResponseType {
   return {
+    id: parseInt(get('id', rawData)),
     email: get('email', rawData),
     password: get('password', rawData),
     name: get('name', rawData),

@@ -51,7 +51,7 @@ export type ForgotPasswordRequestType = {
 // Response
 //
 export type AuthenticationResponseType = {
-  // id?: number;
+  id?: number;
   // contactId?: number;
   email?: string;
   password?: string;

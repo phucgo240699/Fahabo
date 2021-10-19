@@ -52,10 +52,10 @@ export class apiProvider {
     };
   }
 
-  get = (url: string, body?: any, headers?: any) => {
+  get = (url: string, headers?: any) => {
     return baseAxios.get(url, {
       ...this.config,
-      data: body,
+      // data: body,
       headers: {
         ...this.headers,
         ...headers,

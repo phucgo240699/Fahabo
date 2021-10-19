@@ -9,6 +9,7 @@ export const RobotoMedium = 'Roboto-Medium';
 export const RobotoMediumItalic = 'Roboto-MediumItalic';
 export const RobotoBold = 'Roboto-Bold';
 export const RobotoBoldItalic = 'Roboto-BoldItalic';
+export const PrimaryFontBold = 'Roboto-Bold';
 
 function withDefault<T extends {defaultProps?: Partial<TDefaults>}, TDefaults>(
   o: T,
