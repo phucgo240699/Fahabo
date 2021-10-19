@@ -57,6 +57,8 @@ export enum ScreenName {
 export const Constants = {
   MAX_WIDTH: width,
   MAX_HEIGHT: height,
+  FAMILY_THUMBNAIL_WIDTH: 512,
+  FAMILY_THUMBNAIL_HEIGHT: 320,
 };
 
 export const languages: {key: string; value: string}[] = [

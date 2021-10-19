@@ -6,6 +6,7 @@ import {Button, FormControl, Input, Modal} from 'native-base';
 import {cameraIcon, placeholderImage} from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
 import styled from 'styled-components/native';
+import {Constants} from '@constants/Constants';
 
 interface Props {
   isOpen: boolean;
@@ -30,7 +31,9 @@ const FamilyCreationModal: React.FC<Props> = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <Modal.Content maxWidth="400px" backgroundColor={colors.WHITE}>
+      <Modal.Content
+        width={Constants.MAX_WIDTH - 40}
+        backgroundColor={colors.WHITE}>
         <Modal.Body>
           <FormControl>
             <FormControl.Label _text={{color: colors.DARK_GRAY}}>
@@ -87,8 +90,8 @@ const CameraIcon = styled(PrimaryIcon)`
 `;
 
 const ThumbnailContainer = styled.TouchableOpacity`
-  width: 320px;
-  height: 200px;
+  width: ${Constants.MAX_WIDTH - 100}px;
+  height: ${(10 * (Constants.MAX_WIDTH - 100)) / 16}px;
   align-items: center;
   justify-content: center;
 `;

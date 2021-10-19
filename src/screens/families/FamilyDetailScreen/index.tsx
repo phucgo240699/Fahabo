@@ -100,8 +100,8 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
             <PrimaryIcon width={48} height={48} source={backButtonIcon} />
           </BackButton>
           <QRButton
-            leftIconWidth={32}
-            leftIconHeight={32}
+            leftIconWidth={28}
+            leftIconHeight={28}
             leftTintColor={colors.BLACK}
             leftSource={qrCodeIcon}
             onPress={onPressQRCode}
@@ -177,9 +177,12 @@ const BackButton = styled.TouchableOpacity`
 `;
 
 const QRButton = styled(PrimaryButton)`
-  top: 8px;
-  right: 12px;
+  top: 10px;
+  right: 14px;
   position: absolute;
+  border-width: 1px;
+  border-radius: 4px;
+  border-color: ${colors.BLACK};
 `;
 
 const ThumbnailContainer = styled.View`
