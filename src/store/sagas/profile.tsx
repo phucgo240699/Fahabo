@@ -105,7 +105,7 @@ function* onUpdateProfileAvatarSuccessSaga(action: AnyAction) {
 function* onGetProfileSaga(action: AnyAction) {
   try {
     yield* put(updateIsRefreshingProfileAction(true));
-    const response: any = yield* apiProxy(getProfileApi);
+    const response: any = yield* apiProxy(getProfileApi, action.body);
     if (response.status === 200) {
       yield* put(getProfileSuccessAction(parseUser(response.data.data)));
     } else {

@@ -61,7 +61,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
 
   // Life Cycle
   useEffect(() => {
-    dispatch(getFamiliesRequestAction());
+    dispatch(getFamiliesRequestAction({}));
   }, []);
 
   useEffect(() => {

@@ -131,7 +131,7 @@ function* leaveFamilySaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(leaveFamilyApi, body);
     if (response.status === 200) {
-      yield* put(getFamiliesRequestAction());
+      yield* put(getFamiliesRequestAction({}));
       navigationRef.current.dispatch(CommonActions.goBack());
     } else {
       yield* put(

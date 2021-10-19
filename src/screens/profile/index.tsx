@@ -58,8 +58,9 @@ const ProfileScreen: React.FC<Props> = () => {
     dispatch(getFamiliesRequestAction({page: 0, size: Pagination.Family}));
   }, []);
 
+  // Refresh
   const onRefreshProfile = () => {
-    dispatch(getProfileRequestAction());
+    dispatch(getProfileRequestAction({}));
   };
 
   // Relations

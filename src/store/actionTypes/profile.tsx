@@ -12,7 +12,7 @@ import {AuthenticationResponseType} from '@constants/types/authentication';
 import {ImageSource} from 'react-native-image-viewing/dist/@types';
 
 export const GET_PROFILE_REQUEST = 'GET_PROFILE_REQUEST';
-export const getProfileRequestAction = (body?: GetMyProfileRequestType) => ({
+export const getProfileRequestAction = (body: GetMyProfileRequestType) => ({
   type: GET_PROFILE_REQUEST,
   body,
 });
