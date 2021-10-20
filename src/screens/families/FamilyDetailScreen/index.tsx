@@ -15,7 +15,7 @@ import {
 } from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {CommonActions, useNavigation} from '@react-navigation/native';
-import {Constants, ScreenName} from '@constants/Constants';
+import {Constants, Pagination, ScreenName} from '@constants/Constants';
 import {
   Platform,
   RefreshControl,
@@ -86,6 +86,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
 
   const onRefreshingFamilyDetail = () => {
     dispatch(getRefreshFamilyDetailRequestAction({familyId: familyDetail?.id}));
+    dispatch(getFamilyMembersRequestAction({familyId: familyDetail?.id}));
   };
 
   // Navigate Back
@@ -200,6 +201,9 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
     }, 500);
   };
 
+  const members = membersInFamily.filter((item, index) => {
+    return index < Pagination.FamilyMembers && item.id !== user?.id;
+  });
   return (
     <SafeView>
       <FocusAwareStatusBar
@@ -273,9 +277,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
         <Content>
           <Name value={name} editable={allowEdit} onChangeText={onChangeName} />
           <HLine />
-          {membersInFamily.filter(member => {
-            return member.id !== user?.id;
-          }).length > 0 && (
+          {members.length > 0 && (
             <>
               <MemberHeader>
                 <MemberLabel>{i18n.t('family.members')}</MemberLabel>
@@ -287,10 +289,8 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
               <FlatList
                 mt={1}
                 horizontal
+                data={members}
                 renderItem={renderItem}
-                data={membersInFamily.filter(member => {
-                  return member.id !== user?.id;
-                })}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
               />

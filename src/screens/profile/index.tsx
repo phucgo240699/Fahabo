@@ -55,12 +55,13 @@ const ProfileScreen: React.FC<Props> = () => {
 
   // Life Cycle
   useEffect(() => {
-    dispatch(getFamiliesRequestAction({page: 0, size: Pagination.Family}));
+    dispatch(getFamiliesRequestAction({}));
   }, []);
 
   // Refresh
   const onRefreshProfile = () => {
     dispatch(getProfileRequestAction({}));
+    dispatch(getFamiliesRequestAction({}));
   };
 
   // Relations
@@ -157,7 +158,9 @@ const ProfileScreen: React.FC<Props> = () => {
             />
 
             <PreviewFamilyBox
-              data={families}
+              data={families.filter((item, index) => {
+                return index < Pagination.Family;
+              })}
               onPressItem={onPressFamilyItem}
               onPressViewAll={onPressViewAllFamily}
             />

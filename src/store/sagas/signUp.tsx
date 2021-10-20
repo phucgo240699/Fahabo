@@ -143,26 +143,27 @@ function* onVerifyUsernameRequest(action: AnyAction) {
       verifyEmail,
       parseVerifyUsernameRequest(action.body),
     );
+    console.log({response});
     if (response.status === 200) {
+      console.log(
+        verifyUserSuccessAction(
+          parseVerifyResponse({
+            ...response.data.data,
+            password: action.body.password,
+          }),
+        ),
+      );
+      yield* put(
+        verifyUserSuccessAction(
+          parseVerifyResponse({
+            ...response.data.data,
+            password: action.body.password,
+          }),
+        ),
+      );
       if (response.data.data.user.familyNum > 0) {
-        yield* put(
-          verifyUserSuccessAction(
-            parseVerifyResponse({
-              ...response.data.data,
-              password: action.body.password,
-            }),
-          ),
-        );
         navigateReset(StackName.MainStack);
       } else {
-        yield* put(
-          verifyUserSuccessAction(
-            parseVerifyResponse({
-              ...response.data.data,
-              password: action.body.password,
-            }),
-          ),
-        );
         navigate(ScreenName.FamilyOptionsScreen, {allowNavigateBack: true});
       }
     } else {

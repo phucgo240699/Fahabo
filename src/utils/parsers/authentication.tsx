@@ -51,8 +51,8 @@ export const parseSignInResponse = (rawData: any) => {
       ...parseUser(rawData.user),
       password: get('password', rawData),
     },
-    accessToken: get('access_token', rawData),
-    refreshToken: get('refresh_token', rawData),
+    accessToken: get('accessToken', rawData),
+    refreshToken: get('refreshToken', rawData),
   };
 };
 
@@ -69,8 +69,8 @@ export const parseVerifyResponse = (rawData: any) => {
       ...parseUser(rawData.user),
       password: get('password', rawData),
     },
-    accessToken: get('access_token', rawData),
-    refreshToken: get('refresh_token', rawData),
+    accessToken: get('accessToken', rawData),
+    refreshToken: get('refreshToken', rawData),
   };
 };
 
