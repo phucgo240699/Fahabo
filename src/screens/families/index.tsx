@@ -85,7 +85,9 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
 
   // Refresh & Load more
   const onRefreshFamilies = () => {
-    dispatch(getRefreshFamiliesRequestAction());
+    if (isRefreshing === false) {
+      dispatch(getRefreshFamiliesRequestAction());
+    }
   };
   const onLoadMore = () => {
     if (isLoadingMore === false) {

@@ -18,6 +18,12 @@ export const updateIsRefreshingFamilyDetailAction = (payload: boolean) => ({
   type: UPDATE_IS_REFRESHING_FAMILY_DETAIL,
   payload,
 });
+export const UPDATE_IS_REFRESHING_FAMILY_MEMBERS =
+  'UPDATE_IS_REFRESHING_FAMILY_MEMBERS';
+export const updateIsRefreshingFamilyMembersAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_FAMILY_MEMBERS,
+  payload,
+});
 
 // Load More
 export const UPDATE_IS_LOADING_FAMILIES = 'UPDATE_IS_LOADING_FAMILIES';

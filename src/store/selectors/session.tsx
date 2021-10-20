@@ -20,6 +20,8 @@ export const isRefreshingFamiliesSelector = (state: RootState) =>
 export const isRefreshingFamilyDetailSelector = (state: RootState) =>
   state.session.isRefreshingFamilyDetail;
 
+export const isRefreshingFamilyMembersSelector = (state: RootState) =>
+  state.session.isRefreshingFamilyMembers;
 //
 // Load More
 //

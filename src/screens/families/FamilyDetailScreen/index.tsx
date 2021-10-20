@@ -142,13 +142,16 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   };
 
   // Members
+  const onPressViewAllMembers = () => {
+    navigate(ScreenName.FamilyMembersScreen, {familyId: familyDetail?.id});
+  };
   const renderItem = ({item}: {item: any}) => {
     const onPressContainer = () => {
       onPressKickMember(item);
     };
     return (
       <>
-        {allowEdit ? (
+        {allowEdit && user?.id !== item.id ? (
           <AvatarContainer onPress={onPressContainer}>
             <Avatar source={{uri: item.avatar}} />
             <KickIcon source={clearIcon} />
@@ -161,6 +164,9 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   };
 
   // Photo
+  const onPressViewAllPhotos = () => {
+    navigate(ScreenName.AlbumsScreen);
+  };
   const onPressPhotoItem = (index: number) => {
     navigate(ScreenName.ImageViewerScreen, {
       data: DummyAlbums,
@@ -204,7 +210,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const members = isNull(membersInFamily)
     ? []
     : membersInFamily.filter((item, index) => {
-        return index < Pagination.FamilyMembers && item.id !== user?.id;
+        return index < Pagination.FamilyMembers;
       });
   return (
     <SafeView>
@@ -286,6 +292,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
                 <PrimaryButton
                   titleColor={colors.HYPER_LINK}
                   title={i18n.t('family.viewAll')}
+                  onPress={onPressViewAllMembers}
                 />
               </MemberHeader>
               <FlatList
@@ -298,7 +305,11 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
               />
             </>
           )}
-          <PreviewAlbumBox data={DummyAlbums} onPressItem={onPressPhotoItem} />
+          <PreviewAlbumBox
+            data={DummyAlbums}
+            onPressItem={onPressPhotoItem}
+            onPressViewAll={onPressViewAllPhotos}
+          />
 
           <PrimaryButton
             marginTop={30}

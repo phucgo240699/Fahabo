@@ -9,6 +9,7 @@ import {
   Input,
   Button,
   IActionsheetProps,
+  View,
 } from 'native-base';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {getInset} from 'react-native-safe-area-view';
@@ -33,12 +34,12 @@ const PrimaryActionSheet: React.FC<Props> = ({isOpen, items, onClose}) => {
       isOpen={isOpen}
       onClose={onClose}
       bgColor={colors.WHITE}>
-      {items?.map(item => {
+      {items?.map((item, index) => {
         return (
-          <>
+          <View key={index}>
             <PrimaryActionSheetItem title={item.title} onPress={item.onPress} />
             <HLine />
-          </>
+          </View>
         );
       })}
 

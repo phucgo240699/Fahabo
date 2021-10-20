@@ -121,6 +121,14 @@ export const getFamilyDetailSuccessAction = (payload?: FamilyType) => ({
 });
 
 // Get Members
+export const GET_REFRESH_FAMILY_MEMBERS_REQUEST =
+  'GET_REFRESH_FAMILY_MEMBERS_REQUEST';
+export const getRefreshFamilyMembersRequestAction = (
+  body: GetFamilyMembersRequestType,
+) => ({
+  type: GET_REFRESH_FAMILY_MEMBERS_REQUEST,
+  body,
+});
 export const GET_FAMILY_MEMBERS_REQUEST = 'GET_FAMILY_MEMBERS_REQUEST';
 export const getFamilyMembersRequestAction = (
   body: GetFamilyMembersRequestType,

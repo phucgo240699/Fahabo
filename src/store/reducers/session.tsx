@@ -11,6 +11,7 @@ import {
   UPDATE_IS_LOADING_FAMILY_MEMBERS,
   UPDATE_IS_REFRESHING_FAMILIES,
   UPDATE_IS_REFRESHING_FAMILY_DETAIL,
+  UPDATE_IS_REFRESHING_FAMILY_MEMBERS,
   UPDATE_IS_REFRESHING_PROFILE,
 } from '@store/actionTypes/session';
 
@@ -31,6 +32,7 @@ export type SessionState = {
   isRefreshingProfile: boolean;
   isRefreshingFamilies: boolean;
   isRefreshingFamilyDetail: boolean;
+  isRefreshingFamilyMembers: boolean;
 
   // Load More
   isLoadingFamilies: boolean;
@@ -51,6 +53,7 @@ const defaultState: SessionState = {
   isRefreshingProfile: false,
   isRefreshingFamilies: false,
   isRefreshingFamilyDetail: false,
+  isRefreshingFamilyMembers: false,
 
   // Load More
   isLoadingFamilies: false,
@@ -99,6 +102,11 @@ export default function sessionReducer(
       return {
         ...state,
         isRefreshingFamilyDetail: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_FAMILY_MEMBERS:
+      return {
+        ...state,
+        isRefreshingFamilyMembers: action.payload,
       };
     case UPDATE_IS_LOADING_FAMILIES:
       return {
