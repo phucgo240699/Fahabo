@@ -41,14 +41,14 @@ import {
   getFamiliesRequestAction,
   getFamilyDetailRequestAction,
 } from '@store/actionTypes/family';
-import {myFamiliesSelector} from '@store/selectors/family';
+import {familiesSelector} from '@store/selectors/family';
 
 interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
-  const families = useSelector(myFamiliesSelector);
+  const families = useSelector(familiesSelector);
   const bottomInset = getInset('bottom', false);
   const isRefreshing = useSelector(isRefreshingProfileSelector);
   const {isOpen, onOpen, onClose} = useDisclose();

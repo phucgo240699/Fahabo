@@ -1,7 +1,13 @@
 import {RootState} from '@store/index';
 
+//
+// HUD
+//
 export const isLoadingSelector = (state: RootState) => state.session.loading;
 
+//
+// Refresh
+//
 export const isRefreshingTokenSelector = (state: RootState) =>
   state.session.refreshingToken;
 
@@ -13,4 +19,17 @@ export const isRefreshingFamiliesSelector = (state: RootState) =>
 
 export const isRefreshingFamilyDetailSelector = (state: RootState) =>
   state.session.isRefreshingFamilyDetail;
+
+//
+// Load More
+//
+export const isLoadingFamiliesSelector = (state: RootState) =>
+  state.session.isLoadingFamilies;
+
+export const isLoadingFamilyMembersSelector = (state: RootState) =>
+  state.session.isLoadingFamilyMembers;
+
+//
+// Toast
+//
 export const toastsSelector = (state: RootState) => state.session.toasts;

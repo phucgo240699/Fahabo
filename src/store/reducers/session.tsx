@@ -7,6 +7,8 @@ import {
   SHOW_TOAST,
   TURN_OFF_REFRESHING_TOKEN,
   TURN_ON_REFRESHING_TOKEN,
+  UPDATE_IS_LOADING_FAMILIES,
+  UPDATE_IS_LOADING_FAMILY_MEMBERS,
   UPDATE_IS_REFRESHING_FAMILIES,
   UPDATE_IS_REFRESHING_FAMILY_DETAIL,
   UPDATE_IS_REFRESHING_PROFILE,
@@ -19,21 +21,43 @@ export type ToastState = {
 };
 
 export type SessionState = {
+  //
+  // HUD
+  //
   loading: boolean;
+
+  // Refresh
   refreshingToken: boolean;
   isRefreshingProfile: boolean;
   isRefreshingFamilies: boolean;
   isRefreshingFamilyDetail: boolean;
+
+  // Load More
+  isLoadingFamilies: boolean;
+  isLoadingFamilyMembers: boolean;
+
+  // Toasts
   toasts: {id: number; toast: ToastState}[];
 };
 
 const defaultState: SessionState = {
-  toasts: [],
+  //
+  // HUD
+  //
   loading: false,
+
+  // Refresh
   refreshingToken: false,
   isRefreshingProfile: false,
   isRefreshingFamilies: false,
   isRefreshingFamilyDetail: false,
+
+  // Load More
+  isLoadingFamilies: false,
+  isLoadingFamilyMembers: false,
+
+  // Toasts
+  toasts: [],
 };
 
 export default function sessionReducer(
@@ -75,6 +99,16 @@ export default function sessionReducer(
       return {
         ...state,
         isRefreshingFamilyDetail: action.payload,
+      };
+    case UPDATE_IS_LOADING_FAMILIES:
+      return {
+        ...state,
+        isLoadingFamilies: action.payload,
+      };
+    case UPDATE_IS_LOADING_FAMILY_MEMBERS:
+      return {
+        ...state,
+        isLoadingFamilyMembers: action.payload,
       };
     case SHOW_TOAST:
       return {

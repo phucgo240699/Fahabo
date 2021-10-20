@@ -47,16 +47,13 @@ const VerticalFamilyItem: React.FC<Props> = ({
 };
 
 const Touch = styled.TouchableOpacity`
-  width: 150px;
-  height: 200px;
-  border-radius: 10px;
+  margin-right: 20px;
 `;
 
 const Container = styled.View`
   elevation: 10;
   width: 150px;
   height: 200px;
-  margin-right: 15px;
   border-radius: 10px;
   shadow-opacity: 0.2;
   shadow-radius: 8px;

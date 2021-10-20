@@ -19,6 +19,19 @@ export const updateIsRefreshingFamilyDetailAction = (payload: boolean) => ({
   payload,
 });
 
+// Load More
+export const UPDATE_IS_LOADING_FAMILIES = 'UPDATE_IS_LOADING_FAMILIES';
+export const updateIsLoadingFamiliesAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_FAMILIES,
+  payload,
+});
+export const UPDATE_IS_LOADING_FAMILY_MEMBERS =
+  'UPDATE_IS_LOADING_FAMILY_MEMBERS';
+export const updateIsLoadingFamilyMembersAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_FAMILY_MEMBERS,
+  payload,
+});
+
 // HUD
 export const SHOW_HUD = 'SHOW_HUD';
 export const showHUDAction = () => ({

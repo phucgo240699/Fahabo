@@ -123,7 +123,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
         updateFamilyInfoRequestAction({familyId: familyDetail?.id, name: name}),
       );
     }
-    if (!isNull(thumbnailUri)) {
+    if (!isNull(thumbnailBase64)) {
       dispatch(
         updateFamilyThumbnailRequestAction({
           familyId: familyDetail?.id,
@@ -201,9 +201,11 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
     }, 500);
   };
 
-  const members = membersInFamily.filter((item, index) => {
-    return index < Pagination.FamilyMembers && item.id !== user?.id;
-  });
+  const members = isNull(membersInFamily)
+    ? []
+    : membersInFamily.filter((item, index) => {
+        return index < Pagination.FamilyMembers && item.id !== user?.id;
+      });
   return (
     <SafeView>
       <FocusAwareStatusBar

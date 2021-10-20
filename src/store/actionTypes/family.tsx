@@ -84,11 +84,8 @@ export const updateFamilyInfoSuccessAction = (payload: any) => ({
 
 // Get Families
 export const GET_REFRESH_FAMILIES_REQUEST = 'GET_REFRESH_FAMILIES_REQUEST';
-export const getRefreshFamiliesRequestAction = (
-  body?: GetMyFamiliesRequestType,
-) => ({
+export const getRefreshFamiliesRequestAction = () => ({
   type: GET_REFRESH_FAMILIES_REQUEST,
-  body,
 });
 export const GET_FAMILIES_REQUEST = 'GET_FAMILIES_REQUEST';
 export const getFamiliesRequestAction = (body: GetMyFamiliesRequestType) => ({

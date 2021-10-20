@@ -11,15 +11,15 @@ import {
 import {AnyAction} from 'redux';
 
 export type FamilyState = {
-  myFamilies: FamilyType[];
+  families: FamilyType[];
   familyDetail?: FamilyType;
-  usersInFamily: MemberType[];
+  membersInFamily: MemberType[];
 };
 
 const defaultState: FamilyState = {
-  myFamilies: [],
+  families: [],
   familyDetail: undefined,
-  usersInFamily: [],
+  membersInFamily: [],
 };
 
 export default function familyReducer(state = defaultState, action: AnyAction) {
@@ -28,12 +28,12 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
     case JOIN_FAMILY_SUCCESS:
       return {
         ...state,
-        myFamilies: [...state.myFamilies, action.payload],
+        families: [...state.families, action.payload],
       };
     case GET_FAMILIES_SUCCESS:
       return {
         ...state,
-        myFamilies: action.payload,
+        families: action.payload,
       };
     case GET_FAMILY_DETAIL_SUCCESS:
       return {
@@ -44,7 +44,7 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
     case UPDATE_FAMILY_THUMBNAIL_SUCCESS:
       return {
         ...state,
-        myFamilies: state.myFamilies.map(item => {
+        families: state.families.map(item => {
           if (item.id === action.payload.id) {
             return action.payload;
           }
@@ -55,7 +55,7 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
     case GET_FAMILY_MEMBERS_SUCCESS:
       return {
         ...state,
-        usersInFamily: action.payload,
+        membersInFamily: action.payload,
       };
     default:
       return state;

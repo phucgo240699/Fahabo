@@ -4,6 +4,8 @@ import {
   closeHUDAction,
   showHUDAction,
   showToastAction,
+  updateIsLoadingFamiliesAction,
+  updateIsLoadingFamilyMembersAction,
   updateIsRefreshingFamiliesAction,
   updateIsRefreshingFamilyDetailAction,
 } from '@store/actionTypes/session';
@@ -20,7 +22,7 @@ import {
   updateFamilyInfoApi,
   updateFamilyThumbnailApi,
 } from '@services/family';
-import {all, put, takeLeading} from 'typed-redux-saga';
+import {all, put, select, takeLeading} from 'typed-redux-saga';
 import {
   createFamilySuccessAction,
   CREATE_FAMILY_REQUEST,
@@ -47,6 +49,7 @@ import {
   CreateFamilyRequestType,
   GetFamilyDetailRequestType,
   GetFamilyMembersRequestType,
+  GetMyFamiliesRequestType,
   JoinFamilyRequestType,
   KickFamilyMemberRequestType,
   LeaveFamilyRequestType,
@@ -57,6 +60,10 @@ import {parseFamilies, parseFamily, parseMembers} from '@utils/parsers/family';
 import {navigate, navigateReset, navigationRef} from '@navigators/index';
 import {ScreenName, StackName} from '@constants/Constants';
 import {CommonActions} from '@react-navigation/native';
+import {
+  membersInFamilySelector,
+  familiesSelector,
+} from '@store/selectors/family';
 
 function* createFamilySaga({
   body,
@@ -188,6 +195,12 @@ function* updateFamilyThumbnailSaga({
     const response = yield* apiProxy(updateFamilyThumbnailApi, body);
     if (response.status === 200) {
       yield* put(
+        showToastAction(
+          i18n.t('successMessage.updateFamilyInfo'),
+          ToastType.SUCCESS,
+        ),
+      );
+      yield* put(
         updateFamilyThumbnailSuccessAction(parseFamily(response.data.data)),
       );
     } else {
@@ -218,6 +231,12 @@ function* updateFamilyInfoSaga({
     const response = yield* apiProxy(updateFamilyInfoApi, body);
     if (response.status === 200) {
       yield* put(
+        showToastAction(
+          i18n.t('successMessage.updateFamilyInfo'),
+          ToastType.SUCCESS,
+        ),
+      );
+      yield* put(
         updateFamilyInfoSuccessAction(parseFamily(response.data.data)),
       );
     } else {
@@ -237,11 +256,27 @@ function* updateFamilyInfoSaga({
   }
 }
 
-function* getFamiliesSaga(action: AnyAction) {
+function* getFamiliesSaga({
+  body,
+}: {
+  type: string;
+  body: GetMyFamiliesRequestType;
+}) {
   try {
-    const response = yield* apiProxy(getMyFamiliesApi);
+    yield* put(updateIsLoadingFamiliesAction(true));
+    const response = yield* apiProxy(getMyFamiliesApi, body);
     if (response.status === 200) {
-      yield* put(getFamiliesSuccessAction(parseFamilies(response.data.data)));
+      if (body.page && body.page > 0) {
+        const oldData = yield* select(familiesSelector);
+        yield* put(
+          getFamiliesSuccessAction([
+            ...oldData,
+            ...parseFamilies(response.data.data),
+          ]),
+        );
+      } else {
+        yield* put(getFamiliesSuccessAction(parseFamilies(response.data.data)));
+      }
     } else {
       yield* put(
         showToastAction(
@@ -254,6 +289,8 @@ function* getFamiliesSaga(action: AnyAction) {
     yield* put(
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
+  } finally {
+    yield* put(updateIsLoadingFamiliesAction(false));
   }
 }
 
@@ -347,11 +384,22 @@ function* getFamilyMembersSaga({
   body: GetFamilyMembersRequestType;
 }) {
   try {
+    yield* put(updateIsLoadingFamilyMembersAction(true));
     const response = yield* apiProxy(getFamilyMembersApi, body);
     if (response.status === 200) {
-      yield* put(
-        getFamilyMembersSuccessAction(parseMembers(response.data.data)),
-      );
+      if (body.page && body.page > 0) {
+        const oldData = yield* select(membersInFamilySelector);
+        yield* put(
+          getFamilyMembersSuccessAction([
+            ...oldData,
+            ...parseMembers(response.data.data),
+          ]),
+        );
+      } else {
+        yield* put(
+          getFamilyMembersSuccessAction(parseMembers(response.data.data)),
+        );
+      }
     } else {
       yield* put(
         showToastAction(
@@ -364,6 +412,8 @@ function* getFamilyMembersSaga({
     yield* put(
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
+  } finally {
+    yield* put(updateIsLoadingFamilyMembersAction(false));
   }
 }
 

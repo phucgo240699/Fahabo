@@ -144,7 +144,8 @@
     "updateProfile": "Update profile successfully",
     "updatePassword": "Update password successfully",
     "updateLanguage": "Update language successfully",
-    "updateAvatar": "Update avatar successfully"
+    "updateAvatar": "Update avatar successfully",
+    "updateFamilyInfo": "Update family information successfully"
   },
   "warningMessage": {
     "activeAccount": "You need to active this account"

@@ -24,7 +24,7 @@ import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {getInset} from 'react-native-safe-area-view';
 import {DummyFamilies} from '@constants/DummyData';
 import {useDispatch, useSelector} from 'react-redux';
-import {myFamiliesSelector} from '@store/selectors/family';
+import {familiesSelector} from '@store/selectors/family';
 import {
   createFamilyRequestAction,
   getFamiliesRequestAction,
@@ -39,7 +39,10 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import {FamilyType} from '@constants/types/family';
 import FamilyCreationModal from './shared/FamilyCreationModal';
-import {isRefreshingFamiliesSelector} from '@store/selectors/session';
+import {
+  isLoadingFamiliesSelector,
+  isRefreshingFamiliesSelector,
+} from '@store/selectors/session';
 
 interface Props {
   route?: any;
@@ -47,9 +50,10 @@ interface Props {
 
 const FamiliesScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
-  const bottomInset = getInset('bottom', false);
-  const families = useSelector(myFamiliesSelector);
+  const families = useSelector(familiesSelector);
+  const [pageIndex, setPageIndex] = useState(0);
   const isRefreshing = useSelector(isRefreshingFamiliesSelector);
+  const isLoadingMore = useSelector(isLoadingFamiliesSelector);
 
   const [showTakePhotoActionSheet, setShowTakePhotoActionSheet] =
     useState(false);
@@ -79,10 +83,18 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
     }
   }, [route]);
 
-  // List
+  // Refresh & Load more
   const onRefreshFamilies = () => {
     dispatch(getRefreshFamiliesRequestAction());
   };
+  const onLoadMore = () => {
+    if (isLoadingMore === false) {
+      dispatch(getFamiliesRequestAction({page: pageIndex + 1}));
+      setPageIndex(pageIndex + 1);
+    }
+  };
+
+  // List
   const renderItem = ({item}: {item: any}) => {
     return <HorizontalFamilyItem item={item} onPress={onPressItem} />;
   };
@@ -189,6 +201,8 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
             onRefresh={onRefreshFamilies}
           />
         }
+        onEndReached={onLoadMore}
+        onEndReachedThreshold={0.5}
         contentContainerStyle={styles.list}
         keyExtractor={(item, index) => index.toString()}
       />
@@ -236,98 +250,6 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
           },
         ]}
       />
-
-      {/* <Modal isOpen={showCreationModal} onClose={onPressCancel}>
-        <Modal.Content maxWidth="400px" backgroundColor={colors.WHITE}>
-          <Modal.Body>
-            <FormControl>
-              <FormControl.Label _text={{color: colors.DARK_GRAY}}>
-                {`${i18n.t('family.thumbnail')}:`}
-              </FormControl.Label>
-              <ThumbnailContainer onPress={onOpenTakePhotoActionSheet}>
-                {isNull(thumbnailUri) ? (
-                  <Thumbnail source={placeholderImage} />
-                ) : (
-                  <Thumbnail source={{uri: thumbnailUri}} />
-                )}
-
-                <CameraIcon
-                  width={36}
-                  height={36}
-                  source={cameraIcon}
-                  tintColor={'#595959'}
-                />
-              </ThumbnailContainer>
-              <FormControl.Label mt={10} _text={{color: colors.DARK_GRAY}}>
-                {`${i18n.t('family.name')}:`}
-              </FormControl.Label>
-              <Input
-                value={name}
-                autoCorrect={false}
-                color={colors.BLACK}
-                autoCompleteType="off"
-                onChangeText={onChangeName}
-              />
-            </FormControl>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button.Group space={2}>
-              <Button
-                variant="ghost"
-                bgColor={colors.CONCRETE}
-                _text={{color: colors.BLACK}}
-                onPress={onPressCancel}>
-                {i18n.t('family.cancel')}
-              </Button>
-              <Button width={100} onPress={onPressSave}>
-                {i18n.t('family.save')}
-              </Button>
-            </Button.Group>
-          </Modal.Footer>
-        </Modal.Content>
-      </Modal> */}
-      {/* <Actionsheet
-        pb={bottomInset}
-        isOpen={isOpen}
-        onClose={onClose}
-        bgColor={colors.WHITE}>
-        <PrimaryActionSheetItem
-          title={i18n.t('family.createFamily')}
-          onPress={onPressCreateFamily}
-        />
-        <HLine />
-        <PrimaryActionSheetItem
-          title={i18n.t('family.joinFamily')}
-          onPress={onPressJoinFamily}
-        />
-        <HLine />
-        <PrimaryActionSheetItem
-          title={i18n.t('family.cancel')}
-          titleColor={colors.RED_1}
-          onPress={onClose}
-        />
-      </Actionsheet> */}
-      {/* <Actionsheet
-        pb={bottomInset}
-        isOpen={showTakePhotoActionSheet}
-        onClose={onCloseTakePhotoActionSheet}
-        bgColor={colors.WHITE}>
-        <PrimaryActionSheetItem
-          title={i18n.t('popUp.takePhoto')}
-          onPress={takePhoto}
-        />
-        <HLine />
-        <PrimaryActionSheetItem
-          title={i18n.t('popUp.chooseFromGallery')}
-          onPress={chooseFromGallery}
-        />
-        <HLine />
-        <PrimaryActionSheetItem
-          title={i18n.t('popUp.cancel')}
-          titleColor={colors.RED_1}
-          onPress={onCloseTakePhotoActionSheet}
-        />
-      </Actionsheet> */}
     </SafeView>
   );
 };
