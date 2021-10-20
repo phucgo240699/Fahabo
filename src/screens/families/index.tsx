@@ -19,7 +19,7 @@ import i18n from '@locales/index';
 import ProfileHeader from '@components/ProfileHeader';
 import HorizontalFamilyItem from './shared/HorizontalFamilyItem';
 import {navigate} from '@navigators/index';
-import {ScreenName} from '@constants/Constants';
+import {Constants, ScreenName} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {getInset} from 'react-native-safe-area-view';
 import {DummyFamilies} from '@constants/DummyData';
@@ -43,6 +43,7 @@ import {
   isLoadingFamiliesSelector,
   isRefreshingFamiliesSelector,
 } from '@store/selectors/session';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
 interface Props {
   route?: any;
@@ -159,20 +160,24 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   const chooseFromGallery = () => {
     setShowTakePhotoActionSheet(false);
     setTimeout(() => {
-      launchImageLibrary(
-        {mediaType: 'photo', includeBase64: true},
-        response => {
-          if (
-            response.assets !== undefined &&
-            !isNull(response.assets[0]?.uri) &&
-            !isNull(response.assets[0]?.base64)
-          ) {
-            setThumbnailUri(response.assets[0]?.uri ?? '');
-            setThumbnailBase64(response.assets[0]?.base64 ?? '');
-          }
-        },
-      );
-    }, 100);
+      launchImageLibrary({mediaType: 'photo'}, response => {
+        if (response.assets !== undefined && !isNull(response.assets[0]?.uri)) {
+          ImageCropPicker.openCropper({
+            cropping: true,
+            mediaType: 'photo',
+            includeBase64: true,
+            path: response.assets[0]?.uri ?? '',
+            width: Constants.FAMILY_THUMBNAIL_WIDTH,
+            height: Constants.FAMILY_THUMBNAIL_HEIGHT,
+          }).then(cropped => {
+            if (!isNull(cropped.path) && !isNull(cropped.data)) {
+              setThumbnailUri(cropped.path ?? '');
+              setThumbnailBase64(cropped.data ?? '');
+            }
+          });
+        }
+      });
+    }, 300);
   };
 
   return (

@@ -42,6 +42,7 @@ import {
   getFamilyDetailRequestAction,
 } from '@store/actionTypes/family';
 import {familiesSelector} from '@store/selectors/family';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
 interface Props {}
 
@@ -98,24 +99,29 @@ const ProfileScreen: React.FC<Props> = () => {
   const chooseFromGallery = () => {
     onClose();
     setTimeout(() => {
-      launchImageLibrary(
-        {mediaType: 'photo', includeBase64: true},
-        response => {
-          if (
-            response.assets !== undefined &&
-            !isNull(response.assets[0]?.base64)
-          ) {
-            dispatch(
-              updateProfileAvatarRequestAction({
-                avatar: {
-                  name: 'avatar.jpg',
-                  base64Data: response.assets[0]?.base64,
-                },
-              }),
-            );
-          }
-        },
-      );
+      launchImageLibrary({mediaType: 'photo'}, response => {
+        if (response.assets !== undefined && !isNull(response.assets[0]?.uri)) {
+          ImageCropPicker.openCropper({
+            cropping: true,
+            mediaType: 'photo',
+            includeBase64: true,
+            path: response.assets[0]?.uri ?? '',
+            width: Constants.PROFILE_AVATAR_WIDTH,
+            height: Constants.PROFILE_AVATAR_HEIGHT,
+          }).then(cropped => {
+            if (!isNull(cropped.data)) {
+              dispatch(
+                updateProfileAvatarRequestAction({
+                  avatar: {
+                    name: 'avatar.jpg',
+                    base64Data: cropped.data ?? '',
+                  },
+                }),
+              );
+            }
+          });
+        }
+      });
     }, 500);
   };
 

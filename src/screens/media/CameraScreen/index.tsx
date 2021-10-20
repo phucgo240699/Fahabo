@@ -11,9 +11,11 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {useDispatch} from 'react-redux';
 import {updateProfileAvatarRequestAction} from '@store/actionTypes/profile';
 import {navigate} from '@navigators/index';
-import {ScreenName} from '@constants/Constants';
+import {Constants, ScreenName} from '@constants/Constants';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import {isNull} from '@utils/index';
 
 interface Props {
   route?: any;
@@ -40,31 +42,59 @@ const CameraScreen: React.FC<Props> = ({route}) => {
   const takePicture = async function (camera: any) {
     const options = {quality: 0.5, base64: true};
     const data = await camera.takePictureAsync(options);
+    onMakeEffect(data.uri);
+  };
+
+  const onMakeEffect = (uri: string) => {
+    const cropWidth =
+      route.params.updateProfileAvatar === true
+        ? Constants.PROFILE_AVATAR_WIDTH
+        : Constants.FAMILY_THUMBNAIL_WIDTH;
+    const cropHeight =
+      route.params.updateProfileAvatar === true
+        ? Constants.PROFILE_AVATAR_HEIGHT
+        : Constants.FAMILY_THUMBNAIL_HEIGHT;
+
+    ImageCropPicker.openCropper({
+      path: uri,
+      cropping: true,
+      width: cropWidth,
+      height: cropHeight,
+      mediaType: 'photo',
+      includeBase64: true,
+    }).then(cropped => {
+      if (!isNull(cropped.path) && !isNull(cropped.data)) {
+        onAfterEffect(cropped.path ?? '', cropped.data ?? '');
+      }
+    });
+  };
+
+  const onAfterEffect = (uri: string, base64: string) => {
     if (route && route.params && route.params.updateProfileAvatar) {
       dispatch(
         updateProfileAvatarRequestAction({
           avatar: {
             name: 'avatar.jpg',
-            base64Data: data.base64,
+            base64Data: base64,
           },
         }),
       );
     } else if (route && route.params && route.params.fromFamilyOptions) {
       navigate(ScreenName.FamilyOptionsScreen, {
-        thumbnailUri: data.uri,
-        thumbnailBase64: data.base64,
+        thumbnailUri: uri,
+        thumbnailBase64: base64,
         showCreationModal: true,
       });
     } else if (route && route.params && route.params.fromFamilies) {
       navigate(ScreenName.FamiliesScreen, {
-        thumbnailUri: data.uri,
-        thumbnailBase64: data.base64,
+        thumbnailUri: uri,
+        thumbnailBase64: base64,
         showCreationModal: true,
       });
     } else if (route && route.params && route.params.fromFamilyDetail) {
       navigate(ScreenName.FamilyDetailScreen, {
-        thumbnailUri: data.uri,
-        thumbnailBase64: data.base64,
+        thumbnailUri: uri,
+        thumbnailBase64: base64,
       });
     }
   };

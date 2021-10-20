@@ -149,6 +149,7 @@ android {
         versionCode packageVersionCode
         versionName packageVersionName
         missingDimensionStrategy 'react-native-camera', 'general'
+        vectorDrawables.useSupportLibrary = true
     }
     splits {
         abi {

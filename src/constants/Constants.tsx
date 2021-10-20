@@ -58,8 +58,10 @@ export enum ScreenName {
 export const Constants = {
   MAX_WIDTH: width,
   MAX_HEIGHT: height,
+  PROFILE_AVATAR_WIDTH: 128,
+  PROFILE_AVATAR_HEIGHT: 128,
   FAMILY_THUMBNAIL_WIDTH: 512,
-  FAMILY_THUMBNAIL_HEIGHT: 320,
+  FAMILY_THUMBNAIL_HEIGHT: 512,
 };
 
 export const languages: {key: string; value: string}[] = [
