@@ -44,6 +44,7 @@ import {
   isRefreshingFamiliesSelector,
 } from '@store/selectors/session';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 
 interface Props {
   route?: any;
@@ -211,6 +212,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
         onEndReached={onLoadMore}
         onEndReachedThreshold={0.5}
         contentContainerStyle={styles.list}
+        ListFooterComponent={<FooterLoadingIndicator loading={isLoadingMore} />}
         keyExtractor={(item, index) => index.toString()}
       />
 

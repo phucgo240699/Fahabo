@@ -53,9 +53,11 @@ const Container = styled.View`
 `;
 
 const Header = styled.View`
+  height: 50px;
   margin-left: 30px;
   margin-right: 30px;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 `;
 

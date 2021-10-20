@@ -22,6 +22,7 @@ import {
   getFamilyMembersRequestAction,
   getRefreshFamilyMembersRequestAction,
 } from '@store/actionTypes/family';
+import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 
 interface Props {
   route?: any;
@@ -54,7 +55,12 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
   };
   const onLoadMore = () => {
     if (isLoading === false) {
-      dispatch(getFamilyMembersRequestAction({page: pageIndex + 1}));
+      dispatch(
+        getFamilyMembersRequestAction({
+          familyId: route.params.familyId,
+          page: pageIndex + 1,
+        }),
+      );
       setPageIndex(pageIndex + 1);
     }
   };
@@ -79,6 +85,7 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
         onEndReached={onLoadMore}
         onEndReachedThreshold={0.5}
         contentContainerStyle={styles.list}
+        ListFooterComponent={<FooterLoadingIndicator loading={isLoading} />}
         ItemSeparatorComponent={() => <HLine />}
       />
     </SafeView>
@@ -88,7 +95,6 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
 const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.WHITE};
-  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0};
 `;
 
 const HLine = styled.View`

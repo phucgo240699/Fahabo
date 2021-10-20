@@ -74,7 +74,9 @@ const Container = styled.View`
 `;
 
 const Header = styled.View`
+  height: 50px;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 `;
 
