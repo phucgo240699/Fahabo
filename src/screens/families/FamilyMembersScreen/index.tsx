@@ -37,7 +37,12 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
 
   // Life Cycle
   useEffect(() => {
-    dispatch(getFamilyMembersRequestAction({familyId: route.params.familyId}));
+    dispatch(
+      getFamilyMembersRequestAction({
+        familyId: route.params.familyId,
+        showHUD: true,
+      }),
+    );
   }, []);
 
   // Item
@@ -48,6 +53,7 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
   // Refresh & Load More
   const onRefreshData = () => {
     if (isRefreshing === false) {
+      setPageIndex(0);
       dispatch(
         getRefreshFamilyMembersRequestAction({familyId: route.params.familyId}),
       );
@@ -85,7 +91,11 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
         onEndReached={onLoadMore}
         onEndReachedThreshold={0.5}
         contentContainerStyle={styles.list}
-        ListFooterComponent={<FooterLoadingIndicator loading={isLoading} />}
+        ListFooterComponent={
+          <FooterLoadingIndicator
+            loading={isLoading && members.length >= Pagination.FamilyMembers}
+          />
+        }
         ItemSeparatorComponent={() => <HLine />}
       />
     </SafeView>

@@ -19,7 +19,7 @@ import i18n from '@locales/index';
 import ProfileHeader from '@components/ProfileHeader';
 import HorizontalFamilyItem from './shared/HorizontalFamilyItem';
 import {navigate} from '@navigators/index';
-import {Constants, ScreenName} from '@constants/Constants';
+import {Constants, Pagination, ScreenName} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {getInset} from 'react-native-safe-area-view';
 import {DummyFamilies} from '@constants/DummyData';
@@ -67,7 +67,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
 
   // Life Cycle
   useEffect(() => {
-    dispatch(getFamiliesRequestAction({}));
+    dispatch(getFamiliesRequestAction({showHUD: true}));
   }, []);
 
   useEffect(() => {
@@ -88,6 +88,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   // Refresh & Load more
   const onRefreshFamilies = () => {
     if (isRefreshing === false) {
+      setPageIndex(0);
       dispatch(getRefreshFamiliesRequestAction());
     }
   };
@@ -163,6 +164,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
     setTimeout(() => {
       launchImageLibrary({mediaType: 'photo'}, response => {
         if (response.assets !== undefined && !isNull(response.assets[0]?.uri)) {
+          console.log({uri: response.assets[0]?.uri});
           ImageCropPicker.openCropper({
             cropping: true,
             mediaType: 'photo',
@@ -171,6 +173,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
             width: Constants.FAMILY_THUMBNAIL_WIDTH,
             height: Constants.FAMILY_THUMBNAIL_HEIGHT,
           }).then(cropped => {
+            console.log({cropped});
             if (!isNull(cropped.path) && !isNull(cropped.data)) {
               setThumbnailUri(cropped.path ?? '');
               setThumbnailBase64(cropped.data ?? '');
@@ -212,7 +215,11 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
         onEndReached={onLoadMore}
         onEndReachedThreshold={0.5}
         contentContainerStyle={styles.list}
-        ListFooterComponent={<FooterLoadingIndicator loading={isLoadingMore} />}
+        ListFooterComponent={
+          <FooterLoadingIndicator
+            loading={isLoadingMore && families.length >= Pagination.Family}
+          />
+        }
         keyExtractor={(item, index) => index.toString()}
       />
 

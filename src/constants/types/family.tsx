@@ -24,12 +24,14 @@ export type KickFamilyMemberRequestType = {
 };
 
 export type GetFamilyMembersRequestType = {
+  showHUD?: boolean;
   familyId?: number;
   page?: number;
   size?: number;
 };
 
 export type GetMyFamiliesRequestType = {
+  showHUD?: boolean;
   page?: number;
   size?: number;
 };

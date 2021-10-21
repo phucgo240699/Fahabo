@@ -265,6 +265,9 @@ function* getFamiliesSaga({
   body: GetMyFamiliesRequestType;
 }) {
   try {
+    if (body.showHUD === true) {
+      yield* put(showHUDAction());
+    }
     yield* put(updateIsLoadingFamiliesAction(true));
     const response = yield* apiProxy(getMyFamiliesApi, body);
     if (response.status === 200) {
@@ -292,6 +295,7 @@ function* getFamiliesSaga({
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
   } finally {
+    yield* put(closeHUDAction());
     yield* put(updateIsLoadingFamiliesAction(false));
   }
 }
@@ -386,6 +390,9 @@ function* getFamilyMembersSaga({
   body: GetFamilyMembersRequestType;
 }) {
   try {
+    if (body.showHUD === true) {
+      yield* put(showHUDAction());
+    }
     yield* put(updateIsLoadingFamilyMembersAction(true));
     const response = yield* apiProxy(getFamilyMembersApi, body);
     if (response.status === 200) {
@@ -415,6 +422,7 @@ function* getFamilyMembersSaga({
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
   } finally {
+    yield* put(closeHUDAction());
     yield* put(updateIsLoadingFamilyMembersAction(false));
   }
 }
