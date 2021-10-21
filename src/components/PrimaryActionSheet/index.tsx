@@ -1,16 +1,5 @@
 import React from 'react';
-import {
-  FlatList,
-  Box,
-  useDisclose,
-  Actionsheet,
-  Modal,
-  FormControl,
-  Input,
-  Button,
-  IActionsheetProps,
-  View,
-} from 'native-base';
+import {Actionsheet, View} from 'native-base';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {getInset} from 'react-native-safe-area-view';
 import colors from '@themes/colors';

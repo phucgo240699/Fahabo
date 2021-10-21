@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import {BarCodeReadEvent} from 'react-native-camera';

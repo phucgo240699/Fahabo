@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Box, FlatList, ScrollView, useDisclose} from 'native-base';
+import {Avatar, FlatList, ScrollView, useDisclose} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
@@ -16,13 +16,8 @@ import {
 import PrimaryIcon from '@components/PrimaryIcon';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {Constants, Pagination, ScreenName} from '@constants/Constants';
-import {
-  Platform,
-  RefreshControl,
-  ScrollViewBase,
-  StyleSheet,
-} from 'react-native';
-import {DummyAlbums, DummyDetailFamily} from '@constants/DummyData';
+import {Platform, RefreshControl, StyleSheet} from 'react-native';
+import {DummyAlbums} from '@constants/DummyData';
 import fonts, {PrimaryFontBold} from '@themes/fonts';
 import PreviewAlbumBox from '@screens/albums/shared/PreviewAlbumBox';
 import i18n from '@locales/index';
@@ -42,7 +37,6 @@ import {
   membersInFamilySelector,
 } from '@store/selectors/family';
 import {isNull} from '@utils/index';
-import {launchImageLibrary} from 'react-native-image-picker';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import {userSelector} from '@store/selectors/authentication';
 import {isRefreshingFamilyDetailSelector} from '@store/selectors/session';
@@ -191,25 +185,18 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   };
   const chooseFromGallery = () => {
     onClose();
-    setTimeout(() => {
-      launchImageLibrary({mediaType: 'photo'}, response => {
-        if (response.assets !== undefined && !isNull(response.assets[0]?.uri)) {
-          ImageCropPicker.openCropper({
-            cropping: true,
-            mediaType: 'photo',
-            includeBase64: true,
-            path: response.assets[0]?.uri ?? '',
-            width: Constants.FAMILY_THUMBNAIL_WIDTH,
-            height: Constants.FAMILY_THUMBNAIL_HEIGHT,
-          }).then(cropped => {
-            if (!isNull(cropped.path) && !isNull(cropped.data)) {
-              setThumbnailUri(cropped.path ?? '');
-              setThumbnailBase64(cropped.data ?? '');
-            }
-          });
-        }
-      });
-    }, 300);
+    ImageCropPicker.openPicker({
+      cropping: true,
+      mediaType: 'photo',
+      includeBase64: true,
+      width: Constants.FAMILY_THUMBNAIL_WIDTH,
+      height: Constants.FAMILY_THUMBNAIL_HEIGHT,
+    }).then(cropped => {
+      if (!isNull(cropped.path) && !isNull(cropped.data)) {
+        setThumbnailUri(cropped.path ?? '');
+        setThumbnailBase64(cropped.data ?? '');
+      }
+    });
   };
 
   const members = isNull(membersInFamily)

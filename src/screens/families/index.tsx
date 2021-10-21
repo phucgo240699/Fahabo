@@ -2,27 +2,15 @@ import React, {useEffect, useState} from 'react';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {
-  FlatList,
-  Box,
-  useDisclose,
-  Actionsheet,
-  Modal,
-  FormControl,
-  Input,
-  Button,
-} from 'native-base';
+import {FlatList, useDisclose} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {cameraIcon, placeholderImage, plusIcon} from '@constants/sources/index';
+import {plusIcon} from '@constants/sources/index';
 import PrimaryButton from '@components/PrimaryButton';
 import i18n from '@locales/index';
 import ProfileHeader from '@components/ProfileHeader';
 import HorizontalFamilyItem from './shared/HorizontalFamilyItem';
 import {navigate} from '@navigators/index';
 import {Constants, Pagination, ScreenName} from '@constants/Constants';
-import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
-import {getInset} from 'react-native-safe-area-view';
-import {DummyFamilies} from '@constants/DummyData';
 import {useDispatch, useSelector} from 'react-redux';
 import {familiesSelector} from '@store/selectors/family';
 import {
@@ -32,12 +20,10 @@ import {
   getRefreshFamiliesRequestAction,
 } from '@store/actionTypes/family';
 import {isNull} from '@utils/index';
-import {launchImageLibrary} from 'react-native-image-picker';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {Platform, RefreshControl, StyleSheet} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
-import {FamilyType} from '@constants/types/family';
 import FamilyCreationModal from './shared/FamilyCreationModal';
 import {
   isLoadingFamiliesSelector,
@@ -161,27 +147,19 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   };
   const chooseFromGallery = () => {
     setShowTakePhotoActionSheet(false);
-    setTimeout(() => {
-      launchImageLibrary({mediaType: 'photo'}, response => {
-        if (response.assets !== undefined && !isNull(response.assets[0]?.uri)) {
-          console.log({uri: response.assets[0]?.uri});
-          ImageCropPicker.openCropper({
-            cropping: true,
-            mediaType: 'photo',
-            includeBase64: true,
-            path: response.assets[0]?.uri ?? '',
-            width: Constants.FAMILY_THUMBNAIL_WIDTH,
-            height: Constants.FAMILY_THUMBNAIL_HEIGHT,
-          }).then(cropped => {
-            console.log({cropped});
-            if (!isNull(cropped.path) && !isNull(cropped.data)) {
-              setThumbnailUri(cropped.path ?? '');
-              setThumbnailBase64(cropped.data ?? '');
-            }
-          });
-        }
-      });
-    }, 300);
+    ImageCropPicker.openPicker({
+      cropping: true,
+      mediaType: 'photo',
+      includeBase64: true,
+      width: Constants.FAMILY_THUMBNAIL_WIDTH,
+      height: Constants.FAMILY_THUMBNAIL_HEIGHT,
+    }).then(cropped => {
+      console.log({cropped});
+      if (!isNull(cropped.path) && !isNull(cropped.data)) {
+        setThumbnailUri(cropped.path ?? '');
+        setThumbnailBase64(cropped.data ?? '');
+      }
+    });
   };
 
   return (

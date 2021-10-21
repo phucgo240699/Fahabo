@@ -28,7 +28,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {logOutAction} from '@store/actionTypes/signIn';
 import {userSelector} from '@store/selectors/authentication';
 import {isNull} from '@utils/index';
-import {launchImageLibrary} from 'react-native-image-picker';
 import {
   getProfileRequestAction,
   updateProfileAvatarRequestAction,
@@ -98,31 +97,24 @@ const ProfileScreen: React.FC<Props> = () => {
   };
   const chooseFromGallery = () => {
     onClose();
-    setTimeout(() => {
-      launchImageLibrary({mediaType: 'photo'}, response => {
-        if (response.assets !== undefined && !isNull(response.assets[0]?.uri)) {
-          ImageCropPicker.openCropper({
-            cropping: true,
-            mediaType: 'photo',
-            includeBase64: true,
-            path: response.assets[0]?.uri ?? '',
-            width: Constants.PROFILE_AVATAR_WIDTH,
-            height: Constants.PROFILE_AVATAR_HEIGHT,
-          }).then(cropped => {
-            if (!isNull(cropped.data)) {
-              dispatch(
-                updateProfileAvatarRequestAction({
-                  avatar: {
-                    name: 'avatar.jpg',
-                    base64Data: cropped.data ?? '',
-                  },
-                }),
-              );
-            }
-          });
-        }
-      });
-    }, 500);
+    ImageCropPicker.openPicker({
+      cropping: true,
+      mediaType: 'photo',
+      includeBase64: true,
+      width: Constants.PROFILE_AVATAR_WIDTH,
+      height: Constants.PROFILE_AVATAR_HEIGHT,
+    }).then(cropped => {
+      if (!isNull(cropped.data)) {
+        dispatch(
+          updateProfileAvatarRequestAction({
+            avatar: {
+              name: 'avatar.jpg',
+              base64Data: cropped.data ?? '',
+            },
+          }),
+        );
+      }
+    });
   };
 
   // Log out

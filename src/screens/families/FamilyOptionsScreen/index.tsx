@@ -1,28 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Box,
-  Button,
-  FormControl,
-  Input,
-  Modal,
-  Actionsheet,
-  useDisclose,
-} from 'native-base';
+import {Box, useDisclose} from 'native-base';
 import colors from '@themes/colors';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import i18n from '@locales/index';
 import styled from 'styled-components/native';
 import fonts from '@themes/fonts';
 import PrimaryButton from '@components/PrimaryButton';
-import {cameraIcon, closeIcon, placeholderImage} from '@constants/sources';
-import {Alert, StyleSheet} from 'react-native';
+import {closeIcon} from '@constants/sources';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {navigate} from '@navigators/index';
 import {Constants, ScreenName} from '@constants/Constants';
 import {getInset} from 'react-native-safe-area-view';
 import {CommonActions, useNavigation} from '@react-navigation/native';
-import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
-import {launchImageLibrary} from 'react-native-image-picker';
 import {isNull} from '@utils/index';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {createFamilyRequestAction} from '@store/actionTypes/family';
@@ -94,25 +83,18 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
   };
   const chooseFromGallery = () => {
     onClose();
-    setTimeout(() => {
-      launchImageLibrary({mediaType: 'photo'}, response => {
-        if (response.assets !== undefined && !isNull(response.assets[0]?.uri)) {
-          ImageCropPicker.openCropper({
-            cropping: true,
-            mediaType: 'photo',
-            includeBase64: true,
-            path: response.assets[0]?.uri ?? '',
-            width: Constants.FAMILY_THUMBNAIL_WIDTH,
-            height: Constants.FAMILY_THUMBNAIL_HEIGHT,
-          }).then(cropped => {
-            if (!isNull(cropped.path) && !isNull(cropped.data)) {
-              setThumbnailUri(cropped.path ?? '');
-              setThumbnailBase64(cropped.data ?? '');
-            }
-          });
-        }
-      });
-    }, 300);
+    ImageCropPicker.openPicker({
+      cropping: true,
+      mediaType: 'photo',
+      includeBase64: true,
+      width: Constants.FAMILY_THUMBNAIL_WIDTH,
+      height: Constants.FAMILY_THUMBNAIL_HEIGHT,
+    }).then(cropped => {
+      if (!isNull(cropped.path) && !isNull(cropped.data)) {
+        setThumbnailUri(cropped.path ?? '');
+        setThumbnailBase64(cropped.data ?? '');
+      }
+    });
   };
 
   // Button Create & Join
@@ -187,77 +169,6 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
           },
         ]}
       />
-
-      {/* <Modal isOpen={showCreationModal} onClose={onPressCancel}>
-        <Modal.Content maxWidth="400px" backgroundColor={colors.WHITE}>
-          <Modal.Body>
-            <FormControl>
-              <FormControl.Label _text={{color: colors.DARK_GRAY}}>
-                {`${i18n.t('family.thumbnail')}:`}
-              </FormControl.Label>
-              <ThumbnailContainer onPress={onOpen}>
-                {isNull(thumbnailUri) ? (
-                  <Thumbnail source={placeholderImage} />
-                ) : (
-                  <Thumbnail source={{uri: thumbnailUri}} />
-                )}
-
-                <CameraIcon
-                  width={36}
-                  height={36}
-                  source={cameraIcon}
-                  tintColor={colors.DARK_GRAY}
-                />
-              </ThumbnailContainer>
-              <FormControl.Label mt={10} _text={{color: colors.DARK_GRAY}}>
-                {`${i18n.t('family.name')}:`}
-              </FormControl.Label>
-              <Input
-                value={name}
-                autoCorrect={false}
-                color={colors.BLACK}
-                autoCompleteType="off"
-                onChangeText={onChangeName}
-              />
-            </FormControl>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button.Group space={2}>
-              <Button
-                variant="ghost"
-                bgColor={colors.CONCRETE}
-                _text={{color: colors.BLACK}}
-                onPress={onPressCancel}>
-                {i18n.t('family.cancel')}
-              </Button>
-              <Button width={100} onPress={onPressSave}>
-                {i18n.t('family.save')}
-              </Button>
-            </Button.Group>
-          </Modal.Footer>
-        </Modal.Content>
-      </Modal> */}
-      {/* <Actionsheet
-        pb={bottomInset}
-        isOpen={isOpen}
-        onClose={onClose}
-        bgColor={colors.WHITE}>
-        <PrimaryActionSheetItem
-          title={i18n.t('popUp.takePhoto')}
-          onPress={takePhoto}
-        />
-        <HLine />
-        <PrimaryActionSheetItem
-          title={i18n.t('popUp.chooseFromGallery')}
-          onPress={chooseFromGallery}
-        />
-        <HLine />
-        <PrimaryActionSheetItem
-          title={i18n.t('popUp.cancel')}
-          titleColor={colors.RED_1}
-          onPress={onClose}
-        />
-      </Actionsheet> */}
     </Box>
   );
 };
