@@ -72,4 +72,6 @@ export const languages: {key: string; value: string}[] = [
 export const Pagination = {
   Family: 10,
   FamilyMembers: 10,
+  Albums: 10,
+  Photos: 10,
 };

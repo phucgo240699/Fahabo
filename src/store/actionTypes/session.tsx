@@ -24,6 +24,16 @@ export const updateIsRefreshingFamilyMembersAction = (payload: boolean) => ({
   type: UPDATE_IS_REFRESHING_FAMILY_MEMBERS,
   payload,
 });
+export const UPDATE_IS_REFRESHING_ALBUMS = 'UPDATE_IS_REFRESHING_ALBUMS';
+export const updateIsRefreshingAlbumsAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_ALBUMS,
+  payload,
+});
+export const UPDATE_IS_REFRESHING_PHOTOS = 'UPDATE_IS_REFRESHING_PHOTOS';
+export const updateIsRefreshingPhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_PHOTOS,
+  payload,
+});
 
 // Load More
 export const UPDATE_IS_LOADING_FAMILIES = 'UPDATE_IS_LOADING_FAMILIES';
@@ -35,6 +45,16 @@ export const UPDATE_IS_LOADING_FAMILY_MEMBERS =
   'UPDATE_IS_LOADING_FAMILY_MEMBERS';
 export const updateIsLoadingFamilyMembersAction = (payload: boolean) => ({
   type: UPDATE_IS_LOADING_FAMILY_MEMBERS,
+  payload,
+});
+export const UPDATE_IS_LOADING_ALBUMS = 'UPDATE_IS_LOADING_ALBUMS';
+export const updateIsLoadingAlbumsAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_ALBUMS,
+  payload,
+});
+export const UPDATE_IS_LOADING_PHOTOS = 'UPDATE_IS_LOADING_PHOTOS';
+export const updateIsLoadingPhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_PHOTOS,
   payload,
 });
 

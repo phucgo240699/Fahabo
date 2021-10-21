@@ -1,5 +1,3 @@
-import {apiProvider} from './apiProvider';
-import {BASE_URL, Pagination} from '@constants/Constants';
 import {
   CreateFamilyRequestType,
   GetFamilyDetailRequestType,
@@ -12,6 +10,8 @@ import {
   UpdateFamilyThumbnailRequestType,
 } from '@constants/types/family';
 import {isNull} from '@utils/index';
+import {apiProvider} from './apiProvider';
+import {BASE_URL, Pagination} from '@constants/Constants';
 
 export function createFamilyApi(
   accessToken?: string,

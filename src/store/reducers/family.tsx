@@ -8,6 +8,7 @@ import {
   UPDATE_FAMILY_INFO_SUCCESS,
   UPDATE_FAMILY_THUMBNAIL_SUCCESS,
 } from '@store/actionTypes/family';
+import {LOG_OUT} from '@store/actionTypes/signIn';
 import {AnyAction} from 'redux';
 
 export type FamilyState = {
@@ -56,6 +57,13 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
       return {
         ...state,
         membersInFamily: action.payload,
+      };
+    case LOG_OUT:
+      return {
+        ...state,
+        families: [],
+        familyDetail: undefined,
+        membersInFamily: [],
       };
     default:
       return state;

@@ -21,24 +21,26 @@ import {
 } from '@store/actionTypes/session';
 import {isNull} from '@utils/index';
 import {parseSignInResponse} from '@utils/parsers/authentication';
+import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 
 function* onSignInRequest(action: AnyAction) {
   try {
     yield* put(showHUDAction());
     const response = yield* call(signIn, action.body);
     if (response.status === 200) {
+      const data = parseDataResponse(response);
       // Check is Active
-      if (response.data.data.isValidEmail === true) {
+      if (data.isValidEmail === true) {
         // Check is join Family
-        if (response.data.data.user.familyNum > 0) {
-          if (!isNull(response.data.data.user.languageCode)) {
-            i18n.locale = response.data.data.user.languageCode;
-            i18n.defaultLocale = response.data.data.user.languageCode;
+        if (data.user.familyNum > 0) {
+          if (!isNull(data.user.languageCode)) {
+            i18n.locale = data.user.languageCode;
+            i18n.defaultLocale = data.user.languageCode;
           }
           yield* put(
             signInSuccessAction(
               parseSignInResponse({
-                ...response.data.data,
+                ...data,
                 password: action.body.password,
               }),
             ),
@@ -46,14 +48,14 @@ function* onSignInRequest(action: AnyAction) {
 
           navigateReset(StackName.MainStack);
         } else {
-          if (!isNull(response.data.data.user.languageCode)) {
-            i18n.locale = response.data.data.user.languageCode;
-            i18n.defaultLocale = response.data.data.user.languageCode;
+          if (!isNull(data.user.languageCode)) {
+            i18n.locale = data.user.languageCode;
+            i18n.defaultLocale = data.user.languageCode;
           }
           yield* put(
             signInSuccessAction(
               parseSignInResponse({
-                ...response.data.data,
+                ...data,
                 password: action.body.password,
               }),
             ),
@@ -75,7 +77,7 @@ function* onSignInRequest(action: AnyAction) {
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -96,21 +98,21 @@ function* onSignInRequest(action: AnyAction) {
 // Call from FlashScreen
 function* onAutoSignInRequest(action: AnyAction) {
   try {
-    console.log(action.body);
     if (!isNull(action.body.username) && !isNull(action.body.password)) {
       const response = yield* call(signIn, action.body);
       // Check is Active
       if (response.status === 200 && response.data.data.isValidEmail === true) {
+        const data = parseDataResponse(response);
         // Check is join Family
-        if (response.data.data.user.familyNum > 0) {
-          if (!isNull(response.data.data.user.languageCode)) {
-            i18n.locale = response.data.data.user.languageCode;
-            i18n.defaultLocale = response.data.data.user.languageCode;
+        if (data.user.familyNum > 0) {
+          if (!isNull(data.user.languageCode)) {
+            i18n.locale = data.user.languageCode;
+            i18n.defaultLocale = data.user.languageCode;
           }
           yield* put(
             autoSignInSuccessAction(
               parseSignInResponse({
-                ...response.data.data,
+                ...data,
                 password: action.body.password,
               }),
             ),

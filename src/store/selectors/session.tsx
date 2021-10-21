@@ -22,6 +22,13 @@ export const isRefreshingFamilyDetailSelector = (state: RootState) =>
 
 export const isRefreshingFamilyMembersSelector = (state: RootState) =>
   state.session.isRefreshingFamilyMembers;
+
+export const isRefreshingAlbumsSelector = (state: RootState) =>
+  state.session.isRefreshingAlbums;
+
+export const isRefreshingPhotosSelector = (state: RootState) =>
+  state.session.isRefreshingPhotos;
+
 //
 // Load More
 //
@@ -30,6 +37,12 @@ export const isLoadingFamiliesSelector = (state: RootState) =>
 
 export const isLoadingFamilyMembersSelector = (state: RootState) =>
   state.session.isLoadingFamilyMembers;
+
+export const isLoadingAlbumsSelector = (state: RootState) =>
+  state.session.isLoadingAlbums;
+
+export const isLoadingPhotosSelector = (state: RootState) =>
+  state.session.isLoadingPhotos;
 
 //
 // Toast

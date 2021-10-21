@@ -2,7 +2,6 @@ import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
 import {navigationRef, navigate} from '@navigators/index';
 import {
-  // getAvatarApi,
   getPreviewAlbumApi,
   getProfileApi,
   updatePasswordApi,
@@ -10,10 +9,8 @@ import {
   updateProfileAvatarApi,
 } from '@services/profile';
 import {
-  // getAvatarSuccessAction,
   getPreviewAlbumSuccessAction,
   getProfileSuccessAction,
-  // GET_AVATAR_REQUEST,
   GET_PREVIEW_ALBUM_REQUEST,
   GET_PROFILE_REQUEST,
   updateLanguageSuccessAction,
@@ -35,9 +32,8 @@ import {
   showToastAction,
   updateIsRefreshingProfileAction,
 } from '@store/actionTypes/session';
-import {parseGetAvatarResponse} from '@utils/parsers/profile';
 import {AnyAction} from 'redux';
-import {all, delay, put, select, takeLeading} from 'typed-redux-saga';
+import {all, delay, put, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
 import {CommonActions} from '@react-navigation/native';
 import {
@@ -46,17 +42,17 @@ import {
 } from '@utils/parsers/authentication';
 import RNRestart from 'react-native-restart';
 import {ScreenName} from '@constants/Constants';
-import {isRefreshingProfileSelector} from '@store/selectors/session';
+import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 
 function* onGetPreviewAlbumSaga(action: AnyAction) {
   try {
     const response: any = yield* apiProxy(getPreviewAlbumApi);
     if (response.status === 200) {
-      yield* put(getPreviewAlbumSuccessAction(response.data.data));
+      yield* put(getPreviewAlbumSuccessAction(parseDataResponse(response)));
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -80,11 +76,11 @@ function* onUpdateProfileAvatarSaga(action: AnyAction) {
           ToastType.SUCCESS,
         ),
       );
-      yield* put(updateProfileAvatarSuccessAction(response.data.data));
+      yield* put(updateProfileAvatarSuccessAction(parseDataResponse(response)));
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -107,11 +103,13 @@ function* onGetProfileSaga(action: AnyAction) {
     yield* put(updateIsRefreshingProfileAction(true));
     const response: any = yield* apiProxy(getProfileApi, action.body);
     if (response.status === 200) {
-      yield* put(getProfileSuccessAction(parseUser(response.data.data)));
+      yield* put(
+        getProfileSuccessAction(parseUser(parseDataResponse(response))),
+      );
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -137,13 +135,13 @@ function* onUpdateProfileSaga(action: AnyAction) {
       );
       yield* put(
         updateProfileSuccessAction(
-          parseUpdateProfileResponse(response.data.data),
+          parseUpdateProfileResponse(parseDataResponse(response)),
         ),
       );
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -174,13 +172,13 @@ function* onUpdateLanguageSaga(action: AnyAction) {
       );
       yield* put(
         updateLanguageSuccessAction(
-          parseUpdateProfileResponse(response.data.data),
+          parseUpdateProfileResponse(parseDataResponse(response)),
         ),
       );
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -214,7 +212,7 @@ function* onUpdatePasswordSaga(action: AnyAction) {
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );

@@ -21,7 +21,6 @@ import {
   verifyUserSuccessAction,
   VERIFY_FORGOT_PASSWORD_OTP_REQUEST,
   VERIFY_USERNAME_REQUEST,
-  VERIFY_USERNAME_SUCCESS,
 } from '@store/actionTypes/signUp';
 import {ToastType} from '@constants/types/session';
 import {all, call, put, takeLeading} from 'typed-redux-saga';
@@ -43,6 +42,7 @@ import {
   parseVerifyUsernameRequest,
 } from '@utils/parsers/authentication';
 import {showResetPasswordLinkModalAction} from '@store/actionTypes/modals';
+import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 
 function* onSignUpRequest(action: AnyAction) {
   try {
@@ -52,7 +52,7 @@ function* onSignUpRequest(action: AnyAction) {
       yield* put(
         signUpSuccessAction(
           parseSignUpResponse({
-            ...response.data.data,
+            ...parseDataResponse(response),
             password: action.body.password,
           }),
         ),
@@ -60,7 +60,7 @@ function* onSignUpRequest(action: AnyAction) {
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -107,7 +107,7 @@ function* onGetOTPRequest(action: AnyAction) {
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -127,7 +127,7 @@ function* onGetOTPRequestBackground(action: AnyAction) {
     if (response.status === 200) {
       // console.log(i18n.t(`successMessage.gotOTP ${action.body.username}`));
     } else {
-      // console.log(i18n.t(`backend.${response.data.errors[0]}`));
+      // console.log(i18n.t(`backend.${parseErrorResponse(response)}`));
     }
   } catch (error) {
     // console.log({error});
@@ -145,23 +145,16 @@ function* onVerifyUsernameRequest(action: AnyAction) {
     );
     console.log({response});
     if (response.status === 200) {
-      console.log(
-        verifyUserSuccessAction(
-          parseVerifyResponse({
-            ...response.data.data,
-            password: action.body.password,
-          }),
-        ),
-      );
+      const data = parseDataResponse(response);
       yield* put(
         verifyUserSuccessAction(
           parseVerifyResponse({
-            ...response.data.data,
+            ...data,
             password: action.body.password,
           }),
         ),
       );
-      if (response.data.data.user.familyNum > 0) {
+      if (data.user.familyNum > 0) {
         navigateReset(StackName.MainStack);
       } else {
         navigate(ScreenName.FamilyOptionsScreen, {allowNavigateBack: true});
@@ -169,7 +162,7 @@ function* onVerifyUsernameRequest(action: AnyAction) {
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -192,12 +185,9 @@ function* onGetForgotPasswordOTPRequest(action: AnyAction) {
     yield* put(showHUDAction());
     const response = yield* call(getForgotPasswordOTP, action.body);
     if (response.status === 200) {
-      if (response.data.data.resetPasswordLink) {
-        yield* put(
-          showResetPasswordLinkModalAction(
-            response.data.data.resetPasswordLink,
-          ),
-        );
+      const data = parseDataResponse(response);
+      if (data.resetPasswordLink) {
+        yield* put(showResetPasswordLinkModalAction(data.resetPasswordLink));
       } else {
         navigate(ScreenName.PinCodeScreen, {
           ...action.body,
@@ -207,7 +197,7 @@ function* onGetForgotPasswordOTPRequest(action: AnyAction) {
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -235,7 +225,7 @@ function* onGetForgotPasswordOTPRequestAgain(action: AnyAction) {
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -261,7 +251,7 @@ function* onVerifyForgotPasswordOTPRequest(action: AnyAction) {
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -290,7 +280,7 @@ function* onForgotPasswordRequest(action: AnyAction) {
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -316,7 +306,6 @@ export default function* () {
     takeLeading(GET_OTP_REQUEST, onGetOTPRequest),
     takeLeading(GET_OTP_REQUEST_BACKGROUND, onGetOTPRequestBackground),
     takeLeading(VERIFY_USERNAME_REQUEST, onVerifyUsernameRequest),
-    // takeLeading(VERIFY_USERNAME_SUCCESS, onVerifyUsernameSuccess),
     takeLeading(GET_FORGOT_PASSWORD_OTP_REQUEST, onGetForgotPasswordOTPRequest),
     takeLeading(
       GET_FORGOT_PASSWORD_OTP_REQUEST_AGAIN,

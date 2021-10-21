@@ -69,7 +69,7 @@ const NewPasswordScreen: React.FC<Props> = ({route}) => {
           <VStack space={2} m={5}>
             <FormControl mt={2}>
               <FormControl.Label
-                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: colors.GRAY, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t('authentication.forgotPassword.newPassword')} *`}
               </FormControl.Label>
               <Input
@@ -83,7 +83,7 @@ const NewPasswordScreen: React.FC<Props> = ({route}) => {
 
             <FormControl mt={3}>
               <FormControl.Label
-                _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 500}}>
+                _text={{color: colors.GRAY, fontSize: 'sm', fontWeight: 500}}>
                 {`${i18n.t(
                   'authentication.forgotPassword.confirmNewPassword',
                 )} *`}

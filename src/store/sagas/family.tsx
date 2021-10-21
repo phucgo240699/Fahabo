@@ -66,6 +66,7 @@ import {
   membersInFamilySelector,
   familiesSelector,
 } from '@store/selectors/family';
+import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 
 function* createFamilySaga({
   body,
@@ -78,15 +79,17 @@ function* createFamilySaga({
     const response = yield* apiProxy(createFamilyApi, body);
     if (response.status === 200) {
       yield* put(
-        createFamilySuccessAction(parseFamily(response.data.data.family)),
+        createFamilySuccessAction(
+          parseFamily(parseDataResponse(response).family),
+        ),
       );
-      if (response.data.data.alreadyHadFamily !== true) {
+      if (parseDataResponse(response).alreadyHadFamily !== true) {
         navigateReset(StackName.MainStack);
       }
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -106,9 +109,11 @@ function* joinFamilySaga({body}: {type: string; body: JoinFamilyRequestType}) {
     const response = yield* apiProxy(joinFamilyApi, body);
     if (response.status === 200) {
       yield* put(
-        joinFamilySuccessAction(parseFamily(response.data.data.family)),
+        joinFamilySuccessAction(
+          parseFamily(parseDataResponse(response).family),
+        ),
       );
-      if (response.data.data.alreadyHadFamily == true) {
+      if (parseDataResponse(response).alreadyHadFamily == true) {
         navigationRef.current.dispatch(CommonActions.goBack());
       } else {
         navigateReset(StackName.MainStack);
@@ -116,7 +121,7 @@ function* joinFamilySaga({body}: {type: string; body: JoinFamilyRequestType}) {
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -145,7 +150,7 @@ function* leaveFamilySaga({
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -173,7 +178,7 @@ function* kickFamilyMemberSaga({
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -203,12 +208,14 @@ function* updateFamilyThumbnailSaga({
         ),
       );
       yield* put(
-        updateFamilyThumbnailSuccessAction(parseFamily(response.data.data)),
+        updateFamilyThumbnailSuccessAction(
+          parseFamily(parseDataResponse(response)),
+        ),
       );
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -239,12 +246,12 @@ function* updateFamilyInfoSaga({
         ),
       );
       yield* put(
-        updateFamilyInfoSuccessAction(parseFamily(response.data.data)),
+        updateFamilyInfoSuccessAction(parseFamily(parseDataResponse(response))),
       );
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -276,16 +283,18 @@ function* getFamiliesSaga({
         yield* put(
           getFamiliesSuccessAction([
             ...oldData,
-            ...parseFamilies(response.data.data),
+            ...parseFamilies(parseDataResponse(response)),
           ]),
         );
       } else {
-        yield* put(getFamiliesSuccessAction(parseFamilies(response.data.data)));
+        yield* put(
+          getFamiliesSuccessAction(parseFamilies(parseDataResponse(response))),
+        );
       }
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -305,11 +314,13 @@ function* getRefreshFamiliesSaga(action: AnyAction) {
     yield* put(updateIsRefreshingFamiliesAction(true));
     const response = yield* apiProxy(getMyFamiliesApi);
     if (response.status === 200) {
-      yield* put(getFamiliesSuccessAction(parseFamilies(response.data.data)));
+      yield* put(
+        getFamiliesSuccessAction(parseFamilies(parseDataResponse(response))),
+      );
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -334,12 +345,14 @@ function* getFamilyDetailSage({
     const response = yield* apiProxy(getFamilyDetailApi, body);
 
     if (response.status === 200) {
-      yield* put(getFamilyDetailSuccessAction(parseFamily(response.data.data)));
+      yield* put(
+        getFamilyDetailSuccessAction(parseFamily(parseDataResponse(response))),
+      );
       navigate(ScreenName.FamilyDetailScreen);
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -364,12 +377,14 @@ function* getRefreshFamilyDetailSage({
     const response = yield* apiProxy(getFamilyDetailApi, body);
 
     if (response.status === 200) {
-      yield* put(getFamilyDetailSuccessAction(parseFamily(response.data.data)));
+      yield* put(
+        getFamilyDetailSuccessAction(parseFamily(parseDataResponse(response))),
+      );
       navigate(ScreenName.FamilyDetailScreen);
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -401,18 +416,20 @@ function* getFamilyMembersSaga({
         yield* put(
           getFamilyMembersSuccessAction([
             ...oldData,
-            ...parseMembers(response.data.data),
+            ...parseMembers(parseDataResponse(response)),
           ]),
         );
       } else {
         yield* put(
-          getFamilyMembersSuccessAction(parseMembers(response.data.data)),
+          getFamilyMembersSuccessAction(
+            parseMembers(parseDataResponse(response)),
+          ),
         );
       }
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );
@@ -438,12 +455,14 @@ function* getRefreshFamilyMembersSaga({
     const response = yield* apiProxy(getFamilyMembersApi, body);
     if (response.status === 200) {
       yield* put(
-        getFamilyMembersSuccessAction(parseMembers(response.data.data)),
+        getFamilyMembersSuccessAction(
+          parseMembers(parseDataResponse(response)),
+        ),
       );
     } else {
       yield* put(
         showToastAction(
-          i18n.t(`backend.${response.data.errors[0]}`),
+          i18n.t(`backend.${parseErrorResponse(response)}`),
           ToastType.ERROR,
         ),
       );

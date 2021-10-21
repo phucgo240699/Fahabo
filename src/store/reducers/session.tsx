@@ -7,11 +7,15 @@ import {
   SHOW_TOAST,
   TURN_OFF_REFRESHING_TOKEN,
   TURN_ON_REFRESHING_TOKEN,
+  UPDATE_IS_LOADING_ALBUMS,
   UPDATE_IS_LOADING_FAMILIES,
   UPDATE_IS_LOADING_FAMILY_MEMBERS,
+  UPDATE_IS_LOADING_PHOTOS,
+  UPDATE_IS_REFRESHING_ALBUMS,
   UPDATE_IS_REFRESHING_FAMILIES,
   UPDATE_IS_REFRESHING_FAMILY_DETAIL,
   UPDATE_IS_REFRESHING_FAMILY_MEMBERS,
+  UPDATE_IS_REFRESHING_PHOTOS,
   UPDATE_IS_REFRESHING_PROFILE,
 } from '@store/actionTypes/session';
 
@@ -33,10 +37,14 @@ export type SessionState = {
   isRefreshingFamilies: boolean;
   isRefreshingFamilyDetail: boolean;
   isRefreshingFamilyMembers: boolean;
+  isRefreshingAlbums: boolean;
+  isRefreshingPhotos: boolean;
 
   // Load More
   isLoadingFamilies: boolean;
   isLoadingFamilyMembers: boolean;
+  isLoadingAlbums: boolean;
+  isLoadingPhotos: boolean;
 
   // Toasts
   toasts: {id: number; toast: ToastState}[];
@@ -54,10 +62,14 @@ const defaultState: SessionState = {
   isRefreshingFamilies: false,
   isRefreshingFamilyDetail: false,
   isRefreshingFamilyMembers: false,
+  isRefreshingAlbums: false,
+  isRefreshingPhotos: false,
 
   // Load More
   isLoadingFamilies: false,
   isLoadingFamilyMembers: false,
+  isLoadingAlbums: false,
+  isLoadingPhotos: false,
 
   // Toasts
   toasts: [],
@@ -88,6 +100,7 @@ export default function sessionReducer(
         ...state,
         refreshingToken: false,
       };
+    // Refresh
     case UPDATE_IS_REFRESHING_PROFILE:
       return {
         ...state,
@@ -108,6 +121,17 @@ export default function sessionReducer(
         ...state,
         isRefreshingFamilyMembers: action.payload,
       };
+    case UPDATE_IS_REFRESHING_ALBUMS:
+      return {
+        ...state,
+        isRefreshingAlbums: state.isRefreshingAlbums,
+      };
+    case UPDATE_IS_REFRESHING_PHOTOS:
+      return {
+        ...state,
+        isRefreshingPhotos: state.isRefreshingPhotos,
+      };
+    // Loading
     case UPDATE_IS_LOADING_FAMILIES:
       return {
         ...state,
@@ -117,6 +141,16 @@ export default function sessionReducer(
       return {
         ...state,
         isLoadingFamilyMembers: action.payload,
+      };
+    case UPDATE_IS_LOADING_ALBUMS:
+      return {
+        ...state,
+        isLoadingAlbums: state.isLoadingAlbums,
+      };
+    case UPDATE_IS_LOADING_PHOTOS:
+      return {
+        ...state,
+        isLoadingPhotos: state.isLoadingPhotos,
       };
     case SHOW_TOAST:
       return {
