@@ -20,6 +20,8 @@ export const interactionsIcon = require('@assets/images/interactions_icon.png');
 export const selectedInteractionsIcon = require('@assets/images/selected_interactions_icon.png');
 export const locationsIcon = require('@assets/images/locations_icon.png');
 export const selectedLocationsIcon = require('@assets/images/selected_locations_icon.png');
+export const familyIcon = require('@assets/images/family_icon.png');
+export const selectedFamilyIcon = require('@assets/images/selected_family_icon.png');
 export const profileIcon = require('@assets/images/profile_icon.png');
 export const selectedProfileIcon = require('@assets/images/selected_profile_icon.png');
 

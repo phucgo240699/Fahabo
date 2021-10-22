@@ -40,7 +40,7 @@ const ProfileSettingsBox: React.FC<Props> = ({
 };
 
 const Container = styled.View`
-  margin-top: 15px;
+  margin-top: 50px;
   width: ${Constants.MAX_WIDTH - 100}px;
 `;
 

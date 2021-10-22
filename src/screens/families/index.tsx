@@ -31,6 +31,7 @@ import {
 } from '@store/selectors/session';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
+import PrimaryHeader from '@components/PrimaryHeader';
 
 interface Props {
   route?: any;
@@ -169,7 +170,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
       />
-      <ProfileHeader
+      {/* <ProfileHeader
         title={i18n.t('family.families')}
         rightComponent={
           <PrimaryButton
@@ -179,7 +180,8 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
             onPress={onOpen}
           />
         }
-      />
+      /> */}
+      <PrimaryHeader title={i18n.t('family.families')} onPressPlus={onOpen} />
 
       <FlatList
         data={families}

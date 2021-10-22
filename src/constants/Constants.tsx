@@ -16,6 +16,7 @@ export enum StackName {
   TransactionsStack = 'TransactionsStack',
   InteractionsStack = 'InteractionsStack',
   LocationsStack = 'LocationsStack',
+  FamilyStack = 'FamilyStack',
   ProfileStack = 'ProfileStack',
 }
 

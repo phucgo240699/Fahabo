@@ -3,8 +3,8 @@ import colors from '@themes/colors';
 import {StackName} from '@constants/Constants';
 import PrimaryIcon from '@components/PrimaryIcon';
 import HomeStack from './HomeStack';
+import FamilyStack from './FamilyStack';
 import ProfileStack from './ProfileStack';
-import LocationsStack from './LocationsStack';
 import TransactionsStack from './TransactionsStack';
 import InteractionsStack from './InteractionsStack';
 import {
@@ -14,10 +14,10 @@ import {
   selectedTransactionsIcon,
   interactionsIcon,
   selectedInteractionsIcon,
-  locationsIcon,
-  selectedLocationsIcon,
   profileIcon,
   selectedProfileIcon,
+  selectedFamilyIcon,
+  familyIcon,
 } from '@constants/sources/index';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -49,8 +49,8 @@ const BottomTabs = () => {
                 : interactionsIcon;
               tintColor = focused ? colors.THEME_COLOR_5 : colors.SILVER;
               break;
-            case StackName.LocationsStack:
-              iconSource = focused ? selectedLocationsIcon : locationsIcon;
+            case StackName.FamilyStack:
+              iconSource = focused ? selectedFamilyIcon : familyIcon;
               tintColor = focused ? colors.THEME_COLOR_5 : colors.SILVER;
               break;
             case StackName.ProfileStack:
@@ -87,8 +87,8 @@ const BottomTabs = () => {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name={StackName.LocationsStack}
-        component={LocationsStack}
+        name={StackName.FamilyStack}
+        component={FamilyStack}
         options={{headerShown: false}}
       />
       <Tab.Screen

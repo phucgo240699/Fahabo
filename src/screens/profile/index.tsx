@@ -15,10 +15,9 @@ import {ImageBackground, RefreshControl, StyleSheet} from 'react-native';
 import {navigate} from '@navigators/index';
 import ProfileRelationBox from './shared/ProfileRelationBox';
 import ProfileSettingsBox from './shared/ProfileSettingsBox';
-import {Box, Actionsheet, useDisclose} from 'native-base';
+import {Box, useDisclose} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {Constants, Pagination, ScreenName} from '@constants/Constants';
-import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
+import {Constants, ScreenName} from '@constants/Constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOutAction} from '@store/actionTypes/signIn';
 import {userSelector} from '@store/selectors/authentication';
@@ -27,24 +26,20 @@ import {
   getProfileRequestAction,
   updateProfileAvatarRequestAction,
 } from '@store/actionTypes/profile';
-import PreviewFamilyBox from '@screens/families/shared/PreviewFamilyBox';
-import {DummyFamilies} from '@constants/DummyData';
 import PrimaryFastImage from '@components/PrimaryFastImage';
 import {isRefreshingProfileSelector} from '@store/selectors/session';
 import {
   getFamiliesRequestAction,
   getFamilyDetailRequestAction,
 } from '@store/actionTypes/family';
-import {familiesSelector} from '@store/selectors/family';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import PrimaryActionSheet from '@components/PrimaryActionSheet';
 
 interface Props {}
 
 const ProfileScreen: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
-  const families = useSelector(familiesSelector);
-  const bottomInset = getInset('bottom', false);
   const isRefreshing = useSelector(isRefreshingProfileSelector);
   const {isOpen, onOpen, onClose} = useDisclose();
 
@@ -65,14 +60,6 @@ const ProfileScreen: React.FC<Props> = () => {
   };
   const onPressEvents = () => {
     navigate(ScreenName.MyEventsScreen);
-  };
-
-  // Family
-  const onPressFamilyItem = (item: any) => {
-    dispatch(getFamilyDetailRequestAction({familyId: item.id}));
-  };
-  const onPressViewAllFamily = () => {
-    navigate(ScreenName.FamiliesScreen);
   };
 
   // Settings
@@ -150,14 +137,6 @@ const ProfileScreen: React.FC<Props> = () => {
               onPressEvents={onPressEvents}
             />
 
-            <PreviewFamilyBox
-              data={families.filter((item, index) => {
-                return index < Pagination.Family;
-              })}
-              onPressItem={onPressFamilyItem}
-              onPressViewAll={onPressViewAllFamily}
-            />
-
             <ProfileSettingsBox
               onPressSettings={onPressSettings}
               onPressUpdateProfile={onPressProfile}
@@ -183,27 +162,20 @@ const ProfileScreen: React.FC<Props> = () => {
           </AvatarContainer>
         </Scroll>
 
-        <Actionsheet
-          pb={bottomInset}
+        <PrimaryActionSheet
+          items={[
+            {
+              title: i18n.t('popUp.takePhoto'),
+              onPress: takePhoto,
+            },
+            {
+              title: i18n.t('popUp.chooseFromGallery'),
+              onPress: chooseFromGallery,
+            },
+          ]}
           isOpen={isOpen}
           onClose={onClose}
-          bgColor={colors.WHITE}>
-          <PrimaryActionSheetItem
-            title={i18n.t('popUp.takePhoto')}
-            onPress={takePhoto}
-          />
-          <HLine />
-          <PrimaryActionSheetItem
-            title={i18n.t('popUp.chooseFromGallery')}
-            onPress={chooseFromGallery}
-          />
-          <HLine />
-          <PrimaryActionSheetItem
-            title={i18n.t('popUp.cancel')}
-            titleColor={colors.RED_1}
-            onPress={onClose}
-          />
-        </Actionsheet>
+        />
       </ImageBackground>
     </Box>
   );

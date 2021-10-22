@@ -59,26 +59,6 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
         component={MyEventsScreen}
       />
       <Stack.Screen
-        name={ScreenName.FamiliesScreen}
-        component={FamiliesScreen}
-      />
-      <Stack.Screen
-        name={ScreenName.FamilyDetailScreen}
-        component={FamilyDetailScreen}
-      />
-      <Stack.Screen
-        name={ScreenName.FamilyMembersScreen}
-        component={FamilyMembersScreen}
-      />
-      <Stack.Screen
-        name={ScreenName.QRPresenterScreen}
-        component={QRPresenterScreen}
-      />
-      <Stack.Screen
-        name={ScreenName.ScanFamilyQRScreen}
-        component={ScanFamilyQRScreen}
-      />
-      <Stack.Screen
         name={ScreenName.SettingsScreen}
         component={SettingsScreen}
       />
@@ -93,11 +73,6 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
       <Stack.Screen
         name={ScreenName.UpdateProfileScreen}
         component={UpdateProfileScreen}
-      />
-      <Stack.Screen name={ScreenName.AlbumsScreen} component={AlbumsScreen} />
-      <Stack.Screen
-        name={ScreenName.AlbumDetailScreen}
-        component={AlbumDetailScreen}
       />
     </Stack.Navigator>
   );

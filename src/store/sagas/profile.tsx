@@ -164,7 +164,6 @@ function* onUpdateLanguageSaga(action: AnyAction) {
     yield* put(showHUDAction());
     const response = yield* apiProxy(updateProfileApi, action.body);
     if (response.status === 200) {
-      console.log('action.body: ', action.body);
       if (!isNull(action.body.languageCode)) {
         i18n.defaultLocale = action.body.languageCode;
         i18n.locale = action.body.languageCode;
