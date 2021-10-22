@@ -8,8 +8,6 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 
 interface Props {
   title?: string;
-  titleMarginLeft?: number;
-  titleMarginRight?: number;
   rightComponent?: any;
   backgroundColor?: string;
   onCustomNavigateBack?: () => void;
@@ -17,9 +15,7 @@ interface Props {
 
 const ProfileHeader: React.FC<Props> = ({
   title,
-  titleMarginLeft,
-  titleMarginRight,
-  rightComponent = <EmptyView />,
+  rightComponent = <></>,
   backgroundColor = 'transparent',
   onCustomNavigateBack,
 }) => {
@@ -43,10 +39,9 @@ const ProfileHeader: React.FC<Props> = ({
           leftTintColor={colors.THEME_COLOR_5}
           onPress={onPressBack}
         />
-        <Title marginLeft={titleMarginLeft} marginRight={titleMarginRight}>
-          {title}
-        </Title>
-        {rightComponent}
+        <Title numberOfLines={1}>{title}</Title>
+        <EmptyView />
+        <RightContainer>{rightComponent}</RightContainer>
       </Content>
       <BottomLine />
     </Container>
@@ -62,13 +57,7 @@ const Content = styled.View<{marginTop?: number}>`
   justify-content: space-between;
 `;
 
-const Title = styled(fonts.PrimaryFontBoldSize18)<{
-  marginLeft?: number;
-  marginRight?: number;
-}>`
-  margin-left: ${props => props.marginLeft ?? 0}px;
-  margin-right: ${props => props.marginRight ?? 0}px;
-`;
+const Title = styled(fonts.PrimaryFontBoldSize18)``;
 
 const EmptyView = styled.View`
   width: 24px;
@@ -80,6 +69,12 @@ const BottomLine = styled.View`
   height: 1px;
   margin-top: 8px;
   background-color: ${colors.THEME_COLOR_5};
+`;
+
+const RightContainer = styled.View`
+  right: 0px;
+  position: absolute;
+  flex-direction: row;
 `;
 
 export default React.memo(ProfileHeader);

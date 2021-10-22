@@ -72,8 +72,6 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
       route.params.thumbnailUri &&
       route.params.thumbnailBase64
     ) {
-      console.log({uri: route.params.thumbnailUri});
-      console.log({base: route.params.thumbnailBase64[0]});
       setThumbnailUri(route.params.thumbnailUri);
       setThumbnailBase64(route.params.thumbnailBase64);
     }

@@ -59,6 +59,8 @@ export enum ScreenName {
 export const Constants = {
   MAX_WIDTH: width,
   MAX_HEIGHT: height,
+  LIMIT_PHOTO_UPLOAD: 4,
+  LIMIT_PHOTO_DELETE: 5,
   PROFILE_AVATAR_WIDTH: 128,
   PROFILE_AVATAR_HEIGHT: 128,
   FAMILY_THUMBNAIL_WIDTH: 512,
@@ -73,6 +75,6 @@ export const languages: {key: string; value: string}[] = [
 export const Pagination = {
   Family: 10,
   FamilyMembers: 10,
-  Albums: 20,
-  Photos: 30,
+  Albums: 14,
+  Photos: 24,
 };

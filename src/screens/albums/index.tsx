@@ -148,7 +148,7 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
 
   // Item
   const onPressItem = (item: any) => {
-    navigate(ScreenName.AlbumDetailScreen, {item});
+    navigate(ScreenName.AlbumDetailScreen, {album: item});
   };
 
   const renderItem = ({item}: {item: any}) => {
@@ -172,7 +172,6 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
       />
       <ProfileHeader
         title={i18n.t('album.myAlbums')}
-        titleMarginLeft={8}
         rightComponent={
           <PrimaryButton
             marginRight={8}

@@ -87,7 +87,6 @@ const ScanFamilyQRScreen = () => {
         backgroundColor={colors.WHITE}
       />
       <ProfileHeader
-        titleMarginLeft={8}
         title={i18n.t('family.scanInstruction')}
         backgroundColor={colors.WHITE}
         rightComponent={

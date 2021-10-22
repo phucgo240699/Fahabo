@@ -32,6 +32,7 @@ export type GetFamilyMembersRequestType = {
 
 export type GetMyFamiliesRequestType = {
   showHUD?: boolean;
+  loadMore?: boolean;
   page?: number;
   size?: number;
 };

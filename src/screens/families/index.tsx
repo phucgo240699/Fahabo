@@ -4,10 +4,7 @@ import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import {FlatList, useDisclose} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {plusIcon} from '@constants/sources/index';
-import PrimaryButton from '@components/PrimaryButton';
 import i18n from '@locales/index';
-import ProfileHeader from '@components/ProfileHeader';
 import HorizontalFamilyItem from './shared/HorizontalFamilyItem';
 import {navigate} from '@navigators/index';
 import {Constants, Pagination, ScreenName} from '@constants/Constants';
@@ -81,7 +78,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   };
   const onLoadMore = () => {
     if (isLoadingMore === false) {
-      dispatch(getFamiliesRequestAction({page: pageIndex + 1}));
+      dispatch(getFamiliesRequestAction({loadMore: true, page: pageIndex + 1}));
       setPageIndex(pageIndex + 1);
     }
   };

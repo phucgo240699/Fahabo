@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, FlatList} from 'native-base';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
@@ -6,33 +6,121 @@ import ProfileHeader from '@components/ProfileHeader';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import PrimaryButton from '@components/PrimaryButton';
 import styled from 'styled-components/native';
-import {Platform, StyleSheet} from 'react-native';
+import {Platform, RefreshControl, StyleSheet} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {plusIcon} from '@constants/sources';
-import {DummyAlbums} from '@constants/DummyData';
-import {Constants, ScreenName} from '@constants/Constants';
-import {navigate} from '@navigators/index';
+import {plusIcon, trashIcon} from '@constants/sources';
+import {Constants, Pagination, ScreenName} from '@constants/Constants';
 import PhotoItem from './PhotoItem';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  isLoadingPhotosSelector,
+  isRefreshingPhotosSelector,
+} from '@store/selectors/session';
+import {
+  addPhotosRequestAction,
+  deletePhotosRequestAction,
+  getPhotosRequestAction,
+} from '@store/actionTypes/albums';
+import {isNull} from '@utils/index';
+import {navigate} from '@navigators/index';
+import {AlbumType, PhotoType} from '@constants/types/albums';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import {photosSelector} from '@store/selectors/albums';
+import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 
 interface Props {
   route?: any;
 }
 
 const AlbumDetailScreen: React.FC<Props> = ({route}) => {
-  const {item} = route.params;
+  const album: AlbumType = route.params.album;
+  const dispatch = useDispatch();
+  const photos = useSelector(photosSelector);
+  const isLoadingMore = useSelector(isLoadingPhotosSelector);
+  const isRefreshing = useSelector(isRefreshingPhotosSelector);
   const [isChoosing, setIsChoosing] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
-  const renderItem = ({item}: {item: any}) => {
-    return <PhotoItem item={item} onPress={onPressItem} />;
+  // Life Cycle
+  useEffect(() => {
+    if (!isNull(album.id)) {
+      dispatch(getPhotosRequestAction({showHUD: true, albumId: album.id}));
+    }
+  }, []);
+
+  // Refresh && Load More
+  const onRefreshData = () => {
+    if (isRefreshing === false) {
+      dispatch(getPhotosRequestAction({refresh: true, albumId: album.id}));
+    }
+  };
+  const onLoadMoreData = () => {
+    if (isLoadingMore === false) {
+      dispatch(getPhotosRequestAction({loadMore: true, albumId: album.id}));
+    }
+  };
+
+  // Header
+  const onPressAdd = () => {
+    ImageCropPicker.openPicker({
+      maxFiles: Constants.LIMIT_PHOTO_UPLOAD,
+      multiple: true,
+      mediaType: 'photo',
+      includeBase64: true,
+    }).then(cropped => {
+      dispatch(
+        addPhotosRequestAction({
+          albumId: album.id,
+          photos: cropped.map(item => {
+            return {
+              name: 'photo',
+              base64Data: item.data ?? '',
+            };
+          }),
+        }),
+      );
+    });
   };
   const onToggleChoosing = () => {
+    setSelectedIds([]);
     setIsChoosing(!isChoosing);
   };
-  const onPressItem = (item: any) => {
-    navigate(ScreenName.ImageViewerScreen, {
-      data: DummyAlbums,
-      currentIndex: item.index,
-    });
+  const onPressDelete = () => {
+    dispatch(
+      deletePhotosRequestAction({albumId: album.id, photoIds: selectedIds}),
+    );
+    onToggleChoosing();
+  };
+
+  // Item
+  const renderItem = ({item}: {item: PhotoType}) => {
+    return (
+      <PhotoItem
+        item={item}
+        isSelected={selectedIds.indexOf(item.id ?? -10) !== -1}
+        onPress={onPressItem}
+      />
+    );
+  };
+  const onPressItem = (item: PhotoType) => {
+    if (isChoosing) {
+      if (selectedIds.indexOf(item.id ?? -10) !== -1) {
+        setSelectedIds(
+          selectedIds.filter(id => {
+            return id !== item.id;
+          }),
+        );
+      } else {
+        if (selectedIds.length < Constants.LIMIT_PHOTO_DELETE) {
+          setSelectedIds([...selectedIds, item.id ?? -10]);
+        }
+      }
+    } else {
+      navigate(ScreenName.ImageViewerScreen, {
+        data: photos,
+        currentIndex: 0,
+      });
+    }
   };
 
   return (
@@ -43,12 +131,11 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
         backgroundColor={colors.WHITE}
       />
       <ProfileHeader
-        title={item.isDefault ? i18n.t('album.general') : item.title}
-        titleMarginLeft={isChoosing ? 53 : 62}
+        title={album.title}
         rightComponent={
           <Box flexDirection={'row'}>
-            <PrimaryButton
-              marginRight={12}
+            <ChooseButton
+              marginRight={4}
               titleFontSize={16}
               titleFontWeight={500}
               title={
@@ -60,21 +147,41 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
               onPress={onToggleChoosing}
             />
             <PrimaryButton
-              marginRight={4}
+              marginRight={8}
               leftSource={plusIcon}
               leftTintColor={colors.THEME_COLOR_7}
+              onPress={onPressAdd}
             />
           </Box>
         }
       />
       <FlatList
-        numColumns={4}
-        data={[...DummyAlbums, ...DummyAlbums, ...DummyAlbums, ...DummyAlbums]}
+        numColumns={3}
+        data={photos}
         renderItem={renderItem}
+        onEndReachedThreshold={0.5}
+        onEndReached={onLoadMoreData}
+        ListFooterComponent={
+          <FooterLoadingIndicator
+            loading={isLoadingMore && photos.length >= Pagination.Photos}
+          />
+        }
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefreshData} />
+        }
         contentContainerStyle={styles.list}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item, index) => index.toString()}
       />
+      {isChoosing && (
+        <DeleteButtonContainer>
+          <PrimaryButton
+            leftSource={trashIcon}
+            leftTintColor={colors.RED_1}
+            onPress={onPressDelete}
+          />
+        </DeleteButtonContainer>
+      )}
     </SafeView>
   );
 };
@@ -83,6 +190,22 @@ const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.WHITE};
   margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
+`;
+
+const ChooseButton = styled(PrimaryButton)`
+  width: 60px;
+`;
+
+const DeleteButtonContainer = styled.View`
+  right: 16px;
+  bottom: 16px;
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  border-radius: 24px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.CONCRETE};
 `;
 
 const styles = StyleSheet.create({

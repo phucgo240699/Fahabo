@@ -43,15 +43,9 @@ const ProfileScreen: React.FC<Props> = () => {
   const isRefreshing = useSelector(isRefreshingProfileSelector);
   const {isOpen, onOpen, onClose} = useDisclose();
 
-  // Life Cycle
-  useEffect(() => {
-    dispatch(getFamiliesRequestAction({}));
-  }, []);
-
   // Refresh
   const onRefreshProfile = () => {
     dispatch(getProfileRequestAction({}));
-    dispatch(getFamiliesRequestAction({}));
   };
 
   // Relations

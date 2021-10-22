@@ -88,7 +88,7 @@ const PrimaryHeader: React.FC<Props> = ({
       {!isSearching && (
         <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
           <PrimaryButton
-            marginLeft={6}
+            marginLeft={8}
             leftSource={searchIcon}
             leftTintColor={colors.THEME_COLOR_7}
             onPress={turnOnSearching}
@@ -98,7 +98,7 @@ const PrimaryHeader: React.FC<Props> = ({
       {!isSearching && (
         <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
           <PrimaryButton
-            marginLeft={6}
+            marginLeft={8}
             leftSource={plusIcon}
             leftTintColor={colors.THEME_COLOR_7}
             onPress={onPressPlus}
@@ -108,7 +108,7 @@ const PrimaryHeader: React.FC<Props> = ({
       {!isSearching && (
         <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
           <PrimaryButton
-            marginLeft={6}
+            marginLeft={8}
             leftSource={bellIcon}
             leftTintColor={colors.THEME_COLOR_7}
           />

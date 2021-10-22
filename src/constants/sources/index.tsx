@@ -70,6 +70,7 @@ export const placeholderImage = require('@assets/images/placeholder_image.png');
 // Albums
 //
 export const verticalOptions = require('@assets/images/vertical_options.png');
+export const trashIcon = require('@assets/images/trash_icon.png');
 
 //
 // Settings

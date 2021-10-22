@@ -30,7 +30,7 @@ export type AddPhotosRequestType = {
   photos?: {
     name?: string;
     base64Data?: string;
-  };
+  }[];
 };
 
 export type UpdatePhotoRequestType = {

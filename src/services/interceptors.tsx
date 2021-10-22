@@ -3,7 +3,9 @@ import {AxiosResponse, AxiosError, AxiosRequestConfig} from 'axios';
 
 export const responseInterceptor = (response: AxiosResponse) => {
   if (__DEV__) {
-    console.log({API_RESPONSE: response.data});
+    console.log({
+      API_RESPONSE: {response: response.data, statusCode: response.status},
+    });
   }
   return Promise.resolve(response);
 };

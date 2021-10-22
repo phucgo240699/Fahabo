@@ -19,6 +19,7 @@ import {
 } from '@store/actionTypes/albums';
 import {
   AddPhotosRequestType,
+  AlbumType,
   CreateAlbumRequestType,
   DeleteAlbumRequestType,
   DeletePhotosRequestType,
@@ -57,6 +58,7 @@ import {
 } from '@utils/parsers/albums';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {albumsSelector, photosSelector} from '@store/selectors/albums';
+import {mixAlbums, mixPhotos} from '@utils/albums';
 
 function* createAlbumSaga({
   body,
@@ -169,12 +171,9 @@ function* getAlbumsSaga({body}: {type: string; body: GetAlbumsRequestType}) {
     if (response.status === 200) {
       if (body.page && body.page > 0) {
         const oldData = yield* select(albumsSelector);
-        yield* put(
-          getAlbumsSuccessAction([
-            ...oldData,
-            ...parseAlbums(parseDataResponse(response)),
-          ]),
-        );
+        const newData = parseAlbums(parseDataResponse(response));
+
+        yield* put(getAlbumsSuccessAction(mixAlbums(oldData, newData)));
       } else {
         yield* put(
           getAlbumsSuccessAction(parseAlbums(parseDataResponse(response))),
@@ -270,7 +269,9 @@ function* deletePhotosSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(deletePhotosApi, body);
     if (response.status === 200) {
-      yield* put(getPhotosRequestAction({albumId: body.albumId}));
+      yield* put(
+        getPhotosRequestAction({showHUD: true, albumId: body.albumId}),
+      );
     } else {
       yield* put(
         showToastAction(
@@ -283,8 +284,6 @@ function* deletePhotosSaga({
     yield* put(
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
-  } finally {
-    yield* put(closeHUDAction());
   }
 }
 
@@ -303,13 +302,8 @@ function* getPhotosSaga({body}: {type: string; body: GetPhotosRequestType}) {
     if (response.status === 200) {
       if (body.page && body.page > 0) {
         const oldData = yield* select(photosSelector);
-
-        yield* put(
-          getPhotosSuccessAction([
-            ...oldData,
-            ...parsePhotos(parseDataResponse(response)),
-          ]),
-        );
+        const newData = parsePhotos(parseDataResponse(response));
+        yield* put(getPhotosSuccessAction(mixPhotos(oldData, newData)));
       } else {
         yield* put(
           getPhotosSuccessAction(parsePhotos(parseDataResponse(response))),

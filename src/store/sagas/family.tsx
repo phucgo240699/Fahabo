@@ -49,6 +49,7 @@ import {
 } from '@store/actionTypes/family';
 import {
   CreateFamilyRequestType,
+  FamilyType,
   GetFamilyDetailRequestType,
   GetFamilyMembersRequestType,
   GetMyFamiliesRequestType,
@@ -67,6 +68,7 @@ import {
   familiesSelector,
 } from '@store/selectors/family';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
+import {mixFamily} from '@utils/family';
 
 function* createFamilySaga({
   body,
@@ -275,17 +277,15 @@ function* getFamiliesSaga({
     if (body.showHUD === true) {
       yield* put(showHUDAction());
     }
-    yield* put(updateIsLoadingFamiliesAction(true));
+    if (body.loadMore === true) {
+      yield* put(updateIsLoadingFamiliesAction(true));
+    }
     const response = yield* apiProxy(getMyFamiliesApi, body);
     if (response.status === 200) {
       if (body.page && body.page > 0) {
         const oldData = yield* select(familiesSelector);
-        yield* put(
-          getFamiliesSuccessAction([
-            ...oldData,
-            ...parseFamilies(parseDataResponse(response)),
-          ]),
-        );
+        const newData = parseFamilies(parseDataResponse(response));
+        yield* put(getFamiliesSuccessAction(mixFamily(oldData, newData)));
       } else {
         yield* put(
           getFamiliesSuccessAction(parseFamilies(parseDataResponse(response))),
@@ -304,8 +304,12 @@ function* getFamiliesSaga({
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
   } finally {
-    yield* put(closeHUDAction());
-    yield* put(updateIsLoadingFamiliesAction(false));
+    if (body.showHUD === true) {
+      yield* put(closeHUDAction());
+    }
+    if (body.loadMore === true) {
+      yield* put(updateIsLoadingFamiliesAction(false));
+    }
   }
 }
 
