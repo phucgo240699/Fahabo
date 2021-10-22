@@ -121,11 +121,26 @@ export default function authenticationReducer(
         ...state,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
+        listCountryCode: [],
+        previewAlbum: [],
       };
     case LOG_OUT:
       return {
         ...state,
-        user: undefined,
+        user: {
+          ...state.user,
+          email: undefined,
+          password: undefined,
+          name: undefined,
+          username: undefined,
+          phoneNumber: undefined,
+          // still keep languageCode
+          languageCode: state.user?.languageCode,
+          birthday: undefined,
+          avatarUrl: undefined,
+          totalFamilies: undefined,
+          authType: undefined,
+        },
         accessToken: undefined,
         refreshToken: undefined,
       };

@@ -25,35 +25,39 @@ const PreviewFamilyBox: React.FC<Props> = ({
   };
   return (
     <Container>
-      <Header>
-        <Label>{i18n.t('family.families')}</Label>
-        <PrimaryButton
-          titleColor={colors.HYPER_LINK}
-          title={i18n.t('family.viewAll')}
-          onPress={onPressViewAll}
-        />
-      </Header>
-      <FlatList
-        mt={-2}
-        data={data}
-        horizontal={true}
-        renderItem={renderItem}
-        contentContainerStyle={styles.list}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      {data.length > 0 && (
+        <>
+          <Header>
+            <Label>{i18n.t('family.families')}</Label>
+            <PrimaryButton
+              titleColor={colors.HYPER_LINK}
+              title={i18n.t('family.viewAll')}
+              onPress={onPressViewAll}
+            />
+          </Header>
+          <FlatList
+            mt={-2}
+            data={data}
+            horizontal={true}
+            renderItem={renderItem}
+            contentContainerStyle={styles.list}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </>
+      )}
     </Container>
   );
 };
 
 const Container = styled.View`
   width: 100%;
-  margin-top: 30px;
 `;
 
 const Header = styled.View`
   height: 50px;
+  margin-top: 30px;
   margin-left: 30px;
   margin-right: 30px;
   flex-direction: row;

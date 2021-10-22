@@ -1,5 +1,5 @@
-import React from 'react';
-import {Box, FlatList} from 'native-base';
+import React, {useCallback, useState} from 'react';
+import {FlatList, useDisclose} from 'native-base';
 import fonts from '@themes/fonts';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
@@ -11,8 +11,10 @@ import PrimaryButton from '@components/PrimaryButton';
 import {DummyAlbums} from '@constants/DummyData';
 import AlbumItem from './shared/AlbumItem';
 import {Constants, ScreenName} from '@constants/Constants';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {navigate} from '@navigators/index';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
+import AlbumCreationModal from './shared/AlbumCreationModal';
 
 const itemHeight = (Constants.MAX_WIDTH - 36) / 2;
 const itemWidth = (Constants.MAX_WIDTH - 36) / 2;
@@ -20,9 +22,23 @@ const itemWidth = (Constants.MAX_WIDTH - 36) / 2;
 interface Props {}
 
 const AlbumsScreen: React.FC<Props> = ({}) => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const {isOpen, onOpen, onClose} = useDisclose();
+
+  // Create
+  const onChangeTitle = useCallback((text: string) => {
+    setTitle(text);
+  }, []);
+  const onChangeDescription = useCallback((text: string) => {
+    setDescription(text);
+  }, []);
+
+  // Item
   const onPressItem = (item: any) => {
     navigate(ScreenName.AlbumDetailScreen, {item});
   };
+
   const renderItem = ({item}: {item: any}) => {
     return (
       <AlbumItem
@@ -34,7 +50,7 @@ const AlbumsScreen: React.FC<Props> = ({}) => {
     );
   };
   return (
-    <Box flex={1} safeArea bgColor={colors.WHITE}>
+    <SafeView>
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
@@ -48,6 +64,7 @@ const AlbumsScreen: React.FC<Props> = ({}) => {
             marginRight={8}
             leftSource={plusIcon}
             leftTintColor={colors.THEME_COLOR_6}
+            onPress={onOpen}
           />
         }
       />
@@ -59,9 +76,25 @@ const AlbumsScreen: React.FC<Props> = ({}) => {
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item, index) => index.toString()}
       />
-    </Box>
+
+      <AlbumCreationModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onPressCancel={onClose}
+        title={title}
+        description={description}
+        onChangeTitle={onChangeTitle}
+        onChangeDescription={onChangeDescription}
+      />
+    </SafeView>
   );
 };
+
+const SafeView = styled.SafeAreaView`
+  flex: 1;
+  background-color: ${colors.WHITE};
+  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
+`;
 
 const styles = StyleSheet.create({
   list: {

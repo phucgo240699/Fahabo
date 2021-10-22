@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   profileBackground,
   defaultAvatar,
@@ -17,12 +17,7 @@ import ProfileRelationBox from './shared/ProfileRelationBox';
 import ProfileSettingsBox from './shared/ProfileSettingsBox';
 import {Box, Actionsheet, useDisclose} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {
-  Constants,
-  Pagination,
-  ScreenName,
-  StackName,
-} from '@constants/Constants';
+import {Constants, Pagination, ScreenName} from '@constants/Constants';
 import PrimaryActionSheetItem from '@components/PrimaryActionSheetItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOutAction} from '@store/actionTypes/signIn';
@@ -123,7 +118,7 @@ const ProfileScreen: React.FC<Props> = () => {
   };
 
   return (
-    <Box flex={1}>
+    <Box flex={1} safeArea backgroundColor={'#FFD466'}>
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
@@ -291,7 +286,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   scrollView: {
-    marginTop: 50,
+    // marginTop: 50,
     paddingBottom: 150,
     alignItems: 'center',
   },

@@ -1,6 +1,6 @@
 import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
-import {navigationRef, navigate} from '@navigators/index';
+import {navigationRef, navigate, navigateReset} from '@navigators/index';
 import {
   getPreviewAlbumApi,
   getProfileApi,
@@ -40,9 +40,9 @@ import {
   parseUpdateProfileResponse,
   parseUser,
 } from '@utils/parsers/authentication';
-import RNRestart from 'react-native-restart';
-import {ScreenName} from '@constants/Constants';
+import {ScreenName, StackName} from '@constants/Constants';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
+import {isNull} from '@utils/index';
 
 function* onGetPreviewAlbumSaga(action: AnyAction) {
   try {
@@ -164,6 +164,11 @@ function* onUpdateLanguageSaga(action: AnyAction) {
     yield* put(showHUDAction());
     const response = yield* apiProxy(updateProfileApi, action.body);
     if (response.status === 200) {
+      console.log('action.body: ', action.body);
+      if (!isNull(action.body.languageCode)) {
+        i18n.defaultLocale = action.body.languageCode;
+        i18n.locale = action.body.languageCode;
+      }
       yield* put(
         showToastAction(
           i18n.t('successMessage.updateLanguage'),
@@ -193,7 +198,7 @@ function* onUpdateLanguageSaga(action: AnyAction) {
 }
 function* onUpdateLanguageSuccessSaga(action: AnyAction) {
   yield* delay(300);
-  RNRestart.Restart();
+  navigateReset(StackName.MainStack);
 }
 
 // Password

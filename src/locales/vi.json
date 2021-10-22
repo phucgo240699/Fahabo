@@ -115,8 +115,11 @@
   "album": {
     "myAlbums": "Album của tôi",
     "general": "Chung",
+    "title": "Tiêu đề",
+    "description": "Mô tả",
     "choose": "Chọn",
-    "cancel": "Huỷ"
+    "cancel": "Huỷ",
+    "save": "Lưu"
   },
   "application": {
     "loading": "Đăng tải...",

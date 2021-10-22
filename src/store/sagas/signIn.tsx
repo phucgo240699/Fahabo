@@ -3,14 +3,12 @@ import i18n from '@locales/index';
 import {
   autoSignInSuccessAction,
   AUTO_SIGN_IN_REQUEST,
-  AUTO_SIGN_IN_SUCCESS,
   LOG_OUT,
   signInSuccessAction,
   SIGN_IN_REQUEST,
-  SIGN_IN_SUCCESS,
 } from '@store/actionTypes/signIn';
 import {signIn} from '@services/signIn';
-import {all, call, put, takeLeading} from 'typed-redux-saga';
+import {all, call, put, select, takeLeading} from 'typed-redux-saga';
 import {ScreenName, StackName} from '@constants/Constants';
 import {navigate, navigateReset} from '@navigators/index';
 import {ToastType} from '@constants/types/session';
@@ -19,9 +17,10 @@ import {
   showHUDAction,
   showToastAction,
 } from '@store/actionTypes/session';
-import {isNull} from '@utils/index';
+import {getDefaultLanguageCode, isNull} from '@utils/index';
 import {parseSignInResponse} from '@utils/parsers/authentication';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
+import {languageCodeSelector} from '@store/selectors/authentication';
 
 function* onSignInRequest(action: AnyAction) {
   try {
@@ -106,6 +105,7 @@ function* onAutoSignInRequest(action: AnyAction) {
         // Check is join Family
         if (data.user.familyNum > 0) {
           if (!isNull(data.user.languageCode)) {
+            console.log('data.user.languageCode: ', data.user.languageCode);
             i18n.locale = data.user.languageCode;
             i18n.defaultLocale = data.user.languageCode;
           }
@@ -119,15 +119,22 @@ function* onAutoSignInRequest(action: AnyAction) {
           );
 
           navigateReset(StackName.MainStack);
-        } else {
-          navigateReset(StackName.AuthenticationStack);
+          return;
         }
-      } else {
-        navigateReset(StackName.AuthenticationStack);
       }
-    } else {
-      navigateReset(StackName.AuthenticationStack);
     }
+    const languageCode = yield* select(languageCodeSelector);
+    console.log({languageCode});
+    if (!isNull(languageCode)) {
+      i18n.locale = languageCode ?? '';
+      i18n.defaultLocale = languageCode ?? '';
+    } else {
+      // Device language
+      console.log('Device language');
+      i18n.locale = getDefaultLanguageCode();
+      i18n.defaultLocale = getDefaultLanguageCode();
+    }
+    navigateReset(StackName.AuthenticationStack);
   } catch (error) {
     navigateReset(StackName.AuthenticationStack);
   }

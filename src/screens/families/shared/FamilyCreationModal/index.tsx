@@ -36,7 +36,7 @@ const FamilyCreationModal: React.FC<Props> = ({
         backgroundColor={colors.WHITE}>
         <Modal.Body>
           <FormControl>
-            <FormControl.Label _text={{color: colors.DARK_GRAY}}>
+            <FormControl.Label _text={{color: colors.DANUBE, fontWeight: 500}}>
               {`${i18n.t('family.thumbnail')}:`}
             </FormControl.Label>
             <ThumbnailContainer onPress={onPressThumbnail}>
@@ -53,14 +53,18 @@ const FamilyCreationModal: React.FC<Props> = ({
                 tintColor={'#595959'}
               />
             </ThumbnailContainer>
-            <FormControl.Label mt={10} _text={{color: colors.DARK_GRAY}}>
+            <FormControl.Label
+              mt={10}
+              _text={{color: colors.DANUBE, fontWeight: 500}}>
               {`${i18n.t('family.name')}:`}
             </FormControl.Label>
             <Input
               value={name}
+              borderRadius={16}
               autoCorrect={false}
               color={colors.BLACK}
               autoCompleteType="off"
+              borderColor={colors.SILVER}
               onChangeText={onChangeName}
             />
           </FormControl>

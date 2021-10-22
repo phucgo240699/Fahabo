@@ -28,7 +28,7 @@ const AlbumItem: React.FC<Props> = ({item, maxWidth, maxHeight, onPress}) => {
     <Box mt={2} mr={4} width={maxWidth}>
       <TouchableOpacity activeOpacity={0.8} onPress={onPressTouchable}>
         <Image
-          borderRadius={4}
+          borderRadius={8}
           width={maxWidth}
           height={maxHeight}
           source={{uri: item.uri}}

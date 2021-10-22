@@ -114,8 +114,11 @@
   "album": {
     "myAlbums": "My Albums",
     "general": "General",
+    "title": "Title",
+    "description": "Description",
     "choose": "Choose",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "save": "Save"
   },
   "application": {
     "loading": "Loading...",

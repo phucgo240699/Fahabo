@@ -12,7 +12,7 @@ import ProfileHeader from '@components/ProfileHeader';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {useDispatch, useSelector} from 'react-redux';
 import {languageCodeSelector} from '@store/selectors/authentication';
-import {getLanguageName} from '@utils/index';
+import {getLanguageName, isNull} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {updateLanguageRequestAction} from '@store/actionTypes/profile';
 
