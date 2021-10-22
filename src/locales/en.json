@@ -118,7 +118,10 @@
     "description": "Description",
     "choose": "Choose",
     "cancel": "Cancel",
-    "save": "Save"
+    "create": "Create",
+    "save": "Save",
+    "update": "Update",
+    "delete": "Delete"
   },
   "application": {
     "loading": "Loading...",
@@ -154,7 +157,8 @@
     "updatePassword": "Update password successfully",
     "updateLanguage": "Update language successfully",
     "updateAvatar": "Update avatar successfully",
-    "updateFamilyInfo": "Update family information successfully"
+    "updateFamilyInfo": "Update family information successfully",
+    "updateAlbum": "Update album successfully"
   },
   "warningMessage": {
     "activeAccount": "You need to active this account"
@@ -201,6 +205,8 @@
       "fail": "System error."
     },
     "validation": {
+      "albumTitleExists": "Album title must not be dupplicate.",
+      "photoIdNotExist": "Photo doesn't exist.",
       "familyIdInvalid": "Family doesn't exist.",
       "familyNameInvalid": "Family name is required and must be unique",
       "otp": "Invalid verification code",
@@ -232,7 +238,8 @@
     },
     "family": {
       "kickMemberFailure": "Kick member unsuccessfully.",
-      "hasBeenJoined": "User joined this family."
+      "hasBeenJoined": "User joined this family.",
+      "leaveFamilyFailure": "Leave family unsuccessfully."
     },
     "unknownError": "System error.",
     "avatar": {

@@ -1,42 +1,102 @@
 import React from 'react';
-import {Box, FlatList, Image} from 'native-base';
+import {Box, Button, Image, Menu, Pressable} from 'native-base';
 import fonts from '@themes/fonts';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {plusIcon} from '@constants/sources';
-import ProfileHeader from '@components/ProfileHeader';
-import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import PrimaryButton from '@components/PrimaryButton';
-import {DummyAlbums} from '@constants/DummyData';
+import {placeholderImage, verticalOptions} from '@constants/sources';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {isNull} from '@utils/index';
+import PrimaryButton from '@components/PrimaryButton';
+import PrimaryIcon from '@components/PrimaryIcon';
 
 interface Props {
   item: any;
   maxWidth: number;
   maxHeight: number;
   onPress?: (item: any) => void;
+  onPressUpdate?: (item: any) => void;
+  onPressDelete?: (item: any) => void;
 }
 
-const AlbumItem: React.FC<Props> = ({item, maxWidth, maxHeight, onPress}) => {
+const AlbumItem: React.FC<Props> = ({
+  item,
+  maxWidth,
+  maxHeight,
+  onPress,
+  onPressUpdate,
+  onPressDelete,
+}) => {
+  const [shouldOverlapWithTrigger] = React.useState(false);
+  const [position, setPosition] = React.useState('auto');
+
   const onPressTouchable = () => {
     if (onPress) {
       onPress(item);
     }
   };
+  const onPressUpdateOption = () => {
+    if (onPressUpdate) {
+      onPressUpdate(item);
+    }
+  };
+  const onPressDeleteOption = () => {
+    if (onPressDelete) {
+      onPressDelete(item);
+    }
+  };
+
   return (
     <Box mt={2} mr={4} width={maxWidth}>
       <TouchableOpacity activeOpacity={0.8} onPress={onPressTouchable}>
-        <Image
-          borderRadius={8}
-          width={maxWidth}
-          height={maxHeight}
-          source={{uri: item.uri}}
-          alt={i18n.t('application.loading')}
-        />
+        {isNull(item.uri) ? (
+          <Image
+            borderRadius={8}
+            width={maxWidth}
+            height={maxHeight}
+            source={placeholderImage}
+            alt={i18n.t('application.loading')}
+          />
+        ) : (
+          <Image
+            borderRadius={8}
+            width={maxWidth}
+            height={maxHeight}
+            source={{uri: item.uri}}
+            alt={i18n.t('application.loading')}
+          />
+        )}
       </TouchableOpacity>
       <Title>{item.isDefault ? i18n.t('album.general') : item.title}</Title>
-      <TotalNumber>{item.totalPictures}</TotalNumber>
+      <TotalNumber>{item.totalPhotos}</TotalNumber>
+      <Menu
+        width={160}
+        shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
+        placement={position == 'auto' ? undefined : position}
+        trigger={triggerProps => {
+          return (
+            <Pressable
+              top={2}
+              right={2}
+              width={8}
+              height={8}
+              borderRadius={20}
+              bgColor={'#8c8c8c'}
+              position={'absolute'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              {...triggerProps}>
+              <OptionsIcon tintColor={'#ffffff'} source={verticalOptions} />
+            </Pressable>
+          );
+        }}>
+        <Menu.Item onPress={onPressUpdateOption}>
+          {i18n.t('album.update')}
+        </Menu.Item>
+        <Menu.Item onPress={onPressDeleteOption} _text={{color: colors.RED_1}}>
+          {i18n.t('album.delete')}
+        </Menu.Item>
+      </Menu>
     </Box>
   );
 };
@@ -48,5 +108,6 @@ const TotalNumber = styled(fonts.PrimaryFontRegularSize12)`
   color: ${colors.GRAY}
   margin-top: 4px
 `;
+const OptionsIcon = styled(PrimaryIcon)``;
 
 export default React.memo(AlbumItem);

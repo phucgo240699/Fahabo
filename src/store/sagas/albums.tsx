@@ -1,4 +1,4 @@
-import {all, put, takeLeading} from 'typed-redux-saga';
+import {all, put, select, takeLeading} from 'typed-redux-saga';
 import {
   addPhotosSuccessAction,
   ADD_PHOTOS_REQUEST,
@@ -56,6 +56,7 @@ import {
   parsePhotos,
 } from '@utils/parsers/albums';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
+import {albumsSelector, photosSelector} from '@store/selectors/albums';
 
 function* createAlbumSaga({
   body,
@@ -99,6 +100,12 @@ function* updateAlbumSaga({
     if (response.status === 200) {
       yield* put(
         updateAlbumSuccessAction(parseAlbum(parseDataResponse(response))),
+      );
+      yield* put(
+        showToastAction(
+          i18n.t('successMessage.updateAlbum'),
+          ToastType.SUCCESS,
+        ),
       );
     } else {
       yield* put(
@@ -160,9 +167,19 @@ function* getAlbumsSaga({body}: {type: string; body: GetAlbumsRequestType}) {
     }
     const response = yield* apiProxy(getAlbumsApi, body);
     if (response.status === 200) {
-      yield* put(
-        getAlbumsSuccessAction(parseAlbums(parseDataResponse(response))),
-      );
+      if (body.page && body.page > 0) {
+        const oldData = yield* select(albumsSelector);
+        yield* put(
+          getAlbumsSuccessAction([
+            ...oldData,
+            ...parseAlbums(parseDataResponse(response)),
+          ]),
+        );
+      } else {
+        yield* put(
+          getAlbumsSuccessAction(parseAlbums(parseDataResponse(response))),
+        );
+      }
     } else {
       yield* put(
         showToastAction(
@@ -284,9 +301,20 @@ function* getPhotosSaga({body}: {type: string; body: GetPhotosRequestType}) {
     }
     const response = yield* apiProxy(getPhotosApi, body);
     if (response.status === 200) {
-      yield* put(
-        getPhotosSuccessAction(parsePhotos(parseDataResponse(response))),
-      );
+      if (body.page && body.page > 0) {
+        const oldData = yield* select(photosSelector);
+
+        yield* put(
+          getPhotosSuccessAction([
+            ...oldData,
+            ...parsePhotos(parseDataResponse(response)),
+          ]),
+        );
+      } else {
+        yield* put(
+          getPhotosSuccessAction(parsePhotos(parseDataResponse(response))),
+        );
+      }
     } else {
       yield* put(
         showToastAction(

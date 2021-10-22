@@ -119,7 +119,10 @@
     "description": "Mô tả",
     "choose": "Chọn",
     "cancel": "Huỷ",
-    "save": "Lưu"
+    "create": "Tạo",
+    "save": "Lưu",
+    "update": "Cập nhật",
+    "delete": "Xoá"
   },
   "application": {
     "loading": "Đăng tải...",
@@ -155,7 +158,8 @@
     "updatePassword": "Cập nhật mật khẩu thành công",
     "updateLanguage": "Cập nhật ngôn ngữ thành công",
     "updateAvatar": "Cập nhật ảnh đại diện thành công",
-    "updateFamilyInfo": "Cập nhật thông tin gia đình thành công"
+    "updateFamilyInfo": "Cập nhật thông tin gia đình thành công",
+    "updateAlbum": "Cập nhật album thành công"
   },
   "warningMessage": {
     "activeAccount": "Bạn cần kích hoạt tài khoản này"
@@ -202,6 +206,8 @@
       "fail": "Lỗi hệ thống."
     },
     "validation": {
+      "albumTitleExists": "Tên album không được trùng lặp.",
+      "photoIdNotExist": "Ảnh không tồn tại.",
       "familyIdInvalid": "Gia đình không tồn tại.",
       "familyNameInvalid": "Bắt buộc nhập tên gia đình và tên gia đình không được trùng lặp",
       "otp": "Mã xác nhận không hợp lệ",
@@ -233,7 +239,8 @@
     },
     "family": {
       "kickMemberFailure": "Xóa thành viên không thành công.",
-      "hasBeenJoined": "Người dùng hiện đang là thành viên trong gia đình này."
+      "hasBeenJoined": "Người dùng hiện đang là thành viên trong gia đình này.",
+      "leaveFamilyFailure": "Rời gia đình không thành công."
     },
     "unknownError": "Lỗi hệ thống.",
     "avatar": {

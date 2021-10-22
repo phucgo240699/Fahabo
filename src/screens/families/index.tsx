@@ -155,7 +155,6 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
       width: Constants.FAMILY_THUMBNAIL_WIDTH,
       height: Constants.FAMILY_THUMBNAIL_HEIGHT,
     }).then(cropped => {
-      console.log({cropped});
       if (!isNull(cropped.path) && !isNull(cropped.data)) {
         setThumbnailUri(cropped.path ?? '');
         setThumbnailBase64(cropped.data ?? '');
@@ -170,17 +169,6 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
       />
-      {/* <ProfileHeader
-        title={i18n.t('family.families')}
-        rightComponent={
-          <PrimaryButton
-            marginRight={8}
-            leftSource={plusIcon}
-            leftTintColor={colors.THEME_COLOR_6}
-            onPress={onOpen}
-          />
-        }
-      /> */}
       <PrimaryHeader title={i18n.t('family.families')} onPressPlus={onOpen} />
 
       <FlatList

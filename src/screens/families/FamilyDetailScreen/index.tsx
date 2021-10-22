@@ -138,7 +138,9 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
 
   // Members
   const onPressViewAllMembers = () => {
-    navigate(ScreenName.FamilyMembersScreen, {familyId: familyDetail?.id});
+    if (!isNull(familyDetail?.id)) {
+      navigate(ScreenName.FamilyMembersScreen, {familyId: familyDetail?.id});
+    }
   };
   const renderItem = ({item}: {item: any}) => {
     const onPressContainer = () => {
@@ -160,7 +162,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
 
   // Photo
   const onPressViewAllPhotos = () => {
-    navigate(ScreenName.AlbumsScreen);
+    navigate(ScreenName.AlbumsScreen, {familyId: familyDetail?.id});
   };
   const onPressPhotoItem = (index: number) => {
     navigate(ScreenName.ImageViewerScreen, {

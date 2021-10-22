@@ -67,6 +67,11 @@ export const galleryIcon = require('@assets/images/gallery_icon.png');
 export const placeholderImage = require('@assets/images/placeholder_image.png');
 
 //
+// Albums
+//
+export const verticalOptions = require('@assets/images/vertical_options.png');
+
+//
 // Settings
 //
 export const tickIcon = require('@assets/images/tick_icon.png');

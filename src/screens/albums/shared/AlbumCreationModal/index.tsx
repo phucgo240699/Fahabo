@@ -7,23 +7,27 @@ import {Constants} from '@constants/Constants';
 
 interface Props {
   isOpen: boolean;
+  updateMode?: boolean;
   onClose: () => void;
   title?: string;
   description?: string;
   onChangeTitle?: (text: string) => void;
   onChangeDescription?: (text: string) => void;
   onPressCancel: () => void;
+  onPressCreate?: () => void;
   onPressSave?: () => void;
 }
 
 const AlbumCreationModal: React.FC<Props> = ({
   isOpen,
+  updateMode,
   onClose,
   title,
   description,
   onChangeTitle,
   onChangeDescription,
   onPressCancel,
+  onPressCreate,
   onPressSave,
 }) => {
   return (
@@ -73,11 +77,17 @@ const AlbumCreationModal: React.FC<Props> = ({
               bgColor={colors.CONCRETE}
               _text={{color: colors.BLACK}}
               onPress={onPressCancel}>
-              {i18n.t('family.cancel')}
+              {i18n.t('album.cancel')}
             </Button>
-            <Button width={100} onPress={onPressSave}>
-              {i18n.t('family.save')}
-            </Button>
+            {updateMode === true ? (
+              <Button width={100} onPress={onPressSave}>
+                {i18n.t('album.save')}
+              </Button>
+            ) : (
+              <Button width={100} onPress={onPressCreate}>
+                {i18n.t('album.create')}
+              </Button>
+            )}
           </Button.Group>
         </Modal.Footer>
       </Modal.Content>

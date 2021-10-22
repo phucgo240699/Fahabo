@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, useDisclose} from 'native-base';
 import fonts from '@themes/fonts';
 import i18n from '@locales/index';
@@ -10,29 +10,141 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import PrimaryButton from '@components/PrimaryButton';
 import {DummyAlbums} from '@constants/DummyData';
 import AlbumItem from './shared/AlbumItem';
-import {Constants, ScreenName} from '@constants/Constants';
-import {Platform, StyleSheet} from 'react-native';
+import {Constants, Pagination, ScreenName} from '@constants/Constants';
+import {Platform, RefreshControl, StyleSheet} from 'react-native';
 import {navigate} from '@navigators/index';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import AlbumCreationModal from './shared/AlbumCreationModal';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  createAlbumRequestAction,
+  deleteAlbumRequestAction,
+  getAlbumsRequestAction,
+  updateAlbumRequestAction,
+} from '@store/actionTypes/albums';
+import {albumsSelector} from '@store/selectors/albums';
+import {
+  isLoadingAlbumsSelector,
+  isRefreshingAlbumsSelector,
+} from '@store/selectors/session';
+import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 
 const itemHeight = (Constants.MAX_WIDTH - 36) / 2;
 const itemWidth = (Constants.MAX_WIDTH - 36) / 2;
 
-interface Props {}
+interface Props {
+  route?: any;
+}
 
-const AlbumsScreen: React.FC<Props> = ({}) => {
+const AlbumsScreen: React.FC<Props> = ({route}) => {
+  const dispatch = useDispatch();
+  const albums = useSelector(albumsSelector);
+  const isLoadingMore = useSelector(isLoadingAlbumsSelector);
+  const isRefreshing = useSelector(isRefreshingAlbumsSelector);
+  const [pageIndex, setPageIndex] = useState(0);
+
+  // Modal
+  const {isOpen, onOpen, onClose} = useDisclose();
+  const [updateMode, setUpdateMode] = useState(false);
+  const [albumIdNeedUpdate, setAlbumIdNeedUpdate] = useState(-1);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const {isOpen, onOpen, onClose} = useDisclose();
+
+  // Life Cycle
+  useEffect(() => {
+    if (route.params.familyId) {
+      dispatch(
+        getAlbumsRequestAction({
+          familyId: route.params.familyId,
+          showHUD: true,
+        }),
+      );
+    }
+  }, []);
+
+  // Refresh & Load More
+  const onRefreshData = () => {
+    if (route.params.familyId) {
+      if (isRefreshing === false) {
+        setPageIndex(0),
+          dispatch(
+            getAlbumsRequestAction({
+              familyId: route.params.familyId,
+              refresh: true,
+            }),
+          );
+      }
+    }
+  };
+  const onLoadMoreData = () => {
+    if (route.params.familyId) {
+      if (isLoadingMore === false) {
+        if (albums.length >= Pagination.Albums) {
+          dispatch(
+            getAlbumsRequestAction({
+              familyId: route.params.familyId,
+              loadMore: true,
+              page: pageIndex + 1,
+            }),
+          );
+          setPageIndex(pageIndex + 1);
+        }
+      }
+    }
+  };
 
   // Create
-  const onChangeTitle = useCallback((text: string) => {
+  const onChangeTitle = (text: string) => {
     setTitle(text);
-  }, []);
-  const onChangeDescription = useCallback((text: string) => {
+  };
+  const onChangeDescription = (text: string) => {
     setDescription(text);
-  }, []);
+  };
+  const onPressCreate = () => {
+    setTitle('');
+    setDescription('');
+    setUpdateMode(false);
+    onOpen();
+  };
+  const onCreateAlbum = () => {
+    onClose();
+    if (route.params.familyId) {
+      dispatch(
+        createAlbumRequestAction({
+          familyId: route.params.familyId,
+          title: title,
+          description: description,
+        }),
+      );
+    }
+  };
+
+  // Update
+  const onPressUpdateAlbum = (item: any) => {
+    setTitle(item.title);
+    setDescription(item.description);
+    setUpdateMode(true);
+    setAlbumIdNeedUpdate(item.id);
+    onOpen();
+  };
+  const onUpdateAlbum = () => {
+    if (albumIdNeedUpdate != -1) {
+      onClose();
+      dispatch(
+        updateAlbumRequestAction({
+          albumId: albumIdNeedUpdate,
+          title: title,
+          description: description,
+        }),
+      );
+    }
+  };
+
+  // Delete
+  const onDeleteAlbum = (item: any) => {
+    dispatch(deleteAlbumRequestAction({albumId: item.id}));
+  };
 
   // Item
   const onPressItem = (item: any) => {
@@ -46,6 +158,8 @@ const AlbumsScreen: React.FC<Props> = ({}) => {
         maxWidth={itemWidth}
         maxHeight={itemHeight}
         onPress={onPressItem}
+        onPressUpdate={onPressUpdateAlbum}
+        onPressDelete={onDeleteAlbum}
       />
     );
   };
@@ -64,14 +178,24 @@ const AlbumsScreen: React.FC<Props> = ({}) => {
             marginRight={8}
             leftSource={plusIcon}
             leftTintColor={colors.THEME_COLOR_6}
-            onPress={onOpen}
+            onPress={onPressCreate}
           />
         }
       />
       <FlatList
+        data={albums}
         numColumns={2}
-        data={DummyAlbums}
         renderItem={renderItem}
+        onEndReachedThreshold={0.5}
+        onEndReached={onLoadMoreData}
+        ListFooterComponent={
+          <FooterLoadingIndicator
+            loading={isLoadingMore && albums.length >= Pagination.Albums}
+          />
+        }
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefreshData} />
+        }
         contentContainerStyle={styles.list}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item, index) => index.toString()}
@@ -79,7 +203,10 @@ const AlbumsScreen: React.FC<Props> = ({}) => {
 
       <AlbumCreationModal
         isOpen={isOpen}
+        updateMode={updateMode}
         onClose={onClose}
+        onPressCreate={onCreateAlbum}
+        onPressSave={onUpdateAlbum}
         onPressCancel={onClose}
         title={title}
         description={description}

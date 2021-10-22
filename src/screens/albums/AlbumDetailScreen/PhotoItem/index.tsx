@@ -28,8 +28,8 @@ const PhotoItem: React.FC<Props> = ({item, onPress}) => {
 
 const Container = styled.TouchableOpacity`
   margin: 1px;
-  width: ${(Constants.MAX_WIDTH - 8) / 4}px;
-  height: ${(Constants.MAX_WIDTH - 8) / 4}px;
+  width: ${(Constants.MAX_WIDTH - 6) / 3}px;
+  height: ${(Constants.MAX_WIDTH - 6) / 3}px;
 `;
 
 export default React.memo(PhotoItem);

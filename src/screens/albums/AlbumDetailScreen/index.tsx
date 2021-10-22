@@ -69,7 +69,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
       />
       <FlatList
         numColumns={4}
-        data={DummyAlbums}
+        data={[...DummyAlbums, ...DummyAlbums, ...DummyAlbums, ...DummyAlbums]}
         renderItem={renderItem}
         contentContainerStyle={styles.list}
         showsHorizontalScrollIndicator={false}

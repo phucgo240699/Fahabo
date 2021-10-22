@@ -8,6 +8,7 @@ import {
   UPDATE_ALBUM_SUCCESS,
   UPDATE_PHOTO_SUCCESS,
 } from '@store/actionTypes/albums';
+import {LOG_OUT} from '@store/actionTypes/signIn';
 import {AnyAction} from 'redux';
 
 export type AlbumsState = {
@@ -69,7 +70,12 @@ export default function albumsReducer(state = defaultState, action: AnyAction) {
         ...state,
         photos: action.payload,
       };
-
+    case LOG_OUT:
+      return {
+        ...state,
+        albums: [],
+        photos: [],
+      };
     default:
       return state;
   }
