@@ -382,7 +382,7 @@ const Thumbnail = styled.Image`
   resize-mode: contain;
   background-color: ${colors.WHITE};
   width: ${Constants.MAX_WIDTH - 100}px;
-  height: ${Constants.MAX_WIDTH - 200}px;
+  height: ${((Constants.MAX_WIDTH - 100) / 16) * 10}px;
 `;
 const CameraIconContainer = styled.View`
   padding: 10px;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import {Platform, StyleSheet} from 'react-native';
@@ -16,6 +16,7 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {isNull} from '@utils/index';
+import {verifyCameraPermission} from '@utils/media';
 
 interface Props {
   route?: any;
@@ -24,6 +25,13 @@ interface Props {
 const CameraScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [allowCamera, setAllowCamera] = useState(false);
+
+  useEffect(() => {
+    verifyCameraPermission(() => {
+      setAllowCamera(true);
+    });
+  }, []);
 
   const onPressBack = () => {
     if (route && route.params && route.params.fromFamilyOptions) {
@@ -111,25 +119,29 @@ const CameraScreen: React.FC<Props> = ({route}) => {
         backgroundColor={colors.WHITE}
         onCustomNavigateBack={onPressBack}
       />
-      <RNCamera
-        style={styles.preview}
-        captureAudio={false}
-        type={RNCamera.Constants.Type.back}
-        flashMode={RNCamera.Constants.FlashMode.off}>
-        {({camera, status}) => {
-          if (status !== 'READY') {
-            return <></>;
-          }
-          return (
-            <SnapContainer
-              onPress={() => {
-                takePicture(camera);
-              }}>
-              <PrimaryIcon width={36} height={36} source={cameraIcon} />
-            </SnapContainer>
-          );
-        }}
-      </RNCamera>
+      <Container>
+        {allowCamera && (
+          <RNCamera
+            style={styles.preview}
+            captureAudio={false}
+            type={RNCamera.Constants.Type.back}
+            flashMode={RNCamera.Constants.FlashMode.off}>
+            {({camera, status}) => {
+              if (status !== 'READY') {
+                return <></>;
+              }
+              return (
+                <SnapContainer
+                  onPress={() => {
+                    takePicture(camera);
+                  }}>
+                  <PrimaryIcon width={36} height={36} source={cameraIcon} />
+                </SnapContainer>
+              );
+            }}
+          </RNCamera>
+        )}
+      </Container>
     </SafeView>
   );
 };
@@ -138,6 +150,11 @@ const SafeView = styled.SafeAreaView`
   flex: 1;
   margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
   background-color: ${colors.WHITE};
+`;
+
+const Container = styled.View`
+  flex: 1;
+  background-color: #000000;
 `;
 
 const SnapContainer = styled.TouchableOpacity`

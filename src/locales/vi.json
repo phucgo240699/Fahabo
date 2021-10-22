@@ -135,7 +135,13 @@
   "media": {
     "takeAPhoto": "Chụp 1 bức ảnh",
     "chooseAPhoto": "Chọn 1 bức ảnh",
-    "emptyGallery": "Thư viện ảnh rỗng"
+    "emptyGallery": "Thư viện ảnh rỗng",
+    "allow": "Cho phép",
+    "deny": "Từ chối",
+    "accessCameraTitle": "Fahabo muốn truy cập camera",
+    "accessCameraMessage": "Cho phép chúng tôi truy cập camera nhằm tăng trải nghiệm sử dụng",
+    "accessGalleryTitle": "Fahabo muốn truy cập thư viện ảnh",
+    "accessGalleryMessage": "Cho phép chúng tôi truy cập vào thư viện ảnh nhằm tăng trải nghiệm sử dụng"
   },
   "successMessage": {
     "signUpComplete": "Đăng ký hoàn tất",

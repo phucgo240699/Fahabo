@@ -52,7 +52,7 @@ const Touch = styled.TouchableOpacity`
 
 const Container = styled.View`
   elevation: 10;
-  width: 150px;
+  width: 160px;
   height: 200px;
   border-radius: 10px;
   shadow-opacity: 0.2;
@@ -62,7 +62,7 @@ const Container = styled.View`
 `;
 
 const Thumbnail = styled.Image`
-  width: 150px;
+  width: 160px;
   height: 100px;
   resize-mode: contain;
   border-top-left-radius: 10px;

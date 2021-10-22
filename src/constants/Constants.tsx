@@ -61,7 +61,7 @@ export const Constants = {
   PROFILE_AVATAR_WIDTH: 128,
   PROFILE_AVATAR_HEIGHT: 128,
   FAMILY_THUMBNAIL_WIDTH: 512,
-  FAMILY_THUMBNAIL_HEIGHT: 512,
+  FAMILY_THUMBNAIL_HEIGHT: 320,
 };
 
 export const languages: {key: string; value: string}[] = [

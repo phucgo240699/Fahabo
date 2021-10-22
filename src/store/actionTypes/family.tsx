@@ -63,7 +63,7 @@ export const updateFamilyThumbnailRequestAction = (
 });
 export const UPDATE_FAMILY_THUMBNAIL_SUCCESS =
   'UPDATE_FAMILY_THUMBNAIL_SUCCESS';
-export const updateFamilyThumbnailSuccessAction = (payload: any) => ({
+export const updateFamilyThumbnailSuccessAction = (payload: FamilyType) => ({
   type: UPDATE_FAMILY_THUMBNAIL_SUCCESS,
   payload,
 });
@@ -77,7 +77,7 @@ export const updateFamilyInfoRequestAction = (
   body,
 });
 export const UPDATE_FAMILY_INFO_SUCCESS = 'UPDATE_FAMILY_INFO_SUCCESS';
-export const updateFamilyInfoSuccessAction = (payload: any) => ({
+export const updateFamilyInfoSuccessAction = (payload: FamilyType) => ({
   type: UPDATE_FAMILY_INFO_SUCCESS,
   payload,
 });

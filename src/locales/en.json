@@ -134,7 +134,13 @@
   "media": {
     "takeAPhoto": "Take a photo",
     "chooseAPhoto": "Choose a photo",
-    "emptyGallery": "Empty Gallery"
+    "emptyGallery": "Empty Gallery",
+    "allow": "Allow",
+    "deny": "Deny",
+    "accessCameraTitle": "Fahabo wants to access camera",
+    "accessCameraMessage": "Allow us to access your camera to help you explore Fahabo",
+    "accessGalleryTitle": "Fahabo wants to access galler",
+    "accessGalleryMessage": "Allow us to access your gallery to help you explore Fahabo"
   },
   "successMessage": {
     "signUpComplete": "Sign up completely",

@@ -33,9 +33,6 @@ const ScanFamilyQRScreen = () => {
         showToastAction(i18n.t('errorMessage.qrCodeInvalid'), ToastType.ERROR),
       );
     }
-    console.log({familyId});
-    console.log({qrSaltCode});
-    console.log({QR_SALT_CODE});
   };
 
   const onPressQRCode = () => {
