@@ -16,6 +16,7 @@ import rootSaga from './sagas';
 import modalsReducer, {ModalsState} from '@store/reducers/modals';
 import familyReducer, {FamilyState} from '@store/reducers/family';
 import albumsReducer, {AlbumsState} from '@store/reducers/albums';
+import choresReducer, {ChoresState} from '@store/reducers/chores';
 
 const persistConfig: PersistConfig<
   CombinedState<{
@@ -24,6 +25,7 @@ const persistConfig: PersistConfig<
     authentication: any;
     family: any;
     albums: any;
+    chores: any;
   }>,
   any,
   any,
@@ -51,6 +53,7 @@ const rootReducer = combineReducers({
   authentication: authenticationReducer,
   family: familyReducer,
   albums: albumsReducer,
+  chores: choresReducer,
 });
 
 const store = createStore(
@@ -67,6 +70,7 @@ export interface RootState {
   authentication: AuthenticationState;
   family: FamilyState;
   albums: AlbumsState;
+  chores: ChoresState;
 }
 
 export default store;

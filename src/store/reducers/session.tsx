@@ -39,12 +39,16 @@ export type SessionState = {
   isRefreshingFamilyMembers: boolean;
   isRefreshingAlbums: boolean;
   isRefreshingPhotos: boolean;
+  isRefreshingChores: boolean;
+  isRefreshingChorePhotos: boolean;
 
   // Load More
   isLoadingFamilies: boolean;
   isLoadingFamilyMembers: boolean;
   isLoadingAlbums: boolean;
   isLoadingPhotos: boolean;
+  isLoadingChores: boolean;
+  isLoadingChorePhotos: boolean;
 
   // Toasts
   toasts: {id: number; toast: ToastState}[];
@@ -64,12 +68,16 @@ const defaultState: SessionState = {
   isRefreshingFamilyMembers: false,
   isRefreshingAlbums: false,
   isRefreshingPhotos: false,
+  isRefreshingChores: false,
+  isRefreshingChorePhotos: false,
 
   // Load More
   isLoadingFamilies: false,
   isLoadingFamilyMembers: false,
   isLoadingAlbums: false,
   isLoadingPhotos: false,
+  isLoadingChores: false,
+  isLoadingChorePhotos: false,
 
   // Toasts
   toasts: [],

@@ -59,7 +59,7 @@ export function getAlbumsApi(
   }
   return new apiProvider(accessToken).post(
     `${BASE_URL}/albums?page=${page}&size=${size}`,
-    {familyId: body?.familyId},
+    body,
   );
 }
 
@@ -106,9 +106,7 @@ export function getPhotosApi(
   }
   return new apiProvider(accessToken).post(
     `${BASE_URL}/photos?page=${page}&size=${size}`,
-    {
-      albumId: body?.albumId,
-    },
+    body,
   );
 }
 

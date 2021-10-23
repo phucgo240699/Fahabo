@@ -1,7 +1,9 @@
 import {SessionState} from '@store/reducers/session';
 import {ToastType} from '@constants/types/session';
 
+//
 // Refresh Control
+//
 export const UPDATE_IS_REFRESHING_PROFILE = 'UPDATE_IS_REFRESHING_PROFILE';
 export const updateIsRefreshingProfileAction = (payload: boolean) => ({
   type: UPDATE_IS_REFRESHING_PROFILE,
@@ -34,8 +36,21 @@ export const updateIsRefreshingPhotosAction = (payload: boolean) => ({
   type: UPDATE_IS_REFRESHING_PHOTOS,
   payload,
 });
+export const UPDATE_IS_REFRESHING_CHORES = 'UPDATE_IS_REFRESHING_CHORES';
+export const updateIsRefreshingChoresAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_CHORES,
+  payload,
+});
+export const UPDATE_IS_REFRESHING_CHORE_PHOTOS =
+  'UPDATE_IS_REFRESHING_CHORE_PHOTOS';
+export const updateIsRefreshingChorePhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_CHORE_PHOTOS,
+  payload,
+});
 
+//
 // Load More
+//
 export const UPDATE_IS_LOADING_FAMILIES = 'UPDATE_IS_LOADING_FAMILIES';
 export const updateIsLoadingFamiliesAction = (payload: boolean) => ({
   type: UPDATE_IS_LOADING_FAMILIES,
@@ -55,6 +70,16 @@ export const updateIsLoadingAlbumsAction = (payload: boolean) => ({
 export const UPDATE_IS_LOADING_PHOTOS = 'UPDATE_IS_LOADING_PHOTOS';
 export const updateIsLoadingPhotosAction = (payload: boolean) => ({
   type: UPDATE_IS_LOADING_PHOTOS,
+  payload,
+});
+export const UPDATE_IS_LOADING_CHORES = 'UPDATE_IS_LOADING_CHORES';
+export const updateIsLoadingChoresAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_CHORES,
+  payload,
+});
+export const UPDATE_IS_LOADING_CHORE_PHOTOS = 'UPDATE_IS_LOADING_CHORE_PHOTOS';
+export const updateIsLoadingChorePhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_CHORE_PHOTOS,
   payload,
 });
 

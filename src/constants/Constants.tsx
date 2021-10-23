@@ -77,4 +77,5 @@ export const Pagination = {
   FamilyMembers: 10,
   Albums: 14,
   Photos: 24,
+  Chores: 10,
 };
