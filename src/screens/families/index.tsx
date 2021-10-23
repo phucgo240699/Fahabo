@@ -29,6 +29,7 @@ import {
 import ImageCropPicker from 'react-native-image-crop-picker';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 import PrimaryHeader from '@components/PrimaryHeader';
+import {FamilyType} from '@constants/types/family';
 
 interface Props {
   route?: any;
@@ -84,11 +85,12 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   };
 
   // List
-  const renderItem = ({item}: {item: any}) => {
+  const renderItem = ({item}: {item: FamilyType}) => {
     return <HorizontalFamilyItem item={item} onPress={onPressItem} />;
   };
-  const onPressItem = (item: any) => {
-    dispatch(getFamilyDetailRequestAction({familyId: item.id}));
+  const onPressItem = (item: FamilyType) => {
+    // dispatch(getFamilyDetailRequestAction({familyId: item.id}));
+    navigate(ScreenName.FamilyDetailScreen, {familyDetail: item});
   };
 
   // Modal

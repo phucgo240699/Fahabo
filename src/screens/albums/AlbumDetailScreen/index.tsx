@@ -192,9 +192,7 @@ const SafeView = styled.SafeAreaView`
   margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
 `;
 
-const ChooseButton = styled(PrimaryButton)`
-  width: 60px;
-`;
+const ChooseButton = styled(PrimaryButton)``;
 
 const DeleteButtonContainer = styled.View`
   right: 16px;

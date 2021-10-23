@@ -26,20 +26,17 @@ import {navigate} from '@navigators/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getFamilyMembersRequestAction,
-  getRefreshFamilyDetailRequestAction,
+  getRefreshFamilyMembersRequestAction,
   kickFamilyMemberRequestAction,
   leaveFamilyRequestAction,
   updateFamilyInfoRequestAction,
   updateFamilyThumbnailRequestAction,
 } from '@store/actionTypes/family';
-import {
-  familyDetailSelector,
-  membersInFamilySelector,
-} from '@store/selectors/family';
+import {membersInFamilySelector} from '@store/selectors/family';
 import {isNull} from '@utils/index';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import {userSelector} from '@store/selectors/authentication';
-import {isRefreshingFamilyDetailSelector} from '@store/selectors/session';
+import {isRefreshingFamilyMembersSelector} from '@store/selectors/session';
 import ImageCropPicker from 'react-native-image-crop-picker';
 
 interface Props {
@@ -51,8 +48,8 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const navigation = useNavigation();
   const {isOpen, onOpen, onClose} = useDisclose();
   const user = useSelector(userSelector);
-  const isRefreshing = useSelector(isRefreshingFamilyDetailSelector);
-  const familyDetail = useSelector(familyDetailSelector);
+  const isRefreshingMembers = useSelector(isRefreshingFamilyMembersSelector);
+  const familyDetail = route.params.familyDetail; //useSelector(familyDetailSelector);
   const membersInFamily = useSelector(membersInFamilySelector);
   const [allowEdit, setAllowEdit] = useState(false);
   const [name, setName] = useState(familyDetail?.name);
@@ -77,9 +74,13 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
     }
   }, [route]);
 
+  // Refresh
   const onRefreshingFamilyDetail = () => {
-    dispatch(getRefreshFamilyDetailRequestAction({familyId: familyDetail?.id}));
-    dispatch(getFamilyMembersRequestAction({familyId: familyDetail?.id}));
+    if (isRefreshingMembers === false) {
+      dispatch(
+        getRefreshFamilyMembersRequestAction({familyId: familyDetail?.id}),
+      );
+    }
   };
 
   // Navigate Back
@@ -215,7 +216,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
         bgColor={colors.WHITE}
         refreshControl={
           <RefreshControl
-            refreshing={isRefreshing}
+            refreshing={isRefreshingMembers}
             onRefresh={onRefreshingFamilyDetail}
           />
         }

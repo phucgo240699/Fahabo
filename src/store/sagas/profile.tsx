@@ -9,9 +9,7 @@ import {
   updateProfileAvatarApi,
 } from '@services/profile';
 import {
-  getPreviewAlbumSuccessAction,
   getProfileSuccessAction,
-  GET_PREVIEW_ALBUM_REQUEST,
   GET_PROFILE_REQUEST,
   updateLanguageSuccessAction,
   updatePasswordSuccessAction,
@@ -43,26 +41,6 @@ import {
 import {ScreenName, StackName} from '@constants/Constants';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {isNull} from '@utils/index';
-
-function* onGetPreviewAlbumSaga(action: AnyAction) {
-  try {
-    const response: any = yield* apiProxy(getPreviewAlbumApi);
-    if (response.status === 200) {
-      yield* put(getPreviewAlbumSuccessAction(parseDataResponse(response)));
-    } else {
-      yield* put(
-        showToastAction(
-          i18n.t(`backend.${parseErrorResponse(response)}`),
-          ToastType.ERROR,
-        ),
-      );
-    }
-  } catch (error) {
-    yield* put(
-      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
-    );
-  }
-}
 
 // Avatar
 function* onUpdateProfileAvatarSaga(action: AnyAction) {
@@ -235,8 +213,6 @@ function* onUpdatePasswordSuccessSaga(action: AnyAction) {
 
 export default function* () {
   yield* all([
-    // takeLeading(GET_AVATAR_REQUEST, onGetAvatarSaga),
-    takeLeading(GET_PREVIEW_ALBUM_REQUEST, onGetPreviewAlbumSaga),
     takeLeading(UPDATE_PROFILE_AVATAR_REQUEST, onUpdateProfileAvatarSaga), // Avatar
     takeLeading(
       UPDATE_PROFILE_AVATAR_SUCCESS,

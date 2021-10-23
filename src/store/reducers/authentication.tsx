@@ -12,8 +12,6 @@ import {
 } from '@store/actionTypes/signIn';
 import {AuthenticationResponseType} from '@constants/types/authentication';
 import {
-  // GET_AVATAR_SUCCESS,
-  GET_PREVIEW_ALBUM_SUCCESS,
   GET_PROFILE_SUCCESS,
   UPDATE_LANGUAGE_SUCCESS,
   UPDATE_PASSWORD_SUCCESS,
@@ -58,11 +56,6 @@ export default function authenticationReducer(
           ...state.user,
           ...action.payload,
         },
-      };
-    case GET_PREVIEW_ALBUM_SUCCESS:
-      return {
-        ...state,
-        previewAlbum: action.payload,
       };
     case UPDATE_PROFILE_AVATAR_SUCCESS:
       return {

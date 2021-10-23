@@ -24,16 +24,6 @@ export const getProfileSuccessAction = (
   payload,
 });
 
-export const GET_PREVIEW_ALBUM_REQUEST = 'GET_PREVIEW_ALBUM_REQUEST';
-export const getPreviewAlbumRequestAction = () => ({
-  type: GET_PREVIEW_ALBUM_REQUEST,
-});
-export const GET_PREVIEW_ALBUM_SUCCESS = 'GET_PREVIEW_ALBUM_SUCCESS';
-export const getPreviewAlbumSuccessAction = (payload: ImageSource[]) => ({
-  type: GET_PREVIEW_ALBUM_SUCCESS,
-  payload,
-});
-
 export const UPDATE_PROFILE_AVATAR_REQUEST = 'UPDATE_PROFILE_AVATAR_REQUEST';
 export const updateProfileAvatarRequestAction = (
   body: UpdateProfileAvatarRequestType,
