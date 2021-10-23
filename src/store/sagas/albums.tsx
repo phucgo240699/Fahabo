@@ -10,8 +10,10 @@ import {
   getAlbumsSuccessAction,
   getPhotosRequestAction,
   getPhotosSuccessAction,
+  getPreviewAlbumSuccessAction,
   GET_ALBUMS_REQUEST,
   GET_PHOTOS_REQUEST,
+  GET_PREVIEW_ALBUM_REQUEST,
   updateAlbumSuccessAction,
   updatePhotoSuccessAction,
   UPDATE_ALBUM_REQUEST,
@@ -19,12 +21,12 @@ import {
 } from '@store/actionTypes/albums';
 import {
   AddPhotosRequestType,
-  AlbumType,
   CreateAlbumRequestType,
   DeleteAlbumRequestType,
   DeletePhotosRequestType,
   GetAlbumsRequestType,
   GetPhotosRequestType,
+  GetPreviewAlbumRequestType,
   UpdateAlbumRequestType,
   UpdatePhotoRequestType,
 } from '@constants/types/albums';
@@ -46,6 +48,7 @@ import {
   deletePhotosApi,
   getAlbumsApi,
   getPhotosApi,
+  getPreviewAlbumApi,
   updateAlbumApi,
   updatePhotoApi,
 } from '@services/albums';
@@ -334,6 +337,33 @@ function* getPhotosSaga({body}: {type: string; body: GetPhotosRequestType}) {
   }
 }
 
+function* getPreviewAlbumSaga({
+  body,
+}: {
+  type: string;
+  body: GetPreviewAlbumRequestType;
+}) {
+  try {
+    const response = yield* apiProxy(getPreviewAlbumApi, body);
+    if (response.status === 200) {
+      yield* put(
+        getPreviewAlbumSuccessAction(parsePhotos(parseDataResponse(response))),
+      );
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  }
+}
+
 export default function* () {
   yield* all([
     takeLeading(CREATE_ALBUM_REQUEST, createAlbumSaga),
@@ -344,5 +374,6 @@ export default function* () {
     takeLeading(UPDATE_PHOTO_REQUEST, updatePhotoSaga),
     takeLeading(DELETE_PHOTOS_REQUEST, deletePhotosSaga),
     takeLeading(GET_PHOTOS_REQUEST, getPhotosSaga),
+    takeLeading(GET_PREVIEW_ALBUM_REQUEST, getPreviewAlbumSaga),
   ]);
 }

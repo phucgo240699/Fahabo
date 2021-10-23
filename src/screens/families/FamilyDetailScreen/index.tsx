@@ -17,7 +17,6 @@ import PrimaryIcon from '@components/PrimaryIcon';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {Constants, Pagination, ScreenName} from '@constants/Constants';
 import {Platform, RefreshControl, StyleSheet} from 'react-native';
-import {DummyAlbums} from '@constants/DummyData';
 import fonts, {PrimaryFontBold} from '@themes/fonts';
 import PreviewAlbumBox from '@screens/albums/shared/PreviewAlbumBox';
 import i18n from '@locales/index';
@@ -38,6 +37,7 @@ import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import {userSelector} from '@store/selectors/authentication';
 import {isRefreshingFamilyMembersSelector} from '@store/selectors/session';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import {previewAlbumSelector} from '@store/selectors/albums';
 
 interface Props {
   route?: any;
@@ -49,8 +49,9 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const {isOpen, onOpen, onClose} = useDisclose();
   const user = useSelector(userSelector);
   const isRefreshingMembers = useSelector(isRefreshingFamilyMembersSelector);
-  const familyDetail = route.params.familyDetail; //useSelector(familyDetailSelector);
+  const familyDetail = route.params.familyDetail;
   const membersInFamily = useSelector(membersInFamilySelector);
+  const previewAlbum = useSelector(previewAlbumSelector);
   const [allowEdit, setAllowEdit] = useState(false);
   const [name, setName] = useState(familyDetail?.name);
   const [thumbnailUri, setThumbnailUri] = useState(familyDetail?.thumbnail);
@@ -165,7 +166,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   };
   const onPressPhotoItem = (index: number) => {
     navigate(ScreenName.ImageViewerScreen, {
-      data: DummyAlbums,
+      data: previewAlbum,
       currentIndex: index,
     });
   };
@@ -298,11 +299,13 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
               />
             </>
           )}
-          <PreviewAlbumBox
-            data={DummyAlbums}
-            onPressItem={onPressPhotoItem}
-            onPressViewAll={onPressViewAllPhotos}
-          />
+          {previewAlbum.length > 0 && (
+            <PreviewAlbumBox
+              data={previewAlbum}
+              onPressItem={onPressPhotoItem}
+              onPressViewAll={onPressViewAllPhotos}
+            />
+          )}
 
           <PrimaryButton
             marginTop={30}

@@ -5,6 +5,7 @@ import {
   DELETE_ALBUM_SUCCESS,
   GET_ALBUMS_SUCCESS,
   GET_PHOTOS_SUCCESS,
+  GET_PREVIEW_ALBUM_SUCCESS,
   UPDATE_ALBUM_SUCCESS,
   UPDATE_PHOTO_SUCCESS,
 } from '@store/actionTypes/albums';
@@ -14,11 +15,13 @@ import {AnyAction} from 'redux';
 export type AlbumsState = {
   albums: AlbumType[];
   photos: PhotoType[];
+  previewAlbum: PhotoType[];
 };
 
 const defaultState: AlbumsState = {
   albums: [],
   photos: [],
+  previewAlbum: [],
 };
 
 export default function albumsReducer(state = defaultState, action: AnyAction) {
@@ -70,11 +73,17 @@ export default function albumsReducer(state = defaultState, action: AnyAction) {
         ...state,
         photos: action.payload,
       };
+    case GET_PREVIEW_ALBUM_SUCCESS:
+      return {
+        ...state,
+        previewAlbum: action.payload,
+      };
     case LOG_OUT:
       return {
         ...state,
         albums: [],
         photos: [],
+        previewAlbum: [],
       };
     default:
       return state;

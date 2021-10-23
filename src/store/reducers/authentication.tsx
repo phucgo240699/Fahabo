@@ -25,7 +25,6 @@ export type AuthenticationState = {
   accessToken?: string;
   refreshToken?: string;
   listCountryCode?: Record<string, string>[];
-  previewAlbum?: ImageSource[];
 };
 
 const defaultState: AuthenticationState = {
@@ -33,7 +32,6 @@ const defaultState: AuthenticationState = {
   accessToken: undefined,
   refreshToken: undefined,
   listCountryCode: [],
-  previewAlbum: [],
 };
 
 export default function authenticationReducer(
@@ -115,7 +113,6 @@ export default function authenticationReducer(
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
         listCountryCode: [],
-        previewAlbum: [],
       };
     case LOG_OUT:
       return {

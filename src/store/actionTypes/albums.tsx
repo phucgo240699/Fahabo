@@ -6,6 +6,7 @@ import {
   DeletePhotosRequestType,
   GetAlbumsRequestType,
   GetPhotosRequestType,
+  GetPreviewAlbumRequestType,
   PhotoType,
   UpdateAlbumRequestType,
   UpdatePhotoRequestType,
@@ -91,5 +92,18 @@ export const getPhotosRequestAction = (body: GetPhotosRequestType) => ({
 export const GET_PHOTOS_SUCCESS = 'GET_PHOTOS_SUCCESS';
 export const getPhotosSuccessAction = (payload: PhotoType[]) => ({
   type: GET_PHOTOS_SUCCESS,
+  payload,
+});
+
+export const GET_PREVIEW_ALBUM_REQUEST = 'GET_PREVIEW_ALBUM_REQUEST';
+export const getPreviewAlbumRequestAction = (
+  body: GetPreviewAlbumRequestType,
+) => ({
+  type: GET_PREVIEW_ALBUM_REQUEST,
+  body,
+});
+export const GET_PREVIEW_ALBUM_SUCCESS = 'GET_PREVIEW_ALBUM_SUCCESS';
+export const getPreviewAlbumSuccessAction = (payload: PhotoType[]) => ({
+  type: GET_PREVIEW_ALBUM_SUCCESS,
   payload,
 });

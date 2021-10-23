@@ -52,6 +52,10 @@ export type GetPhotosRequestType = {
   size?: number;
 };
 
+export type GetPreviewAlbumRequestType = {
+  familyId?: number;
+};
+
 //
 // Response
 //
@@ -65,6 +69,7 @@ export type AlbumType = {
 export type PhotoType = {
   id?: number;
   uri?: string;
+  index?: number;
   createdAt?: string; // DD-MM-YYYY
   updatedAt?: string; // DD-MM-YYYY
 };

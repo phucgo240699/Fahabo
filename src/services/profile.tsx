@@ -17,10 +17,6 @@ export function getProfileApi(
   );
 }
 
-export function getPreviewAlbumApi(accessToken?: string) {
-  return new apiProvider(accessToken).get(`${BASE_URL}/users/preview_images`);
-}
-
 export function updateProfileAvatarApi(
   accessToken?: string,
   body?: UpdateProfileAvatarRequestType,

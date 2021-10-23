@@ -23,8 +23,8 @@ export function parseAlbum(rawData: any): AlbumType {
 }
 
 export function parsePhotos(rawData: any[]): PhotoType[] {
-  const result: PhotoType[] = rawData.map(item => {
-    return parsePhoto(item);
+  const result: PhotoType[] = rawData.map((item, index) => {
+    return parsePhoto({...item, index: index});
   });
   return result;
 }
@@ -32,12 +32,14 @@ export function parsePhotos(rawData: any[]): PhotoType[] {
 export function parsePhoto(rawData: any): PhotoType {
   const id = get('id', rawData);
   const uri = get('uri', rawData);
+  const index = get('index', rawData);
   const createdAt = get('createdAt', rawData);
   const updatedAt = get('updatedAt', rawData);
 
   return {
     id,
     uri,
+    index,
     createdAt,
     updatedAt,
   };

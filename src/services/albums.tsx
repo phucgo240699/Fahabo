@@ -8,6 +8,7 @@ import {
   DeletePhotosRequestType,
   GetAlbumsRequestType,
   GetPhotosRequestType,
+  GetPreviewAlbumRequestType,
   UpdateAlbumRequestType,
   UpdatePhotoRequestType,
 } from '@constants/types/albums';
@@ -109,4 +110,11 @@ export function getPhotosApi(
       albumId: body?.albumId,
     },
   );
+}
+
+export function getPreviewAlbumApi(
+  accessToken?: string,
+  body?: GetPreviewAlbumRequestType,
+) {
+  return new apiProvider(accessToken).post(`${BASE_URL}`, body);
 }

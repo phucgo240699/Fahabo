@@ -6,9 +6,10 @@ import fonts from '@themes/fonts';
 import PrimaryButton from '@components/PrimaryButton';
 import {Box, Image} from 'native-base';
 import {Constants} from '@constants/Constants';
+import {PhotoType} from '@constants/types/albums';
 
 interface Props {
-  data: any[];
+  data: PhotoType[];
   onPressItem?: (index: number) => void;
   onPressViewAll?: () => void;
 }
