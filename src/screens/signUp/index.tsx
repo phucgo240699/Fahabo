@@ -186,6 +186,8 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               </FormControl.Label>
               <Input
                 mt={-1}
+                height={50}
+                borderRadius={25}
                 isRequired={true}
                 color={colors.TEXT}
                 autoCapitalize="none"
@@ -202,6 +204,8 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               </FormControl.Label>
               <Input
                 mt={-1}
+                height={50}
+                borderRadius={25}
                 color={colors.TEXT}
                 autoCapitalize="none"
                 borderColor={colors.SILVER}
@@ -216,6 +220,8 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               </FormControl.Label>
               <Input
                 mt={-1}
+                height={50}
+                borderRadius={25}
                 type="password"
                 color={colors.TEXT}
                 borderColor={colors.SILVER}
@@ -230,6 +236,8 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               </FormControl.Label>
               <Input
                 mt={-1}
+                height={50}
+                borderRadius={25}
                 type="password"
                 color={colors.TEXT}
                 borderColor={colors.SILVER}
@@ -240,14 +248,16 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
             {/* Button */}
             <VStack space={2} mt={5}>
               <Button
-                _text={{color: colors.WHITE}}
+                size="lg"
+                borderRadius={28}
                 onPress={onSignUp}
                 disabled={
                   isNull(email) ||
                   isNull(name) ||
                   isNull(password) ||
                   isNull(confirmPassword)
-                }>
+                }
+                _text={{color: colors.WHITE}}>
                 {i18n.t('authentication.signUp.signUp')}
               </Button>
             </VStack>

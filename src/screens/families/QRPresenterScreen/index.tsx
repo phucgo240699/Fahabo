@@ -52,13 +52,25 @@ const QRPresenterScreen: React.FC<Props> = ({route}) => {
           justifyContent={'center'}
           bgColor={colors.WHITE}>
           {route && route.params && route.params.value && (
-            <QRCode
-              size={200}
-              logoSize={48}
-              logo={appIcon}
-              logoBorderRadius={24}
-              value={`${QR_SALT_CODE}_${route.params.value}`}
-            />
+            <>
+              {route.params.iconUri ? (
+                <QRCode
+                  size={200}
+                  logoSize={48}
+                  logo={{uri: route.params.iconUri}}
+                  logoBorderRadius={24}
+                  value={`${QR_SALT_CODE}_${route.params.value}`}
+                />
+              ) : (
+                <QRCode
+                  size={200}
+                  logoSize={48}
+                  logo={appIcon}
+                  logoBorderRadius={24}
+                  value={`${QR_SALT_CODE}_${route.params.value}`}
+                />
+              )}
+            </>
           )}
           {route && route.params && route.params.instruction && (
             <InstructionText>{route.params.instruction}</InstructionText>

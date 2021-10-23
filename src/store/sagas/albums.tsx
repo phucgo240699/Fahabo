@@ -173,10 +173,11 @@ function* getAlbumsSaga({body}: {type: string; body: GetAlbumsRequestType}) {
     const response = yield* apiProxy(getAlbumsApi, body);
     if (response.status === 200) {
       if (body.page && body.page > 0) {
-        const oldData = yield* select(albumsSelector);
         const newData = parseAlbums(parseDataResponse(response));
-
-        yield* put(getAlbumsSuccessAction(mixAlbums(oldData, newData)));
+        if (newData.length > 0) {
+          const oldData = yield* select(albumsSelector);
+          yield* put(getAlbumsSuccessAction(mixAlbums(oldData, newData)));
+        }
       } else {
         yield* put(
           getAlbumsSuccessAction(parseAlbums(parseDataResponse(response))),
@@ -304,9 +305,11 @@ function* getPhotosSaga({body}: {type: string; body: GetPhotosRequestType}) {
     const response = yield* apiProxy(getPhotosApi, body);
     if (response.status === 200) {
       if (body.page && body.page > 0) {
-        const oldData = yield* select(photosSelector);
         const newData = parsePhotos(parseDataResponse(response));
-        yield* put(getPhotosSuccessAction(mixPhotos(oldData, newData)));
+        if (newData.length > 0) {
+          const oldData = yield* select(photosSelector);
+          yield* put(getPhotosSuccessAction(mixPhotos(oldData, newData)));
+        }
       } else {
         yield* put(
           getPhotosSuccessAction(parsePhotos(parseDataResponse(response))),

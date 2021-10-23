@@ -2,7 +2,6 @@ import React from 'react';
 import {navigationOptions} from './index';
 import ProfileScreen from '@screens/profile';
 import SettingsScreen from '@screens/settings';
-import FamiliesScreen from '@screens/families';
 import {ScreenName} from '@constants/Constants';
 import CameraScreen from '@screens/media/CameraScreen';
 import MyChoresScreen from '@screens/chores/MyChoresScreen';
@@ -10,15 +9,9 @@ import MyEventsScreen from '@screens/events/MyEventsScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import LanguageScreen from '@screens/settings/LanguageScreen';
 import MediaPickerScreen from '@screens/media/MediaPickerScreen';
-import QRPresenterScreen from '@screens/families/QRPresenterScreen';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
-import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
 import UpdatePasswordScreen from '@screens/settings/UpdatePasswordScreen';
-import AlbumsScreen from '@screens/albums';
-import AlbumDetailScreen from '@screens/albums/AlbumDetailScreen';
-import FamilyDetailScreen from '@screens/families/FamilyDetailScreen';
-import FamilyMembersScreen from '@screens/families/FamilyMembersScreen';
 
 interface Props {
   route?: any;

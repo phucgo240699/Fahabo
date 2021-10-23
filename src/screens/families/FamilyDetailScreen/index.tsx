@@ -38,6 +38,7 @@ import {userSelector} from '@store/selectors/authentication';
 import {isRefreshingFamilyMembersSelector} from '@store/selectors/session';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {previewAlbumSelector} from '@store/selectors/albums';
+import {FamilyType} from '@constants/types/family';
 
 interface Props {
   route?: any;
@@ -49,7 +50,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const {isOpen, onOpen, onClose} = useDisclose();
   const user = useSelector(userSelector);
   const isRefreshingMembers = useSelector(isRefreshingFamilyMembersSelector);
-  const familyDetail = route.params.familyDetail;
+  const familyDetail: FamilyType = route.params.familyDetail;
   const membersInFamily = useSelector(membersInFamilySelector);
   const previewAlbum = useSelector(previewAlbumSelector);
   const [allowEdit, setAllowEdit] = useState(false);
@@ -100,6 +101,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
       navigate(ScreenName.QRPresenterScreen, {
         value: familyDetail?.id,
         instruction: i18n.t('family.scanInstruction'),
+        iconUri: familyDetail?.thumbnail,
       });
     }
   };
@@ -308,7 +310,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
           )}
 
           <PrimaryButton
-            marginTop={30}
+            marginTop={40}
             titleColor={colors.RED_1}
             title={i18n.t('family.leave')}
             onPress={onPressLeave}
@@ -376,11 +378,15 @@ const QRButton = styled(PrimaryButton)`
 `;
 
 const ThumbnailContainer = styled.TouchableOpacity`
+  elevation: 10;
   overflow: hidden;
   margin-top: -80px;
   border-radius: 10px;
+  shadow-radius: 16px;
+  shadow-opacity: 0.2;
   align-items: center;
   justify-content: center;
+  shadow-color: ${colors.BLACK};
 `;
 const Thumbnail = styled.Image`
   resize-mode: contain;

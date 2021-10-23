@@ -1,4 +1,5 @@
 import {ScreenName} from '@constants/Constants';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import AlbumsScreen from '@screens/albums';
 import AlbumDetailScreen from '@screens/albums/AlbumDetailScreen';
@@ -11,9 +12,29 @@ import CameraScreen from '@screens/media/CameraScreen';
 import React from 'react';
 import {navigationOptions} from './index';
 
+interface Props {
+  route?: any;
+  navigation?: any;
+}
+
+const hiddenRouteNames: string[] = [
+  ScreenName.CameraScreen,
+  ScreenName.MediaPickerScreen,
+  ScreenName.QRPresenterScreen,
+];
+
 const Stack = createStackNavigator();
 
-const FamilyStack = () => {
+const FamilyStack: React.FC<Props> = ({navigation, route}) => {
+  React.useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (hiddenRouteNames.includes(routeName ?? '')) {
+      navigation.setOptions({tabBarVisible: false});
+    } else {
+      navigation.setOptions({tabBarVisible: false});
+    }
+  }, [navigation, route]);
+
   return (
     <Stack.Navigator screenOptions={navigationOptions}>
       <Stack.Screen

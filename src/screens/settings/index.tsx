@@ -75,8 +75,9 @@ const SettingsScreen: React.FC<Props> = ({}) => {
 
 const Content = styled.View`
   margin: 16px;
+  elevation: 10;
   border-radius: 8px;
-  shadow-radius: 10px;
+  shadow-radius: 16px;
   shadow-opacity: 0.2;
   shadow-color: ${colors.BLACK};
   background-color: ${colors.WHITE};

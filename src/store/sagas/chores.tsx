@@ -147,9 +147,11 @@ function* getChoresSaga({body}: {type: string; body: GetChoresRequestType}) {
     const response = yield* apiProxy(getChoresApi, body);
     if (response.status === 200) {
       if (body.page && body.page > 0) {
-        const oldData = yield* select(choresSelector);
         const newData = parseChores(parseDataResponse(response));
-        yield* put(getChoresSuccessAction(mixChores(oldData, newData)));
+        if (newData.length > 0) {
+          const oldData = yield* select(choresSelector);
+          yield* put(getChoresSuccessAction(mixChores(oldData, newData)));
+        }
       } else {
         yield* put(
           getChoresSuccessAction(parseChores(parseDataResponse(response))),

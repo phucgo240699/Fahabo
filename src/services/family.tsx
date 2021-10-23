@@ -112,6 +112,6 @@ export function getFamilyMembersApi(
   }
   return new apiProvider(accessToken).post(
     `${BASE_URL}/families/users_in_family?page=${page}&size=${size}`,
-    {familyId: body?.familyId},
+    body,
   );
 }

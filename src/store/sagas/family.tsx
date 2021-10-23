@@ -283,9 +283,11 @@ function* getFamiliesSaga({
     const response = yield* apiProxy(getMyFamiliesApi, body);
     if (response.status === 200) {
       if (body.page && body.page > 0) {
-        const oldData = yield* select(familiesSelector);
         const newData = parseFamilies(parseDataResponse(response));
-        yield* put(getFamiliesSuccessAction(mixFamily(oldData, newData)));
+        if (newData.length > 0) {
+          const oldData = yield* select(familiesSelector);
+          yield* put(getFamiliesSuccessAction(mixFamily(oldData, newData)));
+        }
       } else {
         yield* put(
           getFamiliesSuccessAction(parseFamilies(parseDataResponse(response))),

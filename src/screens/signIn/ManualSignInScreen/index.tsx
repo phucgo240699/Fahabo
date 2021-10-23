@@ -68,6 +68,8 @@ const ManualSignInScreen = () => {
           {/* Form */}
           <VStack space={2} mt={5}>
             <Input
+              height={50}
+              borderRadius={25}
               color={colors.TEXT}
               autoCapitalize="none"
               borderColor={colors.SILVER}
@@ -78,6 +80,8 @@ const ManualSignInScreen = () => {
             />
             <Input
               mt={3}
+              height={50}
+              borderRadius={25}
               type="password"
               color={colors.TEXT}
               borderColor={colors.SILVER}
@@ -102,6 +106,7 @@ const ManualSignInScreen = () => {
             <Button
               mt={2}
               size="lg"
+              borderRadius={28}
               disabled={isNull(email) || isNull(password)}
               _text={{color: colors.WHITE}}
               onPress={onSignIn}>

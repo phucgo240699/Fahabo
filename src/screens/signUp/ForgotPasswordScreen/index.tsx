@@ -64,6 +64,8 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
             <VStack space={2} mt={5}>
               <FormControl>
                 <Input
+                  height={50}
+                  borderRadius={25}
                   color={colors.BLACK}
                   autoCapitalize="none"
                   keyboardType={'email-address'}
@@ -75,6 +77,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
               <VStack space={2} mt={5}>
                 <Button
                   size="lg"
+                  borderRadius={28}
                   disabled={isNull(username)}
                   _text={{color: colors.WHITE}}
                   onPress={onPressGetPinCode}>
@@ -83,6 +86,8 @@ const ForgotPasswordScreen: React.FC<Props> = ({route}) => {
               </VStack>
             </VStack>
           </Form>
+
+          {/* Modal */}
           {resetPassLink && (
             <Modal isOpen={true} onClose={onCloseModal}>
               <Modal.Content

@@ -55,6 +55,6 @@ export default function choresReducer(state = defaultState, action: AnyAction) {
       };
 
     default:
-      state;
+      return state;
   }
 }

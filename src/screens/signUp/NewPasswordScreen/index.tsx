@@ -74,6 +74,8 @@ const NewPasswordScreen: React.FC<Props> = ({route}) => {
               </FormControl.Label>
               <Input
                 mt={-1}
+                height={50}
+                borderRadius={25}
                 type="password"
                 color={colors.BLACK}
                 borderColor={colors.SILVER}
@@ -90,6 +92,9 @@ const NewPasswordScreen: React.FC<Props> = ({route}) => {
               </FormControl.Label>
               <Input
                 mt={-1}
+                size="lg"
+                height={50}
+                borderRadius={25}
                 type="password"
                 color={colors.BLACK}
                 borderColor={colors.SILVER}
@@ -99,6 +104,7 @@ const NewPasswordScreen: React.FC<Props> = ({route}) => {
             <Button
               mt={5}
               size="lg"
+              borderRadius={28}
               _text={{color: colors.WHITE}}
               disabled={isNull(password) || isNull(confirmPassword)}
               onPress={onPressChangePassword}>

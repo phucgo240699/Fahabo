@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   profileBackground,
   defaultAvatar,
@@ -10,7 +10,6 @@ import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import PrimaryIcon from '@components/PrimaryIcon';
 import PrimaryButton from '@components/PrimaryButton';
-import {getInset} from 'react-native-safe-area-view';
 import {ImageBackground, RefreshControl, StyleSheet} from 'react-native';
 import {navigate} from '@navigators/index';
 import ProfileRelationBox from './shared/ProfileRelationBox';
@@ -28,10 +27,6 @@ import {
 } from '@store/actionTypes/profile';
 import PrimaryFastImage from '@components/PrimaryFastImage';
 import {isRefreshingProfileSelector} from '@store/selectors/session';
-import {
-  getFamiliesRequestAction,
-  getFamilyDetailRequestAction,
-} from '@store/actionTypes/family';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 
@@ -183,7 +178,7 @@ const Scroll = styled.ScrollView``;
 
 const Content = styled.View`
   width: ${Constants.MAX_WIDTH - 40}px;
-  height: 200%;
+  height: ${Constants.MAX_HEIGHT}px;
   padding-top: 68px;
   align-items: center;
   border-top-left-radius: 20px;
@@ -252,7 +247,6 @@ const styles = StyleSheet.create({
     height: 300,
   },
   scrollView: {
-    // marginTop: 50,
     paddingBottom: 150,
     alignItems: 'center',
   },
