@@ -59,7 +59,7 @@ const AlbumCreationModal: React.FC<Props> = ({
             </FormControl.Label>
             <Input
               multiline
-              height={200}
+              height={150}
               borderRadius={10}
               value={description}
               autoCorrect={false}

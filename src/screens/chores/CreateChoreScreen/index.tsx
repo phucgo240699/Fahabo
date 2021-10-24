@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, VStack, Input, Button, Avatar, FlatList} from 'native-base';
+import {Input, Avatar, FlatList, FormControl, Button} from 'native-base';
 import colors from '@themes/colors';
 import fonts from '@themes/fonts';
 import PrimaryHeader from '@components/PrimaryHeader';
@@ -7,38 +7,67 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ProfileHeader from '@components/ProfileHeader';
 import i18n from '@locales/index';
 import styled from 'styled-components/native';
-import {Keyboard, Platform} from 'react-native';
-import {isNull} from '@utils/index';
+import {Keyboard, Platform, StyleSheet} from 'react-native';
+import {getDateStringFrom, getOriginDateString, isNull} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {DummyDetailFamily} from '@constants/DummyData';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
-import PrimaryIcon from '@components/PrimaryIcon';
-import {clearIcon} from '@constants/sources';
+import {clearIcon, familyIcon} from '@constants/sources';
+import {Constants} from '@constants/Constants';
+import ChoreStatusBox from '../shared/ChoreStatusBox';
+import {ChoreStatus} from '@constants/types/chores';
+import DatePicker from 'react-native-date-picker';
 
 interface Props {}
 
 const CreateChoreScreen: React.FC<Props> = ({}) => {
   const [title, setTitle] = useState('');
   const [deadline, setDeadline] = useState('');
-  const renderItem = ({item}: {item: any}) => {
-    return (
-      <TouchableOpacity>
-        <>
-          <Avatar mr={2} source={{uri: item.avatarUrl}} />
-          <PrimaryIcon source={clearIcon} />
-        </>
-      </TouchableOpacity>
-    );
-  };
+  const [status, setStatus] = useState<ChoreStatus | undefined>(undefined);
+  const [description, setDescription] = useState('');
+  const [visibleDatePicker, setVisibleDatePicker] = useState(false);
 
+  // Keyboard
   const onDismissKeyboard = () => {
     Keyboard.dismiss();
   };
-  const onPressDeadline = () => {};
+
+  // Input
+  const onChangeTitle = (text: string) => {
+    setTitle(text);
+  };
+
+  const onPressBirthday = () => {
+    setVisibleDatePicker(true);
+  };
+  const onDatePickerChange = (date: Date) => {};
+  const onConfirmDatePicker = (date: Date) => {
+    setVisibleDatePicker(false);
+    setDeadline(getOriginDateString(date));
+  };
+  const onCloseDatePicker = () => {
+    setVisibleDatePicker(false);
+  };
+
+  const onChangeStatus = (value: ChoreStatus) => {
+    setStatus(value);
+  };
+
+  const onChangeDescription = (text: string) => {
+    setDescription(text);
+  };
+
+  // Assignee Item
+  const renderItem = ({item}: {item: any}) => {
+    const onPressContainer = () => {};
+    return (
+      <AvatarContainer onPress={onPressContainer}>
+        <Avatar source={{uri: item.avatarUrl}} />
+        <KickIcon source={clearIcon} />
+      </AvatarContainer>
+    );
+  };
+
   return (
     <SafeView>
       <FocusAwareStatusBar
@@ -46,43 +75,108 @@ const CreateChoreScreen: React.FC<Props> = ({}) => {
         backgroundColor={colors.WHITE}
         translucent
       />
-      <ProfileHeader title={i18n.t('chores.createNewChore')} />
+      <ProfileHeader
+        title={i18n.t('chores.createNewChore')}
+        rightComponent={
+          <PrimaryButton
+            marginRight={8}
+            leftSource={familyIcon}
+            leftTintColor={colors.THEME_COLOR_7}
+          />
+        }
+      />
 
-      <TouchableWithoutFeedback
-        style={{width: '100%', height: '100%'}}
-        onPress={onDismissKeyboard}>
+      <Container onPress={onDismissKeyboard}>
         <Content>
-          <Input
-            height={50}
-            borderRadius={25}
-            color={colors.TEXT}
-            borderColor={colors.SILVER}
-            placeholderTextColor={colors.SILVER}
-            placeholder={i18n.t('chores.title')}
-          />
-          <TouchableOpacity onPress={onPressDeadline}>
-            <DeadlineContainer>
-              <DeadlineText value={deadline}>
-                {isNull(deadline) ? i18n.t('chores.deadline') : deadline}
-              </DeadlineText>
-            </DeadlineContainer>
-          </TouchableOpacity>
-          <AssignButton
-            titleFontSize={15}
-            titleFontWeight={500}
-            titleColor={colors.DANUBE}
-            title={`${i18n.t('chores.assign')}:`}
-          />
-          <FlatList
-            horizontal
-            scrollEnabled={true}
-            renderItem={renderItem}
-            data={DummyDetailFamily.members}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
+          {/* Title */}
+          <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
+            <FormControl.Label
+              _text={{color: colors.DANUBE, fontSize: 'sm', fontWeight: 500}}>
+              {`${i18n.t('chores.title')}* :`}
+            </FormControl.Label>
+            <Input
+              mt={-1}
+              height={50}
+              value={title}
+              borderRadius={20}
+              isRequired={true}
+              color={colors.TEXT}
+              borderColor={colors.SILVER}
+              onChangeText={onChangeTitle}
+            />
+
+            <FormControl.Label
+              mt={8}
+              _text={{color: colors.DANUBE, fontSize: 'sm', fontWeight: 500}}>
+              {`${i18n.t('chores.deadline')}:`}
+            </FormControl.Label>
+            <Button
+              variant="outline"
+              height={50}
+              borderRadius={25}
+              borderColor={colors.SILVER}
+              _text={{color: isNull(deadline) ? colors.SILVER : colors.TEXT}}
+              onPress={onPressBirthday}>
+              {isNull(deadline)
+                ? i18n.t('profile.formatDate')
+                : getDateStringFrom(deadline ?? '')}
+            </Button>
+
+            <ChoreStatusBox status={status} onChangeStatus={onChangeStatus} />
+          </FormControl>
+
+          {/* Assignees */}
+          <FormControl mt={8}>
+            <FormControl.Label
+              ml={8}
+              _text={{color: colors.DANUBE, fontSize: 'sm', fontWeight: 500}}>
+              {`${i18n.t('chores.assignees')}:`}
+            </FormControl.Label>
+            <FlatList
+              horizontal={true}
+              scrollEnabled={true}
+              renderItem={renderItem}
+              data={DummyDetailFamily.members}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.listAssignees}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </FormControl>
+
+          {/* Description */}
+          <FormControl mt={8} width={`${Constants.MAX_WIDTH - 60}px`}>
+            <FormControl.Label
+              _text={{color: colors.DANUBE, fontSize: 'sm', fontWeight: 500}}>
+              {`${i18n.t('chores.description')}:`}
+            </FormControl.Label>
+            <Input
+              multiline
+              height={150}
+              borderRadius={25}
+              value={description}
+              autoCorrect={false}
+              color={colors.BLACK}
+              autoCompleteType="off"
+              borderColor={colors.SILVER}
+              onChangeText={onChangeDescription}
+            />
+          </FormControl>
+
+          <DatePicker
+            modal
+            mode="date"
+            locale={i18n.locale}
+            open={visibleDatePicker}
+            date={new Date()}
+            maximumDate={new Date()}
+            textColor={colors.BLACK}
+            onDateChange={onDatePickerChange}
+            onConfirm={onConfirmDatePicker}
+            onCancel={onCloseDatePicker}
           />
         </Content>
-      </TouchableWithoutFeedback>
+      </Container>
     </SafeView>
   );
 };
@@ -93,34 +187,34 @@ const SafeView = styled.SafeAreaView`
   background-color: ${colors.WHITE};
 `;
 
-const Touch = styled.TouchableWithoutFeedback``;
-
-const DeadlineContainer = styled.View`
-  width: 100%;
-  height: 50px;
-  margin-top: 20px;
-  border-width: 1px;
-  border-radius: 25px;
-  align-items: center;
-  justify-content: center;
-  border-color: ${colors.SILVER};
-`;
-
-const DeadlineText = styled(fonts.PrimaryFontRegularSize16)<{
-  value?: string;
-}>`
-  margin: 10px;
-  text-align: center;
-  color: ${props => (isNull(props.value) ? colors.SILVER : colors.TEXT)};
+const Container = styled.TouchableWithoutFeedback`
+  flex: 1;
 `;
 
 const Content = styled.View`
-  padding: 30px;
+  align-items: center;
 `;
 
-const AssignButton = styled(PrimaryButton)`
-  margin-top: 25px;
-  align-self: flex-start;
+const AvatarContainer = styled.TouchableOpacity`
+  margin-right: 12px;
 `;
+
+const KickIcon = styled.Image`
+  width: 16px;
+  right: -2px;
+  bottom: 0px;
+  height: 16px;
+  border-radius: 8px;
+  position: absolute;
+  tint-color: #c0c0c0;
+  background-color: #ffffff;
+`;
+
+const styles = StyleSheet.create({
+  listAssignees: {
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+});
 
 export default React.memo(CreateChoreScreen);

@@ -73,8 +73,10 @@
     "expired": "Expired",
     "createNewChore": "Create new chore",
     "title": "Title",
-    "deadline": "Deadline: mm/dd/yyyy",
-    "assign": "Assign"
+    "description": "Description",
+    "status": "Status",
+    "deadline": "Deadline",
+    "assignees": "Assignees"
   },
   "events": {
     "events": "Events"

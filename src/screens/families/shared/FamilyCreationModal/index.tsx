@@ -8,6 +8,8 @@ import PrimaryIcon from '@components/PrimaryIcon';
 import styled from 'styled-components/native';
 import {Constants} from '@constants/Constants';
 
+const contentWidth = Constants.MAX_WIDTH - 90;
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -60,8 +62,10 @@ const FamilyCreationModal: React.FC<Props> = ({
             </FormControl.Label>
             <Input
               value={name}
-              borderRadius={16}
+              height={50}
+              borderRadius={10}
               autoCorrect={false}
+              width={contentWidth}
               color={colors.BLACK}
               autoCompleteType="off"
               borderColor={colors.SILVER}
@@ -69,16 +73,23 @@ const FamilyCreationModal: React.FC<Props> = ({
             />
           </FormControl>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer pr={0} mb={4} width={contentWidth}>
           <Button.Group space={2}>
             <Button
+              width={100}
+              height={50}
+              borderRadius={25}
               variant="ghost"
               bgColor={colors.CONCRETE}
               _text={{color: colors.BLACK}}
               onPress={onPressCancel}>
               {i18n.t('family.cancel')}
             </Button>
-            <Button width={100} onPress={onPressSave}>
+            <Button
+              width={120}
+              height={50}
+              borderRadius={25}
+              onPress={onPressSave}>
               {i18n.t('family.save')}
             </Button>
           </Button.Group>
@@ -94,8 +105,8 @@ const CameraIcon = styled(PrimaryIcon)`
 `;
 
 const ThumbnailContainer = styled.TouchableOpacity`
-  width: ${Constants.MAX_WIDTH - 100}px;
-  height: ${(10 * (Constants.MAX_WIDTH - 100)) / 16}px;
+  width: ${contentWidth}px;
+  height: ${(10 * contentWidth) / 16}px;
   align-items: center;
   justify-content: center;
 `;

@@ -73,7 +73,9 @@
     "expired": "Trễ",
     "createNewChore": "Tạo công việc mới",
     "title": "Tên công việc",
-    "deadline": "Thời hạn: dd/mm/yyyy",
+    "description": "Mô tả",
+    "status": "Trạng thái",
+    "deadline": "Thời hạn",
     "assign": "Phân công"
   },
   "events": {

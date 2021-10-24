@@ -142,6 +142,7 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
 
 const Label = styled(fonts.PrimaryFontBoldSize14)`
   margin-top: 20px;
+  color: ${colors.DANUBE};
 `;
 
 const ScrollView = styled.ScrollView`

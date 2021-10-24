@@ -301,13 +301,11 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
               />
             </>
           )}
-          {previewAlbum.length > 0 && (
-            <PreviewAlbumBox
-              data={previewAlbum}
-              onPressItem={onPressPhotoItem}
-              onPressViewAll={onPressViewAllPhotos}
-            />
-          )}
+          <PreviewAlbumBox
+            data={previewAlbum}
+            onPressItem={onPressPhotoItem}
+            onPressViewAll={onPressViewAllPhotos}
+          />
 
           <PrimaryButton
             marginTop={40}

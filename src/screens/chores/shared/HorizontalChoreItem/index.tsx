@@ -8,6 +8,7 @@ import {DummyDetailFamily} from '@constants/DummyData';
 import PrimaryButton from '@components/PrimaryButton';
 import {ChoreStatus} from '@constants/types/chores';
 import i18n from '@locales/index';
+import {getChoreStatusColor, getChoreStatusText} from '@utils/chores';
 
 interface Props {
   item?: any;
@@ -26,26 +27,6 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
         {/* <Avatar.Badge bg="green.500" /> */}
       </Avatar>
     );
-  };
-  const getStatusColor = (status: ChoreStatus) => {
-    switch (status) {
-      case ChoreStatus.DONE:
-        return colors.DONE_CHORE;
-      case ChoreStatus.IN_PROGRESS:
-        return colors.IN_PROGRESS_CHORE;
-      default:
-        return colors.EXPIRED_CHORE;
-    }
-  };
-  const getStatusText = (status: ChoreStatus) => {
-    switch (status) {
-      case ChoreStatus.DONE:
-        return i18n.t('chores.done');
-      case ChoreStatus.IN_PROGRESS:
-        return i18n.t('chores.inProgress');
-      default:
-        return i18n.t('chores.expired');
-    }
   };
 
   return (
@@ -73,8 +54,8 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
           titleFontSize={12}
           titleFontWeight={600}
           titleColor={colors.WHITE}
-          title={getStatusText(ChoreStatus.DONE)}
-          backgroundColor={getStatusColor(ChoreStatus.DONE)}
+          title={getChoreStatusText(ChoreStatus.DONE)}
+          backgroundColor={getChoreStatusColor(ChoreStatus.DONE)}
         />
       </Container>
     </Touch>
