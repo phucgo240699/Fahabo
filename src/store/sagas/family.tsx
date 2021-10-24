@@ -414,7 +414,9 @@ function* getFamilyMembersSaga({
     if (body.showHUD === true) {
       yield* put(showHUDAction());
     }
-    yield* put(updateIsLoadingFamilyMembersAction(true));
+    if (body.loadMore === true) {
+      yield* put(updateIsLoadingFamilyMembersAction(true));
+    }
     const response = yield* apiProxy(getFamilyMembersApi, body);
     if (response.status === 200) {
       if (body.page && body.page > 0) {
@@ -445,8 +447,12 @@ function* getFamilyMembersSaga({
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
   } finally {
-    yield* put(closeHUDAction());
-    yield* put(updateIsLoadingFamilyMembersAction(false));
+    if (body.showHUD === true) {
+      yield* put(closeHUDAction());
+    }
+    if (body.loadMore === true) {
+      yield* put(updateIsLoadingFamilyMembersAction(false));
+    }
   }
 }
 

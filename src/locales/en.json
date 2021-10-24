@@ -76,7 +76,11 @@
     "description": "Description",
     "status": "Status",
     "deadline": "Deadline",
-    "assignees": "Assignees"
+    "assign": "Assign",
+    "repeat": "Repeat",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "events": {
     "events": "Events"

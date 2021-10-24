@@ -6,18 +6,29 @@ import ChoresScreen from '@screens/chores';
 import EventsScreen from '@screens/events';
 import styled from 'styled-components/native';
 import {Constants, ScreenName} from '@constants/Constants';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PrimaryHeader from '@components/PrimaryHeader';
 import {SceneMap, TabView, TabBar} from 'react-native-tab-view';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {navigate} from '@navigators/index';
+import {useDispatch, useSelector} from 'react-redux';
+import {familiesSelector} from '@store/selectors/family';
+import {getFamiliesRequestAction} from '@store/actionTypes/family';
 
 interface Props {}
 
 const HomeScreen: React.FC<Props> = () => {
-  const [searchText, setSearchText] = useState('');
   const [index, setIndex] = useState(0);
+  const [searchText, setSearchText] = useState('');
+
+  const dispatch = useDispatch();
+  const families = useSelector(familiesSelector);
+
+  // Life Cycle
+  useEffect(() => {
+    dispatch(getFamiliesRequestAction({}));
+  }, []);
 
   // TabView
   const [routes] = useState([
@@ -39,9 +50,11 @@ const HomeScreen: React.FC<Props> = () => {
 
   // Creation
   const onPressPlusButton = () => {
-    // Chore
-    if (index === 0) {
-      navigate(ScreenName.CreateChoreScreen);
+    if (families.length > 0) {
+      // Chore
+      if (index === 0) {
+        navigate(ScreenName.CreateChoreScreen, {familyId: 61});
+      }
     }
   };
 

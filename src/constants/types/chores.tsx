@@ -8,6 +8,12 @@ export enum ChoreStatus {
   EXPIRED = 'EXPIRED',
 }
 
+export enum RepeatType {
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+}
+
 //
 // Request
 //

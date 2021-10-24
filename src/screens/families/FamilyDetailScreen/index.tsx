@@ -61,7 +61,12 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   // Life Cycle
   useEffect(() => {
     if (!isNull(familyDetail?.id)) {
-      dispatch(getFamilyMembersRequestAction({familyId: familyDetail?.id}));
+      dispatch(
+        getFamilyMembersRequestAction({
+          showHUD: true,
+          familyId: familyDetail?.id,
+        }),
+      );
     }
   }, []);
   useEffect(() => {

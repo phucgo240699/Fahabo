@@ -8,7 +8,7 @@ import {FlatList} from 'native-base';
 import HorizontalMemberItem from '../shared/HorizontalMemberItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {membersInFamilySelector} from '@store/selectors/family';
-import {Pagination} from '@constants/Constants';
+import {Pagination, ScreenName} from '@constants/Constants';
 import {isNull} from '@utils/index';
 import {MemberType} from '@constants/types/family';
 import {
@@ -20,36 +20,40 @@ import {
   getRefreshFamilyMembersRequestAction,
 } from '@store/actionTypes/family';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
+import PrimaryButton from '@components/PrimaryButton';
+import {navigate} from '@navigators/index';
 
 interface Props {
   route?: any;
 }
 
-const FamilyMembersScreen: React.FC<Props> = ({route}) => {
+const MembersPickerScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
-  const [pageIndex, setPageIndex] = useState(0);
+  const membersInFamily = useSelector(membersInFamilySelector);
   const isLoading = useSelector(isLoadingFamilyMembersSelector);
   const isRefreshing = useSelector(isRefreshingFamilyMembersSelector);
-  const membersInFamily = useSelector(membersInFamilySelector);
+
+  const [pageIndex, setPageIndex] = useState(0);
+  const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
 
   // // Life Cycle
   // useEffect(() => {
-  //   dispatch(
-  //     getFamilyMembersRequestAction({
-  //       familyId: route.params.familyId,
-  //       showHUD: true,
-  //     }),
-  //   );
+  //   if (route.params.familyId) {
+  //     dispatch(
+  //       getFamilyMembersRequestAction({
+  //         familyId: route.params.familyId,
+  //         showHUD: true,
+  //       }),
+  //     );
+  //   }
   // }, []);
-
-  // Item
-  const renderItem = ({item}: {item: MemberType}) => {
-    return <HorizontalMemberItem item={item} />;
-  };
 
   // Refresh & Load More
   const onRefreshData = () => {
-    if (isRefreshing === false) {
+    if (
+      isRefreshing === false &&
+      membersInFamily.length >= Pagination.FamilyMembers
+    ) {
       setPageIndex(0);
       dispatch(
         getRefreshFamilyMembersRequestAction({familyId: route.params.familyId}),
@@ -57,10 +61,7 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
     }
   };
   const onLoadMore = () => {
-    if (
-      isLoading === false &&
-      membersInFamily.length >= Pagination.FamilyMembers
-    ) {
+    if (isLoading === false) {
       dispatch(
         getFamilyMembersRequestAction({
           loadMore: true,
@@ -72,9 +73,47 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
     }
   };
 
+  // Item
+  const renderItem = ({item}: {item: MemberType}) => {
+    return (
+      <HorizontalMemberItem
+        pickerMode
+        item={item}
+        onPress={onPressItem}
+        isPicked={selectedMembers.map(item => item.id).includes(item.id ?? -10)}
+      />
+    );
+  };
+  const onPressItem = (item: MemberType) => {
+    if (selectedMembers.map(item => item.id).indexOf(item?.id ?? -10) !== -1) {
+      setSelectedMembers(
+        selectedMembers.filter(e => {
+          return e.id !== item?.id;
+        }),
+      );
+    } else {
+      setSelectedMembers([...selectedMembers, item]);
+    }
+  };
+
+  // Submit
+  const onPressDone = () => {
+    navigate(ScreenName.CreateChoreScreen, {selectedMembers: selectedMembers});
+  };
+
   return (
     <SafeView>
-      <ProfileHeader title={i18n.t('family.members')} />
+      <ProfileHeader
+        title={i18n.t('chores.assign')}
+        rightComponent={
+          <PrimaryButton
+            marginRight={8}
+            title={i18n.t('chores.done')}
+            titleColor={colors.THEME_COLOR_5}
+            onPress={onPressDone}
+          />
+        }
+      />
       <FlatList
         data={membersInFamily}
         renderItem={renderItem}
@@ -114,4 +153,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FamilyMembersScreen;
+export default MembersPickerScreen;

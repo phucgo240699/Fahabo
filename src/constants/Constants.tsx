@@ -31,6 +31,7 @@ export enum ScreenName {
   FamiliesScreen = 'FamiliesScreen',
   FamilyDetailScreen = 'FamilyDetailScreen',
   FamilyMembersScreen = 'FamilyMembersScreen',
+  MembersPickerScreen = 'MembersPickerScreen',
   SignInScreen = 'SignInScreen',
   ManualSignInScreen = 'ManualSignInScreen',
   SignUpScreen = 'SignUpScreen',

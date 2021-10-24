@@ -1,6 +1,6 @@
 import colors from '@themes/colors';
 import i18n from '@locales/index';
-import {ChoreStatus, ChoreType} from '@constants/types/chores';
+import {ChoreStatus, ChoreType, RepeatType} from '@constants/types/chores';
 
 export const mixChores = (oldData: ChoreType[], newData: ChoreType[]) => {
   let uniqueData = new Set<ChoreType>(oldData);
@@ -32,5 +32,18 @@ export const getChoreStatusText = (status: ChoreStatus) => {
       return i18n.t('chores.inProgress');
     default:
       return i18n.t('chores.expired');
+  }
+};
+
+export const getRepeatText = (type: RepeatType) => {
+  switch (type) {
+    case RepeatType.DAILY:
+      return i18n.t('chores.daily');
+
+    case RepeatType.WEEKLY:
+      return i18n.t('chores.weekly');
+
+    default:
+      return i18n.t('chores.monthly');
   }
 };

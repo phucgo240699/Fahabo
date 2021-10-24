@@ -76,7 +76,11 @@
     "description": "Mô tả",
     "status": "Trạng thái",
     "deadline": "Thời hạn",
-    "assign": "Phân công"
+    "assign": "Phân công",
+    "repeat": "Lặp lại",
+    "daily": "Hằng ngày",
+    "weekly": "Hằng tuần",
+    "monthly": "Hằng tháng"
   },
   "events": {
     "events": "Sự kiện"

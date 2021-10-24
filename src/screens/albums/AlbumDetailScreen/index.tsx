@@ -55,7 +55,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
     }
   };
   const onLoadMoreData = () => {
-    if (isLoadingMore === false) {
+    if (isLoadingMore === false && photos.length >= Pagination.Photos) {
       dispatch(getPhotosRequestAction({loadMore: true, albumId: album.id}));
     }
   };
@@ -161,11 +161,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
         renderItem={renderItem}
         onEndReachedThreshold={0.5}
         onEndReached={onLoadMoreData}
-        ListFooterComponent={
-          <FooterLoadingIndicator
-            loading={isLoadingMore && photos.length >= Pagination.Photos}
-          />
-        }
+        ListFooterComponent={<FooterLoadingIndicator loading={isLoadingMore} />}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefreshData} />
         }

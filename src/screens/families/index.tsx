@@ -50,10 +50,10 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   const [thumbnailUri, setThumbnailUri] = useState('');
   const [thumbnailBase64, setThumbnailBase64] = useState('');
 
-  // Life Cycle
-  useEffect(() => {
-    dispatch(getFamiliesRequestAction({showHUD: true}));
-  }, []);
+  // // Life Cycle
+  // useEffect(() => {
+  //   dispatch(getFamiliesRequestAction({showHUD: true}));
+  // }, []);
 
   useEffect(() => {
     if (route && route.params) {
@@ -78,7 +78,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
     }
   };
   const onLoadMore = () => {
-    if (isLoadingMore === false) {
+    if (isLoadingMore === false && families.length >= Pagination.Family) {
       dispatch(getFamiliesRequestAction({loadMore: true, page: pageIndex + 1}));
       setPageIndex(pageIndex + 1);
     }
@@ -182,11 +182,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
         onEndReached={onLoadMore}
         onEndReachedThreshold={0.5}
         contentContainerStyle={styles.list}
-        ListFooterComponent={
-          <FooterLoadingIndicator
-            loading={isLoadingMore && families.length >= Pagination.Family}
-          />
-        }
+        ListFooterComponent={<FooterLoadingIndicator loading={isLoadingMore} />}
         keyExtractor={(item, index) => index.toString()}
       />
 

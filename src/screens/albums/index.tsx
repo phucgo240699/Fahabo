@@ -79,17 +79,15 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
   };
   const onLoadMoreData = () => {
     if (route.params.familyId) {
-      if (isLoadingMore === false) {
-        if (albums.length >= Pagination.Albums) {
-          dispatch(
-            getAlbumsRequestAction({
-              familyId: route.params.familyId,
-              loadMore: true,
-              page: pageIndex + 1,
-            }),
-          );
-          setPageIndex(pageIndex + 1);
-        }
+      if (isLoadingMore === false && albums.length >= Pagination.Albums) {
+        dispatch(
+          getAlbumsRequestAction({
+            familyId: route.params.familyId,
+            loadMore: true,
+            page: pageIndex + 1,
+          }),
+        );
+        setPageIndex(pageIndex + 1);
       }
     }
   };
@@ -187,11 +185,7 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
         renderItem={renderItem}
         onEndReachedThreshold={0.5}
         onEndReached={onLoadMoreData}
-        ListFooterComponent={
-          <FooterLoadingIndicator
-            loading={isLoadingMore && albums.length >= Pagination.Albums}
-          />
-        }
+        ListFooterComponent={<FooterLoadingIndicator loading={isLoadingMore} />}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefreshData} />
         }

@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Input, Avatar, FlatList, FormControl, Button} from 'native-base';
 import colors from '@themes/colors';
 import fonts from '@themes/fonts';
-import PrimaryHeader from '@components/PrimaryHeader';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ProfileHeader from '@components/ProfileHeader';
 import i18n from '@locales/index';
@@ -12,20 +11,48 @@ import {getDateStringFrom, getOriginDateString, isNull} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {DummyDetailFamily} from '@constants/DummyData';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {clearIcon, familyIcon} from '@constants/sources';
-import {Constants} from '@constants/Constants';
+import {clearIcon, familyIcon, rightArrowIcon} from '@constants/sources';
+import {Constants, ScreenName} from '@constants/Constants';
 import ChoreStatusBox from '../shared/ChoreStatusBox';
 import {ChoreStatus} from '@constants/types/chores';
 import DatePicker from 'react-native-date-picker';
+import PrimaryIcon from '@components/PrimaryIcon';
+import {navigate} from '@navigators/index';
+import {getFamilyMembersRequestAction} from '@store/actionTypes/family';
+import {useDispatch, useSelector} from 'react-redux';
+import {membersInFamilySelector} from '@store/selectors/family';
+import {MemberType} from '@constants/types/family';
 
-interface Props {}
+interface Props {
+  route?: any;
+}
 
-const CreateChoreScreen: React.FC<Props> = ({}) => {
+const CreateChoreScreen: React.FC<Props> = ({route}) => {
+  const dispatch = useDispatch();
+
   const [title, setTitle] = useState('');
   const [deadline, setDeadline] = useState('');
   const [status, setStatus] = useState<ChoreStatus | undefined>(undefined);
+  const [repeatId, setRepeatId] = useState<number | undefined>(undefined);
+  const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
   const [description, setDescription] = useState('');
   const [visibleDatePicker, setVisibleDatePicker] = useState(false);
+
+  // Life Cycle
+  useEffect(() => {
+    if (route.params.familyId) {
+      dispatch(
+        getFamilyMembersRequestAction({
+          familyId: route.params.familyId,
+        }),
+      );
+    }
+  }, []);
+  useEffect(() => {
+    if (route.params.selectedMembers) {
+      setSelectedMembers(route.params.selectedMembers);
+    }
+  }, [route]);
 
   // Keyboard
   const onDismissKeyboard = () => {
@@ -53,21 +80,36 @@ const CreateChoreScreen: React.FC<Props> = ({}) => {
     setStatus(value);
   };
 
+  const onPressAssign = () => {
+    if (route.params.familyId) {
+      navigate(ScreenName.MembersPickerScreen, {
+        familyId: route.params.familyId,
+      });
+    }
+  };
+
   const onChangeDescription = (text: string) => {
     setDescription(text);
   };
 
   // Assignee Item
   const renderItem = ({item}: {item: any}) => {
-    const onPressContainer = () => {};
     return (
-      <AvatarContainer onPress={onPressContainer}>
-        <Avatar source={{uri: item.avatarUrl}} />
-        <KickIcon source={clearIcon} />
+      <AvatarContainer>
+        <Avatar source={{uri: item.avatar}} />
       </AvatarContainer>
     );
   };
 
+  // Submit
+  const onCreateChore = () => {
+    console.log({title});
+    console.log({deadline});
+    console.log({status});
+    console.log({repeatId});
+    console.log({selectedMembers});
+    console.log({description});
+  };
   return (
     <SafeView>
       <FocusAwareStatusBar
@@ -82,12 +124,15 @@ const CreateChoreScreen: React.FC<Props> = ({}) => {
             marginRight={8}
             leftSource={familyIcon}
             leftTintColor={colors.THEME_COLOR_7}
+            onPress={onPressAssign}
           />
         }
       />
 
       <Container onPress={onDismissKeyboard}>
-        <Content>
+        <Content
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scroll}>
           {/* Title */}
           <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
             <FormControl.Label
@@ -113,7 +158,7 @@ const CreateChoreScreen: React.FC<Props> = ({}) => {
             <Button
               variant="outline"
               height={50}
-              borderRadius={25}
+              borderRadius={20}
               borderColor={colors.SILVER}
               _text={{color: isNull(deadline) ? colors.SILVER : colors.TEXT}}
               onPress={onPressBirthday}>
@@ -123,6 +168,17 @@ const CreateChoreScreen: React.FC<Props> = ({}) => {
             </Button>
 
             <ChoreStatusBox status={status} onChangeStatus={onChangeStatus} />
+
+            <ItemContainer>
+              <ItemName>{i18n.t('chores.repeat')}</ItemName>
+              <ArrowIcon
+                width={16}
+                height={16}
+                tintColor={colors.SILVER}
+                source={rightArrowIcon}
+                // style={styles.rightArrow}
+              />
+            </ItemContainer>
           </FormControl>
 
           {/* Assignees */}
@@ -130,13 +186,13 @@ const CreateChoreScreen: React.FC<Props> = ({}) => {
             <FormControl.Label
               ml={8}
               _text={{color: colors.DANUBE, fontSize: 'sm', fontWeight: 500}}>
-              {`${i18n.t('chores.assignees')}:`}
+              {`${i18n.t('chores.assign')}:`}
             </FormControl.Label>
             <FlatList
               horizontal={true}
               scrollEnabled={true}
               renderItem={renderItem}
-              data={DummyDetailFamily.members}
+              data={selectedMembers}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.listAssignees}
@@ -161,6 +217,17 @@ const CreateChoreScreen: React.FC<Props> = ({}) => {
               borderColor={colors.SILVER}
               onChangeText={onChangeDescription}
             />
+
+            <Button
+              mt={10}
+              mb={6}
+              size="lg"
+              borderRadius={28}
+              onPress={onCreateChore}
+              disabled={isNull(title)}
+              _text={{color: colors.WHITE}}>
+              {i18n.t('chores.done')}
+            </Button>
           </FormControl>
 
           <DatePicker
@@ -191,26 +258,36 @@ const Container = styled.TouchableWithoutFeedback`
   flex: 1;
 `;
 
-const Content = styled.View`
-  align-items: center;
-`;
+const Content = styled.ScrollView``;
 
-const AvatarContainer = styled.TouchableOpacity`
+const AvatarContainer = styled.View`
   margin-right: 12px;
 `;
 
-const KickIcon = styled.Image`
-  width: 16px;
-  right: -2px;
-  bottom: 0px;
-  height: 16px;
-  border-radius: 8px;
+const ItemContainer = styled.TouchableOpacity`
+  margin-top: 20px;
+  border-width: 1px;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 20px;
+  padding: 18px 15px 18px 15px;
+  justify-content: space-between;
+  border-color: ${colors.CONCRETE};
+`;
+
+const ItemName = styled(fonts.PrimaryFontRegularSize16)`
+  color: ${colors.BLACK};
+`;
+
+const ArrowIcon = styled(PrimaryIcon)`
+  right: 10px;
   position: absolute;
-  tint-color: #c0c0c0;
-  background-color: #ffffff;
 `;
 
 const styles = StyleSheet.create({
+  scroll: {
+    alignItems: 'center',
+  },
   listAssignees: {
     paddingLeft: 30,
     paddingRight: 30,

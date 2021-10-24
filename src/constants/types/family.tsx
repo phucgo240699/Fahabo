@@ -25,6 +25,7 @@ export type KickFamilyMemberRequestType = {
 
 export type GetFamilyMembersRequestType = {
   showHUD?: boolean;
+  loadMore?: boolean;
   familyId?: number;
   page?: number;
   size?: number;
