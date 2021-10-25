@@ -69,6 +69,7 @@
   "chores": {
     "chores": "Việc nhà",
     "done": "Xong",
+    "save": "Lưu",
     "inProgress": "Đang làm",
     "expired": "Trễ",
     "createNewChore": "Tạo công việc mới",

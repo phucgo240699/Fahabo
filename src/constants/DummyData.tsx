@@ -1,3 +1,5 @@
+import {RepeatType} from './types/chores';
+
 export const DummyAlbums = [
   {
     id: 0,
@@ -151,4 +153,10 @@ export const DummyChores = [
     title: 'Chore 3',
     deadline: '03/10/2021',
   },
+];
+
+export const DummyRepeat = [
+  RepeatType.DAILY,
+  RepeatType.WEEKLY,
+  RepeatType.MONTHLY,
 ];

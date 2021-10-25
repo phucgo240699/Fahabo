@@ -14,7 +14,7 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {clearIcon, familyIcon, rightArrowIcon} from '@constants/sources';
 import {Constants, ScreenName} from '@constants/Constants';
 import ChoreStatusBox from '../shared/ChoreStatusBox';
-import {ChoreStatus} from '@constants/types/chores';
+import {ChoreStatus, RepeatType} from '@constants/types/chores';
 import DatePicker from 'react-native-date-picker';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {navigate} from '@navigators/index';
@@ -33,7 +33,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const [title, setTitle] = useState('');
   const [deadline, setDeadline] = useState('');
   const [status, setStatus] = useState<ChoreStatus | undefined>(undefined);
-  const [repeatId, setRepeatId] = useState<number | undefined>(undefined);
+  const [repeat, setRepeat] = useState<RepeatType | undefined>(undefined);
   const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
   const [description, setDescription] = useState('');
   const [visibleDatePicker, setVisibleDatePicker] = useState(false);
@@ -49,8 +49,15 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
     }
   }, []);
   useEffect(() => {
-    if (route.params.selectedMembers) {
-      setSelectedMembers(route.params.selectedMembers);
+    if (route && route.params) {
+      setTimeout(() => {
+        if (route.params.selectedMembers) {
+          setSelectedMembers(route.params.selectedMembers);
+        }
+        if (route.params.selectedRepeat) {
+          setRepeat(route.params.selectedRepeat);
+        }
+      }, 500);
     }
   }, [route]);
 
@@ -64,7 +71,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
     setTitle(text);
   };
 
-  const onPressBirthday = () => {
+  const onPressDeadline = () => {
     setVisibleDatePicker(true);
   };
   const onDatePickerChange = (date: Date) => {};
@@ -78,6 +85,10 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
 
   const onChangeStatus = (value: ChoreStatus) => {
     setStatus(value);
+  };
+
+  const onPressRepeat = () => {
+    navigate(ScreenName.RepeatPickerScreen, {fromCreateChore: true});
   };
 
   const onPressAssign = () => {
@@ -106,7 +117,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
     console.log({title});
     console.log({deadline});
     console.log({status});
-    console.log({repeatId});
+    console.log({repeat});
     console.log({selectedMembers});
     console.log({description});
   };
@@ -150,6 +161,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               onChangeText={onChangeTitle}
             />
 
+            {/* Deadline */}
             <FormControl.Label
               mt={8}
               _text={{color: colors.DANUBE, fontSize: 'sm', fontWeight: 500}}>
@@ -161,22 +173,25 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               borderRadius={20}
               borderColor={colors.SILVER}
               _text={{color: isNull(deadline) ? colors.SILVER : colors.TEXT}}
-              onPress={onPressBirthday}>
+              onPress={onPressDeadline}>
               {isNull(deadline)
                 ? i18n.t('profile.formatDate')
                 : getDateStringFrom(deadline ?? '')}
             </Button>
 
+            {/* Status */}
             <ChoreStatusBox status={status} onChangeStatus={onChangeStatus} />
 
-            <ItemContainer>
-              <ItemName>{i18n.t('chores.repeat')}</ItemName>
+            {/* Repeat */}
+            <ItemContainer onPress={onPressRepeat}>
+              <ItemName>
+                {isNull(repeat) ? i18n.t('chores.repeat') : repeat}
+              </ItemName>
               <ArrowIcon
                 width={16}
                 height={16}
-                tintColor={colors.SILVER}
                 source={rightArrowIcon}
-                // style={styles.rightArrow}
+                tintColor={colors.SILVER}
               />
             </ItemContainer>
           </FormControl>
@@ -214,6 +229,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               autoCorrect={false}
               color={colors.BLACK}
               autoCompleteType="off"
+              textAlignVertical="top"
               borderColor={colors.SILVER}
               onChangeText={onChangeDescription}
             />

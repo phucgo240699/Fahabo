@@ -97,7 +97,7 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
   };
 
   // Submit
-  const onPressDone = () => {
+  const onPressSave = () => {
     navigate(ScreenName.CreateChoreScreen, {selectedMembers: selectedMembers});
   };
 
@@ -108,9 +108,9 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
         rightComponent={
           <PrimaryButton
             marginRight={8}
-            title={i18n.t('chores.done')}
+            title={i18n.t('chores.save')}
             titleColor={colors.THEME_COLOR_5}
-            onPress={onPressDone}
+            onPress={onPressSave}
           />
         }
       />

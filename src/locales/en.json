@@ -69,6 +69,7 @@
   "chores": {
     "chores": "Chores",
     "done": "Done",
+    "save": "Save",
     "inProgress": "In Progress",
     "expired": "Expired",
     "createNewChore": "Create new chore",
