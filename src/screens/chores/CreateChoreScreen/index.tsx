@@ -26,7 +26,7 @@ import {
 } from '@constants/sources';
 import {Constants, ScreenName} from '@constants/Constants';
 import ChoreStatusBox from '../shared/ChoreStatusBox';
-import {ChoreStatus, RepeatType} from '@constants/types/chores';
+import {ChoreStatus, ChoreType, RepeatType} from '@constants/types/chores';
 import DatePicker from 'react-native-date-picker';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {navigate} from '@navigators/index';

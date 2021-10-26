@@ -38,7 +38,7 @@ export const deleteChoreRequestAction = (body: DeleteChoreRequestType) => ({
   body,
 });
 export const DELETE_CHORE_SUCCESS = 'DELETE_CHORE_SUCCESS';
-export const deleteChoreSuccessAction = (payload: ChoreType) => ({
+export const deleteChoreSuccessAction = (payload: number) => ({
   type: DELETE_CHORE_SUCCESS,
   payload,
 });

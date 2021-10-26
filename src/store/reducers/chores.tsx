@@ -41,7 +41,7 @@ export default function choresReducer(state = defaultState, action: AnyAction) {
       return {
         ...state,
         chores: state.chores.filter(item => {
-          return item.id !== action.payload.id;
+          return item.id !== action.payload;
         }),
       };
     case GET_CHORES_SUCCESS:

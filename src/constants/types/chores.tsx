@@ -38,7 +38,7 @@ export type UpdateChoreRequestType = {
 };
 
 export type DeleteChoreRequestType = {
-  choreId: number;
+  choreId?: number;
 };
 
 export type GetChoresRequestType = {

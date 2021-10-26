@@ -119,9 +119,7 @@ function* deleteChoreSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(deleteChoreApi, body);
     if (response.status === 200) {
-      yield* put(
-        deleteChoreSuccessAction(parseChore(parseDataResponse(response))),
-      );
+      yield* put(deleteChoreSuccessAction(parseDataResponse(response)));
     } else {
       yield* put(
         showToastAction(

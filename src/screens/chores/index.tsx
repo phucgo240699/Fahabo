@@ -1,18 +1,24 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {Box, FlatList} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {Keyboard, RefreshControl, StyleSheet} from 'react-native';
+import {Keyboard, RefreshControl, StyleSheet, View} from 'react-native';
 import HorizontalChoreItem from './shared/HorizontalChoreItem';
 import PrimaryButton from '@components/PrimaryButton';
 import ListChoresHeader from './shared/ListChoresHeader';
 import {useDispatch, useSelector} from 'react-redux';
 import {choresSelector} from '@store/selectors/chores';
 import {isRefreshingChoresSelector} from '@store/selectors/session';
-import {getChoresRequestAction} from '@store/actionTypes/chores';
+import {
+  deleteChoreRequestAction,
+  getChoresRequestAction,
+} from '@store/actionTypes/chores';
 import {focusFamilySelector} from '@store/selectors/family';
 import {isNull} from '@utils/index';
+import {RowMap, SwipeListView} from 'react-native-swipe-list-view';
+import fonts from '@themes/fonts';
+import {editProfileIcon, trashIcon} from '@constants/sources';
 
 interface Props {}
 
@@ -21,6 +27,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   const chores = useSelector(choresSelector);
   const focusFamily = useSelector(focusFamilySelector);
   const isRefreshing = useSelector(isRefreshingChoresSelector);
+  const [indexSwiped, setIndexSwiped] = useState<string | undefined>(undefined);
 
   const onDismissKeyboard = () => {
     Keyboard.dismiss();
@@ -40,6 +47,26 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   const onPressItem = (item: any) => {
     console.log(chores.length);
   };
+  const onPressDelete = () => {
+    if (indexSwiped) {
+      for (let i = 0; i < chores.length; ++i) {
+        if (i.toString() === indexSwiped) {
+          dispatch(deleteChoreRequestAction({choreId: chores[i].id}));
+        }
+      }
+    }
+  };
+  const onPressUpdate = () => {
+    // if (indexSwiped) {
+    //   for (let i = 0; i < chores.length; ++i) {
+    //     if (i.toString() === indexSwiped) {
+    //     }
+    //   }
+    // }
+  };
+  const onDidSwipe = (rowKey: string, rowMap: RowMap<any>, toValue: number) => {
+    setIndexSwiped(rowKey);
+  };
   return (
     <Box flex={1}>
       <FocusAwareStatusBar
@@ -49,7 +76,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
       />
       <Touch onPress={onDismissKeyboard}>
         <Box flex={1}>
-          <FlatList
+          <SwipeListView
             data={chores}
             renderItem={renderItem}
             contentContainerStyle={styles.list}
@@ -59,6 +86,29 @@ const ChoresScreen: React.FC<Props> = ({}) => {
                 onRefresh={onRefreshData}
               />
             }
+            renderHiddenItem={(data, rowMap) => (
+              <Box
+                mt={2}
+                mr={30}
+                height={'100%'}
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="flex-end">
+                <SwipeUpdateButton
+                  onPress={onPressUpdate}
+                  leftTintColor={'#ffffff'}
+                  leftSource={editProfileIcon}
+                />
+                <SwipeDeleteButton
+                  leftSource={trashIcon}
+                  leftTintColor={'#ffffff'}
+                  onPress={onPressDelete}
+                />
+              </Box>
+            )}
+            leftOpenValue={160}
+            rightOpenValue={-160}
+            onRowDidOpen={onDidSwipe}
             ListHeaderComponent={<ListChoresHeader />}
             keyExtractor={(item, index) => index.toString()}
           />
@@ -72,10 +122,27 @@ const Touch = styled.TouchableWithoutFeedback`
   flex: 1;
 `;
 
-const FilterButton = styled(PrimaryButton)`
-  margin-top: 10px;
-  margin-right: 20px;
-  align-self: flex-end;
+const SwipeDeleteButton = styled(PrimaryButton)`
+  width: 80px;
+  height: 135px;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: ${colors.RED_1};
+`;
+
+const SwipeUpdateButton = styled(PrimaryButton)`
+  width: 80px;
+  height: 135px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.SAPPHIRE};
+`;
+
+const SwipeTextItem = styled(fonts.PrimaryFontRegularSize16)`
+  color: #ffffff;
+  background-color: ${colors.SAPPHIRE};
 `;
 
 const styles = StyleSheet.create({

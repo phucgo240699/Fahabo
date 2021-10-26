@@ -82,6 +82,7 @@ const HomeScreen: React.FC<Props> = () => {
             renderLabel={renderTabLabel}
           />
         )}
+        swipeEnabled={false}
         navigationState={{index, routes}}
         renderScene={renderScene}
         onIndexChange={setIndex}
