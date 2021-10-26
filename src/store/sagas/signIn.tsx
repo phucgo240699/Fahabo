@@ -137,6 +137,8 @@ function* onAutoSignInRequest(action: AnyAction) {
     navigateReset(StackName.AuthenticationStack);
   } catch (error) {
     navigateReset(StackName.AuthenticationStack);
+  } finally {
+    yield* put(closeHUDAction());
   }
 }
 

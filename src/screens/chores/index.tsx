@@ -19,6 +19,8 @@ import {isNull} from '@utils/index';
 import {RowMap, SwipeListView} from 'react-native-swipe-list-view';
 import fonts from '@themes/fonts';
 import {editProfileIcon, trashIcon} from '@constants/sources';
+import {MemberType} from '@constants/types/family';
+import {ChoreStatus} from '@constants/types/chores';
 
 interface Props {}
 
@@ -28,6 +30,12 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   const focusFamily = useSelector(focusFamilySelector);
   const isRefreshing = useSelector(isRefreshingChoresSelector);
   const [indexSwiped, setIndexSwiped] = useState<string | undefined>(undefined);
+  const [selectedMember, setSelectedMember] = useState<MemberType | undefined>(
+    undefined,
+  );
+  const [selectedStatus, setSelectedStatus] = useState<ChoreStatus | undefined>(
+    undefined,
+  );
 
   const onDismissKeyboard = () => {
     Keyboard.dismiss();
@@ -40,12 +48,60 @@ const ChoresScreen: React.FC<Props> = ({}) => {
     }
   };
 
+  // Filter & Sort
+  const onChangeMember = (member: MemberType) => {
+    if (!isNull(focusFamily?.id) && !isNull(member.id)) {
+      if (selectedMember?.id === member.id) {
+        setSelectedMember(undefined);
+        dispatch(
+          getChoresRequestAction({
+            showHUD: true,
+            familyId: focusFamily?.id,
+            assigneeIds: [],
+          }),
+        );
+      } else {
+        setSelectedMember(member);
+        dispatch(
+          getChoresRequestAction({
+            showHUD: true,
+            familyId: focusFamily?.id,
+            assigneeIds: [member.id],
+          }),
+        );
+      }
+    }
+  };
+  const onChangeStatus = (status: ChoreStatus) => {
+    if (!isNull(focusFamily?.id) && !isNull(status)) {
+      if (selectedStatus === status) {
+        setSelectedStatus(undefined);
+        dispatch(
+          getChoresRequestAction({
+            showHUD: true,
+            familyId: focusFamily?.id,
+            statuses: [],
+          }),
+        );
+      } else {
+        setSelectedStatus(status);
+        dispatch(
+          getChoresRequestAction({
+            showHUD: true,
+            familyId: focusFamily?.id,
+            statuses: [status],
+          }),
+        );
+      }
+    }
+  };
+
   // Item
   const renderItem = ({item}: {item: any}) => {
     return <HorizontalChoreItem item={item} onPress={onPressItem} />;
   };
   const onPressItem = (item: any) => {
-    console.log(chores.length);
+    console.log(selectedMember);
   };
   const onPressDelete = () => {
     if (indexSwiped) {
@@ -109,7 +165,14 @@ const ChoresScreen: React.FC<Props> = ({}) => {
             leftOpenValue={160}
             rightOpenValue={-160}
             onRowDidOpen={onDidSwipe}
-            ListHeaderComponent={<ListChoresHeader />}
+            ListHeaderComponent={
+              <ListChoresHeader
+                selectedMember={selectedMember}
+                selectedStatus={selectedStatus}
+                onChangeMember={onChangeMember}
+                onChangeStatus={onChangeStatus}
+              />
+            }
             keyExtractor={(item, index) => index.toString()}
           />
         </Box>

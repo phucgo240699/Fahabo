@@ -175,7 +175,7 @@ function* getChoresSaga({body}: {type: string; body: GetChoresRequestType}) {
     );
   } finally {
     if (body.showHUD) {
-      yield* put(showHUDAction());
+      yield* put(closeHUDAction());
     }
     if (body.refresh) {
       yield* put(updateIsRefreshingChoresAction(false));

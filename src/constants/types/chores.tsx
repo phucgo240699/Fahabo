@@ -46,8 +46,8 @@ export type GetChoresRequestType = {
   refresh?: boolean;
   loadMore?: boolean;
   familyId?: number;
-  assigneeIds?: number;
-  statuses?: ChoreStatus;
+  assigneeIds?: (number | undefined)[];
+  statuses?: ChoreStatus[];
   searchText?: string;
   sortBy?: string;
   from?: string; // dd-mm-yyyy

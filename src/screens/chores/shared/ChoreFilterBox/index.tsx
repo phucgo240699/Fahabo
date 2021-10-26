@@ -13,11 +13,18 @@ import {ChoreStatus} from '@constants/types/chores';
 import PrimarySearchBar from '@components/PrimarySearchBar';
 
 interface Props {
+  selectedMember?: MemberType;
+  selectedStatus?: ChoreStatus;
   onPressMember?: (member: MemberType) => void;
   onPressStatus?: (status: ChoreStatus) => void;
 }
 
-const ChoreFilterBox: React.FC<Props> = ({onPressMember, onPressStatus}) => {
+const ChoreFilterBox: React.FC<Props> = ({
+  selectedMember,
+  selectedStatus,
+  onPressMember,
+  onPressStatus,
+}) => {
   const [searchMemberName, setSearchMemberName] = useState('');
   const membersInFamily = useSelector(membersInFamilySelector);
 
@@ -46,6 +53,8 @@ const ChoreFilterBox: React.FC<Props> = ({onPressMember, onPressStatus}) => {
                 <HorizontalMemberItem
                   item={item}
                   size={'small'}
+                  pickerMode={true}
+                  isPicked={item.id === selectedMember?.id}
                   onPress={onPressMember}
                 />
               );
@@ -54,7 +63,7 @@ const ChoreFilterBox: React.FC<Props> = ({onPressMember, onPressStatus}) => {
             }
           })}
       </Box>
-      <ChoreStatusBox onChangeStatus={onPressStatus} />
+      <ChoreStatusBox status={selectedStatus} onChangeStatus={onPressStatus} />
     </Box>
   );
 };

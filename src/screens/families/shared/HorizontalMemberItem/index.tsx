@@ -31,7 +31,9 @@ const HorizontalMemberItem: React.FC<Props> = ({
   };
   return (
     <Container size={size} onPress={onPressContainer}>
-      {pickerMode && <Circle>{isPicked && <Point />}</Circle>}
+      {pickerMode && (
+        <Circle size={size}>{isPicked && <Point size={size} />}</Circle>
+      )}
       <Avatar
         ml={size === 'large' ? 4 : 1}
         size={size === 'large' ? 'lg' : 'xs'}
@@ -59,9 +61,9 @@ const Name = styled(fonts.PrimaryFontMediumSize16)<{size: string}>`
   font-size: ${props => (props.size === 'large' ? 16 : 12)}px;
 `;
 
-const Circle = styled.View`
-  width: 30px;
-  height: 30px;
+const Circle = styled.View<{size: string}>`
+  width: ${props => (props.size === 'large' ? 30 : 18)}px;
+  height: ${props => (props.size === 'large' ? 30 : 18)}px;
   align-items: center;
   justify-content: center;
   border-width: 1px;
@@ -69,9 +71,9 @@ const Circle = styled.View`
   border-color: ${colors.SILVER};
 `;
 
-const Point = styled.View`
-  width: 20px;
-  height: 20px;
+const Point = styled.View<{size: string}>`
+  width: ${props => (props.size === 'large' ? 20 : 12)}px;
+  height: ${props => (props.size === 'large' ? 20 : 12)}px;
   border-radius: 10px;
   background-color: ${colors.DANUBE};
 `;

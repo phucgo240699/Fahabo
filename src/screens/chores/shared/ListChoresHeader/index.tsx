@@ -16,11 +16,15 @@ import {MemberType} from '@constants/types/family';
 import {ChoreStatus} from '@constants/types/chores';
 
 interface Props {
+  selectedMember?: MemberType;
+  selectedStatus?: ChoreStatus;
   onChangeMember?: (member: MemberType) => void;
   onChangeStatus?: (status: ChoreStatus) => void;
 }
 
 const ListChoresHeader: React.FC<Props> = ({
+  selectedMember,
+  selectedStatus,
   onChangeMember,
   onChangeStatus,
 }) => {
@@ -45,6 +49,8 @@ const ListChoresHeader: React.FC<Props> = ({
         );
       }}>
       <ChoreFilterBox
+        selectedMember={selectedMember}
+        selectedStatus={selectedStatus}
         onPressMember={onChangeMember}
         onPressStatus={onChangeStatus}
       />
