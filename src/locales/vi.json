@@ -174,7 +174,8 @@
     "createAlbum": "Tạo album thành công"
   },
   "warningMessage": {
-    "activeAccount": "Bạn cần kích hoạt tài khoản này"
+    "activeAccount": "Bạn cần kích hoạt tài khoản này",
+    "limitPhotoUpload": "Giới hạn đăng tải ảnh là"
   },
   "errorMessage": {
     "general": "Có lỗi trong quá trình thao tác.\nXin kiểm tra lại",

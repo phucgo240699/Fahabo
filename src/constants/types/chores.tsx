@@ -37,6 +37,7 @@ export type UpdateChoreRequestType = {
   repeatType?: string;
   assigneeIds?: (number | undefined)[];
   photos?: (string | undefined)[];
+  deletePhotos?: number[];
 };
 
 export type DeleteChoreRequestType = {
@@ -58,7 +59,8 @@ export type GetChoresRequestType = {
 };
 
 export type GetChorePhotosRequestType = {
-  choreId: number;
+  showHUD?: boolean;
+  choreId?: number;
 };
 
 //

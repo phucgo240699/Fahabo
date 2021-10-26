@@ -173,7 +173,8 @@
     "createAlbum": "Create album successfully"
   },
   "warningMessage": {
-    "activeAccount": "You need to active this account"
+    "activeAccount": "You need to active this account",
+    "limitPhotoUpload": "Limit images upload is"
   },
   "errorMessage": {
     "general": "Something went wrong.\nPlease try again",

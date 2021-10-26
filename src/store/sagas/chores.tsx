@@ -233,7 +233,7 @@ function* getChorePhotosSaga({
     );
   } finally {
     if (body.showHUD) {
-      yield* put(showHUDAction());
+      yield* put(closeHUDAction());
     }
     if (body.refresh) {
       yield* put(updateIsRefreshingChorePhotosAction(false));

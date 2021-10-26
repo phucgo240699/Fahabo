@@ -36,11 +36,14 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   createChoreRequestAction,
+  getChorePhotosRequestAction,
   updateChoreRequestAction,
 } from '@store/actionTypes/chores';
 import {focusFamilySelector} from '@store/selectors/family';
 import {getChoreStatus, getRepeatType} from '@utils/chores';
 import {chorePhotosSelector} from '@store/selectors/chores';
+import {showToastAction} from '@store/actionTypes/session';
+import {ToastType} from '@constants/types/session';
 
 interface Props {
   route?: any;
@@ -60,8 +63,9 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const [repeat, setRepeat] = useState<RepeatType | undefined>(undefined);
   const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
   const [selectedPhotos, setSelectedPhotos] = useState<
-    {uri: string; base64: string}[]
+    {id?: number; uri?: string; base64?: string}[]
   >([]);
+  const [deletePhotos, setDeletePhotos] = useState<number[]>([]);
   const [description, setDescription] = useState('');
   const [oldChore, setOldChore] = useState<ChoreType | undefined>(undefined);
   const [visibleDatePicker, setVisibleDatePicker] = useState(false);
@@ -77,13 +81,29 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
           setRepeat(route.params.selectedRepeat);
         }
         if (route.params.thumbnailUri && route.params.thumbnailBase64) {
-          setSelectedPhotos([
-            ...selectedPhotos,
-            {
-              uri: route.params.thumbnailUri,
-              base64: route.params.thumbnailBase64,
-            },
-          ]);
+          if (
+            selectedPhotos.filter((item, index) => {
+              return !isNull(item.base64);
+            }).length >= Constants.LIMIT_PHOTO_UPLOAD
+          ) {
+            dispatch(
+              showToastAction(
+                `${i18n.t('warningMessage.limitPhotoUpload')} :${
+                  Constants.LIMIT_PHOTO_UPLOAD
+                }`,
+                ToastType.WARNING,
+              ),
+            );
+          } else {
+            setSelectedPhotos([
+              ...selectedPhotos,
+              {
+                id: undefined,
+                uri: route.params.thumbnailUri,
+                base64: route.params.thumbnailBase64,
+              },
+            ]);
+          }
         }
         if (route.params.oldChore) {
           const _oldChore: ChoreType = route.params.oldChore;
@@ -94,10 +114,27 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
           setRepeat(getRepeatType(_oldChore.repeatType));
           setSelectedMembers(_oldChore.assignees ?? []);
           setDescription(_oldChore.description ?? '');
+          dispatch(
+            getChorePhotosRequestAction({showHUD: true, choreId: _oldChore.id}),
+          );
         }
-      }, 500);
+      }, 200);
     }
   }, [route]);
+
+  useEffect(() => {
+    if (oldChore) {
+      setSelectedPhotos(
+        chorePhotos.map(item => {
+          return {
+            id: item.id,
+            uri: item.uri,
+            base64: undefined,
+          };
+        }),
+      );
+    }
+  }, [chorePhotos]);
 
   // Keyboard
   const onDismissKeyboard = () => {
@@ -143,9 +180,17 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
 
   // Assignee Item
   const renderSelectedMember = ({item}: {item: MemberType}) => {
+    const onPressContainer = () => {
+      setSelectedMembers(
+        selectedMembers.filter(member => {
+          return member.id !== item.id;
+        }),
+      );
+    };
     return (
-      <AvatarContainer>
+      <AvatarContainer onPress={onPressContainer}>
         <Avatar source={{uri: item.avatar}} />
+        <KickIcon source={clearIcon} />
       </AvatarContainer>
     );
   };
@@ -155,16 +200,28 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   };
   const renderSelectedPhoto = ({item}: {item: any}) => {
     const onPressContainer = () => {
-      setSelectedPhotos(
-        selectedPhotos.filter(photo => {
-          return photo.uri !== item.uri;
-        }),
-      );
+      if (!isNull(item.id)) {
+        setSelectedPhotos(
+          selectedPhotos.filter(photo => {
+            return photo.id !== item.id;
+          }),
+        );
+        if (oldChore) {
+          // update
+          setDeletePhotos([...deletePhotos, item.id]);
+        }
+      } else {
+        setSelectedPhotos(
+          selectedPhotos.filter(photo => {
+            return photo.uri !== item.uri;
+          }),
+        );
+      }
     };
     return (
       <PhotoContainer onPress={onPressContainer}>
         <Avatar source={{uri: item.uri}} />
-        <KickPhotoIcon source={clearIcon} />
+        <KickIcon source={clearIcon} />
       </PhotoContainer>
     );
   };
@@ -184,18 +241,36 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
       width: Constants.FAMILY_THUMBNAIL_WIDTH,
       height: Constants.FAMILY_THUMBNAIL_HEIGHT,
     }).then(cropped => {
-      const unique = new Set<{uri: string; base64: string}>(
-        cropped.map((item, index) => {
-          return {
-            uri: item.path ?? '',
-            base64: item.data ?? '',
-          };
-        }),
-      );
+      const unique = new Set<{id?: number; uri?: string; base64?: string}>([]);
+      const currentNumberPhotoBase64 = selectedPhotos.filter((item, index) => {
+        return !isNull(item.base64);
+      }).length;
+      if (
+        cropped.length + currentNumberPhotoBase64 >
+        Constants.LIMIT_PHOTO_UPLOAD
+      ) {
+        dispatch(
+          showToastAction(
+            `${i18n.t('warningMessage.limitPhotoUpload')} :${
+              Constants.LIMIT_PHOTO_UPLOAD
+            }`,
+            ToastType.WARNING,
+          ),
+        );
+      }
+      cropped.forEach((item, index) => {
+        if (index + currentNumberPhotoBase64 < Constants.LIMIT_PHOTO_UPLOAD) {
+          unique.add({
+            id: undefined,
+            uri: item.path,
+            base64: item.data ?? undefined,
+          });
+        }
+      });
       selectedPhotos.forEach(item => {
         unique.add(item);
       });
-      const result: {uri: string; base64: string}[] = [];
+      const result: {id?: number; uri?: string; base64?: string}[] = [];
       unique.forEach(item => {
         result.push(item);
       });
@@ -207,22 +282,25 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const onCreateChore = () => {
     if (oldChore) {
       if (!isNull(oldChore.id)) {
-        console.log({
-          choreId: oldChore.id,
-          status: status,
-          title: title,
-          description: description,
-          deadline: deadline,
-          repeatType: repeat,
-          assigneeIds: selectedMembers.map((item, index) => {
-            return item.id;
-          }),
-          photos: selectedPhotos.map((item, index) => {
-            if (index < 5) {
-              return item.base64;
-            }
-          }),
-        });
+        // console.log({
+        //   choreId: oldChore.id,
+        //   status: status,
+        //   title: title,
+        //   description: description,
+        //   deadline: deadline,
+        //   repeatType: repeat,
+        //   assigneeIds: selectedMembers.map((item, index) => {
+        //     return item.id;
+        //   }),
+        //   photos: selectedPhotos
+        //     .filter((item, index) => {
+        //       return !isNull(item.base64);
+        //     })
+        //     .map(item => {
+        //       return item.base64;
+        //     }).length,
+        //   deletePhotos: deletePhotos,
+        // });
         dispatch(
           updateChoreRequestAction({
             choreId: oldChore.id,
@@ -234,11 +312,14 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             assigneeIds: selectedMembers.map((item, index) => {
               return item.id;
             }),
-            photos: selectedPhotos.map((item, index) => {
-              if (index < 5) {
+            photos: selectedPhotos
+              .filter((item, index) => {
+                return !isNull(item.base64);
+              })
+              .map(item => {
                 return item.base64;
-              }
-            }),
+              }),
+            deletePhotos: deletePhotos,
           }),
         );
       }
@@ -442,7 +523,7 @@ const Label = styled(fonts.PrimaryFontMediumSize14)`
   color: ${colors.DANUBE};
 `;
 
-const AvatarContainer = styled.View`
+const AvatarContainer = styled.TouchableOpacity`
   margin-right: 12px;
 `;
 
@@ -472,7 +553,7 @@ const ArrowIcon = styled(PrimaryIcon)`
   position: absolute;
 `;
 
-const KickPhotoIcon = styled.Image`
+const KickIcon = styled.Image`
   width: 16px;
   right: -2px;
   bottom: 0px;
