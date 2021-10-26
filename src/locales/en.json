@@ -168,6 +168,7 @@
     "updateAvatar": "Update avatar successfully",
     "updateFamilyInfo": "Update family information successfully",
     "updateAlbum": "Update album successfully",
+    "updateChore": "Update chore successfully",
     "createChore": "Create chore successfully",
     "createAlbum": "Create album successfully"
   },

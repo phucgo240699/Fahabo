@@ -3,12 +3,12 @@ import {get} from 'lodash/fp';
 import {parsePhotos} from './albums';
 
 export function parseAssignee(rawData: any): AssigneeType {
-  const memberId = get('memberId', rawData);
+  const id = get('memberId', rawData);
   const avatar = get('avatar', rawData);
   const name = get('name', rawData);
 
   return {
-    memberId,
+    id,
     avatar,
     name,
   };
@@ -25,6 +25,7 @@ export function parseChore(rawData: any): ChoreType {
   const title = get('title', rawData);
   const status = get('status', rawData);
   const deadline = get('deadline', rawData);
+  const repeatType = get('repeatType', rawData);
   const description = get('description', rawData);
   const assignees = parseAssignees(get('assignees', rawData));
 
@@ -33,6 +34,7 @@ export function parseChore(rawData: any): ChoreType {
     title,
     status,
     deadline,
+    repeatType,
     description,
     assignees,
   };

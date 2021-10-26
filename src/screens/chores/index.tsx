@@ -21,6 +21,8 @@ import fonts from '@themes/fonts';
 import {editProfileIcon, trashIcon} from '@constants/sources';
 import {MemberType} from '@constants/types/family';
 import {ChoreStatus} from '@constants/types/chores';
+import {navigate} from '@navigators/index';
+import {ScreenName} from '@constants/Constants';
 
 interface Props {}
 
@@ -108,17 +110,20 @@ const ChoresScreen: React.FC<Props> = ({}) => {
       for (let i = 0; i < chores.length; ++i) {
         if (i.toString() === indexSwiped) {
           dispatch(deleteChoreRequestAction({choreId: chores[i].id}));
+          return;
         }
       }
     }
   };
   const onPressUpdate = () => {
-    // if (indexSwiped) {
-    //   for (let i = 0; i < chores.length; ++i) {
-    //     if (i.toString() === indexSwiped) {
-    //     }
-    //   }
-    // }
+    if (indexSwiped) {
+      for (let i = 0; i < chores.length; ++i) {
+        if (i.toString() === indexSwiped) {
+          navigate(ScreenName.CreateChoreScreen, {oldChore: chores[i]});
+          return;
+        }
+      }
+    }
   };
   const onDidSwipe = (rowKey: string, rowMap: RowMap<any>, toValue: number) => {
     setIndexSwiped(rowKey);

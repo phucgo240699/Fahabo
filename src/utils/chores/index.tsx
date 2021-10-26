@@ -14,6 +14,18 @@ export const mixChores = (oldData: ChoreType[], newData: ChoreType[]) => {
   return result;
 };
 
+export function getChoreStatus(value?: string): ChoreStatus | undefined {
+  switch (value) {
+    case ChoreStatus.DONE:
+      return ChoreStatus.DONE;
+    case ChoreStatus.IN_PROGRESS:
+      return ChoreStatus.IN_PROGRESS;
+    case ChoreStatus.EXPIRED:
+      return ChoreStatus.EXPIRED;
+    default:
+      return undefined;
+  }
+}
 export const getChoreStatusColor = (status?: string) => {
   switch (status) {
     case ChoreStatus.DONE:
@@ -34,6 +46,22 @@ export const getChoreStatusText = (status?: string) => {
       return i18n.t('chores.expired');
   }
 };
+
+export function getRepeatType(value?: string): RepeatType | undefined {
+  switch (value) {
+    case RepeatType.DAILY:
+      return RepeatType.DAILY;
+
+    case RepeatType.WEEKLY:
+      return RepeatType.WEEKLY;
+
+    case RepeatType.MONTHLY:
+      return RepeatType.MONTHLY;
+
+    default:
+      return undefined;
+  }
+}
 
 export const getRepeatText = (type: RepeatType) => {
   switch (type) {

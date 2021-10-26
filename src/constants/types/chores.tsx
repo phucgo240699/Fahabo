@@ -23,6 +23,7 @@ export type CreateChoreRequestType = {
   title?: string;
   description?: string;
   deadline?: string; // dd-mm-yyyy
+  repeatType?: string;
   assigneeIds?: (number | undefined)[];
   photos?: (string | undefined)[]; // base64 string
 };
@@ -33,8 +34,9 @@ export type UpdateChoreRequestType = {
   title?: string;
   description?: string;
   deadline?: string; // dd-mm-yyyy
-  assigneeIds?: number[];
-  photos?: string[];
+  repeatType?: string;
+  assigneeIds?: (number | undefined)[];
+  photos?: (string | undefined)[];
 };
 
 export type DeleteChoreRequestType = {
@@ -63,15 +65,16 @@ export type GetChorePhotosRequestType = {
 // Response
 //
 export type AssigneeType = {
-  memberId?: number;
+  id?: number;
   name?: string;
   avatar?: string;
 };
 export type ChoreType = {
   id?: number;
   title?: string;
-  description?: string;
   status?: string;
   deadline?: string;
+  repeatType?: string;
+  description?: string;
   assignees?: AssigneeType[];
 };

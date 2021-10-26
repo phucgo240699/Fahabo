@@ -169,6 +169,7 @@
     "updateAvatar": "Cập nhật ảnh đại diện thành công",
     "updateFamilyInfo": "Cập nhật thông tin gia đình thành công",
     "updateAlbum": "Cập nhật album thành công",
+    "updateChore": "Cập nhật công việc thành công",
     "createChore": "Tạo công việc thành công",
     "createAlbum": "Tạo album thành công"
   },

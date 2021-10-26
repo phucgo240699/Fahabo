@@ -8,10 +8,14 @@ import {
   TURN_OFF_REFRESHING_TOKEN,
   TURN_ON_REFRESHING_TOKEN,
   UPDATE_IS_LOADING_ALBUMS,
+  UPDATE_IS_LOADING_CHORES,
+  UPDATE_IS_LOADING_CHORE_PHOTOS,
   UPDATE_IS_LOADING_FAMILIES,
   UPDATE_IS_LOADING_FAMILY_MEMBERS,
   UPDATE_IS_LOADING_PHOTOS,
   UPDATE_IS_REFRESHING_ALBUMS,
+  UPDATE_IS_REFRESHING_CHORES,
+  UPDATE_IS_REFRESHING_CHORE_PHOTOS,
   UPDATE_IS_REFRESHING_FAMILIES,
   UPDATE_IS_REFRESHING_FAMILY_DETAIL,
   UPDATE_IS_REFRESHING_FAMILY_MEMBERS,
@@ -133,13 +137,24 @@ export default function sessionReducer(
     case UPDATE_IS_REFRESHING_ALBUMS:
       return {
         ...state,
-        isRefreshingAlbums: state.isRefreshingAlbums,
+        isRefreshingAlbums: action.payload,
       };
     case UPDATE_IS_REFRESHING_PHOTOS:
       return {
         ...state,
-        isRefreshingPhotos: state.isRefreshingPhotos,
+        isRefreshingPhotos: action.payload,
       };
+    case UPDATE_IS_REFRESHING_CHORES:
+      return {
+        ...state,
+        isRefreshingChores: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_CHORE_PHOTOS:
+      return {
+        ...state,
+        isRefreshingChorePhotos: action.payload,
+      };
+
     // Loading
     case UPDATE_IS_LOADING_FAMILIES:
       return {
@@ -154,12 +169,22 @@ export default function sessionReducer(
     case UPDATE_IS_LOADING_ALBUMS:
       return {
         ...state,
-        isLoadingAlbums: state.isLoadingAlbums,
+        isLoadingAlbums: action.payload,
       };
     case UPDATE_IS_LOADING_PHOTOS:
       return {
         ...state,
-        isLoadingPhotos: state.isLoadingPhotos,
+        isLoadingPhotos: action.payload,
+      };
+    case UPDATE_IS_LOADING_CHORES:
+      return {
+        ...state,
+        isLoadingChores: action.payload,
+      };
+    case UPDATE_IS_LOADING_CHORE_PHOTOS:
+      return {
+        ...state,
+        isLoadingChorePhotos: action.payload,
       };
     case SHOW_TOAST:
       return {

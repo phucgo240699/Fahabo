@@ -34,8 +34,13 @@ import {MemberType} from '@constants/types/family';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {useDispatch, useSelector} from 'react-redux';
-import {createChoreRequestAction} from '@store/actionTypes/chores';
+import {
+  createChoreRequestAction,
+  updateChoreRequestAction,
+} from '@store/actionTypes/chores';
 import {focusFamilySelector} from '@store/selectors/family';
+import {getChoreStatus, getRepeatType} from '@utils/chores';
+import {chorePhotosSelector} from '@store/selectors/chores';
 
 interface Props {
   route?: any;
@@ -44,6 +49,7 @@ interface Props {
 const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const focusFamily = useSelector(focusFamilySelector);
+  const chorePhotos = useSelector(chorePhotosSelector);
   const {isOpen, onOpen, onClose} = useDisclose();
 
   const [title, setTitle] = useState('');
@@ -53,11 +59,12 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   );
   const [repeat, setRepeat] = useState<RepeatType | undefined>(undefined);
   const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
-  const [description, setDescription] = useState('');
-  const [visibleDatePicker, setVisibleDatePicker] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState<
     {uri: string; base64: string}[]
   >([]);
+  const [description, setDescription] = useState('');
+  const [oldChore, setOldChore] = useState<ChoreType | undefined>(undefined);
+  const [visibleDatePicker, setVisibleDatePicker] = useState(false);
   const dateNow = new Date();
 
   useEffect(() => {
@@ -77,6 +84,16 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               base64: route.params.thumbnailBase64,
             },
           ]);
+        }
+        if (route.params.oldChore) {
+          const _oldChore: ChoreType = route.params.oldChore;
+          setOldChore(_oldChore);
+          setTitle(_oldChore.title ?? '');
+          setDeadline(_oldChore.deadline ?? '');
+          setStatus(getChoreStatus(_oldChore.status));
+          setRepeat(getRepeatType(_oldChore.repeatType));
+          setSelectedMembers(_oldChore.assignees ?? []);
+          setDescription(_oldChore.description ?? '');
         }
       }, 500);
     }
@@ -188,29 +205,15 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
 
   // Submit
   const onCreateChore = () => {
-    console.log({
-      familyId: focusFamily?.id,
-      status: status,
-      title: title,
-      description: description,
-      deadline: deadline,
-      assigneeIds: selectedMembers.map((item, index) => {
-        return item.id;
-      }),
-      photos: selectedPhotos.map((item, index) => {
-        if (index < 5) {
-          return item.base64;
-        }
-      }),
-    });
-    if (!isNull(focusFamily?.id)) {
-      dispatch(
-        createChoreRequestAction({
-          familyId: focusFamily?.id,
+    if (oldChore) {
+      if (!isNull(oldChore.id)) {
+        console.log({
+          choreId: oldChore.id,
           status: status,
           title: title,
           description: description,
           deadline: deadline,
+          repeatType: repeat,
           assigneeIds: selectedMembers.map((item, index) => {
             return item.id;
           }),
@@ -219,8 +222,47 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               return item.base64;
             }
           }),
-        }),
-      );
+        });
+        dispatch(
+          updateChoreRequestAction({
+            choreId: oldChore.id,
+            status: status,
+            title: title,
+            description: description,
+            deadline: deadline,
+            repeatType: repeat,
+            assigneeIds: selectedMembers.map((item, index) => {
+              return item.id;
+            }),
+            photos: selectedPhotos.map((item, index) => {
+              if (index < 5) {
+                return item.base64;
+              }
+            }),
+          }),
+        );
+      }
+    } else {
+      if (!isNull(focusFamily?.id)) {
+        dispatch(
+          createChoreRequestAction({
+            familyId: focusFamily?.id,
+            status: status,
+            title: title,
+            description: description,
+            deadline: deadline,
+            repeatType: repeat,
+            assigneeIds: selectedMembers.map((item, index) => {
+              return item.id;
+            }),
+            photos: selectedPhotos.map((item, index) => {
+              if (index < 5) {
+                return item.base64;
+              }
+            }),
+          }),
+        );
+      }
     }
   };
   return (
@@ -274,21 +316,21 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
                 : getDateStringFrom(deadline ?? '')}
             </Button>
 
-            {/* Status */}
-            <ChoreStatusBox status={status} onChangeStatus={onChangeStatus} />
-
             {/* Repeat */}
-            <ItemContainer onPress={onPressRepeat}>
-              <ItemName>
+            <RepeatContainer onPress={onPressRepeat}>
+              <RepeatName>
                 {isNull(repeat) ? i18n.t('chores.repeat') : repeat}
-              </ItemName>
+              </RepeatName>
               <ArrowIcon
                 width={16}
                 height={16}
                 source={rightArrowIcon}
                 tintColor={colors.SILVER}
               />
-            </ItemContainer>
+            </RepeatContainer>
+
+            {/* Status */}
+            <ChoreStatusBox status={status} onChangeStatus={onChangeStatus} />
           </FormControl>
 
           {/* Assignees */}
@@ -408,18 +450,20 @@ const PhotoContainer = styled.TouchableOpacity`
   margin-right: 12px;
 `;
 
-const ItemContainer = styled.TouchableOpacity`
-  margin-top: 20px;
+const RepeatContainer = styled.TouchableOpacity`
+  height: 50px;
+  margin-top: 30px;
   border-width: 1px;
   flex-direction: row;
   align-items: center;
   border-radius: 20px;
-  padding: 18px 15px 18px 15px;
+  padding-left: 20px;
+  padding-right: 20px;
   justify-content: space-between;
   border-color: ${colors.CONCRETE};
 `;
 
-const ItemName = styled(fonts.PrimaryFontRegularSize16)`
+const RepeatName = styled(fonts.PrimaryFontRegularSize16)`
   color: ${colors.BLACK};
 `;
 

@@ -92,6 +92,12 @@ function* updateChoreSaga({
       yield* put(
         updateChoreSuccessAction(parseChore(parseDataResponse(response))),
       );
+      yield* put(
+        showToastAction(
+          i18n.t('successMessage.updateChore'),
+          ToastType.SUCCESS,
+        ),
+      );
     } else {
       yield* put(
         showToastAction(
