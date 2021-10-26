@@ -7,9 +7,15 @@ import PrimaryIcon from '@components/PrimaryIcon';
 import {isNull} from '@utils/index';
 import {FamilyType} from '@constants/types/family';
 import {Platform} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {focusFamilySelector} from '@store/selectors/family';
+import {
+  getFamilyMembersRequestAction,
+  updateFocusFamilyAction,
+} from '@store/actionTypes/family';
 
 interface Props {
-  item?: FamilyType;
+  item: FamilyType;
   containerStyle?: any;
   onPress?: (item: any) => void;
 }
@@ -19,11 +25,23 @@ const HorizontalFamilyItem: React.FC<Props> = ({
   containerStyle,
   onPress,
 }) => {
+  const dispatch = useDispatch();
+  const focusFamily = useSelector(focusFamilySelector);
+
+  const onPressCircle = () => {
+    dispatch(updateFocusFamilyAction(item));
+    if (!isNull(item.id)) {
+      dispatch(
+        getFamilyMembersRequestAction({familyId: item.id, showHUD: true}),
+      );
+    }
+  };
   const onPressContainer = () => {
     if (onPress) {
       onPress(item);
     }
   };
+
   return (
     <Touch
       onPress={onPressContainer}
@@ -36,7 +54,6 @@ const HorizontalFamilyItem: React.FC<Props> = ({
         )}
         <Content>
           <Title numberOfLines={2}>{item?.name}</Title>
-          {/* <Description numberOfLines={1}>{item.hostName}</Description> */}
           <HLine />
           <BottomContainer>
             <TotalMembersText numberOfLines={1}>
@@ -45,6 +62,9 @@ const HorizontalFamilyItem: React.FC<Props> = ({
             <PrimaryIcon width={14} height={14} source={profileIcon} />
           </BottomContainer>
         </Content>
+        <Circle onPress={onPressCircle}>
+          {focusFamily?.id === item?.id && <Point />}
+        </Circle>
       </Container>
     </Touch>
   );
@@ -80,13 +100,9 @@ const Thumbnail = styled.Image`
 `;
 
 const Title = styled(fonts.PrimaryFontBoldSize14)`
+  width: 80%;
   margin-left: 10px;
   color: ${colors.DANUBE};
-`;
-
-const Description = styled(fonts.PrimaryFontMediumSize12)`
-  margin-top: 8px;
-  margin-left: 10px;
 `;
 
 const HLine = styled.View`
@@ -110,6 +126,26 @@ const TotalMembersText = styled(fonts.PrimaryFontBoldSize16)`
   max-width: 90%;
   margin-right: 2px;
   color: ${colors.ZEST};
+`;
+
+const Circle = styled.TouchableOpacity`
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border-width: 1px;
+  position: absolute;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: center;
+  border-color: ${colors.SILVER};
+`;
+
+const Point = styled.View`
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: ${colors.DANUBE};
 `;
 
 export default memo(HorizontalFamilyItem);

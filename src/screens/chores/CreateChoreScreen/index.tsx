@@ -9,18 +9,14 @@ import styled from 'styled-components/native';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
 import {getDateStringFrom, getOriginDateString, isNull} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
-import {DummyDetailFamily} from '@constants/DummyData';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {clearIcon, familyIcon, rightArrowIcon} from '@constants/sources';
+import {familyIcon, rightArrowIcon} from '@constants/sources';
 import {Constants, ScreenName} from '@constants/Constants';
 import ChoreStatusBox from '../shared/ChoreStatusBox';
 import {ChoreStatus, RepeatType} from '@constants/types/chores';
 import DatePicker from 'react-native-date-picker';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {navigate} from '@navigators/index';
-import {getFamilyMembersRequestAction} from '@store/actionTypes/family';
-import {useDispatch, useSelector} from 'react-redux';
-import {membersInFamilySelector} from '@store/selectors/family';
 import {MemberType} from '@constants/types/family';
 
 interface Props {
@@ -28,7 +24,7 @@ interface Props {
 }
 
 const CreateChoreScreen: React.FC<Props> = ({route}) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [title, setTitle] = useState('');
   const [deadline, setDeadline] = useState('');
@@ -38,16 +34,16 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const [description, setDescription] = useState('');
   const [visibleDatePicker, setVisibleDatePicker] = useState(false);
 
-  // Life Cycle
-  useEffect(() => {
-    if (route.params.familyId) {
-      dispatch(
-        getFamilyMembersRequestAction({
-          familyId: route.params.familyId,
-        }),
-      );
-    }
-  }, []);
+  // // Life Cycle
+  // useEffect(() => {
+  //   if (route.params.familyId) {
+  //     dispatch(
+  //       getFamilyMembersRequestAction({
+  //         familyId: route.params.familyId,
+  //       }),
+  //     );
+  //   }
+  // }, []);
   useEffect(() => {
     if (route && route.params) {
       setTimeout(() => {

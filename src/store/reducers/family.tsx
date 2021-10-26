@@ -7,6 +7,7 @@ import {
   JOIN_FAMILY_SUCCESS,
   UPDATE_FAMILY_INFO_SUCCESS,
   UPDATE_FAMILY_THUMBNAIL_SUCCESS,
+  UPDATE_FOCUS_FAMILY,
 } from '@store/actionTypes/family';
 import {LOG_OUT} from '@store/actionTypes/signIn';
 import {AnyAction} from 'redux';
@@ -15,12 +16,14 @@ export type FamilyState = {
   families: FamilyType[];
   familyDetail?: FamilyType;
   membersInFamily: MemberType[];
+  focusFamily?: FamilyType;
 };
 
 const defaultState: FamilyState = {
   families: [],
   familyDetail: undefined,
   membersInFamily: [],
+  focusFamily: undefined,
 };
 
 export default function familyReducer(state = defaultState, action: AnyAction) {
@@ -58,12 +61,18 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
         ...state,
         membersInFamily: action.payload,
       };
+    case UPDATE_FOCUS_FAMILY:
+      return {
+        ...state,
+        focusFamily: action.payload,
+      };
     case LOG_OUT:
       return {
         ...state,
         families: [],
         familyDetail: undefined,
         membersInFamily: [],
+        focusFamily: undefined,
       };
     default:
       return state;

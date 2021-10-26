@@ -7,3 +7,6 @@ export const familyDetailSelector = (state: RootState) =>
 
 export const membersInFamilySelector = (state: RootState) =>
   state.family.membersInFamily;
+
+export const focusFamilySelector = (state: RootState) =>
+  state.family.focusFamily;

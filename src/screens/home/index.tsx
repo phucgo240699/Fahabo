@@ -14,7 +14,7 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {navigate} from '@navigators/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {familiesSelector} from '@store/selectors/family';
-import {getFamiliesRequestAction} from '@store/actionTypes/family';
+import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 
 interface Props {}
 
@@ -27,7 +27,7 @@ const HomeScreen: React.FC<Props> = () => {
 
   // Life Cycle
   useEffect(() => {
-    dispatch(getFamiliesRequestAction({}));
+    dispatch(getHomeScreenDataRequestAction());
   }, []);
 
   // TabView
@@ -53,7 +53,7 @@ const HomeScreen: React.FC<Props> = () => {
     if (families.length > 0) {
       // Chore
       if (index === 0) {
-        navigate(ScreenName.CreateChoreScreen, {familyId: 61});
+        navigate(ScreenName.CreateChoreScreen, {familyId: families[0]});
       }
     }
   };

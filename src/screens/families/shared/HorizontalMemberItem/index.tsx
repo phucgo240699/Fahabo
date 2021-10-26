@@ -13,6 +13,7 @@ interface Props {
   item: MemberType;
   pickerMode?: boolean;
   isPicked?: boolean; // only work when pickerMode === true
+  size?: 'large' | 'small';
   onPress?: (item: MemberType) => void;
 }
 
@@ -20,6 +21,7 @@ const HorizontalMemberItem: React.FC<Props> = ({
   item,
   pickerMode,
   isPicked,
+  size = 'large',
   onPress,
 }) => {
   const onPressContainer = () => {
@@ -28,28 +30,33 @@ const HorizontalMemberItem: React.FC<Props> = ({
     }
   };
   return (
-    <Container onPress={onPressContainer}>
+    <Container size={size} onPress={onPressContainer}>
       {pickerMode && <Circle>{isPicked && <Point />}</Circle>}
-      <Avatar ml={4} size="lg" source={{uri: item?.avatar}} />
+      <Avatar
+        ml={size === 'large' ? 4 : 1}
+        size={size === 'large' ? 'lg' : 'xs'}
+        source={{uri: item?.avatar}}
+      />
       <Name numberOfLines={2}>{item?.name}</Name>
     </Container>
   );
 };
 
-const Container = styled.TouchableOpacity`
+const Container = styled.TouchableOpacity<{size: string}>`
   flex: 1;
-  height: 80px;
-  margin-left: 30px;
-  margin-right: 30px;
+  height: ${props => (props.size === 'large' ? 80 : 40)}px;
+  margin-left: ${props => (props.size === 'large' ? 30 : 10)}px;
+  margin-right: ${props => (props.size === 'large' ? 30 : 10)}px;
   flex-direction: row;
   align-items: center;
   background-color: ${colors.WHITE};
 `;
 
-const Name = styled(fonts.PrimaryFontMediumSize16)`
+const Name = styled(fonts.PrimaryFontMediumSize16)<{size: string}>`
   flex: 1;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: ${props => (props.size === 'large' ? 15 : 5)}px;
+  margin-right: ${props => (props.size === 'large' ? 15 : 5)}px;
+  font-size: ${props => (props.size === 'large' ? 16 : 12)}px;
 `;
 
 const Circle = styled.View`

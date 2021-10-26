@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {Box, FlatList, ScrollView, Text} from 'native-base';
+import {Box, FlatList, Menu, Pressable, ScrollView, Text} from 'native-base';
 import i18n from '@locales/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import colors from '@themes/colors';
@@ -7,6 +7,12 @@ import styled from 'styled-components/native';
 import {Keyboard, StyleSheet} from 'react-native';
 import {DummyChores} from '@constants/DummyData';
 import HorizontalChoreItem from './shared/HorizontalChoreItem';
+import PrimaryButton from '@components/PrimaryButton';
+import {filterIcon} from '@constants/sources';
+import {Constants} from '@constants/Constants';
+import PrimaryIcon from '@components/PrimaryIcon';
+import ChoreFilterBox from './shared/ChoreFilterBox';
+import ListChoresHeader from './shared/ListChoresHeader';
 
 interface Props {}
 
@@ -29,6 +35,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
         <Box flex={1}>
           <FlatList
             data={DummyChores}
+            ListHeaderComponent={<ListChoresHeader />}
             renderItem={renderItem}
             contentContainerStyle={styles.list}
             keyExtractor={(item, index) => index.toString()}
@@ -43,9 +50,14 @@ const Touch = styled.TouchableWithoutFeedback`
   flex: 1;
 `;
 
+const FilterButton = styled(PrimaryButton)`
+  margin-top: 10px;
+  margin-right: 20px;
+  align-self: flex-end;
+`;
+
 const styles = StyleSheet.create({
   list: {
-    paddingTop: 10,
     paddingBottom: 50,
   },
 });

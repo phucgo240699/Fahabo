@@ -61,7 +61,10 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
     }
   };
   const onLoadMore = () => {
-    if (isLoading === false) {
+    if (
+      isLoading === false &&
+      membersInFamily.length >= Pagination.FamilyMembers
+    ) {
       dispatch(
         getFamilyMembersRequestAction({
           loadMore: true,

@@ -141,3 +141,10 @@ export const getFamilyMembersSuccessAction = (payload: MemberType[]) => ({
   type: GET_FAMILY_MEMBERS_SUCCESS,
   payload,
 });
+
+// Focus Family
+export const UPDATE_FOCUS_FAMILY = 'UPDATE_FOCUS_FAMILY';
+export const updateFocusFamilyAction = (payload: FamilyType) => ({
+  type: UPDATE_FOCUS_FAMILY,
+  payload,
+});

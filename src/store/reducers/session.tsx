@@ -18,6 +18,7 @@ import {
   UPDATE_IS_REFRESHING_PHOTOS,
   UPDATE_IS_REFRESHING_PROFILE,
 } from '@store/actionTypes/session';
+import {LOG_OUT} from '@store/actionTypes/signIn';
 
 export type ToastState = {
   isShowed: boolean;
@@ -181,6 +182,33 @@ export default function sessionReducer(
         toasts: state.toasts.filter(toast => {
           return toast.id !== action.toastId;
         }),
+      };
+    case LOG_OUT:
+      return {
+        ...state,
+        loading: false,
+
+        // Refresh
+        refreshingToken: false,
+        isRefreshingProfile: false,
+        isRefreshingFamilies: false,
+        isRefreshingFamilyDetail: false,
+        isRefreshingFamilyMembers: false,
+        isRefreshingAlbums: false,
+        isRefreshingPhotos: false,
+        isRefreshingChores: false,
+        isRefreshingChorePhotos: false,
+
+        // Load More
+        isLoadingFamilies: false,
+        isLoadingFamilyMembers: false,
+        isLoadingAlbums: false,
+        isLoadingPhotos: false,
+        isLoadingChores: false,
+        isLoadingChorePhotos: false,
+
+        // Toasts
+        toasts: [],
       };
     default:
       return state;

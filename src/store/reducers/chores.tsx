@@ -7,6 +7,7 @@ import {
   GET_CHORE_PHOTOS_SUCCESS,
   UPDATE_CHORE_SUCCESS,
 } from '@store/actionTypes/chores';
+import {LOG_OUT} from '@store/actionTypes/signIn';
 import {AnyAction} from 'redux';
 
 export type ChoresState = {
@@ -53,7 +54,12 @@ export default function choresReducer(state = defaultState, action: AnyAction) {
         ...state,
         chorePhotos: action.payload,
       };
-
+    case LOG_OUT:
+      return {
+        ...state,
+        chores: [],
+        chorePhotos: [],
+      };
     default:
       return state;
   }

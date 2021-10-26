@@ -43,6 +43,7 @@ export const downArrowIcon = require('@assets/images/down_arrow_icon.png');
 // Chores
 //
 export const choresIcon = require('@assets/images/chores_icon.png');
+export const filterIcon = require('@assets/images/filter_icon.png');
 
 //
 // Events
