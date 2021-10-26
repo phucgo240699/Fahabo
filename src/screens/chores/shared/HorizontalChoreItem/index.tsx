@@ -6,12 +6,12 @@ import {Avatar, FlatList} from 'native-base';
 import {Platform} from 'react-native';
 import {DummyDetailFamily} from '@constants/DummyData';
 import PrimaryButton from '@components/PrimaryButton';
-import {ChoreStatus} from '@constants/types/chores';
+import {ChoreStatus, ChoreType} from '@constants/types/chores';
 import i18n from '@locales/index';
 import {getChoreStatusColor, getChoreStatusText} from '@utils/chores';
 
 interface Props {
-  item?: any;
+  item: ChoreType;
   onPress?: (item: any) => void;
 }
 
@@ -23,7 +23,7 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   };
   const renderItem = ({item}: {item: any}) => {
     return (
-      <Avatar mr={2} size="sm" source={{uri: item.avatarUrl}}>
+      <Avatar mr={2} size="sm" source={{uri: item.avatar}}>
         {/* <Avatar.Badge bg="green.500" /> */}
       </Avatar>
     );
@@ -44,7 +44,7 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
           position="absolute"
           scrollEnabled={false}
           renderItem={renderItem}
-          data={DummyDetailFamily.members.filter((item, index) => {
+          data={(item.assignees ?? []).filter((item, index) => {
             return index < 5;
           })}
           showsHorizontalScrollIndicator={false}
@@ -54,8 +54,8 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
           titleFontSize={12}
           titleFontWeight={600}
           titleColor={colors.WHITE}
-          title={getChoreStatusText(ChoreStatus.DONE)}
-          backgroundColor={getChoreStatusColor(ChoreStatus.DONE)}
+          title={getChoreStatusText(item.status)}
+          backgroundColor={getChoreStatusColor(item.status)}
         />
       </Container>
     </Touch>
@@ -63,13 +63,13 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
 };
 
 const Touch = styled.TouchableOpacity`
+  height: 150px;
   border-radius: 10px;
 `;
 
 const Container = styled.View`
   flex: 1;
   padding: 10px;
-  height: 120px;
   elevation: 10;
   margin-top: 15px;
   margin-left: 30px;

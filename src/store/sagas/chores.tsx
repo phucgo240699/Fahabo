@@ -56,6 +56,12 @@ function* createChoreSaga({
       yield* put(
         createChoreSuccessAction(parseChore(parseDataResponse(response))),
       );
+      yield* put(
+        showToastAction(
+          i18n.t('successMessage.createChore'),
+          ToastType.SUCCESS,
+        ),
+      );
     } else {
       yield* put(
         showToastAction(

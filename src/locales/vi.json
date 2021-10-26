@@ -80,6 +80,7 @@
     "deadline": "Thời hạn",
     "assign": "Phân công",
     "repeat": "Lặp lại",
+    "photo": "Ảnh",
     "daily": "Hằng ngày",
     "weekly": "Hằng tuần",
     "monthly": "Hằng tháng"
@@ -167,7 +168,9 @@
     "updateLanguage": "Cập nhật ngôn ngữ thành công",
     "updateAvatar": "Cập nhật ảnh đại diện thành công",
     "updateFamilyInfo": "Cập nhật thông tin gia đình thành công",
-    "updateAlbum": "Cập nhật album thành công"
+    "updateAlbum": "Cập nhật album thành công",
+    "createChore": "Tạo công việc thành công",
+    "createAlbum": "Tạo album thành công"
   },
   "warningMessage": {
     "activeAccount": "Bạn cần kích hoạt tài khoản này"

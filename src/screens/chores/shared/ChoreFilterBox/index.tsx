@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import fonts from '@themes/fonts';
-import {Box, FlatList} from 'native-base';
+import {Box} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import {useSelector} from 'react-redux';
@@ -10,6 +10,7 @@ import HorizontalMemberItem from '@screens/families/shared/HorizontalMemberItem'
 import i18n from '@locales/index';
 import ChoreStatusBox from '../ChoreStatusBox';
 import {ChoreStatus} from '@constants/types/chores';
+import PrimarySearchBar from '@components/PrimarySearchBar';
 
 interface Props {
   onPressMember?: (member: MemberType) => void;
@@ -17,38 +18,41 @@ interface Props {
 }
 
 const ChoreFilterBox: React.FC<Props> = ({onPressMember, onPressStatus}) => {
+  const [searchMemberName, setSearchMemberName] = useState('');
   const membersInFamily = useSelector(membersInFamilySelector);
 
-  const renderItem = ({item}: {item: MemberType}) => {
-    return (
-      <HorizontalMemberItem
-        item={item}
-        size={'small'}
-        onPress={onPressMember}
-      />
-    );
+  const onChangeMemberName = (text: string) => {
+    setSearchMemberName(text);
   };
 
   return (
     <Box flex={1}>
       <Label>{`${i18n.t('chores.members')}:`}</Label>
+      <PrimarySearchBar
+        text={searchMemberName}
+        onChangeText={onChangeMemberName}
+      />
       <Box
         flexDirection={'row'}
         justifyContent={'space-between'}
         flexWrap={'wrap'}>
-        {membersInFamily.map((item, index) => {
-          if (index < 10) {
-            return (
-              <HorizontalMemberItem
-                item={item}
-                size={'small'}
-                onPress={onPressMember}
-              />
-            );
-          } else {
-            return null;
-          }
-        })}
+        {membersInFamily
+          .filter(item => {
+            return item.name?.includes(searchMemberName);
+          })
+          .map((item, index) => {
+            if (index < 10) {
+              return (
+                <HorizontalMemberItem
+                  item={item}
+                  size={'small'}
+                  onPress={onPressMember}
+                />
+              );
+            } else {
+              return null;
+            }
+          })}
       </Box>
       <ChoreStatusBox onChangeStatus={onPressStatus} />
     </Box>
@@ -60,4 +64,4 @@ const Label = styled(fonts.PrimaryFontMediumSize14)`
   color: ${colors.DANUBE};
 `;
 
-export default React.memo(ChoreFilterBox);
+export default ChoreFilterBox;

@@ -50,10 +50,7 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
 
   // Refresh & Load More
   const onRefreshData = () => {
-    if (
-      isRefreshing === false &&
-      membersInFamily.length >= Pagination.FamilyMembers
-    ) {
+    if (isRefreshing === false) {
       setPageIndex(0);
       dispatch(
         getRefreshFamilyMembersRequestAction({familyId: route.params.familyId}),

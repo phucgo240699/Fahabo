@@ -80,6 +80,7 @@
     "deadline": "Deadline",
     "assign": "Assign",
     "repeat": "Repeat",
+    "photo": "Photo",
     "daily": "Daily",
     "weekly": "Weekly",
     "monthly": "Monthly"
@@ -166,7 +167,9 @@
     "updateLanguage": "Update language successfully",
     "updateAvatar": "Update avatar successfully",
     "updateFamilyInfo": "Update family information successfully",
-    "updateAlbum": "Update album successfully"
+    "updateAlbum": "Update album successfully",
+    "createChore": "Create chore successfully",
+    "createAlbum": "Create album successfully"
   },
   "warningMessage": {
     "activeAccount": "You need to active this account"

@@ -76,6 +76,12 @@ function* createAlbumSaga({
       yield* put(
         createAlbumSuccessAction(parseAlbum(parseDataResponse(response))),
       );
+      yield* put(
+        showToastAction(
+          i18n.t('successMessage.createAlbum'),
+          ToastType.SUCCESS,
+        ),
+      );
     } else {
       yield* put(
         showToastAction(

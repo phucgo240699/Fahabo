@@ -15,6 +15,7 @@ import {navigate} from '@navigators/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {familiesSelector} from '@store/selectors/family';
 import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
+import {getChoresRequestAction} from '@store/actionTypes/chores';
 
 interface Props {}
 
@@ -66,6 +67,7 @@ const HomeScreen: React.FC<Props> = () => {
         translucent
       />
       <PrimaryHeader
+        text={searchText}
         onChangeText={onChangeSearchText}
         onPressPlus={onPressPlusButton}
       />

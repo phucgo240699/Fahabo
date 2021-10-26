@@ -84,8 +84,9 @@ export function getMyFamiliesApi(
       size = body?.size ?? Pagination.Family;
     }
   }
-  return new apiProvider(accessToken).get(
+  return new apiProvider(accessToken).post(
     `${BASE_URL}/users/get_families?page=${page}&size=${size}`,
+    body,
   );
 }
 

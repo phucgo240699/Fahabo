@@ -96,6 +96,11 @@ const CameraScreen: React.FC<Props> = ({route}) => {
         thumbnailUri: uri,
         thumbnailBase64: base64,
       });
+    } else if (route && route.params && route.params.fromCreateChore) {
+      navigate(ScreenName.CreateChoreScreen, {
+        thumbnailUri: uri,
+        thumbnailBase64: base64,
+      });
     }
   };
 

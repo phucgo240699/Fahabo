@@ -1,29 +1,45 @@
 import React, {memo} from 'react';
-import {Box, FlatList, Menu, Pressable, ScrollView, Text} from 'native-base';
-import i18n from '@locales/index';
+import {Box, FlatList} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {Keyboard, StyleSheet} from 'react-native';
-import {DummyChores} from '@constants/DummyData';
+import {Keyboard, RefreshControl, StyleSheet} from 'react-native';
 import HorizontalChoreItem from './shared/HorizontalChoreItem';
 import PrimaryButton from '@components/PrimaryButton';
-import {filterIcon} from '@constants/sources';
-import {Constants} from '@constants/Constants';
-import PrimaryIcon from '@components/PrimaryIcon';
-import ChoreFilterBox from './shared/ChoreFilterBox';
 import ListChoresHeader from './shared/ListChoresHeader';
+import {useDispatch, useSelector} from 'react-redux';
+import {choresSelector} from '@store/selectors/chores';
+import {isRefreshingChoresSelector} from '@store/selectors/session';
+import {getChoresRequestAction} from '@store/actionTypes/chores';
+import {focusFamilySelector} from '@store/selectors/family';
+import {isNull} from '@utils/index';
 
 interface Props {}
 
 const ChoresScreen: React.FC<Props> = ({}) => {
+  const dispatch = useDispatch();
+  const chores = useSelector(choresSelector);
+  const focusFamily = useSelector(focusFamilySelector);
+  const isRefreshing = useSelector(isRefreshingChoresSelector);
+
   const onDismissKeyboard = () => {
     Keyboard.dismiss();
   };
+
+  // Refresh & Load More
+  const onRefreshData = () => {
+    if (isRefreshing === false && !isNull(focusFamily?.id)) {
+      dispatch(getChoresRequestAction({familyId: focusFamily?.id}));
+    }
+  };
+
+  // Item
   const renderItem = ({item}: {item: any}) => {
     return <HorizontalChoreItem item={item} onPress={onPressItem} />;
   };
-  const onPressItem = (item: any) => {};
+  const onPressItem = (item: any) => {
+    console.log(chores.length);
+  };
   return (
     <Box flex={1}>
       <FocusAwareStatusBar
@@ -34,10 +50,16 @@ const ChoresScreen: React.FC<Props> = ({}) => {
       <Touch onPress={onDismissKeyboard}>
         <Box flex={1}>
           <FlatList
-            data={DummyChores}
-            ListHeaderComponent={<ListChoresHeader />}
+            data={chores}
             renderItem={renderItem}
             contentContainerStyle={styles.list}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={onRefreshData}
+              />
+            }
+            ListHeaderComponent={<ListChoresHeader />}
             keyExtractor={(item, index) => index.toString()}
           />
         </Box>

@@ -20,9 +20,9 @@ export const createChoreSuccessAction = (payload: ChoreType) => ({
 });
 
 // Update
-export const UPDATE_CHORE_REQUEST = 'CREATE_CHORE_REQUEST';
+export const UPDATE_CHORE_REQUEST = 'UPDATE_CHORE_REQUEST';
 export const updateChoreRequestAction = (body: UpdateChoreRequestType) => ({
-  type: CREATE_CHORE_REQUEST,
+  type: UPDATE_CHORE_REQUEST,
   body,
 });
 export const UPDATE_CHORE_SUCCESS = 'UPDATE_CHORE_SUCCESS';
@@ -32,14 +32,14 @@ export const updateChoreSuccessAction = (payload: ChoreType) => ({
 });
 
 // Delete
-export const DELETE_CHORE_REQUEST = 'CREATE_CHORE_REQUEST';
+export const DELETE_CHORE_REQUEST = 'DELETE_CHORE_REQUEST';
 export const deleteChoreRequestAction = (body: DeleteChoreRequestType) => ({
-  type: CREATE_CHORE_REQUEST,
+  type: DELETE_CHORE_REQUEST,
   body,
 });
-export const DELETE_CHORE_SUCCESS = 'UPDATE_CHORE_SUCCESS';
+export const DELETE_CHORE_SUCCESS = 'DELETE_CHORE_SUCCESS';
 export const deleteChoreSuccessAction = (payload: ChoreType) => ({
-  type: UPDATE_CHORE_SUCCESS,
+  type: DELETE_CHORE_SUCCESS,
   payload,
 });
 

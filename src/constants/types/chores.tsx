@@ -23,12 +23,12 @@ export type CreateChoreRequestType = {
   title?: string;
   description?: string;
   deadline?: string; // dd-mm-yyyy
-  assigneeIds: number[];
-  photos?: string[]; // base64 string
+  assigneeIds?: (number | undefined)[];
+  photos?: (string | undefined)[]; // base64 string
 };
 
 export type UpdateChoreRequestType = {
-  familyId?: number;
+  choreId?: number;
   status?: ChoreStatus;
   title?: string;
   description?: string;
@@ -46,7 +46,10 @@ export type GetChoresRequestType = {
   refresh?: boolean;
   loadMore?: boolean;
   familyId?: number;
+  assigneeIds?: number;
+  statuses?: ChoreStatus;
   searchText?: string;
+  sortBy?: string;
   from?: string; // dd-mm-yyyy
   page?: number;
   size?: number;

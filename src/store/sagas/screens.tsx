@@ -1,6 +1,8 @@
 import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
+import {getChoresApi} from '@services/chores';
 import {getFamilyMembersApi, getMyFamiliesApi} from '@services/family';
+import {getChoresSuccessAction} from '@store/actionTypes/chores';
 import {
   getFamiliesSuccessAction,
   getFamilyMembersSuccessAction,
@@ -14,6 +16,7 @@ import {
 } from '@store/actionTypes/session';
 import {isNull} from '@utils/index';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
+import {parseChores} from '@utils/parsers/chores';
 import {parseFamilies, parseMembers} from '@utils/parsers/family';
 import {AnyAction} from 'redux';
 import {all, put, takeLeading} from 'typed-redux-saga';
@@ -31,6 +34,24 @@ function* getHomeScreenDataSaga(action: AnyAction) {
         const membersResponse = yield* apiProxy(getFamilyMembersApi, {
           familyId: families[0].id,
         });
+        const choresResponse = yield* apiProxy(getChoresApi, {
+          familyId: families[0].id,
+        });
+        if (choresResponse.status === 200) {
+          yield* put(
+            getChoresSuccessAction(
+              parseChores(parseDataResponse(choresResponse)),
+            ),
+          );
+        } else {
+          yield* put(
+            showToastAction(
+              i18n.t(`backend.${parseErrorResponse(membersResponse)}`),
+              ToastType.ERROR,
+            ),
+          );
+        }
+
         if (membersResponse.status === 200) {
           yield* put(
             getFamilyMembersSuccessAction(

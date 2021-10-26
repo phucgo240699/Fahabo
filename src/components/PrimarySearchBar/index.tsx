@@ -3,39 +3,47 @@ import colors from '@themes/colors';
 import {Platform} from 'react-native';
 import styled from 'styled-components/native';
 import PrimaryIcon from '@components/PrimaryIcon';
-import React, {useState} from 'react';
+import React, {useRef} from 'react';
 import PrimaryButton from '@components/PrimaryButton';
 import {searchIcon, clearIcon} from '@constants/sources/index';
 import i18n from '@locales/index';
 
 interface Props {
+  text: string;
   marginTop?: number;
   marginLeft?: number;
   marginRight?: number;
   marginBottom?: number;
   containerStyle?: any;
   onChangeText?: (text: string) => void;
+  onSubmitText?: (text: string) => void;
 }
 
 const PrimarySearchBar: React.FC<Props> = ({
+  text,
   marginTop,
   marginLeft,
   marginRight,
   marginBottom,
   containerStyle,
   onChangeText,
+  onSubmitText,
   ...otherProps
 }) => {
-  const [text, setText] = useState('');
+  const ref = useRef<any>();
 
   const onClearText = () => {
     onUpdateText('');
   };
 
   const onUpdateText = (_text: string) => {
-    setText(_text);
     if (onChangeText) {
       onChangeText(_text);
+    }
+  };
+  const onSubmitEditing = () => {
+    if (onSubmitText) {
+      onSubmitText(ref.current.value);
     }
   };
 
@@ -49,6 +57,8 @@ const PrimarySearchBar: React.FC<Props> = ({
       {...otherProps}>
       <Input
         py={2}
+        ref={ref}
+        height={10}
         value={text}
         borderRadius={10}
         variant="filled"
@@ -67,6 +77,7 @@ const PrimarySearchBar: React.FC<Props> = ({
           />
         }
         onChangeText={onUpdateText}
+        onSubmitEditing={onSubmitEditing}
       />
       {Platform.OS === 'android' && text !== '' && (
         <PrimaryButton
@@ -89,4 +100,4 @@ const Container = styled.View<{
   marginBottom?: number;
 }>``;
 
-export default React.memo(PrimarySearchBar);
+export default PrimarySearchBar;

@@ -14,7 +14,7 @@ export const mixChores = (oldData: ChoreType[], newData: ChoreType[]) => {
   return result;
 };
 
-export const getChoreStatusColor = (status: ChoreStatus) => {
+export const getChoreStatusColor = (status?: string) => {
   switch (status) {
     case ChoreStatus.DONE:
       return colors.DONE_CHORE;
@@ -24,7 +24,7 @@ export const getChoreStatusColor = (status: ChoreStatus) => {
       return colors.EXPIRED_CHORE;
   }
 };
-export const getChoreStatusText = (status: ChoreStatus) => {
+export const getChoreStatusText = (status?: string) => {
   switch (status) {
     case ChoreStatus.DONE:
       return i18n.t('chores.done');

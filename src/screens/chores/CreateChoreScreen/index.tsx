@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Input, Avatar, FlatList, FormControl, Button} from 'native-base';
+import {
+  Box,
+  Input,
+  Avatar,
+  FlatList,
+  FormControl,
+  Button,
+  useDisclose,
+} from 'native-base';
 import colors from '@themes/colors';
 import fonts from '@themes/fonts';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
@@ -10,7 +18,12 @@ import {Keyboard, Platform, StyleSheet} from 'react-native';
 import {getDateStringFrom, getOriginDateString, isNull} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {familyIcon, rightArrowIcon} from '@constants/sources';
+import {
+  clearIcon,
+  familyIcon,
+  plusIcon,
+  rightArrowIcon,
+} from '@constants/sources';
 import {Constants, ScreenName} from '@constants/Constants';
 import ChoreStatusBox from '../shared/ChoreStatusBox';
 import {ChoreStatus, RepeatType} from '@constants/types/chores';
@@ -18,32 +31,35 @@ import DatePicker from 'react-native-date-picker';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {navigate} from '@navigators/index';
 import {MemberType} from '@constants/types/family';
+import PrimaryActionSheet from '@components/PrimaryActionSheet';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {createChoreRequestAction} from '@store/actionTypes/chores';
+import {focusFamilySelector} from '@store/selectors/family';
 
 interface Props {
   route?: any;
 }
 
 const CreateChoreScreen: React.FC<Props> = ({route}) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const focusFamily = useSelector(focusFamilySelector);
+  const {isOpen, onOpen, onClose} = useDisclose();
 
   const [title, setTitle] = useState('');
   const [deadline, setDeadline] = useState('');
-  const [status, setStatus] = useState<ChoreStatus | undefined>(undefined);
+  const [status, setStatus] = useState<ChoreStatus | undefined>(
+    ChoreStatus.IN_PROGRESS,
+  );
   const [repeat, setRepeat] = useState<RepeatType | undefined>(undefined);
   const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
   const [description, setDescription] = useState('');
   const [visibleDatePicker, setVisibleDatePicker] = useState(false);
+  const [selectedPhotos, setSelectedPhotos] = useState<
+    {uri: string; base64: string}[]
+  >([]);
+  const dateNow = new Date();
 
-  // // Life Cycle
-  // useEffect(() => {
-  //   if (route.params.familyId) {
-  //     dispatch(
-  //       getFamilyMembersRequestAction({
-  //         familyId: route.params.familyId,
-  //       }),
-  //     );
-  //   }
-  // }, []);
   useEffect(() => {
     if (route && route.params) {
       setTimeout(() => {
@@ -52,6 +68,15 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
         }
         if (route.params.selectedRepeat) {
           setRepeat(route.params.selectedRepeat);
+        }
+        if (route.params.thumbnailUri && route.params.thumbnailBase64) {
+          setSelectedPhotos([
+            ...selectedPhotos,
+            {
+              uri: route.params.thumbnailUri,
+              base64: route.params.thumbnailBase64,
+            },
+          ]);
         }
       }, 500);
     }
@@ -88,9 +113,9 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   };
 
   const onPressAssign = () => {
-    if (route.params.familyId) {
+    if (!isNull(focusFamily?.id)) {
       navigate(ScreenName.MembersPickerScreen, {
-        familyId: route.params.familyId,
+        familyId: focusFamily?.id,
       });
     }
   };
@@ -100,7 +125,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   };
 
   // Assignee Item
-  const renderItem = ({item}: {item: any}) => {
+  const renderSelectedMember = ({item}: {item: MemberType}) => {
     return (
       <AvatarContainer>
         <Avatar source={{uri: item.avatar}} />
@@ -108,14 +133,95 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
     );
   };
 
+  const onPressAddPhoto = () => {
+    onOpen();
+  };
+  const renderSelectedPhoto = ({item}: {item: any}) => {
+    const onPressContainer = () => {
+      setSelectedPhotos(
+        selectedPhotos.filter(photo => {
+          return photo.uri !== item.uri;
+        }),
+      );
+    };
+    return (
+      <PhotoContainer onPress={onPressContainer}>
+        <Avatar source={{uri: item.uri}} />
+        <KickPhotoIcon source={clearIcon} />
+      </PhotoContainer>
+    );
+  };
+
+  // ActionSheet
+  const takePhoto = () => {
+    onClose();
+    navigate(ScreenName.CameraScreen, {fromCreateChore: true});
+  };
+  const chooseFromGallery = () => {
+    onClose();
+    ImageCropPicker.openPicker({
+      multiple: true,
+      mediaType: 'photo',
+      includeBase64: true,
+      maxFiles: 5,
+      width: Constants.FAMILY_THUMBNAIL_WIDTH,
+      height: Constants.FAMILY_THUMBNAIL_HEIGHT,
+    }).then(cropped => {
+      const unique = new Set<{uri: string; base64: string}>(
+        cropped.map((item, index) => {
+          return {
+            uri: item.path ?? '',
+            base64: item.data ?? '',
+          };
+        }),
+      );
+      selectedPhotos.forEach(item => {
+        unique.add(item);
+      });
+      const result: {uri: string; base64: string}[] = [];
+      unique.forEach(item => {
+        result.push(item);
+      });
+      setSelectedPhotos(result);
+    });
+  };
+
   // Submit
   const onCreateChore = () => {
-    console.log({title});
-    console.log({deadline});
-    console.log({status});
-    console.log({repeat});
-    console.log({selectedMembers});
-    console.log({description});
+    console.log({
+      familyId: focusFamily?.id,
+      status: status,
+      title: title,
+      description: description,
+      deadline: deadline,
+      assigneeIds: selectedMembers.map((item, index) => {
+        return item.id;
+      }),
+      photos: selectedPhotos.map((item, index) => {
+        if (index < 5) {
+          return item.base64;
+        }
+      }),
+    });
+    if (!isNull(focusFamily?.id)) {
+      dispatch(
+        createChoreRequestAction({
+          familyId: focusFamily?.id,
+          status: status,
+          title: title,
+          description: description,
+          deadline: deadline,
+          assigneeIds: selectedMembers.map((item, index) => {
+            return item.id;
+          }),
+          photos: selectedPhotos.map((item, index) => {
+            if (index < 5) {
+              return item.base64;
+            }
+          }),
+        }),
+      );
+    }
   };
   return (
     <SafeView>
@@ -142,10 +248,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
           contentContainerStyle={styles.scroll}>
           {/* Title */}
           <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
-            <FormControl.Label
-              _text={{color: colors.DANUBE, fontSize: 'sm', fontWeight: 500}}>
-              {`${i18n.t('chores.title')}* :`}
-            </FormControl.Label>
+            <Label>{`${i18n.t('chores.title')}* :`}</Label>
             <Input
               mt={-1}
               height={50}
@@ -158,11 +261,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             />
 
             {/* Deadline */}
-            <FormControl.Label
-              mt={8}
-              _text={{color: colors.DANUBE, fontSize: 'sm', fontWeight: 500}}>
-              {`${i18n.t('chores.deadline')}:`}
-            </FormControl.Label>
+            <Label>{`${i18n.t('chores.deadline')}:`}</Label>
             <Button
               variant="outline"
               height={50}
@@ -193,30 +292,39 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
           </FormControl>
 
           {/* Assignees */}
-          <FormControl mt={8}>
-            <FormControl.Label
-              ml={8}
-              _text={{color: colors.DANUBE, fontSize: 'sm', fontWeight: 500}}>
-              {`${i18n.t('chores.assign')}:`}
-            </FormControl.Label>
+          <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
+            <Label>{`${i18n.t('chores.assign')}:`}</Label>
             <FlatList
               horizontal={true}
               scrollEnabled={true}
-              renderItem={renderItem}
+              renderItem={renderSelectedMember}
               data={selectedMembers}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.listAssignees}
               keyExtractor={(item, index) => index.toString()}
             />
-          </FormControl>
 
-          {/* Description */}
-          <FormControl mt={8} width={`${Constants.MAX_WIDTH - 60}px`}>
-            <FormControl.Label
-              _text={{color: colors.DANUBE, fontSize: 'sm', fontWeight: 500}}>
-              {`${i18n.t('chores.description')}:`}
-            </FormControl.Label>
+            {/* Photos */}
+            <Box flexDirection="row" justifyContent="space-between">
+              <Label>{`${i18n.t('chores.photo')}:`}</Label>
+              <PrimaryButton
+                leftIconWidth={18}
+                leftIconHeight={18}
+                leftSource={plusIcon}
+                leftTintColor={colors.THEME_COLOR_7}
+                onPress={onPressAddPhoto}
+              />
+            </Box>
+            <FlatList
+              horizontal
+              data={selectedPhotos}
+              renderItem={renderSelectedPhoto}
+              keyExtractor={(item, index) => index.toString()}
+            />
+
+            {/* Description */}
+            <Label>{`${i18n.t('chores.description')}:`}</Label>
             <Input
               multiline
               height={150}
@@ -236,7 +344,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               size="lg"
               borderRadius={28}
               onPress={onCreateChore}
-              disabled={isNull(title)}
+              disabled={isNull(title) || isNull(deadline)}
               _text={{color: colors.WHITE}}>
               {i18n.t('chores.done')}
             </Button>
@@ -247,12 +355,26 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             mode="date"
             locale={i18n.locale}
             open={visibleDatePicker}
-            date={new Date()}
-            maximumDate={new Date()}
+            minimumDate={dateNow}
+            date={dateNow}
             textColor={colors.BLACK}
             onDateChange={onDatePickerChange}
             onConfirm={onConfirmDatePicker}
             onCancel={onCloseDatePicker}
+          />
+          <PrimaryActionSheet
+            isOpen={isOpen}
+            onClose={onClose}
+            items={[
+              {
+                title: i18n.t('popUp.takePhoto'),
+                onPress: takePhoto,
+              },
+              {
+                title: i18n.t('popUp.chooseFromGallery'),
+                onPress: chooseFromGallery,
+              },
+            ]}
           />
         </Content>
       </Container>
@@ -272,7 +394,17 @@ const Container = styled.TouchableWithoutFeedback`
 
 const Content = styled.ScrollView``;
 
+const Label = styled(fonts.PrimaryFontMediumSize14)`
+  margin-top: 14px;
+  margin-bottom: 10px;
+  color: ${colors.DANUBE};
+`;
+
 const AvatarContainer = styled.View`
+  margin-right: 12px;
+`;
+
+const PhotoContainer = styled.TouchableOpacity`
   margin-right: 12px;
 `;
 
@@ -294,6 +426,17 @@ const ItemName = styled(fonts.PrimaryFontRegularSize16)`
 const ArrowIcon = styled(PrimaryIcon)`
   right: 10px;
   position: absolute;
+`;
+
+const KickPhotoIcon = styled.Image`
+  width: 16px;
+  right: -2px;
+  bottom: 0px;
+  height: 16px;
+  border-radius: 8px;
+  position: absolute;
+  tint-color: #c0c0c0;
+  background-color: #ffffff;
 `;
 
 const styles = StyleSheet.create({

@@ -13,21 +13,30 @@ export function createChoreApi(
   accessToken?: string,
   body?: CreateChoreRequestType,
 ) {
-  return new apiProvider(accessToken).post(`${BASE_URL}`, body);
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/chores/new_chore`,
+    body,
+  );
 }
 
 export function updateChoreApi(
   accessToken?: string,
   body?: UpdateChoreRequestType,
 ) {
-  return new apiProvider(accessToken).post(`${BASE_URL}`, body);
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/chores/update_chore`,
+    body,
+  );
 }
 
 export function deleteChoreApi(
   accessToken?: string,
   body?: DeleteChoreRequestType,
 ) {
-  return new apiProvider(accessToken).post(`${BASE_URL}`, body);
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/chores/delete_chore`,
+    body,
+  );
 }
 
 export function getChoresApi(
@@ -45,7 +54,7 @@ export function getChoresApi(
     }
   }
   return new apiProvider(accessToken).post(
-    `${BASE_URL}?page=${page}&size=${size}`,
+    `${BASE_URL}/chores?page=${page}&size=${size}`,
     body,
   );
 }
@@ -54,5 +63,8 @@ export function getChorePhotosApi(
   accessToken?: string,
   body?: GetChorePhotosRequestType,
 ) {
-  return new apiProvider(accessToken).post(`${BASE_URL}`, body);
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/chores/get_chore_photos`,
+    body,
+  );
 }

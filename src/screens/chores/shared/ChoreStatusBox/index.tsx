@@ -72,11 +72,11 @@ const StatusButton = styled(PrimaryButton)<{
   backgroundColor: string;
 }>`
   width: 80px;
-  height: 28px;
+  height: 32px;
   margin-right: 10px;
   border-radius: 16px;
   border-color: ${colors.BLACK};
-  border-width: ${props => (props.isChosen ? 3 : 0)}px;
+  border-width: ${props => (props.isChosen ? 4 : 0)}px;
   background-color: ${props => props.backgroundColor};
 `;
 

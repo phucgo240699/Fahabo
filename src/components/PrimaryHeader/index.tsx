@@ -14,12 +14,14 @@ const searchBarWidth = Constants.MAX_WIDTH - 90;
 
 interface Props {
   title?: string;
+  text: string;
   onChangeText?: (text: string) => void;
   onPressPlus?: () => void;
 }
 
 const PrimaryHeader: React.FC<Props> = ({
   title = i18n.t('application.fahabo'),
+  text,
   onChangeText,
   onPressPlus,
 }) => {
@@ -117,7 +119,7 @@ const PrimaryHeader: React.FC<Props> = ({
 
       {isSearching && (
         <SearchBarLayer style={{width: searchBarWidthAnim}}>
-          <SearchBar onChangeText={onChangeText} />
+          <SearchBar text={text} onChangeText={onChangeText} />
         </SearchBarLayer>
       )}
       {isSearching && (

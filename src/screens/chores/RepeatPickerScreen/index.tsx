@@ -14,6 +14,7 @@ import {FlatList} from 'native-base';
 import PrimaryButton from '@components/PrimaryButton';
 import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
 interface Props {
   route?: any;
@@ -51,6 +52,11 @@ const RepeatPickerScreen: React.FC<Props> = ({route}) => {
 
   return (
     <SafeView>
+      <FocusAwareStatusBar
+        barStyle="dark-content"
+        backgroundColor={colors.WHITE}
+        translucent
+      />
       <ProfileHeader
         title={i18n.t('chores.repeat')}
         rightComponent={
@@ -75,6 +81,7 @@ const RepeatPickerScreen: React.FC<Props> = ({route}) => {
 const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.WHITE};
+  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
 `;
 
 const ItemContainer = styled.TouchableOpacity`
