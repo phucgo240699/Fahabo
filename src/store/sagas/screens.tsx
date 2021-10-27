@@ -4,6 +4,7 @@ import {getChoresApi} from '@services/chores';
 import {getFamilyMembersApi, getMyFamiliesApi} from '@services/family';
 import {getChoresSuccessAction} from '@store/actionTypes/chores';
 import {
+  getChoreFilterMembersSuccessAction,
   getFamiliesSuccessAction,
   getFamilyMembersSuccessAction,
   updateFocusFamilySuccessAction,
@@ -50,7 +51,7 @@ function* getHomeScreenDataSaga(action: AnyAction) {
       ]);
       if (
         (choresResponse as any).status === 200 &&
-        (choresResponse as any).status === 200
+        (membersResponse as any).status === 200
       ) {
         yield* all([
           put(
@@ -60,6 +61,11 @@ function* getHomeScreenDataSaga(action: AnyAction) {
           ),
           put(
             getFamilyMembersSuccessAction(
+              parseMembers(parseDataResponse(membersResponse)),
+            ),
+          ),
+          put(
+            getChoreFilterMembersSuccessAction(
               parseMembers(parseDataResponse(membersResponse)),
             ),
           ),

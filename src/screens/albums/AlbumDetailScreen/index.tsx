@@ -131,7 +131,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
         backgroundColor={colors.WHITE}
       />
       <ProfileHeader
-        title={album.title}
+        title={album.index === 0 ? i18n.t('album.general') : album.title}
         rightComponent={
           <Box flexDirection={'row'}>
             <ChooseButton

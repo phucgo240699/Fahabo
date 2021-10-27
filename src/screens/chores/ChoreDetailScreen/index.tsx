@@ -58,7 +58,7 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
   };
 
   return (
-    <SafeView>
+    <SafeView backgroundColor={getChoreStatusColor(detail.status)}>
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
@@ -108,10 +108,10 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
   );
 };
 
-const SafeView = styled.SafeAreaView`
+const SafeView = styled.SafeAreaView<{backgroundColor: string}>`
   flex: 1;
   margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
-  background-color: ${colors.THEME_COLOR_4};
+  background-color: ${props => props.backgroundColor};
 `;
 
 const Banner = styled.View<{backgroundColor: string}>`

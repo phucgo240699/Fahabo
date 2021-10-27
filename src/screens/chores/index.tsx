@@ -150,11 +150,12 @@ const ChoresScreen: React.FC<Props> = ({}) => {
             renderHiddenItem={(data, rowMap) => (
               <Box
                 mt={2}
-                mr={30}
+                mr={31}
                 height={'100%'}
                 flexDirection="row"
                 alignItems="center"
-                justifyContent="flex-end">
+                justifyContent="flex-end"
+                backgroundColor={colors.WHITE}>
                 <SwipeUpdateButton
                   onPress={onPressUpdate}
                   leftTintColor={'#ffffff'}

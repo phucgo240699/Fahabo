@@ -28,6 +28,7 @@ import {
   isRefreshingAlbumsSelector,
 } from '@store/selectors/session';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
+import {AlbumType} from '@constants/types/albums';
 
 const itemHeight = (Constants.MAX_WIDTH - 36) / 2;
 const itemWidth = (Constants.MAX_WIDTH - 36) / 2;
@@ -149,7 +150,7 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
     navigate(ScreenName.AlbumDetailScreen, {album: item});
   };
 
-  const renderItem = ({item}: {item: any}) => {
+  const renderItem = ({item}: {item: AlbumType}) => {
     return (
       <AlbumItem
         item={item}

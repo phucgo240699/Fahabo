@@ -9,9 +9,10 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {isNull} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import PrimaryIcon from '@components/PrimaryIcon';
+import {AlbumType} from '@constants/types/albums';
 
 interface Props {
-  item: any;
+  item: AlbumType;
   maxWidth: number;
   maxHeight: number;
   onPress?: (item: any) => void;
@@ -49,7 +50,7 @@ const AlbumItem: React.FC<Props> = ({
   return (
     <Box mt={2} mr={4} width={maxWidth}>
       <TouchableOpacity activeOpacity={0.8} onPress={onPressTouchable}>
-        {isNull(item.uri) ? (
+        {/* {isNull(item.uri) ? (
           <Image
             borderRadius={8}
             width={maxWidth}
@@ -65,9 +66,16 @@ const AlbumItem: React.FC<Props> = ({
             source={{uri: item.uri}}
             alt={i18n.t('application.loading')}
           />
-        )}
+        )} */}
+        <Image
+          borderRadius={8}
+          width={maxWidth}
+          height={maxHeight}
+          source={placeholderImage}
+          alt={i18n.t('application.loading')}
+        />
       </TouchableOpacity>
-      <Title>{item.isDefault ? i18n.t('album.general') : item.title}</Title>
+      <Title>{item.index === 0 ? i18n.t('album.general') : item.title}</Title>
       <TotalNumber>{item.totalPhotos}</TotalNumber>
       <Menu
         width={160}

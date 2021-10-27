@@ -27,17 +27,17 @@ import {all, call, delay, put, select, takeLeading} from 'typed-redux-saga';
 import {
   createFamilySuccessAction,
   CREATE_FAMILY_REQUEST,
+  getChoreFilterMembersSuccessAction,
   getFamiliesRequestAction,
   getFamiliesSuccessAction,
   getFamilyDetailSuccessAction,
   getFamilyMembersRequestAction,
   getFamilyMembersSuccessAction,
+  GET_CHORE_FILTER_MEMBERS_REQUEST,
   GET_FAMILIES_REQUEST,
   GET_FAMILY_DETAIL_REQUEST,
   GET_FAMILY_MEMBERS_REQUEST,
-  GET_REFRESH_FAMILIES_REQUEST,
   GET_REFRESH_FAMILY_DETAIL_REQUEST,
-  GET_REFRESH_FAMILY_MEMBERS_REQUEST,
   joinFamilySuccessAction,
   JOIN_FAMILY_REQUEST,
   KICK_FAMILY_MEMBER_REQUEST,
@@ -52,6 +52,7 @@ import {
 import {
   CreateFamilyRequestType,
   FamilyType,
+  GetChoreFilterMembersRequestType,
   GetFamilyDetailRequestType,
   GetFamilyMembersRequestType,
   GetMyFamiliesRequestType,
@@ -287,6 +288,9 @@ function* getFamiliesSaga({
     if (body.showHUD === true) {
       yield* put(showHUDAction());
     }
+    if (body.refresh === true) {
+      yield* put(updateIsRefreshingFamiliesAction(true));
+    }
     if (body.loadMore === true) {
       yield* put(updateIsLoadingFamiliesAction(true));
     }
@@ -319,34 +323,12 @@ function* getFamiliesSaga({
     if (body.showHUD === true) {
       yield* put(closeHUDAction());
     }
+    if (body.refresh === true) {
+      yield* put(updateIsRefreshingFamiliesAction(false));
+    }
     if (body.loadMore === true) {
       yield* put(updateIsLoadingFamiliesAction(false));
     }
-  }
-}
-
-function* getRefreshFamiliesSaga(action: AnyAction) {
-  try {
-    yield* put(updateIsRefreshingFamiliesAction(true));
-    const response = yield* apiProxy(getMyFamiliesApi);
-    if (response.status === 200) {
-      yield* put(
-        getFamiliesSuccessAction(parseFamilies(parseDataResponse(response))),
-      );
-    } else {
-      yield* put(
-        showToastAction(
-          i18n.t(`backend.${parseErrorResponse(response)}`),
-          ToastType.ERROR,
-        ),
-      );
-    }
-  } catch (error) {
-    yield* put(
-      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
-    );
-  } finally {
-    yield* put(updateIsRefreshingFamiliesAction(false));
   }
 }
 
@@ -424,6 +406,10 @@ function* getFamilyMembersSaga({
     if (body.showHUD === true) {
       yield* put(showHUDAction());
     }
+    if (body.refresh === true) {
+
+    yield* put(updateIsRefreshingFamilyMembersAction(true));
+    }
     if (body.loadMore === true) {
       yield* put(updateIsLoadingFamilyMembersAction(true));
     }
@@ -460,24 +446,29 @@ function* getFamilyMembersSaga({
     if (body.showHUD === true) {
       yield* put(closeHUDAction());
     }
+    if (body.refresh === true) {
+      yield* put(updateIsRefreshingFamilyMembersAction(false));
+    }
     if (body.loadMore === true) {
       yield* put(updateIsLoadingFamilyMembersAction(false));
     }
   }
 }
 
-function* getRefreshFamilyMembersSaga({
+function* getChoreFilterMembersSaga({
   body,
 }: {
   type: string;
-  body: GetFamilyMembersRequestType;
+  body: GetChoreFilterMembersRequestType;
 }) {
   try {
-    yield* put(updateIsRefreshingFamilyMembersAction(true));
+    if (body.showHUD === true) {
+      yield* put(showHUDAction());
+    }
     const response = yield* apiProxy(getFamilyMembersApi, body);
     if (response.status === 200) {
       yield* put(
-        getFamilyMembersSuccessAction(
+        getChoreFilterMembersSuccessAction(
           parseMembers(parseDataResponse(response)),
         ),
       );
@@ -494,7 +485,9 @@ function* getRefreshFamilyMembersSaga({
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
   } finally {
-    yield* put(updateIsRefreshingFamilyMembersAction(false));
+    if (body.showHUD === true) {
+      yield* put(closeHUDAction());
+    }
   }
 }
 
@@ -518,14 +511,10 @@ export default function* () {
     takeLeading(UPDATE_FAMILY_INFO_REQUEST, updateFamilyInfoSaga),
     takeLeading(UPDATE_FAMILY_THUMBNAIL_REQUEST, updateFamilyThumbnailSaga),
     takeLeading(GET_FAMILIES_REQUEST, getFamiliesSaga),
-    takeLeading(GET_REFRESH_FAMILIES_REQUEST, getRefreshFamiliesSaga),
     takeLeading(GET_FAMILY_DETAIL_REQUEST, getFamilyDetailSage),
     takeLeading(GET_REFRESH_FAMILY_DETAIL_REQUEST, getRefreshFamilyDetailSage),
     takeLeading(GET_FAMILY_MEMBERS_REQUEST, getFamilyMembersSaga),
-    takeLeading(
-      GET_REFRESH_FAMILY_MEMBERS_REQUEST,
-      getRefreshFamilyMembersSaga,
-    ),
+    takeLeading(GET_CHORE_FILTER_MEMBERS_REQUEST, getChoreFilterMembersSaga),
     takeLeading(UPDATE_FOCUS_FAMILY_REQUEST, updateFocusFamilySaga),
   ]);
 }

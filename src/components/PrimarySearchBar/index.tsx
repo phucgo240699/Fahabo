@@ -30,8 +30,6 @@ const PrimarySearchBar: React.FC<Props> = ({
   onSubmitText,
   ...otherProps
 }) => {
-  const ref = useRef<any>();
-
   const onClearText = () => {
     onUpdateText('');
   };
@@ -43,7 +41,7 @@ const PrimarySearchBar: React.FC<Props> = ({
   };
   const onSubmitEditing = () => {
     if (onSubmitText) {
-      onSubmitText(ref.current.value);
+      onSubmitText(text);
     }
   };
 
@@ -57,7 +55,6 @@ const PrimarySearchBar: React.FC<Props> = ({
       {...otherProps}>
       <Input
         py={2}
-        ref={ref}
         height={10}
         value={text}
         borderRadius={10}

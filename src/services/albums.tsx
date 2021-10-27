@@ -114,5 +114,8 @@ export function getPreviewAlbumApi(
   accessToken?: string,
   body?: GetPreviewAlbumRequestType,
 ) {
-  return new apiProvider(accessToken).post(`${BASE_URL}`, body);
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/albums/preview_album`,
+    body,
+  );
 }

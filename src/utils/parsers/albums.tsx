@@ -2,20 +2,22 @@ import {get} from 'lodash/fp';
 import {AlbumType, PhotoType} from '@constants/types/albums';
 
 export function parseAlbums(rawData: any[]): AlbumType[] {
-  const result: AlbumType[] = rawData.map(item => {
-    return parseAlbum(item);
+  const result: AlbumType[] = rawData.map((item, index) => {
+    return parseAlbum({...item, index: index});
   });
   return result;
 }
 
 export function parseAlbum(rawData: any): AlbumType {
   const id = get('id', rawData);
+  const index = get('index', rawData);
   const title = get('title', rawData);
   const description = get('description', rawData);
   const totalPhotos = get('totalPhotos', rawData);
 
   return {
     id,
+    index,
     title,
     description,
     totalPhotos,

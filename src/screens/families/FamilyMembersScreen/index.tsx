@@ -15,10 +15,7 @@ import {
   isLoadingFamilyMembersSelector,
   isRefreshingFamilyMembersSelector,
 } from '@store/selectors/session';
-import {
-  getFamilyMembersRequestAction,
-  getRefreshFamilyMembersRequestAction,
-} from '@store/actionTypes/family';
+import {getFamilyMembersRequestAction} from '@store/actionTypes/family';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 
 interface Props {
@@ -52,7 +49,10 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
     if (isRefreshing === false) {
       setPageIndex(0);
       dispatch(
-        getRefreshFamilyMembersRequestAction({familyId: route.params.familyId}),
+        getFamilyMembersRequestAction({
+          refresh: true,
+          familyId: route.params.familyId,
+        }),
       );
     }
   };

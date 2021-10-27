@@ -26,7 +26,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   getFamilyMembersRequestAction,
   getFamilyMembersSuccessAction,
-  getRefreshFamilyMembersRequestAction,
   kickFamilyMemberRequestAction,
   leaveFamilyRequestAction,
   updateFamilyInfoRequestAction,
@@ -87,7 +86,10 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const onRefreshingFamilyDetail = () => {
     if (isRefreshingMembers === false) {
       dispatch(
-        getRefreshFamilyMembersRequestAction({familyId: familyDetail?.id}),
+        getFamilyMembersRequestAction({
+          refresh: true,
+          familyId: familyDetail?.id,
+        }),
       );
     }
   };

@@ -45,7 +45,9 @@ const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
         setThumbnailBase64(route.params.thumbnailBase64);
       }
       if (route.params.showCreationModal === true) {
-        setShowCreationModal(true);
+        setTimeout(() => {
+          setShowCreationModal(true);
+        });
       }
     }
   }, [route]);

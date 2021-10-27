@@ -3,14 +3,23 @@ import fonts from '@themes/fonts';
 import {Box} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {useSelector} from 'react-redux';
-import {membersInFamilySelector} from '@store/selectors/family';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  choreFilterMembersSelector,
+  focusFamilySelector,
+  membersInFamilySelector,
+} from '@store/selectors/family';
 import {MemberType} from '@constants/types/family';
 import HorizontalMemberItem from '@screens/families/shared/HorizontalMemberItem';
 import i18n from '@locales/index';
 import ChoreStatusBox from '../ChoreStatusBox';
 import {ChoreStatus} from '@constants/types/chores';
 import PrimarySearchBar from '@components/PrimarySearchBar';
+import {isNull} from '@utils/index';
+import {
+  getChoreFilterMembersRequestAction,
+  getFamilyMembersRequestAction,
+} from '@store/actionTypes/family';
 
 interface Props {
   selectedMember?: MemberType;
@@ -25,11 +34,25 @@ const ChoreFilterBox: React.FC<Props> = ({
   onPressMember,
   onPressStatus,
 }) => {
+  const dispatch = useDispatch();
+  const members = useSelector(choreFilterMembersSelector);
+  const focusFamily = useSelector(focusFamilySelector);
   const [searchMemberName, setSearchMemberName] = useState('');
-  const membersInFamily = useSelector(membersInFamilySelector);
 
   const onChangeMemberName = (text: string) => {
     setSearchMemberName(text);
+  };
+
+  const onSubmitMemberName = (text: string) => {
+    if (!isNull(text) && !isNull(focusFamily?.id)) {
+      dispatch(
+        getChoreFilterMembersRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          searchText: text,
+        }),
+      );
+    }
   };
 
   return (
@@ -38,31 +61,28 @@ const ChoreFilterBox: React.FC<Props> = ({
       <PrimarySearchBar
         text={searchMemberName}
         onChangeText={onChangeMemberName}
+        onSubmitText={onSubmitMemberName}
       />
       <Box
         flexDirection={'row'}
         justifyContent={'space-between'}
         flexWrap={'wrap'}>
-        {membersInFamily
-          .filter(item => {
-            return item.name?.includes(searchMemberName);
-          })
-          .map((item, index) => {
-            if (index < 10) {
-              return (
-                <HorizontalMemberItem
-                  key={index}
-                  item={item}
-                  size={'small'}
-                  pickerMode={true}
-                  isPicked={item.id === selectedMember?.id}
-                  onPress={onPressMember}
-                />
-              );
-            } else {
-              return null;
-            }
-          })}
+        {members.map((item, index) => {
+          if (index < 10) {
+            return (
+              <HorizontalMemberItem
+                key={index}
+                item={item}
+                size={'small'}
+                pickerMode={true}
+                isPicked={item.id === selectedMember?.id}
+                onPress={onPressMember}
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
       </Box>
       <ChoreStatusBox status={selectedStatus} onChangeStatus={onPressStatus} />
     </Box>

@@ -5,6 +5,7 @@ import {
   GET_FAMILY_DETAIL_SUCCESS,
   GET_FAMILY_MEMBERS_SUCCESS,
   JOIN_FAMILY_SUCCESS,
+  GET_CHORE_FILTER_MEMBERS_SUCCESS,
   UPDATE_FAMILY_INFO_SUCCESS,
   UPDATE_FAMILY_THUMBNAIL_SUCCESS,
   UPDATE_FOCUS_FAMILY_SUCCESS,
@@ -16,6 +17,7 @@ export type FamilyState = {
   families: FamilyType[];
   familyDetail?: FamilyType;
   membersInFamily: MemberType[];
+  choreFilterMembers: MemberType[];
   focusFamily?: FamilyType;
 };
 
@@ -23,6 +25,7 @@ const defaultState: FamilyState = {
   families: [],
   familyDetail: undefined,
   membersInFamily: [],
+  choreFilterMembers: [],
   focusFamily: undefined,
 };
 
@@ -61,6 +64,11 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
         ...state,
         membersInFamily: action.payload,
       };
+    case GET_CHORE_FILTER_MEMBERS_SUCCESS:
+      return {
+        ...state,
+        choreFilterMembers: action.payload,
+      };
     case UPDATE_FOCUS_FAMILY_SUCCESS:
       return {
         ...state,
@@ -72,6 +80,7 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
         families: [],
         familyDetail: undefined,
         membersInFamily: [],
+        choreFilterMembers: [],
         focusFamily: undefined,
       };
     default:

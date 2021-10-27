@@ -1,6 +1,7 @@
 import {
   CreateFamilyRequestType,
   FamilyType,
+  GetChoreFilterMembersRequestType,
   GetFamilyDetailRequestType,
   GetFamilyMembersRequestType,
   GetMyFamiliesRequestType,
@@ -83,10 +84,6 @@ export const updateFamilyInfoSuccessAction = (payload: FamilyType) => ({
 });
 
 // Get Families
-export const GET_REFRESH_FAMILIES_REQUEST = 'GET_REFRESH_FAMILIES_REQUEST';
-export const getRefreshFamiliesRequestAction = () => ({
-  type: GET_REFRESH_FAMILIES_REQUEST,
-});
 export const GET_FAMILIES_REQUEST = 'GET_FAMILIES_REQUEST';
 export const getFamiliesRequestAction = (body: GetMyFamiliesRequestType) => ({
   type: GET_FAMILIES_REQUEST,
@@ -121,14 +118,6 @@ export const getFamilyDetailSuccessAction = (payload?: FamilyType) => ({
 });
 
 // Get Members
-export const GET_REFRESH_FAMILY_MEMBERS_REQUEST =
-  'GET_REFRESH_FAMILY_MEMBERS_REQUEST';
-export const getRefreshFamilyMembersRequestAction = (
-  body: GetFamilyMembersRequestType,
-) => ({
-  type: GET_REFRESH_FAMILY_MEMBERS_REQUEST,
-  body,
-});
 export const GET_FAMILY_MEMBERS_REQUEST = 'GET_FAMILY_MEMBERS_REQUEST';
 export const getFamilyMembersRequestAction = (
   body: GetFamilyMembersRequestType,
@@ -139,6 +128,21 @@ export const getFamilyMembersRequestAction = (
 export const GET_FAMILY_MEMBERS_SUCCESS = 'GET_FAMILY_MEMBERS_SUCCESS';
 export const getFamilyMembersSuccessAction = (payload: MemberType[]) => ({
   type: GET_FAMILY_MEMBERS_SUCCESS,
+  payload,
+});
+export const GET_CHORE_FILTER_MEMBERS_REQUEST =
+  'GET_CHORE_FILTER_MEMBERS_REQUEST';
+export const getChoreFilterMembersRequestAction = (
+  body: GetChoreFilterMembersRequestType,
+) => ({
+  type: GET_CHORE_FILTER_MEMBERS_REQUEST,
+  body,
+});
+
+export const GET_CHORE_FILTER_MEMBERS_SUCCESS =
+  'GET_CHORE_FILTER_MEMBERS_SUCCESS';
+export const getChoreFilterMembersSuccessAction = (payload: MemberType[]) => ({
+  type: GET_CHORE_FILTER_MEMBERS_SUCCESS,
   payload,
 });
 

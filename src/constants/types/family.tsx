@@ -25,14 +25,23 @@ export type KickFamilyMemberRequestType = {
 
 export type GetFamilyMembersRequestType = {
   showHUD?: boolean;
+  refresh?: boolean;
   loadMore?: boolean;
   familyId?: number;
+  searchText?: string;
   page?: number;
   size?: number;
 };
 
+export type GetChoreFilterMembersRequestType = {
+  showHUD?: boolean;
+  familyId?: number;
+  searchText?: string;
+};
+
 export type GetMyFamiliesRequestType = {
   showHUD?: boolean;
+  refresh?: boolean;
   loadMore?: boolean;
   searchText?: string;
   page?: number;

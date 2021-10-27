@@ -13,7 +13,6 @@ import {familiesSelector} from '@store/selectors/family';
 import {
   createFamilyRequestAction,
   getFamiliesRequestAction,
-  getRefreshFamiliesRequestAction,
 } from '@store/actionTypes/family';
 import {isNull} from '@utils/index';
 import PrimaryIcon from '@components/PrimaryIcon';
@@ -79,7 +78,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   const onRefreshFamilies = () => {
     if (isRefreshing === false) {
       setPageIndex(0);
-      dispatch(getRefreshFamiliesRequestAction());
+      dispatch(getFamiliesRequestAction({refresh: true}));
     }
   };
   const onLoadMore = () => {
@@ -249,42 +248,9 @@ const SafeView = styled.SafeAreaView`
   background-color: ${colors.WHITE};
 `;
 
-const Label = styled(fonts.PrimaryFontBoldSize14)`
-  margin-top: 20px;
-`;
-
-const ScrollView = styled.ScrollView`
-  padding-left: 30px;
-  padding-right: 30px;
-`;
-
-const HLine = styled.View`
-  width: 80%;
-  height: 1px;
-  background-color: ${colors.CONCRETE};
-`;
-
-const CameraIcon = styled(PrimaryIcon)`
-  border-radius: 30px;
-  background-color: ${colors.SILVER};
-`;
-
-const ThumbnailContainer = styled.TouchableOpacity`
-  width: 320px;
-  height: 200px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Thumbnail = styled.Image`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  border-radius: 10px;
-`;
-
 const styles = StyleSheet.create({
   list: {
+    paddingTop: 10,
     paddingBottom: 30,
   },
 });

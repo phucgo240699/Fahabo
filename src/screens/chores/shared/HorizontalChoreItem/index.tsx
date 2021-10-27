@@ -44,9 +44,7 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   };
 
   return (
-    <Touch
-      onPress={onPressTouch}
-      activeOpacity={Platform.OS === 'ios' ? 0.6 : 1.0}>
+    <Touch onPress={onPressTouch} activeOpacity={1.0}>
       <Container>
         <Title numberOfLines={2}>{item.title}</Title>
         <Deadline numberOfLines={1}>{item.deadline}</Deadline>

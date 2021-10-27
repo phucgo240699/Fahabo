@@ -21,6 +21,7 @@ export type GetAlbumsRequestType = {
   refresh?: boolean;
   loadMore?: boolean;
   familyId?: number;
+  searchText?: string;
   page?: number;
   size?: number;
 };
@@ -61,6 +62,7 @@ export type GetPreviewAlbumRequestType = {
 //
 export type AlbumType = {
   id?: number;
+  index?: number;
   title?: string;
   description?: string;
   totalPhotos?: number;
