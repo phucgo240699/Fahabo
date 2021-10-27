@@ -12,15 +12,16 @@ import {
 import {isNull} from '@utils/index';
 import {apiProvider} from './apiProvider';
 import {BASE_URL, Pagination} from '@constants/Constants';
+import * as RNLocalize from 'react-native-localize';
 
 export function createFamilyApi(
   accessToken?: string,
   body?: CreateFamilyRequestType,
 ) {
-  return new apiProvider(accessToken).post(
-    `${BASE_URL}/families/new_family`,
-    body,
-  );
+  return new apiProvider(accessToken).post(`${BASE_URL}/families/new_family`, {
+    ...body,
+    timezone: RNLocalize.getTimeZone(),
+  });
 }
 export function joinFamilyApi(
   accessToken?: string,

@@ -1,14 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Text,
-  Heading,
-  VStack,
-  Input,
-  Link,
-  Button,
-  HStack,
-  ScrollView,
-} from 'native-base';
+import React, {useEffect} from 'react';
+import {Text, Link, HStack, ScrollView} from 'native-base';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import {navigate} from '@navigators/index';
@@ -22,20 +13,16 @@ import {
 } from '@services/socialAuth';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import ThirdPartyAuthButton from '@components/ThirdPartyAuthButton';
 import {ScreenName} from '@constants/Constants';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {
   authFamilyBanner,
   appleIcon,
   facebookIcon,
   googleIcon,
-  orSeparator,
 } from '@constants/sources/index';
 import {useDispatch} from 'react-redux';
 import {signInRequestAction} from '@store/actionTypes/signIn';
-import {showToastAction} from '@store/actionTypes/session';
-import {ToastType} from '@constants/types/session';
 import SecondaryButton from '@components/SecondaryButton';
 import PrimaryIcon from '@components/PrimaryIcon';
 

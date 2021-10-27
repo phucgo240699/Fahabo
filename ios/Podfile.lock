@@ -490,6 +490,8 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController
+  - RNLocalize (2.1.5):
+    - React-Core
   - RNPermissions (3.0.5):
     - React-Core
   - RNQrGenerator (1.1.7):
@@ -583,6 +585,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNQrGenerator (from `../node_modules/rn-qr-generator`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -725,6 +728,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-google-signin/google-signin"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNQrGenerator:
@@ -816,6 +821,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNGoogleSignin: 1b18b300f4eccd0a121f19f204ce28d6e8fb4bb5
   RNImageCropPicker: 73891a709e6fd8a47d32104d942757971f220aee
+  RNLocalize: 13a971fd888f2933504a745983f781dc52feeab6
   RNPermissions: 7043bacbf928eae25808275cfe73799b8f618911
   RNQrGenerator: 86fb623932ed29627c6a95b8dc94af5e93d8abe1
   RNScreens: e5139736fcf67f4ddaa849d13a8adccbb0cedf81

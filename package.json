@@ -46,6 +46,7 @@
     "react-native-image-crop-picker": "^0.36.4",
     "react-native-image-picker": "^4.1.1",
     "react-native-image-viewing": "^0.2.0",
+    "react-native-localize": "^2.1.5",
     "react-native-pager-view": "^5.4.1",
     "react-native-permissions": "^3.0.5",
     "react-native-qrcode-scanner": "^1.5.4",

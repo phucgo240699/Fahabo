@@ -25,6 +25,7 @@ import {navigate} from '@navigators/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getFamilyMembersRequestAction,
+  getFamilyMembersSuccessAction,
   getRefreshFamilyMembersRequestAction,
   kickFamilyMemberRequestAction,
   leaveFamilyRequestAction,
@@ -61,6 +62,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   // Life Cycle
   useEffect(() => {
     if (!isNull(familyDetail?.id)) {
+      dispatch(getFamilyMembersSuccessAction([]));
       dispatch(
         getFamilyMembersRequestAction({
           showHUD: true,

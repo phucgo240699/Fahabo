@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Avatar, FlatList, ScrollView} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -17,8 +17,11 @@ import {AssigneeType, ChoreType} from '@constants/types/chores';
 import {getChoreStatusColor} from '@utils/chores';
 import {navigate} from '@navigators/index';
 import i18n from '@locales/index';
-import {PhotoType} from '@constants/types/albums';
-import PhotoItem from '@screens/albums/AlbumDetailScreen/PhotoItem';
+import {
+  getChorePhotosRequestAction,
+  getChorePhotosSuccessAction,
+} from '@store/actionTypes/chores';
+import {isNull} from '@utils/index';
 
 interface Props {
   route?: any;
@@ -30,30 +33,28 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
   const navigation = useNavigation();
   const chorePhotos = useSelector(chorePhotosSelector);
 
+  useEffect(() => {
+    if (!isNull(detail.id)) {
+      dispatch(getChorePhotosSuccessAction([]));
+      dispatch(
+        getChorePhotosRequestAction({showHUD: true, choreId: detail.id}),
+      );
+    }
+  }, []);
+
   const onPressBack = () => {
     navigation.dispatch(CommonActions.goBack());
   };
 
-  const onPressPhoto = (item: PhotoType) => {
+  const onPressPhoto = (index: number) => {
     navigate(ScreenName.ImageViewerScreen, {
       data: chorePhotos,
-      currentIndex: item.index,
+      currentIndex: index,
     });
   };
 
   const renderAssignee = ({item}: {item: AssigneeType}) => {
     return <Avatar mr={3} source={{uri: item.avatar}} />;
-  };
-
-  const renderPhoto = ({item}: {item: PhotoType}) => {
-    return (
-      <PhotoItem
-        item={item}
-        width={(Constants.MAX_WIDTH - 64) / 3}
-        height={(Constants.MAX_WIDTH - 64) / 3}
-        onPress={onPressPhoto}
-      />
-    );
   };
 
   return (
@@ -94,15 +95,12 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
             keyExtractor={(item, index) => index.toString()}
           />
 
-          <Label marginTop={30}>{`${i18n.t('chores.photo')}:`}</Label>
-          <FlatList
-            mt={1}
-            numColumns={3}
-            data={chorePhotos}
-            scrollEnabled={false}
-            renderItem={renderPhoto}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
+          <PreviewAlbumBox
+            hideViewAll={chorePhotos.length <= 9}
+            data={chorePhotos.filter((item, index) => {
+              return index < 9;
+            })}
+            onPressItem={onPressPhoto}
           />
         </Content>
       </ScrollView>

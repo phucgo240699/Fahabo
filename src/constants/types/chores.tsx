@@ -60,7 +60,11 @@ export type GetChoresRequestType = {
 
 export type GetChorePhotosRequestType = {
   showHUD?: boolean;
+  refresh?: boolean;
+  loadMore?: boolean;
   choreId?: number;
+  page?: number;
+  size?: number;
 };
 
 //

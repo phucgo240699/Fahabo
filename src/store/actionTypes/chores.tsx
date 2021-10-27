@@ -1,3 +1,4 @@
+import {PhotoType} from '@constants/types/albums';
 import {
   ChoreType,
   CreateChoreRequestType,
@@ -64,7 +65,7 @@ export const getChorePhotosRequestAction = (
   body,
 });
 export const GET_CHORE_PHOTOS_SUCCESS = 'GET_CHORE_PHOTOS_SUCCESS';
-export const getChorePhotosSuccessAction = (payload: ChoreType[]) => ({
+export const getChorePhotosSuccessAction = (payload: PhotoType[]) => ({
   type: GET_CHORE_PHOTOS_SUCCESS,
   payload,
 });

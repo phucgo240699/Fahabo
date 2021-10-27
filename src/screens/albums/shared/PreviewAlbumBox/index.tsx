@@ -10,12 +10,14 @@ import {PhotoType} from '@constants/types/albums';
 
 interface Props {
   data: PhotoType[];
+  hideViewAll?: boolean;
   onPressItem?: (index: number) => void;
   onPressViewAll?: () => void;
 }
 
 const ProfileAlbumBox: React.FC<Props> = ({
   data,
+  hideViewAll,
   onPressItem,
   onPressViewAll,
 }) => {
@@ -23,11 +25,13 @@ const ProfileAlbumBox: React.FC<Props> = ({
     <Container>
       <Header>
         <AlbumLabel>{i18n.t('profile.album')}</AlbumLabel>
-        <PrimaryButton
-          titleColor={colors.HYPER_LINK}
-          title={i18n.t('profile.viewAll')}
-          onPress={onPressViewAll}
-        />
+        {!hideViewAll && (
+          <PrimaryButton
+            titleColor={colors.HYPER_LINK}
+            title={i18n.t('profile.viewAll')}
+            onPress={onPressViewAll}
+          />
+        )}
       </Header>
       <Box
         flexDirection={'row'}

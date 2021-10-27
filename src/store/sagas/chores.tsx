@@ -1,6 +1,7 @@
 import {
   CreateChoreRequestType,
   DeleteChoreRequestType,
+  GetChorePhotosRequestType,
   GetChoresRequestType,
   UpdateChoreRequestType,
 } from '@constants/types/chores';
@@ -196,7 +197,7 @@ function* getChorePhotosSaga({
   body,
 }: {
   type: string;
-  body: GetChoresRequestType;
+  body: GetChorePhotosRequestType;
 }) {
   try {
     if (body.showHUD) {
