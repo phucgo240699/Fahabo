@@ -51,6 +51,7 @@ const ChoreFilterBox: React.FC<Props> = ({
             if (index < 10) {
               return (
                 <HorizontalMemberItem
+                  key={index}
                   item={item}
                   size={'small'}
                   pickerMode={true}

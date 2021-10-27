@@ -79,6 +79,7 @@
     "status": "Trạng thái",
     "deadline": "Thời hạn",
     "assign": "Phân công",
+    "assignee": "Người được giao",
     "repeat": "Lặp lại",
     "photo": "Ảnh",
     "daily": "Hằng ngày",

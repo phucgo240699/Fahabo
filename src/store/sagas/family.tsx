@@ -23,7 +23,7 @@ import {
   updateFamilyInfoApi,
   updateFamilyThumbnailApi,
 } from '@services/family';
-import {all, put, select, takeLeading} from 'typed-redux-saga';
+import {all, call, delay, put, select, takeLeading} from 'typed-redux-saga';
 import {
   createFamilySuccessAction,
   CREATE_FAMILY_REQUEST,
@@ -44,8 +44,10 @@ import {
   LEAVE_FAMILY_REQUEST,
   updateFamilyInfoSuccessAction,
   updateFamilyThumbnailSuccessAction,
+  updateFocusFamilySuccessAction,
   UPDATE_FAMILY_INFO_REQUEST,
   UPDATE_FAMILY_THUMBNAIL_REQUEST,
+  UPDATE_FOCUS_FAMILY_REQUEST,
 } from '@store/actionTypes/family';
 import {
   CreateFamilyRequestType,
@@ -67,8 +69,16 @@ import {
   membersInFamilySelector,
   familiesSelector,
 } from '@store/selectors/family';
-import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
+import {
+  parseDataResponse,
+  parseErrorResponse,
+  parseErrorsResponse,
+} from '@utils/parsers';
 import {mixFamily} from '@utils/family';
+import {getChoresApi} from '@services/chores';
+import {getChoresSuccessAction} from '@store/actionTypes/chores';
+import {parseChores} from '@utils/parsers/chores';
+import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 
 function* createFamilySaga({
   body,
@@ -488,6 +498,17 @@ function* getRefreshFamilyMembersSaga({
   }
 }
 
+function* updateFocusFamilySaga({body}: {type: string; body: FamilyType}) {
+  try {
+    yield* put(updateFocusFamilySuccessAction(body));
+    yield* put(getHomeScreenDataRequestAction());
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  }
+}
+
 export default function* () {
   yield* all([
     takeLeading(CREATE_FAMILY_REQUEST, createFamilySaga),
@@ -505,5 +526,6 @@ export default function* () {
       GET_REFRESH_FAMILY_MEMBERS_REQUEST,
       getRefreshFamilyMembersSaga,
     ),
+    takeLeading(UPDATE_FOCUS_FAMILY_REQUEST, updateFocusFamilySaga),
   ]);
 }

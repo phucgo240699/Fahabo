@@ -6,7 +6,7 @@ import {getChoresSuccessAction} from '@store/actionTypes/chores';
 import {
   getFamiliesSuccessAction,
   getFamilyMembersSuccessAction,
-  updateFocusFamilyAction,
+  updateFocusFamilySuccessAction,
 } from '@store/actionTypes/family';
 import {GET_HOME_SCREEN_DATA} from '@store/actionTypes/screens';
 import {
@@ -14,66 +14,77 @@ import {
   showHUDAction,
   showToastAction,
 } from '@store/actionTypes/session';
+import {focusFamilySelector} from '@store/selectors/family';
 import {isNull} from '@utils/index';
-import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
+import {
+  parseDataResponse,
+  parseErrorResponse,
+  parseErrorsResponse,
+} from '@utils/parsers';
 import {parseChores} from '@utils/parsers/chores';
 import {parseFamilies, parseMembers} from '@utils/parsers/family';
 import {AnyAction} from 'redux';
-import {all, put, takeLeading} from 'typed-redux-saga';
+import {all, put, select, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
 
 function* getHomeScreenDataSaga(action: AnyAction) {
   try {
     yield* put(showHUDAction());
-    const familyResponse = yield* apiProxy(getMyFamiliesApi, {});
-    if (familyResponse.status === 200) {
-      const families = parseFamilies(parseDataResponse(familyResponse));
-      yield* put(getFamiliesSuccessAction(families));
-      if (families.length > 0 && !isNull(families[0].id)) {
-        yield* put(updateFocusFamilyAction(families[0]));
-        const membersResponse = yield* apiProxy(getFamilyMembersApi, {
-          familyId: families[0].id,
-        });
-        const choresResponse = yield* apiProxy(getChoresApi, {
-          familyId: families[0].id,
-        });
-        if (choresResponse.status === 200) {
-          yield* put(
+
+    let focusFamily = yield* select(focusFamilySelector);
+    if (isNull(focusFamily)) {
+      const familyResponse = yield* apiProxy(getMyFamiliesApi, {});
+      if (familyResponse.status === 200) {
+        const families = parseFamilies(parseDataResponse(familyResponse));
+        yield* put(getFamiliesSuccessAction(families));
+        if (families.length > 0 && !isNull(families[0].id)) {
+          yield* put(updateFocusFamilySuccessAction(families[0]));
+          focusFamily = yield* select(focusFamilySelector);
+        }
+      }
+    }
+    if (!isNull(focusFamily)) {
+      const [choresResponse, membersResponse] = yield* all([
+        apiProxy(getChoresApi, {familyId: focusFamily?.id}),
+        apiProxy(getFamilyMembersApi, {familyId: focusFamily?.id}),
+      ]);
+      if (
+        (choresResponse as any).status === 200 &&
+        (choresResponse as any).status === 200
+      ) {
+        yield* all([
+          put(
             getChoresSuccessAction(
               parseChores(parseDataResponse(choresResponse)),
             ),
-          );
-        } else {
-          yield* put(
-            showToastAction(
-              i18n.t(`backend.${parseErrorResponse(membersResponse)}`),
-              ToastType.ERROR,
-            ),
-          );
-        }
-
-        if (membersResponse.status === 200) {
-          yield* put(
+          ),
+          put(
             getFamilyMembersSuccessAction(
               parseMembers(parseDataResponse(membersResponse)),
             ),
+          ),
+        ]);
+      } else {
+        if (parseErrorsResponse(choresResponse).length > 0) {
+          yield* put(
+            showToastAction(
+              i18n.t(`backend.${parseErrorResponse(choresResponse)}`),
+              ToastType.ERROR,
+            ),
           );
-        } else {
+        } else if (parseErrorsResponse(membersResponse).length > 0) {
           yield* put(
             showToastAction(
               i18n.t(`backend.${parseErrorResponse(membersResponse)}`),
               ToastType.ERROR,
             ),
           );
+        } else {
+          yield* put(
+            showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+          );
         }
       }
-    } else {
-      yield* put(
-        showToastAction(
-          i18n.t(`backend.${parseErrorResponse(familyResponse)}`),
-          ToastType.ERROR,
-        ),
-      );
     }
   } catch (error) {
     yield* put(

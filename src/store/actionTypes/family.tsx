@@ -143,8 +143,14 @@ export const getFamilyMembersSuccessAction = (payload: MemberType[]) => ({
 });
 
 // Focus Family
-export const UPDATE_FOCUS_FAMILY = 'UPDATE_FOCUS_FAMILY';
-export const updateFocusFamilyAction = (payload: FamilyType) => ({
-  type: UPDATE_FOCUS_FAMILY,
+export const UPDATE_FOCUS_FAMILY_REQUEST = 'UPDATE_FOCUS_FAMILY_REQUEST';
+export const updateFocusFamilyRequestAction = (body: FamilyType) => ({
+  type: UPDATE_FOCUS_FAMILY_REQUEST,
+  body,
+});
+
+export const UPDATE_FOCUS_FAMILY_SUCCESS = 'UPDATE_FOCUS_FAMILY_SUCCESS';
+export const updateFocusFamilySuccessAction = (payload: FamilyType) => ({
+  type: UPDATE_FOCUS_FAMILY_SUCCESS,
   payload,
 });

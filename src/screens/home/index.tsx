@@ -13,9 +13,10 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {navigate} from '@navigators/index';
 import {useDispatch, useSelector} from 'react-redux';
-import {familiesSelector} from '@store/selectors/family';
+import {focusFamilySelector} from '@store/selectors/family';
 import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 import {getChoresRequestAction} from '@store/actionTypes/chores';
+import {isNull} from '@utils/index';
 
 interface Props {}
 
@@ -24,7 +25,8 @@ const HomeScreen: React.FC<Props> = () => {
   const [searchText, setSearchText] = useState('');
 
   const dispatch = useDispatch();
-  const families = useSelector(familiesSelector);
+  // const families = useSelector(familiesSelector);
+  const focusFamily = useSelector(focusFamilySelector);
 
   // Life Cycle
   useEffect(() => {
@@ -45,16 +47,30 @@ const HomeScreen: React.FC<Props> = () => {
   };
 
   // Search
-  const onChangeSearchText = useCallback((text: string) => {
+  const onChangeSearchText = (text: string) => {
     setSearchText(text);
-  }, []);
+  };
+
+  const onSubmitSearchText = (text: string) => {
+    if (!isNull(text) && !isNull(focusFamily?.id)) {
+      if (index === 0) {
+        dispatch(
+          getChoresRequestAction({
+            familyId: focusFamily?.id,
+            showHUD: true,
+            searchText: text,
+          }),
+        );
+      }
+    }
+  };
 
   // Creation
   const onPressPlusButton = () => {
-    if (families.length > 0) {
+    if (!isNull(focusFamily?.id)) {
       // Chore
       if (index === 0) {
-        navigate(ScreenName.CreateChoreScreen, {familyId: families[0]});
+        navigate(ScreenName.CreateChoreScreen, {familyId: focusFamily?.id});
       }
     }
   };
@@ -69,6 +85,7 @@ const HomeScreen: React.FC<Props> = () => {
       <PrimaryHeader
         text={searchText}
         onChangeText={onChangeSearchText}
+        onSubmitText={onSubmitSearchText}
         onPressPlus={onPressPlusButton}
       />
       <TabView

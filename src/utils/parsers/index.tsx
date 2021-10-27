@@ -7,3 +7,7 @@ export function parseDataResponse(response: any): any {
 export function parseErrorResponse(response: any): any {
   return response.data.errors[0];
 }
+
+export function parseErrorsResponse(response: any): any[] {
+  return response.data.errors;
+}

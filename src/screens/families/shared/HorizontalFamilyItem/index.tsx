@@ -11,7 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
 import {
   getFamilyMembersRequestAction,
-  updateFocusFamilyAction,
+  updateFocusFamilyRequestAction,
 } from '@store/actionTypes/family';
 
 interface Props {
@@ -29,12 +29,12 @@ const HorizontalFamilyItem: React.FC<Props> = ({
   const focusFamily = useSelector(focusFamilySelector);
 
   const onPressCircle = () => {
-    dispatch(updateFocusFamilyAction(item));
-    if (!isNull(item.id)) {
-      dispatch(
-        getFamilyMembersRequestAction({familyId: item.id, showHUD: true}),
-      );
-    }
+    dispatch(updateFocusFamilyRequestAction(item));
+    // if (!isNull(item.id)) {
+    //   dispatch(
+    //     getFamilyMembersRequestAction({familyId: item.id, showHUD: true}),
+    //   );
+    // }
   };
   const onPressContainer = () => {
     if (onPress) {

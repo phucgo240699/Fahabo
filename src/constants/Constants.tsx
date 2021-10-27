@@ -42,6 +42,7 @@ export enum ScreenName {
   HomeScreen = 'HomeScreen',
   ChoresScreen = 'ChoresScreen',
   CreateChoreScreen = 'CreateChoreScreen',
+  ChoreDetailScreen = 'ChoreDetailScreen',
   RepeatPickerScreen = 'RepeatPickerScreen',
   EventsScreen = 'EventsScreen',
   TransactionsScreen = 'TransactionsScreen',

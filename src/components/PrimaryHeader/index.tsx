@@ -16,6 +16,7 @@ interface Props {
   title?: string;
   text: string;
   onChangeText?: (text: string) => void;
+  onSubmitText?: (text: string) => void;
   onPressPlus?: () => void;
 }
 
@@ -23,6 +24,7 @@ const PrimaryHeader: React.FC<Props> = ({
   title = i18n.t('application.fahabo'),
   text,
   onChangeText,
+  onSubmitText,
   onPressPlus,
 }) => {
   const [isSearching, setIsSearching] = useState(false);
@@ -119,7 +121,11 @@ const PrimaryHeader: React.FC<Props> = ({
 
       {isSearching && (
         <SearchBarLayer style={{width: searchBarWidthAnim}}>
-          <SearchBar text={text} onChangeText={onChangeText} />
+          <SearchBar
+            text={text}
+            onChangeText={onChangeText}
+            onSubmitText={onSubmitText}
+          />
         </SearchBarLayer>
       )}
       {isSearching && (

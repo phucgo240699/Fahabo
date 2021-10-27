@@ -7,7 +7,7 @@ import {
   JOIN_FAMILY_SUCCESS,
   UPDATE_FAMILY_INFO_SUCCESS,
   UPDATE_FAMILY_THUMBNAIL_SUCCESS,
-  UPDATE_FOCUS_FAMILY,
+  UPDATE_FOCUS_FAMILY_SUCCESS,
 } from '@store/actionTypes/family';
 import {LOG_OUT} from '@store/actionTypes/signIn';
 import {AnyAction} from 'redux';
@@ -61,7 +61,7 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
         ...state,
         membersInFamily: action.payload,
       };
-    case UPDATE_FOCUS_FAMILY:
+    case UPDATE_FOCUS_FAMILY_SUCCESS:
       return {
         ...state,
         focusFamily: action.payload,

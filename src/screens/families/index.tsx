@@ -13,7 +13,6 @@ import {familiesSelector} from '@store/selectors/family';
 import {
   createFamilyRequestAction,
   getFamiliesRequestAction,
-  getFamilyDetailRequestAction,
   getRefreshFamiliesRequestAction,
 } from '@store/actionTypes/family';
 import {isNull} from '@utils/index';
@@ -39,6 +38,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const families = useSelector(familiesSelector);
   const [pageIndex, setPageIndex] = useState(0);
+  const [searchText, setSearchText] = useState('');
   const isRefreshing = useSelector(isRefreshingFamiliesSelector);
   const isLoadingMore = useSelector(isLoadingFamiliesSelector);
 
@@ -49,11 +49,6 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   const [name, setName] = useState('');
   const [thumbnailUri, setThumbnailUri] = useState('');
   const [thumbnailBase64, setThumbnailBase64] = useState('');
-
-  // // Life Cycle
-  // useEffect(() => {
-  //   dispatch(getFamiliesRequestAction({showHUD: true}));
-  // }, []);
 
   useEffect(() => {
     if (route && route.params) {
@@ -69,6 +64,16 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
       }
     }
   }, [route]);
+
+  // Search
+  const onChangeSearchText = (text: string) => {
+    setSearchText(text);
+  };
+  const onSubmitSearchText = (text: string) => {
+    if (!isNull(text)) {
+      dispatch(getFamiliesRequestAction({showHUD: true, searchText: text}));
+    }
+  };
 
   // Refresh & Load more
   const onRefreshFamilies = () => {
@@ -89,7 +94,6 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
     return <HorizontalFamilyItem item={item} onPress={onPressItem} />;
   };
   const onPressItem = (item: FamilyType) => {
-    // dispatch(getFamilyDetailRequestAction({familyId: item.id}));
     navigate(ScreenName.FamilyDetailScreen, {familyDetail: item});
   };
 
@@ -168,7 +172,13 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
       />
-      <PrimaryHeader title={i18n.t('family.families')} onPressPlus={onOpen} />
+      <PrimaryHeader
+        text={searchText}
+        onChangeText={onChangeSearchText}
+        onSubmitText={onSubmitSearchText}
+        title={i18n.t('family.families')}
+        onPressPlus={onOpen}
+      />
 
       <FlatList
         data={families}

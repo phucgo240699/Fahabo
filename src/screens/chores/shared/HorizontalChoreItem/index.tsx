@@ -2,13 +2,16 @@ import React from 'react';
 import styled from 'styled-components/native';
 import colors from '@themes/colors';
 import fonts from '@themes/fonts';
-import {Avatar, FlatList} from 'native-base';
+import {Avatar, FlatList, Menu, Pressable} from 'native-base';
 import {Platform} from 'react-native';
 import {DummyDetailFamily} from '@constants/DummyData';
 import PrimaryButton from '@components/PrimaryButton';
 import {ChoreStatus, ChoreType} from '@constants/types/chores';
 import i18n from '@locales/index';
 import {getChoreStatusColor, getChoreStatusText} from '@utils/chores';
+import {Constants} from '@constants/Constants';
+import {useDispatch} from 'react-redux';
+import {updateChoreRequestAction} from '@store/actionTypes/chores';
 
 interface Props {
   item: ChoreType;
@@ -16,9 +19,20 @@ interface Props {
 }
 
 const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
+  const dispatch = useDispatch();
+  const [shouldOverlapWithTrigger] = React.useState(false);
+  const [position, setPosition] = React.useState('bottom right');
+
   const onPressTouch = () => {
     if (onPress) {
       onPress(item);
+    }
+  };
+  const onUpdateDoneStatus = () => {
+    if (item.status === ChoreStatus.IN_PROGRESS) {
+      dispatch(
+        updateChoreRequestAction({choreId: item.id, status: ChoreStatus.DONE}),
+      );
     }
   };
   const renderItem = ({item}: {item: any}) => {
@@ -50,13 +64,41 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
         />
-        <StatusButton
-          titleFontSize={12}
-          titleFontWeight={600}
-          titleColor={colors.WHITE}
-          title={getChoreStatusText(item.status)}
-          backgroundColor={getChoreStatusColor(item.status)}
-        />
+        <Menu
+          p={1}
+          width={200}
+          borderRadius={14}
+          bgColor={colors.WHITE}
+          borderColor={colors.WHITE}
+          shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
+          placement={position == 'auto' ? undefined : position}
+          trigger={triggerProps => {
+            return (
+              <Pressable
+                top={2}
+                right={2}
+                width={24}
+                height={8}
+                borderRadius={16}
+                position={'absolute'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                bgColor={getChoreStatusColor(item.status)}
+                {...triggerProps}>
+                <StatusText>{getChoreStatusText(item.status)}</StatusText>
+              </Pressable>
+            );
+          }}>
+          {item.status !== ChoreStatus.DONE && (
+            <Menu.Item
+              borderRadius={10}
+              bgColor={colors.WHITE}
+              _text={{color: getChoreStatusColor(ChoreStatus.DONE)}}
+              onPress={onUpdateDoneStatus}>
+              {getChoreStatusText(ChoreStatus.DONE)}
+            </Menu.Item>
+          )}
+        </Menu>
       </Container>
     </Touch>
   );
@@ -100,7 +142,7 @@ const HLine = styled.View`
   background-color: ${colors.SILVER};
 `;
 
-const StatusButton = styled(PrimaryButton)<{backgroundColor: string}>`
+const StatusButton = styled.View<{backgroundColor: string}>`
   top: 8px;
   right: 8px;
   width: 80px;
@@ -108,6 +150,10 @@ const StatusButton = styled(PrimaryButton)<{backgroundColor: string}>`
   border-radius: 16px;
   padding-bottom: 6px;
   background-color: ${props => props.backgroundColor};
+`;
+
+const StatusText = styled(fonts.PrimaryFontMediumSize12)`
+  color: ${colors.WHITE};
 `;
 
 export default React.memo(HorizontalChoreItem);

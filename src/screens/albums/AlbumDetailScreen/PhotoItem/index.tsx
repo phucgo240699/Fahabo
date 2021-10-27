@@ -9,18 +9,26 @@ import styled from 'styled-components/native';
 
 interface Props {
   item: PhotoType;
+  width?: number;
+  height?: number;
   isSelected?: boolean;
   onPress?: (item: PhotoType) => void;
 }
 
-const PhotoItem: React.FC<Props> = ({item, isSelected, onPress}) => {
+const PhotoItem: React.FC<Props> = ({
+  item,
+  width = (Constants.MAX_WIDTH - 6) / 3,
+  height = (Constants.MAX_WIDTH - 6) / 3,
+  isSelected,
+  onPress,
+}) => {
   const onPressContainer = () => {
     if (onPress) {
       onPress(item);
     }
   };
   return (
-    <Container onPress={onPressContainer}>
+    <Container width={width} height={height} onPress={onPressContainer}>
       <Image
         flex={1}
         source={{uri: item.uri}}
@@ -40,10 +48,10 @@ const PhotoItem: React.FC<Props> = ({item, isSelected, onPress}) => {
   );
 };
 
-const Container = styled.TouchableOpacity`
+const Container = styled.TouchableOpacity<{width: number; height: number}>`
   margin: 1px;
-  width: ${(Constants.MAX_WIDTH - 6) / 3}px;
-  height: ${(Constants.MAX_WIDTH - 6) / 3}px;
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
 `;
 
 const SelectedIconContainer = styled.View`

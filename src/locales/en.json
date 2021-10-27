@@ -79,6 +79,7 @@
     "status": "Status",
     "deadline": "Deadline",
     "assign": "Assign",
+    "assignee": "Assignee",
     "repeat": "Repeat",
     "photo": "Photo",
     "daily": "Daily",

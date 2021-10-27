@@ -103,7 +103,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
     return <HorizontalChoreItem item={item} onPress={onPressItem} />;
   };
   const onPressItem = (item: any) => {
-    console.log(selectedMember);
+    navigate(ScreenName.ChoreDetailScreen, {detail: item});
   };
   const onPressDelete = () => {
     if (indexSwiped) {
