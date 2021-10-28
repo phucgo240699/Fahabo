@@ -7,6 +7,7 @@ import {
 } from '@constants/types/chores';
 import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
+import {navigationRef} from '@navigators/index';
 import {
   createChoreApi,
   deleteChoreApi,
@@ -43,6 +44,7 @@ import {parsePhotos} from '@utils/parsers/albums';
 import {parseChore, parseChores} from '@utils/parsers/chores';
 import {all, put, select, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
+import {CommonActions} from '@react-navigation/native';
 
 function* createChoreSaga({
   body,
@@ -63,6 +65,7 @@ function* createChoreSaga({
           ToastType.SUCCESS,
         ),
       );
+      navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(
@@ -99,6 +102,7 @@ function* updateChoreSaga({
           ToastType.SUCCESS,
         ),
       );
+      navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(

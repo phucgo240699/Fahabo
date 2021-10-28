@@ -37,7 +37,11 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
     if (!isNull(detail.id)) {
       dispatch(getChorePhotosSuccessAction([]));
       dispatch(
-        getChorePhotosRequestAction({showHUD: true, choreId: detail.id}),
+        getChorePhotosRequestAction({
+          showHUD: true,
+          choreId: detail.id,
+          size: 10,
+        }),
       );
     }
   }, []);

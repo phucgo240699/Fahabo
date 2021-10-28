@@ -64,7 +64,7 @@ export function getChorePhotosApi(
   body?: GetChorePhotosRequestType,
 ) {
   let page = 0;
-  let size = Pagination.Chores;
+  let size = Pagination.ChorePhotos;
   if (!isNull(body)) {
     if (!isNull(body?.page)) {
       page = body?.page ?? 0;
