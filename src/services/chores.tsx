@@ -63,8 +63,18 @@ export function getChorePhotosApi(
   accessToken?: string,
   body?: GetChorePhotosRequestType,
 ) {
+  let page = 0;
+  let size = Pagination.Chores;
+  if (!isNull(body)) {
+    if (!isNull(body?.page)) {
+      page = body?.page ?? 0;
+    }
+    if (!isNull(body?.size)) {
+      size = body?.size ?? Pagination.ChorePhotos;
+    }
+  }
   return new apiProvider(accessToken).post(
-    `${BASE_URL}/chores/get_chore_photos`,
+    `${BASE_URL}/chores/get_chore_photos?page=${page}&size=${size}`,
     body,
   );
 }

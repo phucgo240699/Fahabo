@@ -33,17 +33,21 @@ function* getHomeScreenDataSaga(action: AnyAction) {
     yield* put(showHUDAction());
 
     let focusFamily = yield* select(focusFamilySelector);
-    if (isNull(focusFamily)) {
-      const familyResponse = yield* apiProxy(getMyFamiliesApi, {});
-      if (familyResponse.status === 200) {
-        const families = parseFamilies(parseDataResponse(familyResponse));
-        yield* put(getFamiliesSuccessAction(families));
-        if (families.length > 0 && !isNull(families[0].id)) {
-          yield* put(updateFocusFamilySuccessAction(families[0]));
-          focusFamily = yield* select(focusFamilySelector);
-        }
+
+    const familyResponse = yield* apiProxy(getMyFamiliesApi, {});
+    if (familyResponse.status === 200) {
+      const families = parseFamilies(parseDataResponse(familyResponse));
+      yield* put(getFamiliesSuccessAction(families));
+      if (
+        isNull(focusFamily) &&
+        families.length > 0 &&
+        !isNull(families[0].id)
+      ) {
+        yield* put(updateFocusFamilySuccessAction(families[0]));
+        focusFamily = yield* select(focusFamilySelector);
       }
     }
+
     if (!isNull(focusFamily)) {
       const [choresResponse, membersResponse] = yield* all([
         apiProxy(getChoresApi, {familyId: focusFamily?.id}),

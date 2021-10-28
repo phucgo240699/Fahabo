@@ -40,6 +40,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
   const isRefreshing = useSelector(isRefreshingPhotosSelector);
   const [isChoosing, setIsChoosing] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [pageIndex, setPageIndex] = useState(0);
 
   // Life Cycle
   useEffect(() => {
@@ -52,11 +53,19 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
   const onRefreshData = () => {
     if (isRefreshing === false) {
       dispatch(getPhotosRequestAction({refresh: true, albumId: album.id}));
+      setPageIndex(0);
     }
   };
   const onLoadMoreData = () => {
     if (isLoadingMore === false && photos.length >= Pagination.Photos) {
-      dispatch(getPhotosRequestAction({loadMore: true, albumId: album.id}));
+      dispatch(
+        getPhotosRequestAction({
+          loadMore: true,
+          albumId: album.id,
+          page: pageIndex + 1,
+        }),
+      );
+      setPageIndex(pageIndex + 1);
     }
   };
 

@@ -52,6 +52,9 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
       currentIndex: index,
     });
   };
+  const onPressViewAllPhotos = () => {
+    navigate(ScreenName.ChorePhotosScreen, {chore: detail});
+  };
 
   const renderAssignee = ({item}: {item: AssigneeType}) => {
     return <Avatar mr={3} source={{uri: item.avatar}} />;
@@ -65,6 +68,7 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
         backgroundColor={getChoreStatusColor(detail.status)}
       />
       <ScrollView
+        bounces={false}
         bgColor={colors.WHITE}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
@@ -101,6 +105,7 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
               return index < 9;
             })}
             onPressItem={onPressPhoto}
+            onPressViewAll={onPressViewAllPhotos}
           />
         </Content>
       </ScrollView>

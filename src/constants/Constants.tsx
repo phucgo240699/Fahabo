@@ -43,6 +43,7 @@ export enum ScreenName {
   ChoresScreen = 'ChoresScreen',
   CreateChoreScreen = 'CreateChoreScreen',
   ChoreDetailScreen = 'ChoreDetailScreen',
+  ChorePhotosScreen = 'ChorePhotosScreen',
   RepeatPickerScreen = 'RepeatPickerScreen',
   EventsScreen = 'EventsScreen',
   TransactionsScreen = 'TransactionsScreen',
@@ -81,4 +82,5 @@ export const Pagination = {
   Albums: 14,
   Photos: 24,
   Chores: 10,
+  ChorePhotos: 24,
 };

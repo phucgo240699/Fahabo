@@ -237,7 +237,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
       multiple: true,
       mediaType: 'photo',
       includeBase64: true,
-      maxFiles: 5,
+      maxFiles: Constants.LIMIT_PHOTO_UPLOAD,
       width: Constants.FAMILY_THUMBNAIL_WIDTH,
       height: Constants.FAMILY_THUMBNAIL_HEIGHT,
     }).then(cropped => {
@@ -282,25 +282,25 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const onCreateChore = () => {
     if (oldChore) {
       if (!isNull(oldChore.id)) {
-        // console.log({
-        //   choreId: oldChore.id,
-        //   status: status,
-        //   title: title,
-        //   description: description,
-        //   deadline: deadline,
-        //   repeatType: repeat,
-        //   assigneeIds: selectedMembers.map((item, index) => {
-        //     return item.id;
-        //   }),
-        //   photos: selectedPhotos
-        //     .filter((item, index) => {
-        //       return !isNull(item.base64);
-        //     })
-        //     .map(item => {
-        //       return item.base64;
-        //     }).length,
-        //   deletePhotos: deletePhotos,
-        // });
+        console.log({
+          choreId: oldChore.id,
+          status: status,
+          title: title,
+          description: description,
+          deadline: deadline,
+          repeatType: repeat,
+          assigneeIds: selectedMembers.map((item, index) => {
+            return item.id;
+          }),
+          photos: selectedPhotos
+            .filter((item, index) => {
+              return !isNull(item.base64);
+            })
+            .map(item => {
+              return item.base64;
+            }).length,
+          deletePhotos: deletePhotos.length,
+        });
         dispatch(
           updateChoreRequestAction({
             choreId: oldChore.id,
@@ -325,6 +325,22 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
       }
     } else {
       if (!isNull(focusFamily?.id)) {
+        console.log({
+          familyId: focusFamily?.id,
+          status: status,
+          title: title,
+          description: description,
+          deadline: deadline,
+          repeatType: repeat,
+          assigneeIds: selectedMembers.map((item, index) => {
+            return item.id;
+          }).length,
+          photos: selectedPhotos.map((item, index) => {
+            if (index < Constants.LIMIT_PHOTO_UPLOAD) {
+              return item.base64;
+            }
+          }).length,
+        });
         dispatch(
           createChoreRequestAction({
             familyId: focusFamily?.id,
@@ -337,7 +353,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               return item.id;
             }),
             photos: selectedPhotos.map((item, index) => {
-              if (index < 5) {
+              if (index < Constants.LIMIT_PHOTO_UPLOAD) {
                 return item.base64;
               }
             }),

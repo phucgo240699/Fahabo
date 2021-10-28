@@ -213,13 +213,11 @@ function* getChorePhotosSaga({
     if (response.status === 200) {
       if (body.page && body.page > 0) {
         const oldData = yield* select(chorePhotosSelector);
-        const newData = parsePhotos(parseDataResponse(response).photos);
+        const newData = parsePhotos(parseDataResponse(response));
         yield* put(getChorePhotosSuccessAction(mixPhotos(oldData, newData)));
       } else {
         yield* put(
-          getChorePhotosSuccessAction(
-            parsePhotos(parseDataResponse(response).photos),
-          ),
+          getChorePhotosSuccessAction(parsePhotos(parseDataResponse(response))),
         );
       }
     } else {
