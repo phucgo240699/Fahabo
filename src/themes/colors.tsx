@@ -35,8 +35,8 @@ export const shades = {
   GREEN_1: '#00b359',
   DANUBE: Appearance.getColorScheme() === 'light' ? '#5e7fd4' : '#728fda',
   ZEST: '#E87E24',
-  ROYAL_BLUE: '#4680ec',
-  SAPPHIRE: '#324f9a',
+  // ROYAL_BLUE: Appearance.getColorScheme() === 'light' ? '#4680ec' : '#134db9',
+  // SAPPHIRE: '#304D95',
   BLAZE_ORANGE: Appearance.getColorScheme() === 'light' ? '#FF6A00' : '#FF6D03',
 };
 

@@ -64,6 +64,7 @@ const ChoreFilterBox: React.FC<Props> = ({
         onSubmitText={onSubmitMemberName}
       />
       <Box
+        mt={2}
         flexDirection={'row'}
         justifyContent={'space-between'}
         flexWrap={'wrap'}>
@@ -94,4 +95,4 @@ const Label = styled(fonts.PrimaryFontMediumSize14)`
   color: ${colors.DANUBE};
 `;
 
-export default ChoreFilterBox;
+export default React.memo(ChoreFilterBox);

@@ -143,7 +143,7 @@ const SignInScreen = () => {
             <SecondaryButton
               marginTop={10}
               titleColor={'#ffffff'}
-              backgroundColor={colors.ROYAL_BLUE}
+              backgroundColor={'#4680ec'}
               leftIcon={
                 <WhiteIconWrapper>
                   <PrimaryIcon width={36} height={36} source={googleIcon} />
@@ -155,7 +155,7 @@ const SignInScreen = () => {
             <SecondaryButton
               marginTop={10}
               titleColor={'#ffffff'}
-              backgroundColor={colors.SAPPHIRE}
+              backgroundColor={'#324f9a'}
               leftIcon={
                 <WhiteIconWrapper>
                   <PrimaryIcon width={36} height={36} source={facebookIcon} />

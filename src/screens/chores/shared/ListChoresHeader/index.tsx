@@ -1,25 +1,22 @@
-import React, {memo} from 'react';
-import {Box, FlatList, Menu, Pressable, ScrollView, Text} from 'native-base';
-import i18n from '@locales/index';
-import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import React from 'react';
+import {Box, Menu, Pressable} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {Keyboard, StyleSheet} from 'react-native';
-import {DummyChores} from '@constants/DummyData';
-import HorizontalChoreItem from '../HorizontalChoreItem';
-import PrimaryButton from '@components/PrimaryButton';
 import {filterIcon} from '@constants/sources';
 import {Constants} from '@constants/Constants';
 import PrimaryIcon from '@components/PrimaryIcon';
 import ChoreFilterBox from '../ChoreFilterBox';
 import {MemberType} from '@constants/types/family';
 import {ChoreStatus} from '@constants/types/chores';
+import fonts from '@themes/fonts';
+import i18n from '@locales/index';
 
 interface Props {
   selectedMember?: MemberType;
   selectedStatus?: ChoreStatus;
   onChangeMember?: (member: MemberType) => void;
   onChangeStatus?: (status: ChoreStatus) => void;
+  onChangeSortBy?: (sortBy: string) => void;
 }
 
 const ListChoresHeader: React.FC<Props> = ({
@@ -27,25 +24,55 @@ const ListChoresHeader: React.FC<Props> = ({
   selectedStatus,
   onChangeMember,
   onChangeStatus,
+  onChangeSortBy,
 }) => {
   const [shouldOverlapWithTrigger] = React.useState(false);
   const [position, setPosition] = React.useState('bottom right');
+  const [sortBy, setSortBy] = React.useState<'created_at' | 'deadline'>(
+    'created_at',
+  );
+
+  const onPressLatestCreate = () => {
+    if (sortBy !== 'created_at') {
+      if (onChangeSortBy) {
+        onChangeSortBy('created_at');
+      }
+      setSortBy('created_at');
+    }
+  };
+  const onPressLatestDeadline = () => {
+    if (sortBy !== 'deadline') {
+      if (onChangeSortBy) {
+        onChangeSortBy('deadline');
+      }
+      setSortBy('deadline');
+    }
+  };
 
   return (
     <Menu
       p={3}
-      height={300}
       borderRadius={14}
       bgColor={colors.WHITE}
       borderColor={colors.WHITE}
-      width={Constants.MAX_WIDTH - 100}
+      width={Constants.MAX_WIDTH - 60}
       shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
       placement={position == 'auto' ? undefined : position}
       trigger={triggerProps => {
         return (
-          <Pressable mt={4} mr={7} {...triggerProps} alignSelf={'flex-end'}>
-            <PrimaryIcon source={filterIcon} tintColor={colors.DANUBE} />
-          </Pressable>
+          <SortContainer>
+            <SortItemContainer onPress={onPressLatestCreate}>
+              <Circle>{sortBy === 'created_at' && <Point />}</Circle>
+              <SortLabel>{i18n.t('chores.latestCreate')}</SortLabel>
+            </SortItemContainer>
+            <SortItemContainer onPress={onPressLatestDeadline}>
+              <Circle>{sortBy === 'deadline' && <Point />}</Circle>
+              <SortLabel>{i18n.t('chores.latestDeadline')}</SortLabel>
+            </SortItemContainer>
+            <Pressable {...triggerProps}>
+              <PrimaryIcon source={filterIcon} tintColor={colors.DANUBE} />
+            </Pressable>
+          </SortContainer>
         );
       }}>
       <ChoreFilterBox
@@ -57,5 +84,43 @@ const ListChoresHeader: React.FC<Props> = ({
     </Menu>
   );
 };
+
+const SortContainer = styled.View`
+  padding: 4px;
+  margin-top: 10px;
+  margin-left: 30px;
+  margin-right: 30px;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const SortItemContainer = styled.TouchableOpacity`
+  align-items center;
+  flex-direction: row;
+`;
+
+const SortLabel = styled(fonts.PrimaryFontRegularSize12)`
+  margin-top: 1px;
+  margin-left: 6px;
+  color: ${colors.GRAY};
+`;
+
+const Circle = styled.View`
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  border-width: 1px;
+  border-radius: 15px;
+  border-color: ${colors.SILVER};
+`;
+
+const Point = styled.View`
+  width: 12px;
+  height: 12px;
+  border-radius: 10px;
+  background-color: ${colors.HYPER_LINK};
+`;
 
 export default React.memo(ListChoresHeader);

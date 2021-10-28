@@ -407,8 +407,7 @@ function* getFamilyMembersSaga({
       yield* put(showHUDAction());
     }
     if (body.refresh === true) {
-
-    yield* put(updateIsRefreshingFamilyMembersAction(true));
+      yield* put(updateIsRefreshingFamilyMembersAction(true));
     }
     if (body.loadMore === true) {
       yield* put(updateIsLoadingFamilyMembersAction(true));

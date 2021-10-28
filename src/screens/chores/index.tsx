@@ -1,5 +1,5 @@
-import React, {memo, useState} from 'react';
-import {Box, FlatList} from 'native-base';
+import React, {useState} from 'react';
+import {Box} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -46,7 +46,9 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   // Refresh & Load More
   const onRefreshData = () => {
     if (isRefreshing === false && !isNull(focusFamily?.id)) {
-      dispatch(getChoresRequestAction({familyId: focusFamily?.id}));
+      dispatch(
+        getChoresRequestAction({refresh: true, familyId: focusFamily?.id}),
+      );
     }
   };
 
@@ -95,6 +97,17 @@ const ChoresScreen: React.FC<Props> = ({}) => {
           }),
         );
       }
+    }
+  };
+  const onChangeSortBy = (sortBy: string) => {
+    if (!isNull(focusFamily?.id) && !isNull(sortBy)) {
+      dispatch(
+        getChoresRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          sortBy: sortBy,
+        }),
+      );
     }
   };
 
@@ -158,12 +171,12 @@ const ChoresScreen: React.FC<Props> = ({}) => {
                 backgroundColor={colors.WHITE}>
                 <SwipeUpdateButton
                   onPress={onPressUpdate}
-                  leftTintColor={'#ffffff'}
+                  leftTintColor={colors.BLACK}
                   leftSource={editProfileIcon}
                 />
                 <SwipeDeleteButton
                   leftSource={trashIcon}
-                  leftTintColor={'#ffffff'}
+                  leftTintColor={colors.BLACK}
                   onPress={onPressDelete}
                 />
               </Box>
@@ -177,6 +190,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
                 selectedStatus={selectedStatus}
                 onChangeMember={onChangeMember}
                 onChangeStatus={onChangeStatus}
+                onChangeSortBy={onChangeSortBy}
               />
             }
             keyExtractor={(item, index) => index.toString()}
@@ -206,12 +220,7 @@ const SwipeUpdateButton = styled(PrimaryButton)`
   height: 135px;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.SAPPHIRE};
-`;
-
-const SwipeTextItem = styled(fonts.PrimaryFontRegularSize16)`
-  color: #ffffff;
-  background-color: ${colors.SAPPHIRE};
+  background-color: #134db9;
 `;
 
 const styles = StyleSheet.create({
@@ -220,4 +229,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(ChoresScreen);
+export default ChoresScreen;

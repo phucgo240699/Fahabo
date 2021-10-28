@@ -29,16 +29,6 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
   const isRefreshing = useSelector(isRefreshingFamilyMembersSelector);
   const membersInFamily = useSelector(membersInFamilySelector);
 
-  // // Life Cycle
-  // useEffect(() => {
-  //   dispatch(
-  //     getFamilyMembersRequestAction({
-  //       familyId: route.params.familyId,
-  //       showHUD: true,
-  //     }),
-  //   );
-  // }, []);
-
   // Item
   const renderItem = ({item}: {item: MemberType}) => {
     return <HorizontalMemberItem item={item} />;

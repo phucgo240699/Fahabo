@@ -82,6 +82,8 @@
     "assignee": "Assignee",
     "repeat": "Repeat",
     "photo": "Photo",
+    "latestCreate": "Latest create",
+    "latestDeadline": "Almost expire",
     "daily": "Daily",
     "weekly": "Weekly",
     "monthly": "Monthly"

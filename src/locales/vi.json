@@ -82,6 +82,8 @@
     "assignee": "Người được giao",
     "repeat": "Lặp lại",
     "photo": "Ảnh",
+    "latestCreate": "Tạo gần đây",
+    "latestDeadline": "Sắp trễ hạn",
     "daily": "Hằng ngày",
     "weekly": "Hằng tuần",
     "monthly": "Hằng tháng"
