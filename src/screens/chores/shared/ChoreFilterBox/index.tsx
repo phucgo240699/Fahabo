@@ -44,7 +44,7 @@ const ChoreFilterBox: React.FC<Props> = ({
   };
 
   const onSubmitMemberName = (text: string) => {
-    if (!isNull(text) && !isNull(focusFamily?.id)) {
+    if (!isNull(focusFamily?.id)) {
       dispatch(
         getChoreFilterMembersRequestAction({
           showHUD: true,

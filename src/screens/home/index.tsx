@@ -17,15 +17,26 @@ import {focusFamilySelector} from '@store/selectors/family';
 import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 import {getChoresRequestAction} from '@store/actionTypes/chores';
 import {isNull} from '@utils/index';
+import {MemberType} from '@constants/types/family';
+import {ChoreStatus} from '@constants/types/chores';
 
 interface Props {}
 
 const HomeScreen: React.FC<Props> = () => {
   const [index, setIndex] = useState(0);
   const [searchText, setSearchText] = useState('');
+  const [submitSearchText, setSubmitSearchText] = useState('');
+  const [selectedMember, setSelectedMember] = useState<MemberType | undefined>(
+    undefined,
+  );
+  const [selectedStatus, setSelectedStatus] = useState<ChoreStatus | undefined>(
+    undefined,
+  );
+  const [sortBy, setSortBy] = React.useState<'created_at' | 'deadline'>(
+    'created_at',
+  );
 
   const dispatch = useDispatch();
-  // const families = useSelector(familiesSelector);
   const focusFamily = useSelector(focusFamilySelector);
 
   // Life Cycle
@@ -39,30 +50,83 @@ const HomeScreen: React.FC<Props> = () => {
     {key: 'events', title: i18n.t('events.events')},
   ]);
   const renderScene = SceneMap({
-    chores: () => <ChoresScreen />,
+    chores: () => (
+      <ChoresScreen
+        sortBy={sortBy}
+        selectedMember={selectedMember}
+        selectedStatus={selectedStatus}
+        onChangeMember={onChangeMember}
+        onChangeStatus={onChangeStatus}
+        onPressLatestCreate={onPressLatestCreate}
+        onPressLatestDeadline={onPressLatestDeadline}
+      />
+    ),
     events: () => <EventsScreen />,
   });
   const renderTabLabel = ({route, focused}: {route: any; focused: boolean}) => {
     return <TabTitle isFocus={focused}>{route.title}</TabTitle>;
   };
 
+  const getChores = (
+    _assignee?: MemberType,
+    _status?: ChoreStatus,
+    _sortBy?: string,
+    _text?: string,
+  ) => {
+    if (!isNull(focusFamily?.id)) {
+      dispatch(
+        getChoresRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          assigneeIds:
+            isNull(_assignee) || isNull(_assignee?.id)
+              ? []
+              : [_assignee?.id ?? 0],
+          statuses: isNull(_status) ? [] : [_status ?? ChoreStatus.IN_PROGRESS],
+          sortBy: _sortBy,
+          searchText: _text,
+        }),
+      );
+    }
+  };
+
   // Search
   const onChangeSearchText = (text: string) => {
     setSearchText(text);
   };
-
   const onSubmitSearchText = (text: string) => {
-    if (!isNull(text) && !isNull(focusFamily?.id)) {
-      if (index === 0) {
-        dispatch(
-          getChoresRequestAction({
-            familyId: focusFamily?.id,
-            showHUD: true,
-            searchText: text,
-          }),
-        );
-      }
+    setSubmitSearchText(text);
+    getChores(selectedMember, selectedStatus, sortBy, text);
+  };
+
+  // Filter & Sort
+  const onChangeMember = (member: MemberType) => {
+    if (selectedMember?.id === member.id) {
+      setSelectedMember(undefined);
+      getChores(undefined, selectedStatus, sortBy, submitSearchText);
+    } else {
+      setSelectedMember(member);
+      getChores(member, selectedStatus, sortBy, submitSearchText);
     }
+  };
+  const onChangeStatus = (status: ChoreStatus) => {
+    if (selectedStatus === status) {
+      setSelectedStatus(undefined);
+      getChores(selectedMember, undefined, sortBy, submitSearchText);
+    } else {
+      setSelectedStatus(status);
+      getChores(selectedMember, status, sortBy, submitSearchText);
+    }
+  };
+
+  const onPressLatestCreate = () => {
+    setSortBy('created_at');
+    getChores(selectedMember, selectedStatus, 'created_at', submitSearchText);
+  };
+
+  const onPressLatestDeadline = () => {
+    setSortBy('deadline');
+    getChores(selectedMember, selectedStatus, 'created_at', submitSearchText);
   };
 
   // Creation

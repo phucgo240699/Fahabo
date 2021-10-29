@@ -418,20 +418,24 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             </Button>
 
             {/* Repeat */}
-            <RepeatContainer onPress={onPressRepeat}>
-              <RepeatName>
-                {isNull(repeat) ? i18n.t('chores.repeat') : repeat}
-              </RepeatName>
-              <ArrowIcon
-                width={16}
-                height={16}
-                source={rightArrowIcon}
-                tintColor={colors.SILVER}
-              />
-            </RepeatContainer>
+            {!isNull(deadline) && (
+              <RepeatContainer onPress={onPressRepeat}>
+                <RepeatName>
+                  {isNull(repeat) ? i18n.t('chores.repeat') : repeat}
+                </RepeatName>
+                <ArrowIcon
+                  width={16}
+                  height={16}
+                  source={rightArrowIcon}
+                  tintColor={colors.SILVER}
+                />
+              </RepeatContainer>
+            )}
 
             {/* Status */}
-            <ChoreStatusBox status={status} onChangeStatus={onChangeStatus} />
+            {!isNull(oldChore) && (
+              <ChoreStatusBox status={status} onChangeStatus={onChangeStatus} />
+            )}
           </FormControl>
 
           {/* Assignees */}

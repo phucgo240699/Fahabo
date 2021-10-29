@@ -17,27 +17,36 @@ import {
 import {focusFamilySelector} from '@store/selectors/family';
 import {isNull} from '@utils/index';
 import {RowMap, SwipeListView} from 'react-native-swipe-list-view';
-import fonts from '@themes/fonts';
 import {editProfileIcon, trashIcon} from '@constants/sources';
 import {MemberType} from '@constants/types/family';
 import {ChoreStatus} from '@constants/types/chores';
 import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
 
-interface Props {}
+interface Props {
+  sortBy: 'created_at' | 'deadline';
+  selectedMember?: MemberType;
+  selectedStatus?: ChoreStatus;
+  onChangeMember?: (member: MemberType) => void;
+  onChangeStatus?: (status: ChoreStatus) => void;
+  onPressLatestCreate?: () => void;
+  onPressLatestDeadline?: () => void;
+}
 
-const ChoresScreen: React.FC<Props> = ({}) => {
+const ChoresScreen: React.FC<Props> = ({
+  sortBy,
+  selectedMember,
+  selectedStatus,
+  onChangeMember,
+  onChangeStatus,
+  onPressLatestCreate,
+  onPressLatestDeadline,
+}) => {
   const dispatch = useDispatch();
   const chores = useSelector(choresSelector);
   const focusFamily = useSelector(focusFamilySelector);
   const isRefreshing = useSelector(isRefreshingChoresSelector);
   const [indexSwiped, setIndexSwiped] = useState<string | undefined>(undefined);
-  const [selectedMember, setSelectedMember] = useState<MemberType | undefined>(
-    undefined,
-  );
-  const [selectedStatus, setSelectedStatus] = useState<ChoreStatus | undefined>(
-    undefined,
-  );
 
   const onDismissKeyboard = () => {
     Keyboard.dismiss();
@@ -48,65 +57,6 @@ const ChoresScreen: React.FC<Props> = ({}) => {
     if (isRefreshing === false && !isNull(focusFamily?.id)) {
       dispatch(
         getChoresRequestAction({refresh: true, familyId: focusFamily?.id}),
-      );
-    }
-  };
-
-  // Filter & Sort
-  const onChangeMember = (member: MemberType) => {
-    if (!isNull(focusFamily?.id) && !isNull(member.id)) {
-      if (selectedMember?.id === member.id) {
-        setSelectedMember(undefined);
-        dispatch(
-          getChoresRequestAction({
-            showHUD: true,
-            familyId: focusFamily?.id,
-            assigneeIds: [],
-          }),
-        );
-      } else {
-        setSelectedMember(member);
-        dispatch(
-          getChoresRequestAction({
-            showHUD: true,
-            familyId: focusFamily?.id,
-            assigneeIds: [member.id],
-          }),
-        );
-      }
-    }
-  };
-  const onChangeStatus = (status: ChoreStatus) => {
-    if (!isNull(focusFamily?.id) && !isNull(status)) {
-      if (selectedStatus === status) {
-        setSelectedStatus(undefined);
-        dispatch(
-          getChoresRequestAction({
-            showHUD: true,
-            familyId: focusFamily?.id,
-            statuses: [],
-          }),
-        );
-      } else {
-        setSelectedStatus(status);
-        dispatch(
-          getChoresRequestAction({
-            showHUD: true,
-            familyId: focusFamily?.id,
-            statuses: [status],
-          }),
-        );
-      }
-    }
-  };
-  const onChangeSortBy = (sortBy: string) => {
-    if (!isNull(focusFamily?.id) && !isNull(sortBy)) {
-      dispatch(
-        getChoresRequestAction({
-          showHUD: true,
-          familyId: focusFamily?.id,
-          sortBy: sortBy,
-        }),
       );
     }
   };
@@ -186,11 +136,13 @@ const ChoresScreen: React.FC<Props> = ({}) => {
             onRowDidOpen={onDidSwipe}
             ListHeaderComponent={
               <ListChoresHeader
+                sortBy={sortBy}
                 selectedMember={selectedMember}
                 selectedStatus={selectedStatus}
                 onChangeMember={onChangeMember}
                 onChangeStatus={onChangeStatus}
-                onChangeSortBy={onChangeSortBy}
+                onPressLatestCreate={onPressLatestCreate}
+                onPressLatestDeadline={onPressLatestDeadline}
               />
             }
             keyExtractor={(item, index) => index.toString()}

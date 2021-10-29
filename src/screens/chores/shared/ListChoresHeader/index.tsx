@@ -12,42 +12,26 @@ import fonts from '@themes/fonts';
 import i18n from '@locales/index';
 
 interface Props {
+  sortBy: 'created_at' | 'deadline';
   selectedMember?: MemberType;
   selectedStatus?: ChoreStatus;
   onChangeMember?: (member: MemberType) => void;
   onChangeStatus?: (status: ChoreStatus) => void;
-  onChangeSortBy?: (sortBy: string) => void;
+  onPressLatestCreate?: () => void;
+  onPressLatestDeadline?: () => void;
 }
 
 const ListChoresHeader: React.FC<Props> = ({
+  sortBy,
   selectedMember,
   selectedStatus,
   onChangeMember,
   onChangeStatus,
-  onChangeSortBy,
+  onPressLatestCreate,
+  onPressLatestDeadline,
 }) => {
   const [shouldOverlapWithTrigger] = React.useState(false);
   const [position, setPosition] = React.useState('bottom right');
-  const [sortBy, setSortBy] = React.useState<'created_at' | 'deadline'>(
-    'created_at',
-  );
-
-  const onPressLatestCreate = () => {
-    if (sortBy !== 'created_at') {
-      if (onChangeSortBy) {
-        onChangeSortBy('created_at');
-      }
-      setSortBy('created_at');
-    }
-  };
-  const onPressLatestDeadline = () => {
-    if (sortBy !== 'deadline') {
-      if (onChangeSortBy) {
-        onChangeSortBy('deadline');
-      }
-      setSortBy('deadline');
-    }
-  };
 
   return (
     <Menu
