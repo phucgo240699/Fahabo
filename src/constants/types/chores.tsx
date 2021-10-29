@@ -74,6 +74,7 @@ export type AssigneeType = {
   id?: number;
   name?: string;
   avatar?: string;
+  isHost?: boolean;
 };
 export type ChoreType = {
   id?: number;

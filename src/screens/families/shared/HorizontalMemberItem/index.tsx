@@ -8,6 +8,7 @@ import ProfileHeader from '@components/ProfileHeader';
 import i18n from '@locales/index';
 import {Avatar} from 'native-base';
 import {MemberType} from '@constants/types/family';
+import {hostArmorialIcon} from '@constants/sources';
 
 interface Props {
   item: MemberType;
@@ -39,19 +40,26 @@ const HorizontalMemberItem: React.FC<Props> = ({
         size={size === 'large' ? 'lg' : 'xs'}
         source={{uri: item?.avatar}}
       />
-      <Name numberOfLines={2}>{item?.name}</Name>
+      <Name size={size} numberOfLines={2}>
+        {item?.name}
+      </Name>
+      {item.isHost && <HostArmorial source={hostArmorialIcon} />}
     </Container>
   );
 };
 
 const Container = styled.TouchableOpacity<{size: string}>`
   flex: 1;
+  flex-direction: row;
+  align-items: center;
+  shadow-radius: 10px;
+  shadow-opacity: 0.2;
+  border-radius: 10px;
+  shadow-color: ${colors.BLACK};
+  background-color: ${colors.WHITE};
   height: ${props => (props.size === 'large' ? 80 : 40)}px;
   margin-left: ${props => (props.size === 'large' ? 30 : 10)}px;
   margin-right: ${props => (props.size === 'large' ? 30 : 10)}px;
-  flex-direction: row;
-  align-items: center;
-  background-color: ${colors.WHITE};
 `;
 
 const Name = styled(fonts.PrimaryFontMediumSize16)<{size: string}>`
@@ -76,6 +84,14 @@ const Point = styled.View<{size: string}>`
   height: ${props => (props.size === 'large' ? 20 : 12)}px;
   border-radius: 10px;
   background-color: ${colors.DANUBE};
+`;
+
+const HostArmorial = styled.Image`
+  top: -12px;
+  right: -12px;
+  width: 36px;
+  height: 36px;
+  position: absolute;
 `;
 
 export default React.memo(HorizontalMemberItem);

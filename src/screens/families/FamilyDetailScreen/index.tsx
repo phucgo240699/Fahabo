@@ -38,7 +38,7 @@ import {userSelector} from '@store/selectors/authentication';
 import {isRefreshingFamilyMembersSelector} from '@store/selectors/session';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {previewAlbumSelector} from '@store/selectors/albums';
-import {FamilyType} from '@constants/types/family';
+import {FamilyType, MemberType} from '@constants/types/family';
 
 interface Props {
   route?: any;
@@ -153,13 +153,13 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
       navigate(ScreenName.FamilyMembersScreen, {familyId: familyDetail?.id});
     }
   };
-  const renderItem = ({item}: {item: any}) => {
+  const renderItem = ({item}: {item: MemberType}) => {
     const onPressContainer = () => {
       onPressKickMember(item);
     };
     return (
       <>
-        {allowEdit && user?.id !== item.id ? (
+        {allowEdit && user?.id !== item.id && item.isHost !== true ? (
           <AvatarContainer onPress={onPressContainer}>
             <Avatar source={{uri: item.avatar}} />
             <KickIcon source={clearIcon} />

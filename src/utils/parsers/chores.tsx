@@ -6,11 +6,13 @@ export function parseAssignee(rawData: any): AssigneeType {
   const id = get('memberId', rawData);
   const avatar = get('avatar', rawData);
   const name = get('name', rawData);
+  const isHost = get('isHost', rawData);
 
   return {
     id,
     avatar,
     name,
+    isHost,
   };
 }
 export function parseAssignees(rawData: any[]): AssigneeType[] {

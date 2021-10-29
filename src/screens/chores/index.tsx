@@ -103,6 +103,7 @@ const ChoresScreen: React.FC<Props> = ({
           <SwipeListView
             data={chores}
             renderItem={renderItem}
+            disableRightSwipe={true}
             contentContainerStyle={styles.list}
             refreshControl={
               <RefreshControl

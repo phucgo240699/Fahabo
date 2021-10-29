@@ -66,6 +66,7 @@ export const plusIcon = require('@assets/images/plus_icon.png');
 export const qrCodeIcon = require('@assets/images/qr_code_icon.png');
 export const galleryIcon = require('@assets/images/gallery_icon.png');
 export const placeholderImage = require('@assets/images/placeholder_image.png');
+export const hostArmorialIcon = require('@assets/images/host_armorial_icon.png');
 
 //
 // Albums

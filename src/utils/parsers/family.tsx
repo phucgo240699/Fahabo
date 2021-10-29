@@ -30,5 +30,6 @@ export function parseMember(rawData: any): MemberType {
     name: get('name', rawData),
     phoneNumber: get('phoneNumber', rawData),
     avatar: get('avatar', rawData),
+    isHost: get('isHost', rawData),
   };
 }

@@ -79,4 +79,5 @@ export type MemberType = {
   name?: string;
   phoneNumber?: string;
   avatar?: string;
+  isHost?: boolean;
 };
