@@ -31,7 +31,7 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
 
   // Item
   const renderItem = ({item}: {item: MemberType}) => {
-    return <HorizontalMemberItem item={item} />;
+    return <HorizontalMemberItem detectHost item={item} />;
   };
 
   // Refresh & Load More

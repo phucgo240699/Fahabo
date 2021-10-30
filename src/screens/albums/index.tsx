@@ -175,7 +175,7 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
           <PrimaryButton
             marginRight={8}
             leftSource={plusIcon}
-            leftTintColor={colors.THEME_COLOR_6}
+            leftTintColor={colors.THEME_COLOR_7}
             onPress={onPressCreate}
           />
         }

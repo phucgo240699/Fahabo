@@ -132,7 +132,7 @@ const Deadline = styled(fonts.PrimaryFontRegularSize12)`
 
 const HLine = styled.View`
   left: 10px;
-  bottom: 46px;
+  bottom: 48px;
   width: 100%;
   height: 1px;
   opacity: 0.6;

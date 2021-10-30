@@ -63,6 +63,7 @@ export type GetPreviewAlbumRequestType = {
 export type AlbumType = {
   id?: number;
   index?: number;
+  uri?: string;
   title?: string;
   description?: string;
   totalPhotos?: number;

@@ -74,6 +74,7 @@
     "inProgress": "Đang làm",
     "expired": "Trễ",
     "createNewChore": "Tạo công việc mới",
+    "updateChore": "Cập nhật công việc",
     "title": "Tên công việc",
     "description": "Mô tả",
     "status": "Trạng thái",

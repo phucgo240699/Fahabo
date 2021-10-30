@@ -15,6 +15,7 @@ interface Props {
   pickerMode?: boolean;
   isPicked?: boolean; // only work when pickerMode === true
   size?: 'large' | 'small';
+  detectHost?: boolean;
   onPress?: (item: MemberType) => void;
 }
 
@@ -23,6 +24,7 @@ const HorizontalMemberItem: React.FC<Props> = ({
   pickerMode,
   isPicked,
   size = 'large',
+  detectHost,
   onPress,
 }) => {
   const onPressContainer = () => {
@@ -43,7 +45,7 @@ const HorizontalMemberItem: React.FC<Props> = ({
       <Name size={size} numberOfLines={2}>
         {item?.name}
       </Name>
-      {item.isHost && <HostArmorial source={hostArmorialIcon} />}
+      {item.isHost && detectHost && <HostArmorial source={hostArmorialIcon} />}
     </Container>
   );
 };
@@ -70,6 +72,7 @@ const Name = styled(fonts.PrimaryFontMediumSize16)<{size: string}>`
 `;
 
 const Circle = styled.View<{size: string}>`
+  margin-left: 10px;
   width: ${props => (props.size === 'large' ? 30 : 18)}px;
   height: ${props => (props.size === 'large' ? 30 : 18)}px;
   align-items: center;
@@ -87,10 +90,10 @@ const Point = styled.View<{size: string}>`
 `;
 
 const HostArmorial = styled.Image`
-  top: -12px;
+  top: -16px;
   right: -12px;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   position: absolute;
 `;
 

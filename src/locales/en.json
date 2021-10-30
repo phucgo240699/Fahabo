@@ -74,6 +74,7 @@
     "inProgress": "In Progress",
     "expired": "Expired",
     "createNewChore": "Create new chore",
+    "updateChore": "Update chore",
     "title": "Title",
     "description": "Description",
     "status": "Status",

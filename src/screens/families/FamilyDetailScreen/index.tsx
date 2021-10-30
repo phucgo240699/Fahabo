@@ -39,6 +39,7 @@ import {isRefreshingFamilyMembersSelector} from '@store/selectors/session';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {previewAlbumSelector} from '@store/selectors/albums';
 import {FamilyType, MemberType} from '@constants/types/family';
+import {getPreviewAlbumRequestAction} from '@store/actionTypes/albums';
 
 interface Props {
   route?: any;
@@ -62,6 +63,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   useEffect(() => {
     if (!isNull(familyDetail?.id)) {
       dispatch(getFamilyMembersSuccessAction([]));
+      dispatch(getPreviewAlbumRequestAction({familyId: familyDetail?.id}));
       dispatch(
         getFamilyMembersRequestAction({
           showHUD: true,
@@ -85,6 +87,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   // Refresh
   const onRefreshingFamilyDetail = () => {
     if (isRefreshingMembers === false) {
+      dispatch(getPreviewAlbumRequestAction({familyId: familyDetail?.id}));
       dispatch(
         getFamilyMembersRequestAction({
           refresh: true,

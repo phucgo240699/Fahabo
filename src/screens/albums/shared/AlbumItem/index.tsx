@@ -50,7 +50,7 @@ const AlbumItem: React.FC<Props> = ({
   return (
     <Box mt={2} mr={4} width={maxWidth}>
       <TouchableOpacity activeOpacity={0.8} onPress={onPressTouchable}>
-        {/* {isNull(item.uri) ? (
+        {isNull(item.uri) ? (
           <Image
             borderRadius={8}
             width={maxWidth}
@@ -66,14 +66,7 @@ const AlbumItem: React.FC<Props> = ({
             source={{uri: item.uri}}
             alt={i18n.t('application.loading')}
           />
-        )} */}
-        <Image
-          borderRadius={8}
-          width={maxWidth}
-          height={maxHeight}
-          source={placeholderImage}
-          alt={i18n.t('application.loading')}
-        />
+        )}
       </TouchableOpacity>
       <Title>{item.index === 0 ? i18n.t('album.general') : item.title}</Title>
       <TotalNumber>{item.totalPhotos}</TotalNumber>

@@ -122,12 +122,12 @@ const ChoresScreen: React.FC<Props> = ({
                 backgroundColor={colors.WHITE}>
                 <SwipeUpdateButton
                   onPress={onPressUpdate}
-                  leftTintColor={colors.BLACK}
+                  leftTintColor={'#ffffff'}
                   leftSource={editProfileIcon}
                 />
                 <SwipeDeleteButton
                   leftSource={trashIcon}
-                  leftTintColor={colors.BLACK}
+                  leftTintColor={'#ffffff'}
                   onPress={onPressDelete}
                 />
               </Box>
@@ -165,7 +165,7 @@ const SwipeDeleteButton = styled(PrimaryButton)`
   justify-content: center;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-  background-color: ${colors.RED_1};
+  background-color: #ff4000;
 `;
 
 const SwipeUpdateButton = styled(PrimaryButton)`

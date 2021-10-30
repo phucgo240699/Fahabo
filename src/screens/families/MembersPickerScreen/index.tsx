@@ -33,17 +33,17 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
 
-  // // Life Cycle
-  // useEffect(() => {
-  //   if (route.params.familyId) {
-  //     dispatch(
-  //       getFamilyMembersRequestAction({
-  //         familyId: route.params.familyId,
-  //         showHUD: true,
-  //       }),
-  //     );
-  //   }
-  // }, []);
+  // Life Cycle
+  useEffect(() => {
+    if (route.params.familyId) {
+      dispatch(
+        getFamilyMembersRequestAction({
+          familyId: route.params.familyId,
+          showHUD: true,
+        }),
+      );
+    }
+  }, []);
 
   // Refresh & Load More
   const onRefreshData = () => {

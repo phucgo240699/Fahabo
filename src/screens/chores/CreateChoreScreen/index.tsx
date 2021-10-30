@@ -374,7 +374,11 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
         translucent
       />
       <ProfileHeader
-        title={i18n.t('chores.createNewChore')}
+        title={
+          isNull(oldChore)
+            ? i18n.t('chores.createNewChore')
+            : i18n.t('chores.updateChore')
+        }
         rightComponent={
           <PrimaryButton
             marginRight={8}
@@ -404,7 +408,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             />
 
             {/* Deadline */}
-            <Label>{`${i18n.t('chores.deadline')}:`}</Label>
+            <Label>{`${i18n.t('chores.deadline')}* :`}</Label>
             <Button
               variant="outline"
               height={50}
