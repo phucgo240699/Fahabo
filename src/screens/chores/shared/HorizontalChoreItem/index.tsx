@@ -47,7 +47,7 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
     <Touch onPress={onPressTouch} activeOpacity={1.0}>
       <Container>
         <Title numberOfLines={2}>{item.title}</Title>
-        <Deadline numberOfLines={1}>{item.deadline}</Deadline>
+        <Deadline numberOfLines={1}>{item.deadline?.split(' ')[0]}</Deadline>
         <HLine />
         <FlatList
           left={3}

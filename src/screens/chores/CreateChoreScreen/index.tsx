@@ -418,7 +418,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               onPress={onPressDeadline}>
               {isNull(deadline)
                 ? i18n.t('profile.formatDate')
-                : getDateStringFrom(deadline ?? '')}
+                : getDateStringFrom(deadline.split(' ')[0] ?? '')}
             </Button>
 
             {/* Repeat */}
