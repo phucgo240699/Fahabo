@@ -1,17 +1,12 @@
 import React from 'react';
-import styled from 'styled-components/native';
-import colors from '@themes/colors';
 import fonts from '@themes/fonts';
-import {Avatar, FlatList, Menu, Pressable} from 'native-base';
-import {Platform} from 'react-native';
-import {DummyDetailFamily} from '@constants/DummyData';
-import PrimaryButton from '@components/PrimaryButton';
-import {ChoreStatus, ChoreType} from '@constants/types/chores';
-import i18n from '@locales/index';
-import {getChoreStatusColor, getChoreStatusText} from '@utils/chores';
-import {Constants} from '@constants/Constants';
+import colors from '@themes/colors';
 import {useDispatch} from 'react-redux';
+import styled from 'styled-components/native';
+import {Avatar, FlatList, Menu, Pressable} from 'native-base';
+import {ChoreStatus, ChoreType} from '@constants/types/chores';
 import {updateChoreRequestAction} from '@store/actionTypes/chores';
+import {getChoreStatusColor, getChoreStatusText} from '@utils/chores';
 
 interface Props {
   item: ChoreType;
@@ -60,32 +55,33 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
         />
-        <Menu
-          p={1}
-          width={200}
-          borderRadius={14}
-          bgColor={colors.WHITE}
-          borderColor={colors.WHITE}
-          shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
-          placement={position == 'auto' ? undefined : position}
-          trigger={triggerProps => {
-            return (
-              <Pressable
-                top={2}
-                right={2}
-                width={24}
-                height={8}
-                borderRadius={16}
-                position={'absolute'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                bgColor={getChoreStatusColor(item.status)}
-                {...triggerProps}>
-                <StatusText>{getChoreStatusText(item.status)}</StatusText>
-              </Pressable>
-            );
-          }}>
-          {item.status !== ChoreStatus.DONE && (
+
+        {item.status === ChoreStatus.IN_PROGRESS ? (
+          <Menu
+            p={1}
+            width={200}
+            borderRadius={14}
+            bgColor={colors.WHITE}
+            borderColor={colors.WHITE}
+            shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
+            placement={position == 'auto' ? undefined : position}
+            trigger={triggerProps => {
+              return (
+                <Pressable
+                  top={2}
+                  right={2}
+                  width={24}
+                  height={9}
+                  borderRadius={18}
+                  position={'absolute'}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                  bgColor={getChoreStatusColor(item.status)}
+                  {...triggerProps}>
+                  <StatusText>{getChoreStatusText(item.status)}</StatusText>
+                </Pressable>
+              );
+            }}>
             <Menu.Item
               borderRadius={10}
               bgColor={colors.WHITE}
@@ -93,8 +89,21 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
               onPress={onUpdateDoneStatus}>
               {getChoreStatusText(ChoreStatus.DONE)}
             </Menu.Item>
-          )}
-        </Menu>
+          </Menu>
+        ) : (
+          <Pressable
+            top={2}
+            right={2}
+            width={24}
+            height={9}
+            borderRadius={18}
+            position={'absolute'}
+            alignItems={'center'}
+            justifyContent={'center'}
+            bgColor={getChoreStatusColor(item.status)}>
+            <StatusText>{getChoreStatusText(item.status)}</StatusText>
+          </Pressable>
+        )}
       </Container>
     </Touch>
   );
