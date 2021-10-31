@@ -102,7 +102,9 @@ function* updateChoreSaga({
           ToastType.SUCCESS,
         ),
       );
-      navigationRef.current?.dispatch(CommonActions.goBack());
+      if (body.goBack === true) {
+        navigationRef.current?.dispatch(CommonActions.goBack());
+      }
     } else {
       yield* put(
         showToastAction(

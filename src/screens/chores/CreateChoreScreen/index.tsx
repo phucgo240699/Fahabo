@@ -307,6 +307,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
         // });
         dispatch(
           updateChoreRequestAction({
+            goBack: true,
             choreId: oldChore.id,
             status: status,
             title: title,

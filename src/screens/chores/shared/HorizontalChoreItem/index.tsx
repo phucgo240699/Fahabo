@@ -29,11 +29,9 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
     }
   };
   const onUpdateDoneStatus = () => {
-    if (item.status === ChoreStatus.IN_PROGRESS) {
-      dispatch(
-        updateChoreRequestAction({choreId: item.id, status: ChoreStatus.DONE}),
-      );
-    }
+    dispatch(
+      updateChoreRequestAction({choreId: item.id, status: ChoreStatus.DONE}),
+    );
   };
   const renderItem = ({item}: {item: any}) => {
     return (

@@ -29,6 +29,7 @@ export type CreateChoreRequestType = {
 };
 
 export type UpdateChoreRequestType = {
+  goBack?: boolean;
   choreId?: number;
   status?: ChoreStatus;
   title?: string;
