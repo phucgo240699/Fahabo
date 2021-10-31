@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, Menu, Pressable} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -10,8 +10,11 @@ import {MemberType} from '@constants/types/family';
 import {ChoreStatus} from '@constants/types/chores';
 import fonts from '@themes/fonts';
 import i18n from '@locales/index';
+import PrimaryHeader from '@components/PrimaryHeader';
+import PrimarySearchBar from '@components/PrimarySearchBar';
 
 interface Props {
+  searchText: string;
   sortBy: 'created_at' | 'deadline';
   selectedMember?: MemberType;
   selectedStatus?: ChoreStatus;
@@ -19,9 +22,12 @@ interface Props {
   onChangeStatus?: (status: ChoreStatus) => void;
   onPressLatestCreate?: () => void;
   onPressLatestDeadline?: () => void;
+  onChangeSearchText?: (text: string) => void;
+  onSubmitSearchText?: (text: string) => void;
 }
 
 const ListChoresHeader: React.FC<Props> = ({
+  searchText,
   sortBy,
   selectedMember,
   selectedStatus,
@@ -29,6 +35,8 @@ const ListChoresHeader: React.FC<Props> = ({
   onChangeStatus,
   onPressLatestCreate,
   onPressLatestDeadline,
+  onChangeSearchText,
+  onSubmitSearchText,
 }) => {
   const [shouldOverlapWithTrigger] = React.useState(false);
   const [position, setPosition] = React.useState('bottom right');
@@ -44,19 +52,29 @@ const ListChoresHeader: React.FC<Props> = ({
       placement={position == 'auto' ? undefined : position}
       trigger={triggerProps => {
         return (
-          <SortContainer>
-            <SortItemContainer onPress={onPressLatestCreate}>
-              <Circle>{sortBy === 'created_at' && <Point />}</Circle>
-              <SortLabel>{i18n.t('chores.latestCreate')}</SortLabel>
-            </SortItemContainer>
-            <SortItemContainer onPress={onPressLatestDeadline}>
-              <Circle>{sortBy === 'deadline' && <Point />}</Circle>
-              <SortLabel>{i18n.t('chores.latestDeadline')}</SortLabel>
-            </SortItemContainer>
-            <Pressable {...triggerProps}>
-              <PrimaryIcon source={filterIcon} tintColor={colors.DANUBE} />
-            </Pressable>
-          </SortContainer>
+          <Box>
+            <PrimarySearchBar
+              text={searchText}
+              marginTop={8}
+              marginLeft={10}
+              marginRight={10}
+              onChangeText={onChangeSearchText}
+              onSubmitText={onSubmitSearchText}
+            />
+            <SortContainer>
+              <SortItemContainer onPress={onPressLatestCreate}>
+                <Circle>{sortBy === 'created_at' && <Point />}</Circle>
+                <SortLabel>{i18n.t('chores.latestCreate')}</SortLabel>
+              </SortItemContainer>
+              <SortItemContainer onPress={onPressLatestDeadline}>
+                <Circle>{sortBy === 'deadline' && <Point />}</Circle>
+                <SortLabel>{i18n.t('chores.latestDeadline')}</SortLabel>
+              </SortItemContainer>
+              <Pressable {...triggerProps}>
+                <PrimaryIcon source={filterIcon} tintColor={colors.DANUBE} />
+              </Pressable>
+            </SortContainer>
+          </Box>
         );
       }}>
       <ChoreFilterBox

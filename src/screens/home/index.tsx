@@ -6,8 +6,7 @@ import ChoresScreen from '@screens/chores';
 import EventsScreen from '@screens/events';
 import styled from 'styled-components/native';
 import {Constants, ScreenName} from '@constants/Constants';
-import React, {useCallback, useEffect, useState} from 'react';
-import PrimaryHeader from '@components/PrimaryHeader';
+import React, {useEffect, useState} from 'react';
 import {SceneMap, TabView, TabBar} from 'react-native-tab-view';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
@@ -24,17 +23,6 @@ interface Props {}
 
 const HomeScreen: React.FC<Props> = () => {
   const [index, setIndex] = useState(0);
-  const [searchText, setSearchText] = useState('');
-  const [submitSearchText, setSubmitSearchText] = useState('');
-  const [selectedMember, setSelectedMember] = useState<MemberType | undefined>(
-    undefined,
-  );
-  const [selectedStatus, setSelectedStatus] = useState<ChoreStatus | undefined>(
-    undefined,
-  );
-  const [sortBy, setSortBy] = React.useState<'created_at' | 'deadline'>(
-    'created_at',
-  );
 
   const dispatch = useDispatch();
   const focusFamily = useSelector(focusFamilySelector);
@@ -50,93 +38,11 @@ const HomeScreen: React.FC<Props> = () => {
     {key: 'events', title: i18n.t('events.events')},
   ]);
   const renderScene = SceneMap({
-    chores: () => (
-      <ChoresScreen
-        sortBy={sortBy}
-        selectedMember={selectedMember}
-        selectedStatus={selectedStatus}
-        onChangeMember={onChangeMember}
-        onChangeStatus={onChangeStatus}
-        onPressLatestCreate={onPressLatestCreate}
-        onPressLatestDeadline={onPressLatestDeadline}
-      />
-    ),
+    chores: () => <ChoresScreen />,
     events: () => <EventsScreen />,
   });
   const renderTabLabel = ({route, focused}: {route: any; focused: boolean}) => {
     return <TabTitle isFocus={focused}>{route.title}</TabTitle>;
-  };
-
-  const getChores = (
-    _assignee?: MemberType,
-    _status?: ChoreStatus,
-    _sortBy?: string,
-    _text?: string,
-  ) => {
-    if (!isNull(focusFamily?.id)) {
-      dispatch(
-        getChoresRequestAction({
-          showHUD: true,
-          familyId: focusFamily?.id,
-          assigneeIds:
-            isNull(_assignee) || isNull(_assignee?.id)
-              ? []
-              : [_assignee?.id ?? 0],
-          statuses: isNull(_status) ? [] : [_status ?? ChoreStatus.IN_PROGRESS],
-          sortBy: _sortBy,
-          searchText: _text,
-        }),
-      );
-    }
-  };
-
-  // Search
-  const onChangeSearchText = (text: string) => {
-    setSearchText(text);
-  };
-  const onSubmitSearchText = (text: string) => {
-    setSubmitSearchText(text);
-    getChores(selectedMember, selectedStatus, sortBy, text);
-  };
-
-  // Filter & Sort
-  const onChangeMember = (member: MemberType) => {
-    if (selectedMember?.id === member.id) {
-      setSelectedMember(undefined);
-      getChores(undefined, selectedStatus, sortBy, submitSearchText);
-    } else {
-      setSelectedMember(member);
-      getChores(member, selectedStatus, sortBy, submitSearchText);
-    }
-  };
-  const onChangeStatus = (status: ChoreStatus) => {
-    if (selectedStatus === status) {
-      setSelectedStatus(undefined);
-      getChores(selectedMember, undefined, sortBy, submitSearchText);
-    } else {
-      setSelectedStatus(status);
-      getChores(selectedMember, status, sortBy, submitSearchText);
-    }
-  };
-
-  const onPressLatestCreate = () => {
-    setSortBy('created_at');
-    getChores(selectedMember, selectedStatus, 'created_at', submitSearchText);
-  };
-
-  const onPressLatestDeadline = () => {
-    setSortBy('deadline');
-    getChores(selectedMember, selectedStatus, 'created_at', submitSearchText);
-  };
-
-  // Creation
-  const onPressPlusButton = () => {
-    if (!isNull(focusFamily?.id)) {
-      // Chore
-      if (index === 0) {
-        navigate(ScreenName.CreateChoreScreen, {familyId: focusFamily?.id});
-      }
-    }
   };
 
   return (
@@ -145,12 +51,6 @@ const HomeScreen: React.FC<Props> = () => {
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
         translucent
-      />
-      <PrimaryHeader
-        text={searchText}
-        onChangeText={onChangeSearchText}
-        onSubmitText={onSubmitSearchText}
-        onPressPlus={onPressPlusButton}
       />
       <TabView
         renderTabBar={props => (

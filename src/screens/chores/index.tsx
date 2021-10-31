@@ -17,36 +17,101 @@ import {
 import {focusFamilySelector} from '@store/selectors/family';
 import {isNull} from '@utils/index';
 import {RowMap, SwipeListView} from 'react-native-swipe-list-view';
-import {editProfileIcon, trashIcon} from '@constants/sources';
+import {editProfileIcon, plusIcon, trashIcon} from '@constants/sources';
 import {MemberType} from '@constants/types/family';
 import {ChoreStatus} from '@constants/types/chores';
 import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
 
-interface Props {
-  sortBy: 'created_at' | 'deadline';
-  selectedMember?: MemberType;
-  selectedStatus?: ChoreStatus;
-  onChangeMember?: (member: MemberType) => void;
-  onChangeStatus?: (status: ChoreStatus) => void;
-  onPressLatestCreate?: () => void;
-  onPressLatestDeadline?: () => void;
-}
+interface Props {}
 
-const ChoresScreen: React.FC<Props> = ({
-  sortBy,
-  selectedMember,
-  selectedStatus,
-  onChangeMember,
-  onChangeStatus,
-  onPressLatestCreate,
-  onPressLatestDeadline,
-}) => {
+const ChoresScreen: React.FC<Props> = ({}) => {
   const dispatch = useDispatch();
   const chores = useSelector(choresSelector);
   const focusFamily = useSelector(focusFamilySelector);
   const isRefreshing = useSelector(isRefreshingChoresSelector);
   const [indexSwiped, setIndexSwiped] = useState<string | undefined>(undefined);
+
+  // Search, Filter, Sort
+  const [searchText, setSearchText] = useState('');
+  const [submitSearchText, setSubmitSearchText] = useState('');
+  const [selectedMember, setSelectedMember] = useState<MemberType | undefined>(
+    undefined,
+  );
+  const [selectedStatus, setSelectedStatus] = useState<ChoreStatus | undefined>(
+    undefined,
+  );
+  const [sortBy, setSortBy] = React.useState<'created_at' | 'deadline'>(
+    'created_at',
+  );
+
+  // Search
+  const onChangeSearchText = (text: string) => {
+    setSearchText(text);
+  };
+  const onSubmitSearchText = (text: string) => {
+    setSubmitSearchText(text);
+    getChores(selectedMember, selectedStatus, sortBy, text);
+  };
+
+  const getChores = (
+    _assignee?: MemberType,
+    _status?: ChoreStatus,
+    _sortBy?: string,
+    _text?: string,
+  ) => {
+    if (!isNull(focusFamily?.id)) {
+      dispatch(
+        getChoresRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          assigneeIds:
+            isNull(_assignee) || isNull(_assignee?.id)
+              ? []
+              : [_assignee?.id ?? 0],
+          statuses: isNull(_status) ? [] : [_status ?? ChoreStatus.IN_PROGRESS],
+          sortBy: _sortBy,
+          searchText: _text,
+        }),
+      );
+    }
+  };
+  // Filter & Sort
+  const onChangeMember = (member: MemberType) => {
+    if (selectedMember?.id === member.id) {
+      setSelectedMember(undefined);
+      getChores(undefined, selectedStatus, sortBy, submitSearchText);
+    } else {
+      setSelectedMember(member);
+      getChores(member, selectedStatus, sortBy, submitSearchText);
+    }
+  };
+  const onChangeStatus = (status: ChoreStatus) => {
+    if (selectedStatus === status) {
+      setSelectedStatus(undefined);
+      getChores(selectedMember, undefined, sortBy, submitSearchText);
+    } else {
+      setSelectedStatus(status);
+      getChores(selectedMember, status, sortBy, submitSearchText);
+    }
+  };
+
+  const onPressLatestCreate = () => {
+    setSortBy('created_at');
+    getChores(selectedMember, selectedStatus, 'created_at', submitSearchText);
+  };
+
+  const onPressLatestDeadline = () => {
+    setSortBy('deadline');
+    getChores(selectedMember, selectedStatus, 'created_at', submitSearchText);
+  };
+
+  // Creation
+  const onPressCreateButton = () => {
+    if (!isNull(focusFamily?.id)) {
+      navigate(ScreenName.CreateChoreScreen, {familyId: focusFamily?.id});
+    }
+  };
 
   const onDismissKeyboard = () => {
     Keyboard.dismiss();
@@ -138,15 +203,24 @@ const ChoresScreen: React.FC<Props> = ({
             ListHeaderComponent={
               <ListChoresHeader
                 sortBy={sortBy}
+                searchText={searchText}
                 selectedMember={selectedMember}
                 selectedStatus={selectedStatus}
                 onChangeMember={onChangeMember}
                 onChangeStatus={onChangeStatus}
                 onPressLatestCreate={onPressLatestCreate}
                 onPressLatestDeadline={onPressLatestDeadline}
+                onChangeSearchText={onChangeSearchText}
+                onSubmitSearchText={onSubmitSearchText}
               />
             }
             keyExtractor={(item, index) => index.toString()}
+          />
+          <CreateButton
+            padding={14}
+            leftSource={plusIcon}
+            leftTintColor={colors.WHITE}
+            onPress={onPressCreateButton}
           />
         </Box>
       </Touch>
@@ -176,9 +250,17 @@ const SwipeUpdateButton = styled(PrimaryButton)`
   background-color: #134db9;
 `;
 
+const CreateButton = styled(PrimaryButton)`
+  right: 14px;
+  bottom: 14px;
+  position: absolute;
+  border-radius: 40px;
+  background-color: ${colors.DANUBE};
+`;
+
 const styles = StyleSheet.create({
   list: {
-    paddingBottom: 50,
+    paddingBottom: 80,
   },
 });
 
