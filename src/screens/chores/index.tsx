@@ -35,12 +35,8 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   // Search, Filter, Sort
   const [searchText, setSearchText] = useState('');
   const [submitSearchText, setSubmitSearchText] = useState('');
-  const [selectedMember, setSelectedMember] = useState<MemberType | undefined>(
-    undefined,
-  );
-  const [selectedStatus, setSelectedStatus] = useState<ChoreStatus | undefined>(
-    undefined,
-  );
+  const [selectedMember, setSelectedMember] = useState<MemberType[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<ChoreStatus[]>([]);
   const [sortBy, setSortBy] = React.useState<'created_at' | 'deadline'>(
     'created_at',
   );
@@ -55,8 +51,8 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   };
 
   const getChores = (
-    _assignee?: MemberType,
-    _status?: ChoreStatus,
+    _assignee: MemberType[],
+    _status: ChoreStatus[],
     _sortBy?: string,
     _text?: string,
   ) => {
@@ -65,11 +61,10 @@ const ChoresScreen: React.FC<Props> = ({}) => {
         getChoresRequestAction({
           showHUD: true,
           familyId: focusFamily?.id,
-          assigneeIds:
-            isNull(_assignee) || isNull(_assignee?.id)
-              ? []
-              : [_assignee?.id ?? 0],
-          statuses: isNull(_status) ? [] : [_status ?? ChoreStatus.IN_PROGRESS],
+          assigneeIds: _assignee.map(item => {
+            return item.id;
+          }),
+          statuses: _status,
           sortBy: _sortBy,
           searchText: _text,
         }),
@@ -78,21 +73,53 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   };
   // Filter & Sort
   const onChangeMember = (member: MemberType) => {
-    if (selectedMember?.id === member.id) {
-      setSelectedMember(undefined);
-      getChores(undefined, selectedStatus, sortBy, submitSearchText);
+    if (selectedMember.includes(member)) {
+      setSelectedMember(
+        selectedMember.filter(item => {
+          return item.id !== member.id;
+        }),
+      );
+      getChores(
+        selectedMember.filter(item => {
+          return item.id !== member.id;
+        }),
+        selectedStatus,
+        sortBy,
+        submitSearchText,
+      );
     } else {
-      setSelectedMember(member);
-      getChores(member, selectedStatus, sortBy, submitSearchText);
+      setSelectedMember([...selectedMember, member]);
+      getChores(
+        [...selectedMember, member],
+        selectedStatus,
+        sortBy,
+        submitSearchText,
+      );
     }
   };
   const onChangeStatus = (status: ChoreStatus) => {
-    if (selectedStatus === status) {
-      setSelectedStatus(undefined);
-      getChores(selectedMember, undefined, sortBy, submitSearchText);
+    if (selectedStatus.includes(status)) {
+      setSelectedStatus(
+        selectedStatus.filter(item => {
+          return item !== status;
+        }),
+      );
+      getChores(
+        selectedMember,
+        selectedStatus.filter(item => {
+          return item !== status;
+        }),
+        sortBy,
+        submitSearchText,
+      );
     } else {
-      setSelectedStatus(status);
-      getChores(selectedMember, status, sortBy, submitSearchText);
+      setSelectedStatus([...selectedStatus, status]);
+      getChores(
+        selectedMember,
+        [...selectedStatus, status],
+        sortBy,
+        submitSearchText,
+      );
     }
   };
 

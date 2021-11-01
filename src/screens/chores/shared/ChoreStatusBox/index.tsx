@@ -8,7 +8,7 @@ import PrimaryButton from '@components/PrimaryButton';
 import {getChoreStatusColor, getChoreStatusText} from '@utils/chores';
 
 interface Props {
-  status?: ChoreStatus;
+  status: ChoreStatus[];
   onChangeStatus?: (value: ChoreStatus) => void;
 }
 
@@ -40,7 +40,7 @@ const ChoreStatusBox: React.FC<Props> = ({status, onChangeStatus}) => {
           titleFontWeight={600}
           titleColor={colors.WHITE}
           onPress={onPressDone}
-          isChosen={status === ChoreStatus.DONE}
+          isChosen={status.includes(ChoreStatus.DONE)}
           title={getChoreStatusText(ChoreStatus.DONE)}
           backgroundColor={getChoreStatusColor(ChoreStatus.DONE)}
         />
@@ -49,7 +49,7 @@ const ChoreStatusBox: React.FC<Props> = ({status, onChangeStatus}) => {
           titleFontWeight={600}
           titleColor={colors.WHITE}
           onPress={onPressInProgress}
-          isChosen={status === ChoreStatus.IN_PROGRESS}
+          isChosen={status.includes(ChoreStatus.IN_PROGRESS)}
           title={getChoreStatusText(ChoreStatus.IN_PROGRESS)}
           backgroundColor={getChoreStatusColor(ChoreStatus.IN_PROGRESS)}
         />
@@ -58,7 +58,7 @@ const ChoreStatusBox: React.FC<Props> = ({status, onChangeStatus}) => {
           titleFontWeight={600}
           titleColor={colors.WHITE}
           onPress={onPressExpired}
-          isChosen={status === ChoreStatus.EXPIRED}
+          isChosen={status.includes(ChoreStatus.EXPIRED)}
           title={getChoreStatusText(ChoreStatus.EXPIRED)}
           backgroundColor={getChoreStatusColor(ChoreStatus.EXPIRED)}
         />
@@ -75,7 +75,7 @@ const StatusButton = styled(PrimaryButton)<{
   height: 32px;
   margin-right: 10px;
   border-radius: 16px;
-  border-color: ${colors.BLACK};
+  border-color: ${colors.GRAY};
   border-width: ${props => (props.isChosen ? 4 : 0)}px;
   background-color: ${props => props.backgroundColor};
 `;

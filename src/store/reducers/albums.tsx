@@ -29,7 +29,7 @@ export default function albumsReducer(state = defaultState, action: AnyAction) {
     case CREATE_ALBUM_SUCCESS:
       return {
         ...state,
-        albums: [...state.albums, action.payload],
+        albums: [action.payload, ...state.albums],
       };
     case UPDATE_ALBUM_SUCCESS:
       return {
@@ -56,7 +56,7 @@ export default function albumsReducer(state = defaultState, action: AnyAction) {
     case ADD_PHOTOS_SUCCESS:
       return {
         ...state,
-        photos: [...state.photos, ...action.payload],
+        photos: [...action.payload, ...state.photos],
       };
     case UPDATE_PHOTO_SUCCESS:
       return {

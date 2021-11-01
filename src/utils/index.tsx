@@ -15,6 +15,17 @@ export const getOriginDateString = (date: Date) => {
   return `${day}-${month}-${date.getFullYear()}`; // DD-MM-YYYY
 };
 
+export const getOriginDateStringFromYYYYMMDDString = (
+  value: string,
+  separator: string,
+) => {
+  const elements = value.split(separator);
+  const day = elements[2];
+  const month = elements[1];
+  const year = elements[0];
+  return `${day}-${month}-${year}`;
+};
+
 export const getDateStringFrom = (originDateString: string) => {
   const elements = originDateString.split('-'); // DD-MM-YYYY
   const day = elements[0];

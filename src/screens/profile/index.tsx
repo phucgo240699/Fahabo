@@ -121,10 +121,10 @@ const ProfileScreen: React.FC<Props> = () => {
               <EmailText>{user?.username}</EmailText>
             </Box>
 
-            <ProfileRelationBox
+            {/* <ProfileRelationBox
               onPressChores={onPressChores}
               onPressEvents={onPressEvents}
-            />
+            /> */}
 
             <ProfileSettingsBox
               onPressSettings={onPressSettings}

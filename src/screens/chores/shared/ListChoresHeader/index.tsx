@@ -16,8 +16,8 @@ import PrimarySearchBar from '@components/PrimarySearchBar';
 interface Props {
   searchText: string;
   sortBy: 'created_at' | 'deadline';
-  selectedMember?: MemberType;
-  selectedStatus?: ChoreStatus;
+  selectedMember: MemberType[];
+  selectedStatus: ChoreStatus[];
   onChangeMember?: (member: MemberType) => void;
   onChangeStatus?: (status: ChoreStatus) => void;
   onPressLatestCreate?: () => void;
@@ -38,7 +38,7 @@ const ListChoresHeader: React.FC<Props> = ({
   onChangeSearchText,
   onSubmitSearchText,
 }) => {
-  const [shouldOverlapWithTrigger] = React.useState(false);
+  const [shouldOverlapWithTrigger] = React.useState(true);
   const [position, setPosition] = React.useState('bottom right');
 
   return (

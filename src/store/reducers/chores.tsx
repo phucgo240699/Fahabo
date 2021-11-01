@@ -25,7 +25,7 @@ export default function choresReducer(state = defaultState, action: AnyAction) {
     case CREATE_CHORE_SUCCESS:
       return {
         ...state,
-        chores: [...state.chores, action.payload],
+        chores: [action.payload, ...state.chores],
       };
     case UPDATE_CHORE_SUCCESS:
       return {

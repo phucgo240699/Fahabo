@@ -2,10 +2,11 @@ import React from 'react';
 import {Box} from 'native-base';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
-import {Keyboard} from 'react-native';
+import {Keyboard, Platform} from 'react-native';
 import styled from 'styled-components/native';
 import ProfileHeader from '@components/ProfileHeader';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 interface Props {}
 
@@ -15,26 +16,22 @@ const MyChoresScreen: React.FC<Props> = ({}) => {
   };
 
   return (
-    <Box flex={1} safeArea bgColor={colors.WHITE}>
+    <SafeView>
       {/* Status Bar */}
       <FocusAwareStatusBar
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
         translucent
       />
-      <Touch onPress={onDismissKeyboard}>
-        <Container>
-          <ProfileHeader title={i18n.t('profile.myChores')} />
-        </Container>
-      </Touch>
-    </Box>
+      <ProfileHeader title={i18n.t('profile.myChores')} />
+    </SafeView>
   );
 };
 
-const Touch = styled.TouchableWithoutFeedback``;
-
-const Container = styled.View`
+const SafeView = styled.SafeAreaView`
   flex: 1;
+  background-color: ${colors.WHITE};
+  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
 `;
 
 export default MyChoresScreen;

@@ -35,7 +35,7 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
     case JOIN_FAMILY_SUCCESS:
       return {
         ...state,
-        families: [...state.families, action.payload],
+        families: [action.payload, ...state.families],
       };
     case GET_FAMILIES_SUCCESS:
       return {

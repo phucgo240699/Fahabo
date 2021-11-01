@@ -54,9 +54,9 @@ const Container = styled.TouchableOpacity<{size: string}>`
   flex: 1;
   flex-direction: row;
   align-items: center;
-  shadow-radius: 10px;
-  shadow-opacity: 0.2;
-  border-radius: 10px;
+  shadow-radius: ${props => (props.size === 'large' ? 10 : 4)}px;
+  shadow-opacity: ${props => (props.size === 'large' ? 0.2 : 0.1)};
+  border-radius: ${props => (props.size === 'large' ? 10 : 6)}px;
   shadow-color: ${colors.BLACK};
   background-color: ${colors.WHITE};
   height: ${props => (props.size === 'large' ? 80 : 40)}px;

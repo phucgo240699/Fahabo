@@ -22,8 +22,8 @@ import {
 } from '@store/actionTypes/family';
 
 interface Props {
-  selectedMember?: MemberType;
-  selectedStatus?: ChoreStatus;
+  selectedMember: MemberType[];
+  selectedStatus: ChoreStatus[];
   onPressMember?: (member: MemberType) => void;
   onPressStatus?: (status: ChoreStatus) => void;
 }
@@ -76,7 +76,7 @@ const ChoreFilterBox: React.FC<Props> = ({
                 item={item}
                 size={'small'}
                 pickerMode={true}
-                isPicked={item.id === selectedMember?.id}
+                isPicked={selectedMember.includes(item)}
                 onPress={onPressMember}
               />
             );
