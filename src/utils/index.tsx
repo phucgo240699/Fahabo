@@ -29,15 +29,16 @@ export const getDateStringFrom = (originDateString: string) => {
   }
 };
 
-export const getLanguageName = (languageCode: string) => {
-  switch (languageCode) {
-    case 'vi':
-      return i18n.t('settings.language.vietnamese');
-
-    default:
-      return i18n.t('settings.language.english');
-  }
-};
+// export const getLanguageName = (languageCode: string) => {
+//   switch (languageCode) {
+//     case 'vi':
+//       return i18n.t('settings.language.vietnamese');
+//     case 'en':
+//       return i18n.t('settings.language.english');
+//     default:
+//       return i18n.t('settings.language.auto');
+//   }
+// };
 
 export const getDefaultLanguageCode = () => {
   const code = `${

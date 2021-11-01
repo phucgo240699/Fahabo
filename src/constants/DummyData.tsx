@@ -156,6 +156,7 @@ export const DummyChores = [
 ];
 
 export const DummyRepeat = [
+  RepeatType.NONE,
   RepeatType.DAILY,
   RepeatType.WEEKLY,
   RepeatType.MONTHLY,

@@ -85,6 +85,7 @@
     "photo": "Ảnh",
     "latestCreate": "Tạo gần đây",
     "latestDeadline": "Sắp trễ hạn",
+    "noneRepeat": "Không lặp lại",
     "daily": "Hằng ngày",
     "weekly": "Hằng tuần",
     "monthly": "Hằng tháng"
@@ -115,7 +116,8 @@
       "language": "Ngôn ngữ",
       "save": "Lưu",
       "english": "Tiếng Anh",
-      "vietnamese": "Tiếng Việt"
+      "vietnamese": "Tiếng Việt",
+      "auto": "Theo ngôn ngữ của thiết bị"
     },
     "password": {
       "changePassword": "Đổi mật khẩu",

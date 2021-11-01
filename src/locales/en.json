@@ -85,6 +85,7 @@
     "photo": "Photo",
     "latestCreate": "Latest create",
     "latestDeadline": "Almost expire",
+    "noneRepeat": "Don't repeat",
     "daily": "Daily",
     "weekly": "Weekly",
     "monthly": "Monthly"
@@ -114,7 +115,8 @@
       "language": "Language",
       "save": "Save",
       "english": "English",
-      "vietnamese": "Vietnamese"
+      "vietnamese": "Vietnamese",
+      "auto": "Follow device language"
     },
     "password": {
       "changePassword": "Change password",

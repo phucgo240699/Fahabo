@@ -2,7 +2,6 @@ import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
 import {navigationRef, navigate, navigateReset} from '@navigators/index';
 import {
-  getPreviewAlbumApi,
   getProfileApi,
   updatePasswordApi,
   updateProfileApi,
@@ -142,10 +141,9 @@ function* onUpdateLanguageSaga(action: AnyAction) {
     yield* put(showHUDAction());
     const response = yield* apiProxy(updateProfileApi, action.body);
     if (response.status === 200) {
-      if (!isNull(action.body.languageCode)) {
-        i18n.defaultLocale = action.body.languageCode;
-        i18n.locale = action.body.languageCode;
-      }
+      const data = parseDataResponse(response);
+      i18n.defaultLocale = data.languageCode;
+      i18n.locale = data.languageCode;
       yield* put(
         showToastAction(
           i18n.t('successMessage.updateLanguage'),

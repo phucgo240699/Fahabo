@@ -40,7 +40,7 @@ import {
   updateChoreRequestAction,
 } from '@store/actionTypes/chores';
 import {focusFamilySelector} from '@store/selectors/family';
-import {getChoreStatus, getRepeatType} from '@utils/chores';
+import {getChoreStatus, getRepeatText, getRepeatType} from '@utils/chores';
 import {chorePhotosSelector} from '@store/selectors/chores';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
@@ -60,7 +60,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const [status, setStatus] = useState<ChoreStatus | undefined>(
     ChoreStatus.IN_PROGRESS,
   );
-  const [repeat, setRepeat] = useState<RepeatType | undefined>(undefined);
+  const [repeat, setRepeat] = useState<RepeatType>(RepeatType.NONE);
   const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
   const [selectedPhotos, setSelectedPhotos] = useState<
     {id?: number; uri?: string; base64?: string}[]
@@ -162,9 +162,9 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
     setVisibleDatePicker(false);
   };
 
-  const onChangeStatus = (value: ChoreStatus) => {
-    setStatus(value);
-  };
+  // const onChangeStatus = (value: ChoreStatus) => {
+  //   setStatus(value);
+  // };
 
   const onPressRepeat = () => {
     navigate(ScreenName.RepeatPickerScreen, {fromCreateChore: true});
@@ -292,7 +292,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
         //   title: title,
         //   description: description,
         //   deadline: deadline,
-        //   repeatType: repeat,
+        //   repeatType: repeat === RepeatType.NONE ? undefined : repeat,
         //   assigneeIds: selectedMembers.map((item, index) => {
         //     return item.id;
         //   }),
@@ -313,7 +313,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             title: title,
             description: description,
             deadline: deadline,
-            repeatType: repeat,
+            repeatType: repeat === RepeatType.NONE ? undefined : repeat,
             assigneeIds: selectedMembers.map((item, index) => {
               return item.id;
             }),
@@ -336,7 +336,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
         //   title: title,
         //   description: description,
         //   deadline: deadline,
-        //   repeatType: repeat,
+        //   repeatType: repeat === RepeatType.NONE ? undefined : repeat,
         //   assigneeIds: selectedMembers.map((item, index) => {
         //     return item.id;
         //   }).length,
@@ -353,7 +353,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             title: title,
             description: description,
             deadline: deadline,
-            repeatType: repeat,
+            repeatType: repeat === RepeatType.NONE ? undefined : repeat,
             assigneeIds: selectedMembers.map((item, index) => {
               return item.id;
             }),
@@ -426,7 +426,9 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             {!isNull(deadline) && (
               <RepeatContainer onPress={onPressRepeat}>
                 <RepeatName>
-                  {isNull(repeat) ? i18n.t('chores.repeat') : repeat}
+                  {repeat === RepeatType.NONE
+                    ? i18n.t('chores.repeat')
+                    : getRepeatText(repeat)}
                 </RepeatName>
                 <ArrowIcon
                   width={16}
@@ -437,10 +439,10 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               </RepeatContainer>
             )}
 
-            {/* Status */}
+            {/* Status
             {!isNull(oldChore) && (
               <ChoreStatusBox status={status} onChangeStatus={onChangeStatus} />
-            )}
+            )} */}
           </FormControl>
 
           {/* Assignees */}
@@ -598,7 +600,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listAssignees: {
-    paddingLeft: 30,
     paddingRight: 30,
   },
 });

@@ -47,7 +47,7 @@ export const getChoreStatusText = (status?: string) => {
   }
 };
 
-export function getRepeatType(value?: string): RepeatType | undefined {
+export function getRepeatType(value?: string): RepeatType {
   switch (value) {
     case RepeatType.DAILY:
       return RepeatType.DAILY;
@@ -59,7 +59,7 @@ export function getRepeatType(value?: string): RepeatType | undefined {
       return RepeatType.MONTHLY;
 
     default:
-      return undefined;
+      return RepeatType.NONE;
   }
 }
 
@@ -71,7 +71,10 @@ export const getRepeatText = (type: RepeatType) => {
     case RepeatType.WEEKLY:
       return i18n.t('chores.weekly');
 
-    default:
+    case RepeatType.MONTHLY:
       return i18n.t('chores.monthly');
+
+    default:
+      return i18n.t('chores.noneRepeat');
   }
 };

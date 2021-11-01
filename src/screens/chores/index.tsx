@@ -199,7 +199,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
             )}
             leftOpenValue={160}
             rightOpenValue={-160}
-            onRowDidOpen={onDidSwipe}
+            onRowOpen={onDidSwipe}
             ListHeaderComponent={
               <ListChoresHeader
                 sortBy={sortBy}

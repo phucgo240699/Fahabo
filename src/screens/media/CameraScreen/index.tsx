@@ -42,7 +42,14 @@ const CameraScreen: React.FC<Props> = ({route}) => {
   const takePicture = async function (camera: any) {
     const options = {quality: 0.5, base64: true};
     const data = await camera.takePictureAsync(options);
-    onMakeEffect(data.uri);
+    if (route && route.params && route.params.fromCreateChore) {
+      navigate(ScreenName.CreateChoreScreen, {
+        thumbnailUri: data.uri,
+        thumbnailBase64: data.base64,
+      });
+    } else {
+      onMakeEffect(data.uri);
+    }
   };
 
   const onMakeEffect = (uri: string) => {
@@ -93,11 +100,6 @@ const CameraScreen: React.FC<Props> = ({route}) => {
       });
     } else if (route && route.params && route.params.fromFamilyDetail) {
       navigate(ScreenName.FamilyDetailScreen, {
-        thumbnailUri: uri,
-        thumbnailBase64: base64,
-      });
-    } else if (route && route.params && route.params.fromCreateChore) {
-      navigate(ScreenName.CreateChoreScreen, {
         thumbnailUri: uri,
         thumbnailBase64: base64,
       });

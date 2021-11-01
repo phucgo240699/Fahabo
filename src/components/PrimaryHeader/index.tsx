@@ -109,7 +109,7 @@ const PrimaryHeader: React.FC<Props> = ({
           />
         </SearchIconLayer>
       )}
-      {!isSearching && (
+      {/* {!isSearching && (
         <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
           <PrimaryButton
             marginLeft={8}
@@ -117,7 +117,7 @@ const PrimaryHeader: React.FC<Props> = ({
             leftTintColor={colors.THEME_COLOR_7}
           />
         </SearchIconLayer>
-      )}
+      )} */}
 
       {isSearching && (
         <SearchBarLayer style={{width: searchBarWidthAnim}}>

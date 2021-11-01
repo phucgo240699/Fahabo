@@ -73,6 +73,7 @@ export const Constants = {
 };
 
 export const languages: {key: string; value: string}[] = [
+  {key: 'auto', value: i18n.t('settings.language.auto')},
   {key: 'en', value: i18n.t('settings.language.english')},
   {key: 'vi', value: i18n.t('settings.language.vietnamese')},
 ];
