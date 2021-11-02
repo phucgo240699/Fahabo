@@ -9,6 +9,8 @@ import {
   UPDATE_FAMILY_INFO_SUCCESS,
   UPDATE_FAMILY_THUMBNAIL_SUCCESS,
   UPDATE_FOCUS_FAMILY_SUCCESS,
+  LEAVE_FAMILY_SUCCESS,
+  GET_EVENT_FILTER_MEMBERS_SUCCESS,
 } from '@store/actionTypes/family';
 import {LOG_OUT} from '@store/actionTypes/signIn';
 import {AnyAction} from 'redux';
@@ -18,6 +20,7 @@ export type FamilyState = {
   familyDetail?: FamilyType;
   membersInFamily: MemberType[];
   choreFilterMembers: MemberType[];
+  eventFilterMembers: MemberType[];
   focusFamily?: FamilyType;
 };
 
@@ -26,6 +29,7 @@ const defaultState: FamilyState = {
   familyDetail: undefined,
   membersInFamily: [],
   choreFilterMembers: [],
+  eventFilterMembers: [],
   focusFamily: undefined,
 };
 
@@ -36,6 +40,13 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
       return {
         ...state,
         families: [action.payload, ...state.families],
+      };
+    case LEAVE_FAMILY_SUCCESS:
+      return {
+        ...state,
+        families: state.families.filter(item => {
+          return item.id !== action.payload;
+        }),
       };
     case GET_FAMILIES_SUCCESS:
       return {
@@ -68,6 +79,11 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
       return {
         ...state,
         choreFilterMembers: action.payload,
+      };
+    case GET_EVENT_FILTER_MEMBERS_SUCCESS:
+      return {
+        ...state,
+        eventFilterMembers: action.payload,
       };
     case UPDATE_FOCUS_FAMILY_SUCCESS:
       return {

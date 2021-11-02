@@ -22,6 +22,7 @@ import {MemberType} from '@constants/types/family';
 import {ChoreStatus} from '@constants/types/chores';
 import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
+import {getChoreFilterMembersRequestAction} from '@store/actionTypes/family';
 
 interface Props {}
 
@@ -147,6 +148,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   // Refresh & Load More
   const onRefreshData = () => {
     if (isRefreshing === false && !isNull(focusFamily?.id)) {
+      dispatch(getChoreFilterMembersRequestAction({familyId: focusFamily?.id}));
       dispatch(
         getChoresRequestAction({refresh: true, familyId: focusFamily?.id}),
       );

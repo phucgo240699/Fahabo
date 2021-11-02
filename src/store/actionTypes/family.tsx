@@ -2,6 +2,7 @@ import {
   CreateFamilyRequestType,
   FamilyType,
   GetChoreFilterMembersRequestType,
+  GetEventFilterMembersRequestType,
   GetFamilyDetailRequestType,
   GetFamilyMembersRequestType,
   GetMyFamiliesRequestType,
@@ -42,6 +43,11 @@ export const LEAVE_FAMILY_REQUEST = 'LEAVE_FAMILY_REQUEST';
 export const leaveFamilyRequestAction = (body: LeaveFamilyRequestType) => ({
   type: LEAVE_FAMILY_REQUEST,
   body,
+});
+export const LEAVE_FAMILY_SUCCESS = 'LEAVE_FAMILY_SUCCESS';
+export const leaveFamilySuccessAction = (payload: number | undefined) => ({
+  type: LEAVE_FAMILY_SUCCESS,
+  payload,
 });
 
 // Kick
@@ -130,6 +136,7 @@ export const getFamilyMembersSuccessAction = (payload: MemberType[]) => ({
   type: GET_FAMILY_MEMBERS_SUCCESS,
   payload,
 });
+
 export const GET_CHORE_FILTER_MEMBERS_REQUEST =
   'GET_CHORE_FILTER_MEMBERS_REQUEST';
 export const getChoreFilterMembersRequestAction = (
@@ -138,7 +145,6 @@ export const getChoreFilterMembersRequestAction = (
   type: GET_CHORE_FILTER_MEMBERS_REQUEST,
   body,
 });
-
 export const GET_CHORE_FILTER_MEMBERS_SUCCESS =
   'GET_CHORE_FILTER_MEMBERS_SUCCESS';
 export const getChoreFilterMembersSuccessAction = (payload: MemberType[]) => ({
@@ -146,15 +152,34 @@ export const getChoreFilterMembersSuccessAction = (payload: MemberType[]) => ({
   payload,
 });
 
+export const GET_EVENT_FILTER_MEMBERS_REQUEST =
+  'GET_EVENT_FILTER_MEMBERS_REQUEST';
+export const getEventFilterMembersRequestAction = (
+  body: GetEventFilterMembersRequestType,
+) => ({
+  type: GET_EVENT_FILTER_MEMBERS_REQUEST,
+  body,
+});
+export const GET_EVENT_FILTER_MEMBERS_SUCCESS =
+  'GET_EVENT_FILTER_MEMBERS_SUCCESS';
+export const getEventFilterMembersSuccessAction = (payload: MemberType[]) => ({
+  type: GET_EVENT_FILTER_MEMBERS_SUCCESS,
+  payload,
+});
+
 // Focus Family
 export const UPDATE_FOCUS_FAMILY_REQUEST = 'UPDATE_FOCUS_FAMILY_REQUEST';
-export const updateFocusFamilyRequestAction = (body: FamilyType) => ({
+export const updateFocusFamilyRequestAction = (
+  body: FamilyType | undefined,
+) => ({
   type: UPDATE_FOCUS_FAMILY_REQUEST,
   body,
 });
 
 export const UPDATE_FOCUS_FAMILY_SUCCESS = 'UPDATE_FOCUS_FAMILY_SUCCESS';
-export const updateFocusFamilySuccessAction = (payload: FamilyType) => ({
+export const updateFocusFamilySuccessAction = (
+  payload: FamilyType | undefined,
+) => ({
   type: UPDATE_FOCUS_FAMILY_SUCCESS,
   payload,
 });

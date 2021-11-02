@@ -10,12 +10,16 @@ import {
   UPDATE_IS_LOADING_ALBUMS,
   UPDATE_IS_LOADING_CHORES,
   UPDATE_IS_LOADING_CHORE_PHOTOS,
+  UPDATE_IS_LOADING_EVENTS,
+  UPDATE_IS_LOADING_EVENT_PHOTOS,
   UPDATE_IS_LOADING_FAMILIES,
   UPDATE_IS_LOADING_FAMILY_MEMBERS,
   UPDATE_IS_LOADING_PHOTOS,
   UPDATE_IS_REFRESHING_ALBUMS,
   UPDATE_IS_REFRESHING_CHORES,
   UPDATE_IS_REFRESHING_CHORE_PHOTOS,
+  UPDATE_IS_REFRESHING_EVENTS,
+  UPDATE_IS_REFRESHING_EVENT_PHOTOS,
   UPDATE_IS_REFRESHING_FAMILIES,
   UPDATE_IS_REFRESHING_FAMILY_DETAIL,
   UPDATE_IS_REFRESHING_FAMILY_MEMBERS,
@@ -46,6 +50,8 @@ export type SessionState = {
   isRefreshingPhotos: boolean;
   isRefreshingChores: boolean;
   isRefreshingChorePhotos: boolean;
+  isRefreshingEvents: boolean;
+  isRefreshingEventPhotos: boolean;
 
   // Load More
   isLoadingFamilies: boolean;
@@ -54,15 +60,15 @@ export type SessionState = {
   isLoadingPhotos: boolean;
   isLoadingChores: boolean;
   isLoadingChorePhotos: boolean;
+  isLoadingEvents: boolean;
+  isLoadingEventPhotos: boolean;
 
   // Toasts
   toasts: {id: number; toast: ToastState}[];
 };
 
 const defaultState: SessionState = {
-  //
   // HUD
-  //
   loading: false,
 
   // Refresh
@@ -75,6 +81,8 @@ const defaultState: SessionState = {
   isRefreshingPhotos: false,
   isRefreshingChores: false,
   isRefreshingChorePhotos: false,
+  isRefreshingEvents: false,
+  isRefreshingEventPhotos: false,
 
   // Load More
   isLoadingFamilies: false,
@@ -83,6 +91,8 @@ const defaultState: SessionState = {
   isLoadingPhotos: false,
   isLoadingChores: false,
   isLoadingChorePhotos: false,
+  isLoadingEvents: false,
+  isLoadingEventPhotos: false,
 
   // Toasts
   toasts: [],
@@ -154,6 +164,16 @@ export default function sessionReducer(
         ...state,
         isRefreshingChorePhotos: action.payload,
       };
+    case UPDATE_IS_REFRESHING_EVENTS:
+      return {
+        ...state,
+        isRefreshingEvents: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_EVENT_PHOTOS:
+      return {
+        ...state,
+        isRefreshingEventPhotos: action.payload,
+      };
 
     // Loading
     case UPDATE_IS_LOADING_FAMILIES:
@@ -186,6 +206,16 @@ export default function sessionReducer(
         ...state,
         isLoadingChorePhotos: action.payload,
       };
+    case UPDATE_IS_LOADING_EVENTS:
+      return {
+        ...state,
+        isLoadingEvents: action.payload,
+      };
+    case UPDATE_IS_LOADING_EVENT_PHOTOS:
+      return {
+        ...state,
+        isLoadingEventPhotos: action.payload,
+      };
     case SHOW_TOAST:
       return {
         ...state,
@@ -211,8 +241,8 @@ export default function sessionReducer(
     case LOG_OUT:
       return {
         ...state,
+        // HUD
         loading: false,
-
         // Refresh
         refreshingToken: false,
         isRefreshingProfile: false,
@@ -223,7 +253,8 @@ export default function sessionReducer(
         isRefreshingPhotos: false,
         isRefreshingChores: false,
         isRefreshingChorePhotos: false,
-
+        isRefreshingEvents: false,
+        isRefreshingEventPhotos: false,
         // Load More
         isLoadingFamilies: false,
         isLoadingFamilyMembers: false,
@@ -231,7 +262,8 @@ export default function sessionReducer(
         isLoadingPhotos: false,
         isLoadingChores: false,
         isLoadingChorePhotos: false,
-
+        isLoadingEvents: false,
+        isLoadingEventPhotos: false,
         // Toasts
         toasts: [],
       };

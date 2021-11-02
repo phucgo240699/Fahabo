@@ -35,6 +35,12 @@ export const isRefreshingChoresSelector = (state: RootState) =>
 export const isRefreshingChorePhotosSelector = (state: RootState) =>
   state.session.isRefreshingChorePhotos;
 
+export const isRefreshingEventsSelector = (state: RootState) =>
+  state.session.isRefreshingEvents;
+
+export const isRefreshingEventPhotosSelector = (state: RootState) =>
+  state.session.isRefreshingEventPhotos;
+
 //
 // Load More
 //
@@ -55,6 +61,13 @@ export const isLoadingChoresSelector = (state: RootState) =>
 
 export const isLoadingChorePhotosSelector = (state: RootState) =>
   state.session.isLoadingChorePhotos;
+
+export const isLoadingEventsSelector = (state: RootState) =>
+  state.session.isLoadingEvents;
+
+export const isLoadingEventPhotosSelector = (state: RootState) =>
+  state.session.isLoadingEventPhotos;
+
 //
 // Toast
 //

@@ -1,6 +1,5 @@
 import {AssigneeType, ChoreType} from '@constants/types/chores';
 import {get} from 'lodash/fp';
-import {parsePhotos} from './albums';
 
 export function parseAssignee(rawData: any): AssigneeType {
   const id = get('memberId', rawData);

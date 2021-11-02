@@ -218,9 +218,11 @@ function* getChorePhotosSaga({
     const response = yield* apiProxy(getChorePhotosApi, body);
     if (response.status === 200) {
       if (body.page && body.page > 0) {
-        const oldData = yield* select(chorePhotosSelector);
         const newData = parsePhotos(parseDataResponse(response));
-        yield* put(getChorePhotosSuccessAction(mixPhotos(oldData, newData)));
+        if (newData.length > 0) {
+          const oldData = yield* select(chorePhotosSelector);
+          yield* put(getChorePhotosSuccessAction(mixPhotos(oldData, newData)));
+        }
       } else {
         yield* put(
           getChorePhotosSuccessAction(parsePhotos(parseDataResponse(response))),

@@ -85,4 +85,6 @@ export const Pagination = {
   Photos: 24,
   Chores: 10,
   ChorePhotos: 24,
+  Events: 10,
+  EventPhotos: 24,
 };

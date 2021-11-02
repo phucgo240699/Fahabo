@@ -60,6 +60,7 @@ const Container = styled.TouchableOpacity<{size: string}>`
   shadow-color: ${colors.BLACK};
   background-color: ${colors.WHITE};
   height: ${props => (props.size === 'large' ? 80 : 40)}px;
+  margin-top: ${props => (props.size === 'large' ? 15 : 5)}px;
   margin-left: ${props => (props.size === 'large' ? 30 : 10)}px;
   margin-right: ${props => (props.size === 'large' ? 30 : 10)}px;
 `;

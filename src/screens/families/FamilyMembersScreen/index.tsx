@@ -29,6 +29,17 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
   const isRefreshing = useSelector(isRefreshingFamilyMembersSelector);
   const membersInFamily = useSelector(membersInFamilySelector);
 
+  useEffect(() => {
+    if (route && route.params && route.params.familyId) {
+      dispatch(
+        getFamilyMembersRequestAction({
+          showHUD: true,
+          familyId: route.params.familyId,
+        }),
+      );
+    }
+  }, []);
+
   // Item
   const renderItem = ({item}: {item: MemberType}) => {
     return <HorizontalMemberItem detectHost item={item} />;

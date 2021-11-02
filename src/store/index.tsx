@@ -17,6 +17,7 @@ import modalsReducer, {ModalsState} from '@store/reducers/modals';
 import familyReducer, {FamilyState} from '@store/reducers/family';
 import albumsReducer, {AlbumsState} from '@store/reducers/albums';
 import choresReducer, {ChoresState} from '@store/reducers/chores';
+import eventsReducer, {EventsState} from '@store/reducers/events';
 
 const persistConfig: PersistConfig<
   CombinedState<{
@@ -26,6 +27,7 @@ const persistConfig: PersistConfig<
     family: any;
     albums: any;
     chores: any;
+    events: any;
   }>,
   any,
   any,
@@ -54,6 +56,7 @@ const rootReducer = combineReducers({
   family: familyReducer,
   albums: albumsReducer,
   chores: choresReducer,
+  events: eventsReducer,
 });
 
 const store = createStore(
@@ -71,6 +74,7 @@ export interface RootState {
   family: FamilyState;
   albums: AlbumsState;
   chores: ChoresState;
+  events: EventsState;
 }
 
 export default store;

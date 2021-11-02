@@ -292,7 +292,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
         //   title: title,
         //   description: description,
         //   deadline: deadline,
-        //   repeatType: repeat === RepeatType.NONE ? undefined : repeat,
+        //   repeatType: repeat === RepeatType.NONE ? "" : repeat,
         //   assigneeIds: selectedMembers.map((item, index) => {
         //     return item.id;
         //   }),
@@ -313,7 +313,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             title: title,
             description: description,
             deadline: deadline,
-            repeatType: repeat === RepeatType.NONE ? undefined : repeat,
+            repeatType: repeat === RepeatType.NONE ? "" : repeat,
             assigneeIds: selectedMembers.map((item, index) => {
               return item.id;
             }),
@@ -336,7 +336,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
         //   title: title,
         //   description: description,
         //   deadline: deadline,
-        //   repeatType: repeat === RepeatType.NONE ? undefined : repeat,
+        //   repeatType: repeat === RepeatType.NONE ? "" : repeat,
         //   assigneeIds: selectedMembers.map((item, index) => {
         //     return item.id;
         //   }).length,
@@ -353,7 +353,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             title: title,
             description: description,
             deadline: deadline,
-            repeatType: repeat === RepeatType.NONE ? undefined : repeat,
+            repeatType: repeat === RepeatType.NONE ? "" : repeat,
             assigneeIds: selectedMembers.map((item, index) => {
               return item.id;
             }),

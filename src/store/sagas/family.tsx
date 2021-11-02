@@ -1,4 +1,3 @@
-import {AnyAction} from 'redux';
 import i18n from '@locales/index';
 import {
   closeHUDAction,
@@ -23,12 +22,12 @@ import {
   updateFamilyInfoApi,
   updateFamilyThumbnailApi,
 } from '@services/family';
-import {all, call, delay, put, select, takeLeading} from 'typed-redux-saga';
+import {all, put, select, takeLeading} from 'typed-redux-saga';
 import {
   createFamilySuccessAction,
   CREATE_FAMILY_REQUEST,
   getChoreFilterMembersSuccessAction,
-  getFamiliesRequestAction,
+  getEventFilterMembersSuccessAction,
   getFamiliesSuccessAction,
   getFamilyDetailSuccessAction,
   getFamilyMembersRequestAction,
@@ -41,9 +40,11 @@ import {
   joinFamilySuccessAction,
   JOIN_FAMILY_REQUEST,
   KICK_FAMILY_MEMBER_REQUEST,
+  leaveFamilySuccessAction,
   LEAVE_FAMILY_REQUEST,
   updateFamilyInfoSuccessAction,
   updateFamilyThumbnailSuccessAction,
+  updateFocusFamilyRequestAction,
   updateFocusFamilySuccessAction,
   UPDATE_FAMILY_INFO_REQUEST,
   UPDATE_FAMILY_THUMBNAIL_REQUEST,
@@ -53,6 +54,7 @@ import {
   CreateFamilyRequestType,
   FamilyType,
   GetChoreFilterMembersRequestType,
+  GetEventFilterMembersRequestType,
   GetFamilyDetailRequestType,
   GetFamilyMembersRequestType,
   GetMyFamiliesRequestType,
@@ -69,16 +71,10 @@ import {CommonActions} from '@react-navigation/native';
 import {
   membersInFamilySelector,
   familiesSelector,
+  focusFamilySelector,
 } from '@store/selectors/family';
-import {
-  parseDataResponse,
-  parseErrorResponse,
-  parseErrorsResponse,
-} from '@utils/parsers';
+import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {mixFamily} from '@utils/family';
-import {getChoresApi} from '@services/chores';
-import {getChoresSuccessAction} from '@store/actionTypes/chores';
-import {parseChores} from '@utils/parsers/chores';
 import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 
 function* createFamilySaga({
@@ -158,8 +154,12 @@ function* leaveFamilySaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(leaveFamilyApi, body);
     if (response.status === 200) {
-      yield* put(getFamiliesRequestAction({}));
+      yield* put(leaveFamilySuccessAction(body.familyId));
+      const focusFamily = yield* select(focusFamilySelector);
       navigationRef.current.dispatch(CommonActions.goBack());
+      if (body.familyId === focusFamily?.id) {
+        yield* put(updateFocusFamilyRequestAction(undefined));
+      }
     } else {
       yield* put(
         showToastAction(
@@ -490,7 +490,48 @@ function* getChoreFilterMembersSaga({
   }
 }
 
-function* updateFocusFamilySaga({body}: {type: string; body: FamilyType}) {
+function* getEventFilterMembersSaga({
+  body,
+}: {
+  type: string;
+  body: GetEventFilterMembersRequestType;
+}) {
+  try {
+    if (body.showHUD === true) {
+      yield* put(showHUDAction());
+    }
+    const response = yield* apiProxy(getFamilyMembersApi, body);
+    if (response.status === 200) {
+      yield* put(
+        getEventFilterMembersSuccessAction(
+          parseMembers(parseDataResponse(response)),
+        ),
+      );
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    if (body.showHUD === true) {
+      yield* put(closeHUDAction());
+    }
+  }
+}
+
+function* updateFocusFamilySaga({
+  body,
+}: {
+  type: string;
+  body: FamilyType | undefined;
+}) {
   try {
     yield* put(updateFocusFamilySuccessAction(body));
     yield* put(getHomeScreenDataRequestAction());
@@ -514,6 +555,7 @@ export default function* () {
     takeLeading(GET_REFRESH_FAMILY_DETAIL_REQUEST, getRefreshFamilyDetailSage),
     takeLeading(GET_FAMILY_MEMBERS_REQUEST, getFamilyMembersSaga),
     takeLeading(GET_CHORE_FILTER_MEMBERS_REQUEST, getChoreFilterMembersSaga),
+    takeLeading(GET_CHORE_FILTER_MEMBERS_REQUEST, getEventFilterMembersSaga),
     takeLeading(UPDATE_FOCUS_FAMILY_REQUEST, updateFocusFamilySaga),
   ]);
 }

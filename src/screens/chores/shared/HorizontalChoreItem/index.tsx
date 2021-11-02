@@ -56,7 +56,7 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
           keyExtractor={(item, index) => index.toString()}
         />
 
-        {item.status !== ChoreStatus.IN_PROGRESS ? (
+        {item.status !== ChoreStatus.DONE ? (
           <Menu
             p={1}
             width={200}

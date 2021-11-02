@@ -175,12 +175,13 @@
     "updateFamilyInfo": "Update family information successfully",
     "updateAlbum": "Update album successfully",
     "updateChore": "Update chore successfully",
-    "createChore": "Create chore successfully",
-    "createAlbum": "Create album successfully"
+    "createAlbum": "Create album successfully",
+    "createChore": "Create chore successfully"
   },
   "warningMessage": {
     "activeAccount": "You need to active this account",
-    "limitPhotoUpload": "Limit images upload is"
+    "limitPhotoUpload": "Limit images upload is",
+    "notJoiningFamilyNow": "You are not joining any family now"
   },
   "errorMessage": {
     "general": "Something went wrong.\nPlease try again",

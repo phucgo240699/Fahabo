@@ -39,6 +39,12 @@ export type GetChoreFilterMembersRequestType = {
   searchText?: string;
 };
 
+export type GetEventFilterMembersRequestType = {
+  showHUD?: boolean;
+  familyId?: number;
+  searchText?: string;
+};
+
 export type GetMyFamiliesRequestType = {
   showHUD?: boolean;
   refresh?: boolean;

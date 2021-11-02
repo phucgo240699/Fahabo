@@ -47,6 +47,17 @@ export const updateIsRefreshingChorePhotosAction = (payload: boolean) => ({
   type: UPDATE_IS_REFRESHING_CHORE_PHOTOS,
   payload,
 });
+export const UPDATE_IS_REFRESHING_EVENTS = 'UPDATE_IS_REFRESHING_EVENTS';
+export const updateIsRefreshingEventsAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_EVENTS,
+  payload,
+});
+export const UPDATE_IS_REFRESHING_EVENT_PHOTOS =
+  'UPDATE_IS_REFRESHING_EVENT_PHOTOS';
+export const updateIsRefreshingEventPhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_EVENT_PHOTOS,
+  payload,
+});
 
 //
 // Load More
@@ -80,6 +91,16 @@ export const updateIsLoadingChoresAction = (payload: boolean) => ({
 export const UPDATE_IS_LOADING_CHORE_PHOTOS = 'UPDATE_IS_LOADING_CHORE_PHOTOS';
 export const updateIsLoadingChorePhotosAction = (payload: boolean) => ({
   type: UPDATE_IS_LOADING_CHORE_PHOTOS,
+  payload,
+});
+export const UPDATE_IS_LOADING_EVENTS = 'UPDATE_IS_LOADING_EVENTS';
+export const updateIsLoadingEventsAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_EVENTS,
+  payload,
+});
+export const UPDATE_IS_LOADING_EVENT_PHOTOS = 'UPDATE_IS_LOADING_EVENT_PHOTOS';
+export const updateIsLoadingEventPhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_EVENT_PHOTOS,
   payload,
 });
 
