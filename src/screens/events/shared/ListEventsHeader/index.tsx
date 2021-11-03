@@ -1,38 +1,32 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Box, Menu, Pressable} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import {filterIcon} from '@constants/sources';
 import {Constants} from '@constants/Constants';
 import PrimaryIcon from '@components/PrimaryIcon';
-import ChoreFilterBox from '../ChoreFilterBox';
 import {MemberType} from '@constants/types/family';
-import {ChoreStatus} from '@constants/types/chores';
 import fonts from '@themes/fonts';
 import i18n from '@locales/index';
-import PrimaryHeader from '@components/PrimaryHeader';
 import PrimarySearchBar from '@components/PrimarySearchBar';
+import EventFilterBox from '../EventFilterBox';
 
 interface Props {
   searchText: string;
   sortBy: 'created_at' | 'deadline';
   selectedMember: MemberType[];
-  selectedStatus: ChoreStatus[];
   onChangeMember?: (member: MemberType) => void;
-  onChangeStatus?: (status: ChoreStatus) => void;
   onPressLatestCreate?: () => void;
   onPressLatestDeadline?: () => void;
   onChangeSearchText?: (text: string) => void;
   onSubmitSearchText?: (text: string) => void;
 }
 
-const ListChoresHeader: React.FC<Props> = ({
+const ListEventsHeader: React.FC<Props> = ({
   searchText,
   sortBy,
   selectedMember,
-  selectedStatus,
   onChangeMember,
-  onChangeStatus,
   onPressLatestCreate,
   onPressLatestDeadline,
   onChangeSearchText,
@@ -60,11 +54,11 @@ const ListChoresHeader: React.FC<Props> = ({
             <SortContainer>
               <SortItemContainer onPress={onPressLatestCreate}>
                 <Circle>{sortBy === 'created_at' && <Point />}</Circle>
-                <SortLabel>{i18n.t('chores.latestCreate')}</SortLabel>
+                <SortLabel>{i18n.t('events.latestCreate')}</SortLabel>
               </SortItemContainer>
               <SortItemContainer onPress={onPressLatestDeadline}>
                 <Circle>{sortBy === 'deadline' && <Point />}</Circle>
-                <SortLabel>{i18n.t('chores.latestDeadline')}</SortLabel>
+                <SortLabel>{i18n.t('events.latestDeadline')}</SortLabel>
               </SortItemContainer>
               <Pressable {...triggerProps}>
                 <PrimaryIcon source={filterIcon} tintColor={colors.DANUBE} />
@@ -73,11 +67,9 @@ const ListChoresHeader: React.FC<Props> = ({
           </Box>
         );
       }}>
-      <ChoreFilterBox
+      <EventFilterBox
         selectedMember={selectedMember}
-        selectedStatus={selectedStatus}
         onPressMember={onChangeMember}
-        onPressStatus={onChangeStatus}
       />
     </Menu>
   );
@@ -121,4 +113,4 @@ const Point = styled.View`
   background-color: ${colors.HYPER_LINK};
 `;
 
-export default ListChoresHeader;
+export default ListEventsHeader;

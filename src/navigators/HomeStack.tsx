@@ -8,6 +8,8 @@ import MembersPickerScreen from '@screens/families/MembersPickerScreen';
 import RepeatPickerScreen from '@screens/chores/RepeatPickerScreen';
 import ChoreDetailScreen from '@screens/chores/ChoreDetailScreen';
 import ChorePhotosScreen from '@screens/chores/ChorePhotosScreen';
+import EventsScreen from '@screens/events';
+import CreateEventScreen from '@screens/events/CreateEventScreen';
 
 const Stack = createStackNavigator();
 
@@ -34,6 +36,11 @@ const HomeStack = () => {
       <Stack.Screen
         name={ScreenName.ChorePhotosScreen}
         component={ChorePhotosScreen}
+      />
+      <Stack.Screen name={ScreenName.EventsScreen} component={EventsScreen} />
+      <Stack.Screen
+        name={ScreenName.CreateEventScreen}
+        component={CreateEventScreen}
       />
     </Stack.Navigator>
   );

@@ -155,6 +155,27 @@ export const DummyChores = [
   },
 ];
 
+export const DummyEvents = [
+  {
+    id: 0,
+    title: 'Event 1',
+    from: '01/10/2021',
+    to: '04/10/2021',
+  },
+  {
+    id: 1,
+    title: 'Event 2',
+    from: '01/10/2021',
+    to: '04/10/2021',
+  },
+  {
+    id: 2,
+    title: 'Event 3',
+    from: '01/10/2021',
+    to: '04/10/2021',
+  },
+];
+
 export const DummyRepeat = [
   RepeatType.NONE,
   RepeatType.DAILY,

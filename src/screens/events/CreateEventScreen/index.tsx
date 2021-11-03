@@ -25,8 +25,7 @@ import {
   rightArrowIcon,
 } from '@constants/sources';
 import {Constants, ScreenName} from '@constants/Constants';
-import ChoreStatusBox from '../shared/ChoreStatusBox';
-import {ChoreStatus, ChoreType, RepeatType} from '@constants/types/chores';
+import {RepeatType} from '@constants/types/chores';
 import DatePicker from 'react-native-date-picker';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {navigate} from '@navigators/index';
@@ -34,32 +33,31 @@ import {MemberType} from '@constants/types/family';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  createChoreRequestAction,
-  getChorePhotosRequestAction,
-  updateChoreRequestAction,
-} from '@store/actionTypes/chores';
 import {focusFamilySelector} from '@store/selectors/family';
-import {getChoreStatus, getRepeatText, getRepeatType} from '@utils/chores';
-import {chorePhotosSelector} from '@store/selectors/chores';
+import {getRepeatText, getRepeatType} from '@utils/chores';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
+import {EventType} from '@constants/types/events';
+import {eventPhotosSelector} from '@store/selectors/events';
+import {
+  createEventRequestAction,
+  getEventPhotosRequestAction,
+  updateEventRequestAction,
+} from '@store/actionTypes/events';
 
 interface Props {
   route?: any;
 }
 
-const CreateChoreScreen: React.FC<Props> = ({route}) => {
+const CreateEventScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const focusFamily = useSelector(focusFamilySelector);
-  const chorePhotos = useSelector(chorePhotosSelector);
+  const eventPhotos = useSelector(eventPhotosSelector);
   const {isOpen, onOpen, onClose} = useDisclose();
 
   const [title, setTitle] = useState('');
-  const [deadline, setDeadline] = useState(getOriginDateString(new Date()));
-  const [status, setStatus] = useState<ChoreStatus | undefined>(
-    ChoreStatus.IN_PROGRESS,
-  );
+  const [from, setFrom] = useState(getOriginDateString(new Date()));
+  const [to, setTo] = useState(getOriginDateString(new Date()));
   const [repeat, setRepeat] = useState<RepeatType>(RepeatType.NONE);
   const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
   const [selectedPhotos, setSelectedPhotos] = useState<
@@ -67,8 +65,9 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   >([]);
   const [deletePhotos, setDeletePhotos] = useState<number[]>([]);
   const [description, setDescription] = useState('');
-  const [oldChore, setOldChore] = useState<ChoreType | undefined>(undefined);
-  const [visibleDatePicker, setVisibleDatePicker] = useState(false);
+  const [oldEvent, setOldEvent] = useState<EventType | undefined>(undefined);
+  const [visibleFromDatePicker, setVisibleFromDatePicker] = useState(false);
+  const [visibleToDatePicker, setVisibleToDatePicker] = useState(false);
   const dateNow = new Date();
 
   useEffect(() => {
@@ -105,20 +104,20 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             ]);
           }
         }
-        if (route.params.oldChore) {
-          const _oldChore: ChoreType = route.params.oldChore;
-          setOldChore(_oldChore);
-          setTitle(_oldChore.title ?? '');
-          setDeadline(_oldChore.deadline ?? '');
-          setStatus(getChoreStatus(_oldChore.status));
-          setRepeat(getRepeatType(_oldChore.repeatType));
-          setSelectedMembers(_oldChore.assignees ?? []);
-          setDescription(_oldChore.description ?? '');
+        if (route.params.oldEvent) {
+          const _oldEvent: EventType = route.params._oldEvent;
+          setOldEvent(_oldEvent);
+          setTitle(_oldEvent.title ?? '');
+          setFrom(_oldEvent.from ?? '');
+          setTo(_oldEvent.to ?? '');
+          setRepeat(getRepeatType(_oldEvent.repeatType));
+          setSelectedMembers(_oldEvent.assignees ?? []);
+          setDescription(_oldEvent.description ?? '');
           dispatch(
-            getChorePhotosRequestAction({
+            getEventPhotosRequestAction({
               showHUD: true,
-              choreId: _oldChore.id,
-              size: Constants.LIMIT_CHORE_PHOTO,
+              eventId: _oldEvent.id,
+              size: Constants.LIMIT_EVENT_PHOTO,
             }),
           );
         }
@@ -127,9 +126,9 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   }, [route]);
 
   useEffect(() => {
-    if (oldChore) {
+    if (oldEvent) {
       setSelectedPhotos(
-        chorePhotos.map(item => {
+        eventPhotos.map(item => {
           return {
             id: item.id,
             uri: item.uri,
@@ -138,7 +137,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
         }),
       );
     }
-  }, [chorePhotos]);
+  }, [eventPhotos]);
 
   // Keyboard
   const onDismissKeyboard = () => {
@@ -150,30 +149,42 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
     setTitle(text);
   };
 
-  const onPressDeadline = () => {
-    setVisibleDatePicker(true);
+  // From
+  const onPressFrom = () => {
+    setVisibleFromDatePicker(true);
   };
-  const onDatePickerChange = (date: Date) => {};
-  const onConfirmDatePicker = (date: Date) => {
-    setVisibleDatePicker(false);
-    setDeadline(getOriginDateString(date));
+  const onFromDatePickerChange = (date: Date) => {};
+  const onConfirmFromDatePicker = (date: Date) => {
+    setVisibleFromDatePicker(false);
+    setFrom(getOriginDateString(date));
   };
-  const onCloseDatePicker = () => {
-    setVisibleDatePicker(false);
+  const onCloseFromDatePicker = () => {
+    setVisibleFromDatePicker(false);
   };
 
-  // const onChangeStatus = (value: ChoreStatus) => {
-  //   setStatus(value);
-  // };
+  // To
+  const onPressTo = () => {
+    setVisibleToDatePicker(true);
+  };
+  const onToDatePickerChange = (date: Date) => {};
+  const onConfirmToDatePicker = (date: Date) => {
+    setVisibleToDatePicker(false);
+    setTo(getOriginDateString(date));
+  };
+  const onCloseToDatePicker = () => {
+    setVisibleToDatePicker(false);
+  };
 
+  // Repeat
   const onPressRepeat = () => {
-    navigate(ScreenName.RepeatPickerScreen, {fromCreateChore: true});
+    navigate(ScreenName.RepeatPickerScreen, {fromCreateEvent: true});
   };
 
+  // Assign
   const onPressAssign = () => {
     if (!isNull(focusFamily?.id)) {
       navigate(ScreenName.MembersPickerScreen, {
-        fromCreateChore: true,
+        fromCreateEvent: true,
         familyId: focusFamily?.id,
       });
     }
@@ -211,7 +222,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             return photo.id !== item.id;
           }),
         );
-        if (oldChore) {
+        if (oldEvent) {
           // update
           setDeletePhotos([...deletePhotos, item.id]);
         }
@@ -234,7 +245,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   // ActionSheet
   const takePhoto = () => {
     onClose();
-    navigate(ScreenName.CameraScreen, {fromCreateChore: true});
+    navigate(ScreenName.CameraScreen, {fromCreateEvent: true});
   };
   const chooseFromGallery = () => {
     onClose();
@@ -284,16 +295,37 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   };
 
   // Submit
-  const onCreateChore = () => {
-    if (oldChore) {
-      if (!isNull(oldChore.id)) {
-        // console.log({
-        //   choreId: oldChore.id,
-        //   status: status,
+  const onCreateEvent = () => {
+    if (oldEvent) {
+      if (!isNull(oldEvent.id)) {
+        console.log({
+          goBack: true,
+          eventId: oldEvent.id,
+          title: title,
+          description: description,
+          from: from,
+          to: to,
+          repeatType: repeat === RepeatType.NONE ? '' : repeat,
+          assigneeIds: selectedMembers.map((item, index) => {
+            return item.id;
+          }),
+          photos: selectedPhotos
+            .filter((item, index) => {
+              return !isNull(item.base64);
+            })
+            .map(item => {
+              return item.base64;
+            }),
+          deletePhotos: deletePhotos,
+        });
+        // dispatch(updateEventRequestAction({
+        //   goBack: true,
+        //   eventId: oldEvent.id,
         //   title: title,
         //   description: description,
-        //   deadline: deadline,
-        //   repeatType: repeat === RepeatType.NONE ? "" : repeat,
+        //   from: from,
+        //   to: to,
+        //   repeatType: repeat === RepeatType.NONE ? '' : repeat,
         //   assigneeIds: selectedMembers.map((item, index) => {
         //     return item.id;
         //   }),
@@ -303,68 +335,46 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
         //     })
         //     .map(item => {
         //       return item.base64;
-        //     }).length,
-        //   deletePhotos: deletePhotos.length,
-        // });
-        dispatch(
-          updateChoreRequestAction({
-            goBack: true,
-            choreId: oldChore.id,
-            status: status,
-            title: title,
-            description: description,
-            deadline: deadline,
-            repeatType: repeat === RepeatType.NONE ? '' : repeat,
-            assigneeIds: selectedMembers.map((item, index) => {
-              return item.id;
-            }),
-            photos: selectedPhotos
-              .filter((item, index) => {
-                return !isNull(item.base64);
-              })
-              .map(item => {
-                return item.base64;
-              }),
-            deletePhotos: deletePhotos,
-          }),
-        );
+        //     }),
+        //   deletePhotos: deletePhotos,
+        // }))
       }
     } else {
       if (!isNull(focusFamily?.id)) {
-        // console.log({
-        //   familyId: focusFamily?.id,
-        //   status: status,
-        //   title: title,
-        //   description: description,
-        //   deadline: deadline,
-        //   repeatType: repeat === RepeatType.NONE ? "" : repeat,
-        //   assigneeIds: selectedMembers.map((item, index) => {
-        //     return item.id;
-        //   }).length,
-        //   photos: selectedPhotos.map((item, index) => {
-        //     if (index < Constants.LIMIT_PHOTO_UPLOAD) {
-        //       return item.base64;
-        //     }
-        //   }).length,
-        // });
-        dispatch(
-          createChoreRequestAction({
-            familyId: focusFamily?.id,
-            status: status,
-            title: title,
-            description: description,
-            deadline: deadline,
-            repeatType: repeat === RepeatType.NONE ? '' : repeat,
-            assigneeIds: selectedMembers.map((item, index) => {
-              return item.id;
-            }),
-            photos: selectedPhotos.map((item, index) => {
-              if (index < Constants.LIMIT_PHOTO_UPLOAD) {
-                return item.base64;
-              }
-            }),
+        console.log({
+          familyId: focusFamily?.id,
+          title: title,
+          description: description,
+          from: from,
+          to: to,
+          repeatType: repeat,
+          assigneeIds: selectedMembers.map(item => {
+            return item.id;
           }),
-        );
+          photos: selectedPhotos.map((item, index) => {
+            if (index < Constants.LIMIT_PHOTO_UPLOAD) {
+              return item.base64;
+            }
+          }),
+        });
+        // dispatch(
+        //   createEventRequestAction({
+        //     familyId: focusFamily?.id,
+        //     title: title,
+        //     description: description,
+        //     from: from,
+        //     to: to,
+        //     repeatType: repeat,
+        //     assigneeIds: selectedMembers.map(item => {
+        //       return item.id;
+        //     }),
+        //     photos: selectedPhotos.map((item, index) => {
+        //       if (index < Constants.LIMIT_PHOTO_UPLOAD) {
+        //         return item.base64;
+        //       }
+        //     }),
+        //   }),
+        // );
       }
     }
   };
@@ -377,9 +387,9 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
       />
       <ProfileHeader
         title={
-          isNull(oldChore)
-            ? i18n.t('chores.createNewChore')
-            : i18n.t('chores.updateChore')
+          isNull(oldEvent)
+            ? i18n.t('events.createNewEvent')
+            : i18n.t('events.updateEvent')
         }
         rightComponent={
           <PrimaryButton
@@ -409,22 +419,36 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               onChangeText={onChangeTitle}
             />
 
-            {/* Deadline */}
-            <Label>{`${i18n.t('chores.deadline')}* :`}</Label>
+            {/* From */}
+            <Label>{`${i18n.t('events.from')}* :`}</Label>
             <Button
               variant="outline"
               height={50}
               borderRadius={20}
               borderColor={colors.SILVER}
-              _text={{color: isNull(deadline) ? colors.SILVER : colors.TEXT}}
-              onPress={onPressDeadline}>
-              {isNull(deadline)
+              _text={{color: isNull(from) ? colors.SILVER : colors.TEXT}}
+              onPress={onPressFrom}>
+              {isNull(from)
                 ? i18n.t('profile.formatDate')
-                : getDateStringFrom(deadline.split(' ')[0] ?? '')}
+                : getDateStringFrom(from.split(' ')[0] ?? '')}
+            </Button>
+
+            {/* To */}
+            <Label>{`${i18n.t('events.to')}* :`}</Label>
+            <Button
+              variant="outline"
+              height={50}
+              borderRadius={20}
+              borderColor={colors.SILVER}
+              _text={{color: isNull(to) ? colors.SILVER : colors.TEXT}}
+              onPress={onPressTo}>
+              {isNull(to)
+                ? i18n.t('profile.formatDate')
+                : getDateStringFrom(to.split(' ')[0] ?? '')}
             </Button>
 
             {/* Repeat */}
-            {!isNull(deadline) && (
+            {!isNull(from) && !isNull(to) && (
               <RepeatContainer onPress={onPressRepeat}>
                 <RepeatName>
                   {repeat === RepeatType.NONE
@@ -439,11 +463,6 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
                 />
               </RepeatContainer>
             )}
-
-            {/* Status
-            {!isNull(oldChore) && (
-              <ChoreStatusBox status={status} onChangeStatus={onChangeStatus} />
-            )} */}
           </FormControl>
 
           {/* Assignees */}
@@ -498,8 +517,8 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               mb={6}
               size="lg"
               borderRadius={28}
-              onPress={onCreateChore}
-              disabled={isNull(title) || isNull(deadline)}
+              onPress={onCreateEvent}
+              disabled={isNull(title) || isNull(from) || isNull(to)}
               _text={{color: colors.WHITE}}>
               {i18n.t('chores.done')}
             </Button>
@@ -509,13 +528,25 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             modal
             mode="date"
             locale={i18n.locale}
-            open={visibleDatePicker}
+            open={visibleFromDatePicker}
             minimumDate={dateNow}
             date={dateNow}
             textColor={colors.BLACK}
-            onDateChange={onDatePickerChange}
-            onConfirm={onConfirmDatePicker}
-            onCancel={onCloseDatePicker}
+            onDateChange={onFromDatePickerChange}
+            onConfirm={onConfirmFromDatePicker}
+            onCancel={onCloseFromDatePicker}
+          />
+          <DatePicker
+            modal
+            mode="date"
+            locale={i18n.locale}
+            open={visibleToDatePicker}
+            minimumDate={dateNow}
+            date={dateNow}
+            textColor={colors.BLACK}
+            onDateChange={onToDatePickerChange}
+            onConfirm={onConfirmToDatePicker}
+            onCancel={onCloseToDatePicker}
           />
           <PrimaryActionSheet
             isOpen={isOpen}
@@ -605,4 +636,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateChoreScreen;
+export default CreateEventScreen;

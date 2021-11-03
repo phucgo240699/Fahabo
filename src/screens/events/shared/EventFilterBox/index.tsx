@@ -12,28 +12,16 @@ import {
 import {MemberType} from '@constants/types/family';
 import HorizontalMemberItem from '@screens/families/shared/HorizontalMemberItem';
 import i18n from '@locales/index';
-import ChoreStatusBox from '../ChoreStatusBox';
-import {ChoreStatus} from '@constants/types/chores';
 import PrimarySearchBar from '@components/PrimarySearchBar';
 import {isNull} from '@utils/index';
-import {
-  getChoreFilterMembersRequestAction,
-  getFamilyMembersRequestAction,
-} from '@store/actionTypes/family';
+import {getChoreFilterMembersRequestAction} from '@store/actionTypes/family';
 
 interface Props {
   selectedMember: MemberType[];
-  selectedStatus: ChoreStatus[];
   onPressMember?: (member: MemberType) => void;
-  onPressStatus?: (status: ChoreStatus) => void;
 }
 
-const ChoreFilterBox: React.FC<Props> = ({
-  selectedMember,
-  selectedStatus,
-  onPressMember,
-  onPressStatus,
-}) => {
+const EventFilterBox: React.FC<Props> = ({selectedMember, onPressMember}) => {
   const dispatch = useDispatch();
   const members = useSelector(choreFilterMembersSelector);
   const focusFamily = useSelector(focusFamilySelector);
@@ -85,7 +73,6 @@ const ChoreFilterBox: React.FC<Props> = ({
           }
         })}
       </Box>
-      <ChoreStatusBox status={selectedStatus} onChangeStatus={onPressStatus} />
     </Box>
   );
 };
@@ -95,4 +82,4 @@ const Label = styled(fonts.PrimaryFontMediumSize14)`
   color: ${colors.DANUBE};
 `;
 
-export default ChoreFilterBox;
+export default EventFilterBox;

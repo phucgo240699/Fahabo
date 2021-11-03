@@ -15,7 +15,7 @@ interface Props {
 
 const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   const dispatch = useDispatch();
-  const [shouldOverlapWithTrigger] = React.useState(false);
+  const [shouldOverlapWithTrigger] = React.useState(true);
   const [position, setPosition] = React.useState('bottom right');
 
   const onPressTouch = () => {
@@ -71,8 +71,8 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
                   top={2}
                   right={2}
                   width={24}
-                  height={9}
-                  borderRadius={18}
+                  height={8}
+                  borderRadius={16}
                   position={'absolute'}
                   alignItems={'center'}
                   justifyContent={'center'}
@@ -95,8 +95,8 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
             top={2}
             right={2}
             width={24}
-            height={9}
-            borderRadius={18}
+            height={8}
+            borderRadius={16}
             position={'absolute'}
             alignItems={'center'}
             justifyContent={'center'}
@@ -128,13 +128,13 @@ const Container = styled.View`
   background-color: ${colors.WHITE};
 `;
 
-const Title = styled(fonts.PrimaryFontBoldSize16)`
+const Title = styled(fonts.PrimaryFontBoldSize18)`
   margin-right: 86px;
 `;
 
 const Deadline = styled(fonts.PrimaryFontRegularSize12)`
-  margin-top: 4px;
-  color: ${colors.GRAY};
+  margin-top: 6px;
+  color: ${colors.DARK_GRAY};
 `;
 
 const HLine = styled.View`
@@ -147,18 +147,8 @@ const HLine = styled.View`
   background-color: ${colors.SILVER};
 `;
 
-const StatusButton = styled.View<{backgroundColor: string}>`
-  top: 8px;
-  right: 8px;
-  width: 80px;
-  position: absolute;
-  border-radius: 16px;
-  padding-bottom: 6px;
-  background-color: ${props => props.backgroundColor};
-`;
-
 const StatusText = styled(fonts.PrimaryFontMediumSize12)`
   color: ${colors.WHITE};
 `;
 
-export default React.memo(HorizontalChoreItem);
+export default HorizontalChoreItem;

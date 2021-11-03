@@ -15,6 +15,7 @@ import {languageCodeSelector} from '@store/selectors/authentication';
 // import {getLanguageName, isNull} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {updateLanguageRequestAction} from '@store/actionTypes/profile';
+import {getLanguageName, setGlobalLocale} from '@utils/index';
 
 interface Props {}
 
@@ -28,6 +29,7 @@ const LanguageScreen: React.FC<Props> = ({}) => {
     setLanguageCode(newLanguageCode);
   };
   const onPressSave = () => {
+    setGlobalLocale(languageCode ?? '');
     dispatch(
       updateLanguageRequestAction({
         languageCode: languageCode === 'auto' ? undefined : languageCode,
@@ -38,7 +40,7 @@ const LanguageScreen: React.FC<Props> = ({}) => {
   const renderItem = ({item}: {item: any}) => {
     return (
       <ItemContainer onPress={() => onChooseLanguage(item.key)}>
-        <ItemName>{item.value}</ItemName>
+        <ItemName>{getLanguageName(item.key)}</ItemName>
         {languageCode === item.key && (
           <PrimaryIcon
             source={tickIcon}

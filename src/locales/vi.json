@@ -91,7 +91,9 @@
     "monthly": "Hằng tháng"
   },
   "events": {
-    "events": "Sự kiện"
+    "events": "Sự kiện",
+    "latestCreate": "Tạo gần đây",
+    "latestDeadline": "Sắp kết thúc"
   },
   "profile": {
     "profile": "Thông tin cá nhân",

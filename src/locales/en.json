@@ -91,7 +91,13 @@
     "monthly": "Monthly"
   },
   "events": {
-    "events": "Events"
+    "events": "Events",
+    "createNewEvent": "Create new event",
+    "from": "From",
+    "to": "To",
+    "updateEvent": "Update event",
+    "latestCreate": "Latest create",
+    "latestDeadline": "Almost finish"
   },
   "profile": {
     "profile": "Profile",

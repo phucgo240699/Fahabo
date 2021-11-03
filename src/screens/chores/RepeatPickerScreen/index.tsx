@@ -45,8 +45,9 @@ const RepeatPickerScreen: React.FC<Props> = ({route}) => {
 
   const onPressSave = () => {
     if (route && route.params && route.params.fromCreateChore) {
-      console.log({value});
       navigate(ScreenName.CreateChoreScreen, {selectedRepeat: value});
+    } else if (route && route.params && route.params.fromCreateEvent) {
+      navigate(ScreenName.CreateEventScreen, {selectedRepeat: value});
     }
   };
 

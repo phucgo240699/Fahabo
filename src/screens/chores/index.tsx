@@ -42,15 +42,6 @@ const ChoresScreen: React.FC<Props> = ({}) => {
     'created_at',
   );
 
-  // Search
-  const onChangeSearchText = (text: string) => {
-    setSearchText(text);
-  };
-  const onSubmitSearchText = (text: string) => {
-    setSubmitSearchText(text);
-    getChores(selectedMember, selectedStatus, sortBy, text);
-  };
-
   const getChores = (
     _assignee: MemberType[],
     _status: ChoreStatus[],
@@ -72,7 +63,17 @@ const ChoresScreen: React.FC<Props> = ({}) => {
       );
     }
   };
-  // Filter & Sort
+
+  // Search
+  const onChangeSearchText = (text: string) => {
+    setSearchText(text);
+  };
+  const onSubmitSearchText = (text: string) => {
+    setSubmitSearchText(text);
+    getChores(selectedMember, selectedStatus, sortBy, text);
+  };
+
+  // Filter
   const onChangeMember = (member: MemberType) => {
     if (selectedMember.includes(member)) {
       setSelectedMember(
@@ -124,14 +125,14 @@ const ChoresScreen: React.FC<Props> = ({}) => {
     }
   };
 
+  // Sort
   const onPressLatestCreate = () => {
     setSortBy('created_at');
     getChores(selectedMember, selectedStatus, 'created_at', submitSearchText);
   };
-
   const onPressLatestDeadline = () => {
     setSortBy('deadline');
-    getChores(selectedMember, selectedStatus, 'created_at', submitSearchText);
+    getChores(selectedMember, selectedStatus, 'deadline', submitSearchText);
   };
 
   // Creation

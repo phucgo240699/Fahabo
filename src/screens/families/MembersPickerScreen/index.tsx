@@ -98,7 +98,15 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
 
   // Submit
   const onPressSave = () => {
-    navigate(ScreenName.CreateChoreScreen, {selectedMembers: selectedMembers});
+    if (route && route.params && route.params.fromCreateChore) {
+      navigate(ScreenName.CreateChoreScreen, {
+        selectedMembers: selectedMembers,
+      });
+    } else if (route && route.params && route.params.fromCreateEvent) {
+      navigate(ScreenName.CreateEventScreen, {
+        selectedMembers: selectedMembers,
+      });
+    }
   };
 
   return (

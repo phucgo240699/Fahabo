@@ -17,7 +17,7 @@ import {
   showHUDAction,
   showToastAction,
 } from '@store/actionTypes/session';
-import {getDefaultLanguageCode, isNull} from '@utils/index';
+import {getDefaultLanguageCode, isNull, setGlobalLocale} from '@utils/index';
 import {parseSignInResponse} from '@utils/parsers/authentication';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {languageCodeSelector} from '@store/selectors/authentication';
@@ -106,8 +106,9 @@ function* onAutoSignInRequest(action: AnyAction) {
         if (data.user.familyNum > 0) {
           if (!isNull(data.user.languageCode)) {
             console.log('data.user.languageCode: ', data.user.languageCode);
-            i18n.locale = data.user.languageCode;
-            i18n.defaultLocale = data.user.languageCode;
+            // i18n.locale = data.user.languageCode;
+            // i18n.defaultLocale = data.user.languageCode;
+            setGlobalLocale(data.user.languageCode);
           }
           yield* put(
             autoSignInSuccessAction(
@@ -126,13 +127,15 @@ function* onAutoSignInRequest(action: AnyAction) {
     const languageCode = yield* select(languageCodeSelector);
     console.log({languageCode});
     if (!isNull(languageCode)) {
-      i18n.locale = languageCode ?? '';
-      i18n.defaultLocale = languageCode ?? '';
+      // i18n.locale = languageCode ?? '';
+      // i18n.defaultLocale = languageCode ?? '';
+      setGlobalLocale(languageCode ?? '');
     } else {
       // Device language
       console.log('Device language');
-      i18n.locale = getDefaultLanguageCode();
-      i18n.defaultLocale = getDefaultLanguageCode();
+      // i18n.locale = getDefaultLanguageCode();
+      // i18n.defaultLocale = getDefaultLanguageCode();
+      setGlobalLocale(getDefaultLanguageCode());
     }
     navigateReset(StackName.AuthenticationStack);
   } catch (error) {

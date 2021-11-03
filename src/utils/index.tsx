@@ -1,5 +1,6 @@
 import i18n from '@locales/index';
 import {NativeModules, Platform} from 'react-native';
+import {LocaleConfig} from 'react-native-calendars';
 
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -40,16 +41,16 @@ export const getDateStringFrom = (originDateString: string) => {
   }
 };
 
-// export const getLanguageName = (languageCode: string) => {
-//   switch (languageCode) {
-//     case 'vi':
-//       return i18n.t('settings.language.vietnamese');
-//     case 'en':
-//       return i18n.t('settings.language.english');
-//     default:
-//       return i18n.t('settings.language.auto');
-//   }
-// };
+export const getLanguageName = (languageCode: string) => {
+  switch (languageCode) {
+    case 'vi':
+      return i18n.t('settings.language.vietnamese');
+    case 'en':
+      return i18n.t('settings.language.english');
+    default:
+      return i18n.t('settings.language.auto');
+  }
+};
 
 export const getDefaultLanguageCode = () => {
   const code = `${
@@ -64,6 +65,106 @@ export const getDefaultLanguageCode = () => {
       return code;
     default:
       return 'en';
+  }
+};
+
+export const setGlobalLocale = (_locale: string) => {
+  switch (_locale) {
+    case 'vi':
+      console.log('LocaleConfig.locales.vi');
+      i18n.locale = _locale;
+      i18n.defaultLocale = _locale;
+      LocaleConfig.locales.en = LocaleConfig.locales[''];
+      LocaleConfig.locales.vi = {
+        monthNames: [
+          'Tháng 1',
+          'Tháng 2',
+          'Tháng 3',
+          'Tháng 4',
+          'Tháng 5',
+          'Tháng 6',
+          'Tháng 7',
+          'Tháng 8',
+          'Tháng 9',
+          'Tháng 10',
+          'Tháng 11',
+          'Tháng 12',
+        ],
+        monthNamesShort: [
+          'Tháng 1',
+          'Tháng 2',
+          'Tháng 3',
+          'Tháng 4',
+          'Tháng 5',
+          'Tháng 6',
+          'Tháng 7',
+          'Tháng 8',
+          'Tháng 9',
+          'Tháng 10',
+          'Tháng 11',
+          'Tháng 12',
+        ],
+        dayNames: [
+          'Thứ hai',
+          'Thứ ba',
+          'Thứ tư',
+          'Thứ năm',
+          'Thứ sáu',
+          'Thứ bảy',
+          'Chủ nhật',
+        ],
+        dayNamesShort: ['Hai', 'Ba', 'Tư', 'Năm', 'Sáu', 'Bảy', 'CN'],
+      };
+      LocaleConfig.defaultLocale = _locale;
+      break;
+    default:
+      console.log('LocaleConfig.locales.en');
+      i18n.locale = _locale;
+      i18n.defaultLocale = _locale;
+
+      LocaleConfig.locales.en = LocaleConfig.locales[''];
+      LocaleConfig.locales.en = {
+        monthNames: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ],
+        monthNamesShort: [
+          'Jan.',
+          'Feb.',
+          'Mar.',
+          'Apr.',
+          'May.',
+          'Jun.',
+          'Jul.',
+          'Aug.',
+          'Sep.',
+          'Oct.',
+          'Nov.',
+          'Dec.',
+        ],
+        dayNames: [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday',
+        ],
+        dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sar', 'Sun'],
+      };
+      LocaleConfig.defaultLocale = _locale;
+      break;
   }
 };
 
