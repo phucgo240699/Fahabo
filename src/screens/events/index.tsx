@@ -12,7 +12,7 @@ import i18n from '@locales/index';
 import ListEventsHeader from './shared/ListEventsHeader';
 import {MemberType} from '@constants/types/family';
 import VerticalEventItem from './shared/VerticalEventItem';
-import {isNull} from '@utils/index';
+import {getOriginDateTimeString, isNull} from '@utils/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
 import {
@@ -135,6 +135,7 @@ const EventsScreen: React.FC<Props> = ({route}) => {
         item={item}
         onPress={onPressItem}
         onPressUpdate={onPressUpdateItem}
+        onPressUpdateRelated={onPressUpdateRelatedItem}
         onPressDelete={onPressDeleteItem}
         onPressDeleteRelated={onPressDeleteRelatedItem}
       />
@@ -144,7 +145,18 @@ const EventsScreen: React.FC<Props> = ({route}) => {
     navigate(ScreenName.EventDetailScreen, {detail: item});
   };
   const onPressUpdateItem = (item: EventType) => {
-    navigate(ScreenName.CreateEventScreen, {oldEvent: item});
+    navigate(ScreenName.CreateEventScreen, {
+      oldEvent: item,
+      isUpdateRelated: false,
+    });
+  };
+  const onPressUpdateRelatedItem = (item: EventType) => {
+    navigate(ScreenName.CreateEventScreen, {
+      oldEvent: item,
+      isUpdateRelated: true,
+    });
+    console.log(item);
+    console.log(getOriginDateTimeString(new Date()));
   };
   const onPressDeleteItem = (item: EventType) => {
     dispatch(deleteEventRequestAction({eventId: item.id}));

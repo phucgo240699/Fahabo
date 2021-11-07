@@ -107,8 +107,9 @@ function* updateEventSaga({
           ToastType.SUCCESS,
         ),
       );
-      navigationRef.current?.dispatch(CommonActions.goBack());
-      navigationRef.current?.dispatch(CommonActions.goBack());
+      // navigationRef.current?.dispatch(CommonActions.goBack());
+      // navigationRef.current?.dispatch(CommonActions.goBack());
+      navigate(ScreenName.HomeScreen)
     } else {
       yield* put(
         showToastAction(

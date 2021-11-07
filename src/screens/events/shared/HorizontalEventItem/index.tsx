@@ -13,6 +13,7 @@ interface Props {
   item: EventType;
   onPress?: (item: EventType) => void;
   onPressUpdate?: (item: EventType) => void;
+  onPressUpdateRelated?: (item: EventType) => void;
   onPressDelete?: (item: EventType) => void;
   onPressDeleteRelated?: (item: EventType) => void;
 }
@@ -21,6 +22,7 @@ const HorizontalEventItem: React.FC<Props> = ({
   item,
   onPress,
   onPressUpdate,
+  onPressUpdateRelated,
   onPressDelete,
   onPressDeleteRelated,
 }) => {
@@ -41,6 +43,12 @@ const HorizontalEventItem: React.FC<Props> = ({
       onPressUpdate(item);
     }
   };
+  const onPressUpdateRelatedOption = () => {
+    if (onPressUpdateRelated) {
+      onPressUpdateRelated(item);
+    }
+  };
+
   const onPressDeleteOption = () => {
     if (onPressDelete) {
       onPressDelete(item);
@@ -100,6 +108,11 @@ const HorizontalEventItem: React.FC<Props> = ({
           }}>
           <Menu.Item _text={{color: colors.TEXT}} onPress={onPressUpdateOption}>
             {i18n.t('events.update')}
+          </Menu.Item>
+          <Menu.Item
+            _text={{color: colors.TEXT}}
+            onPress={onPressUpdateRelatedOption}>
+            {i18n.t('events.updateRelated')}
           </Menu.Item>
           <Menu.Item
             onPress={onPressDeleteOption}

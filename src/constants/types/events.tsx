@@ -24,8 +24,7 @@ export type UpdateEventRequestType = {
   description?: string;
   from?: string; // dd-mm-yyyy
   to?: string; // dd-mm-yyyy
-  repeatType?: string;
-  occurrences?: number;
+  updateAll?: boolean;
   assigneeIds?: (number | undefined)[];
   photos?: (string | undefined)[];
   deletePhotos?: number[];

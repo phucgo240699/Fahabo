@@ -72,9 +72,10 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const [deletePhotos, setDeletePhotos] = useState<number[]>([]);
   const [description, setDescription] = useState('');
   const [oldEvent, setOldEvent] = useState<EventType | undefined>(undefined);
+  const [isUpdateRelated, setIsUpdateRelated] = useState(false);
   const [visibleFromDatePicker, setVisibleFromDatePicker] = useState(false);
   const [visibleToDatePicker, setVisibleToDatePicker] = useState(false);
-  const dateNow = new Date();
+  const [dateNow, setDateNow] = useState(new Date());
 
   useEffect(() => {
     if (route && route.params) {
@@ -116,6 +117,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
           setTitle(_oldEvent.title ?? '');
           setFrom(_oldEvent.from ?? '');
           setTo(_oldEvent.to ?? '');
+          setIsUpdateRelated(route.params.isUpdateRelated);
           setRepeat(getRepeatType(_oldEvent.repeatType));
           setSelectedMembers(_oldEvent.assignees ?? []);
           setDescription(_oldEvent.description ?? '');
@@ -315,31 +317,13 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const onCreateEvent = () => {
     if (oldEvent) {
       if (!isNull(oldEvent.id)) {
-        console.log({
-          goBack: true,
-          eventId: oldEvent.id,
-          title: title,
-          description: description,
-          from: from,
-          to: to,
-          assigneeIds: selectedMembers.map((item, index) => {
-            return item.id;
-          }),
-          photos: selectedPhotos
-            .filter((item, index) => {
-              return !isNull(item.base64);
-            })
-            .map(item => {
-              return item.base64;
-            }),
-          deletePhotos: deletePhotos,
-        });
-        // dispatch(updateEventRequestAction({
+        // console.log({
         //   eventId: oldEvent.id,
         //   title: title,
         //   description: description,
         //   from: from,
         //   to: to,
+        //   updateAll: isUpdateRelated,
         //   assigneeIds: selectedMembers.map((item, index) => {
         //     return item.id;
         //   }),
@@ -351,27 +335,48 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
         //       return item.base64;
         //     }),
         //   deletePhotos: deletePhotos,
-        // }))
+        // });
+        dispatch(
+          updateEventRequestAction({
+            eventId: oldEvent.id,
+            title: title,
+            description: description,
+            from: from,
+            to: to,
+            updateAll: isUpdateRelated,
+            assigneeIds: selectedMembers.map((item, index) => {
+              return item.id;
+            }),
+            photos: selectedPhotos
+              .filter((item, index) => {
+                return !isNull(item.base64);
+              })
+              .map(item => {
+                return item.base64;
+              }),
+            deletePhotos: deletePhotos,
+          }),
+        );
       }
     } else {
       if (!isNull(focusFamily?.id)) {
-        console.log({
-          familyId: focusFamily?.id,
-          title: title,
-          description: description,
-          from: from,
-          to: to,
-          repeatType: repeat === RepeatType.NONE ? '' : repeat,
-          occurrences: repetition,
-          assigneeIds: selectedMembers.map(item => {
-            return item.id;
-          }),
-          photos: selectedPhotos.map((item, index) => {
-            if (index < Constants.LIMIT_PHOTO_UPLOAD) {
-              return item.base64;
-            }
-          }).length,
-        });
+        // console.log({
+        //   familyId: focusFamily?.id,
+        //   title: title,
+        //   description: description,
+        //   from: from,
+        //   to: to,
+        //   repeatType: repeat === RepeatType.NONE ? '' : repeat,
+        //   occurrences: repetition,
+        //   assigneeIds: selectedMembers.map(item => {
+        //     return item.id;
+        //   }),
+        //   photos: selectedPhotos.map((item, index) => {
+        //     if (index < Constants.LIMIT_PHOTO_UPLOAD) {
+        //       return item.base64;
+        //     }
+        //   }).length,
+        // });
         dispatch(
           createEventRequestAction({
             familyId: focusFamily?.id,
