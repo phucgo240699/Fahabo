@@ -16,6 +16,26 @@ export const getOriginDateString = (date: Date) => {
   return `${day}-${month}-${date.getFullYear()}`; // DD-MM-YYYY
 };
 
+export const getOriginDateTimeString = (date: Date) => {
+  const day: string =
+    date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
+  const month: string =
+    date.getMonth() + 1 < 10
+      ? `0${date.getMonth() + 1}`
+      : `${date.getMonth() + 1}`;
+  const hour: string =
+    date.getHours() < 10 ? `0${date.getHours()}` : date.getHours().toString();
+  const minute: string =
+    date.getMinutes() < 10
+      ? `0${date.getMinutes()}`
+      : date.getMinutes().toString();
+  const second: string =
+    date.getSeconds() < 10
+      ? `0${date.getSeconds()}`
+      : date.getSeconds().toString();
+  return `${day}-${month}-${date.getFullYear()} ${hour}:${minute}:${second}`; // DD-MM-YYYY
+};
+
 export const getOriginDateStringFromYYYYMMDDString = (
   value: string,
   separator: string,
@@ -38,6 +58,27 @@ export const getDateStringFrom = (originDateString: string) => {
 
     default:
       return `${month}-${day}-${year}`;
+  }
+};
+
+export const getDateTimeStringFrom = (originDateString: string) => {
+  const array = originDateString.split(' ');
+
+  const dateElements = array[0].split('-'); // DD-MM-YYYY
+  const day = dateElements[0];
+  const month = dateElements[1];
+  const year = dateElements[2];
+
+  const timeElements = array[1].split(':'); // HH:MM:SS
+  const hour = timeElements[0];
+  const minute = timeElements[1];
+  const second = timeElements[2];
+  switch (i18n.locale) {
+    case 'vi':
+      return `${day}-${month}-${year} ${hour}:${minute}:${second}`;
+
+    default:
+      return `${month}-${day}-${year} ${hour}:${minute}:${second}`;
   }
 };
 

@@ -58,7 +58,6 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
       dispatch(
         getAlbumsRequestAction({
           familyId: route.params.familyId,
-          showHUD: true,
         }),
       );
     }

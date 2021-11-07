@@ -6,6 +6,7 @@ import family from './family';
 import albums from './albums';
 import screens from './screens';
 import chores from './chores';
+import events from './events';
 
 export default function* rootSaga() {
   yield fork(signIn);
@@ -15,4 +16,5 @@ export default function* rootSaga() {
   yield fork(family);
   yield fork(albums);
   yield fork(chores);
+  yield fork(events);
 }

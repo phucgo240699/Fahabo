@@ -45,7 +45,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
   // Life Cycle
   useEffect(() => {
     if (!isNull(album.id)) {
-      dispatch(getPhotosRequestAction({showHUD: true, albumId: album.id}));
+      dispatch(getPhotosRequestAction({albumId: album.id}));
     }
   }, []);
 
@@ -127,7 +127,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
     } else {
       navigate(ScreenName.ImageViewerScreen, {
         data: photos,
-        currentIndex: 0,
+        currentIndex: item.index,
       });
     }
   };

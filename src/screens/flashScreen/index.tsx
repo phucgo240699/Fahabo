@@ -7,12 +7,14 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {autoSignInRequestAction} from '@store/actionTypes/signIn';
 import {userSelector} from '@store/selectors/authentication';
 import colors from '@themes/colors';
+import {closeHUDAction} from '@store/actionTypes/session';
 
 const FlashScreen = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
 
   useEffect(() => {
+    dispatch(closeHUDAction());
     setTimeout(() => {
       dispatch(
         autoSignInRequestAction({

@@ -3,16 +3,30 @@ import fonts from '@themes/fonts';
 import colors from '@themes/colors';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
-import {Avatar, FlatList} from 'native-base';
+import {Avatar, FlatList, Menu, Pressable} from 'native-base';
 import {EventType} from '@constants/types/events';
+import PrimaryIcon from '@components/PrimaryIcon';
+import {verticalOptions} from '@constants/sources';
+import i18n from '@locales/index';
 
 interface Props {
   item: EventType;
   onPress?: (item: EventType) => void;
+  onPressUpdate?: (item: EventType) => void;
+  onPressDelete?: (item: EventType) => void;
+  onPressDeleteRelated?: (item: EventType) => void;
 }
 
-const HorizontalEventItem: React.FC<Props> = ({item, onPress}) => {
+const HorizontalEventItem: React.FC<Props> = ({
+  item,
+  onPress,
+  onPressUpdate,
+  onPressDelete,
+  onPressDeleteRelated,
+}) => {
   const dispatch = useDispatch();
+  const [shouldOverlapWithTrigger] = React.useState(true);
+  const [position, setPosition] = React.useState('bottom right');
 
   const onPressTouch = () => {
     if (onPress) {
@@ -22,15 +36,30 @@ const HorizontalEventItem: React.FC<Props> = ({item, onPress}) => {
   const renderItem = ({item}: {item: any}) => {
     return <Avatar mr={2} size="sm" source={{uri: item.avatar}} />;
   };
+  const onPressUpdateOption = () => {
+    if (onPressUpdate) {
+      onPressUpdate(item);
+    }
+  };
+  const onPressDeleteOption = () => {
+    if (onPressDelete) {
+      onPressDelete(item);
+    }
+  };
+  const onPressDeleteRelatedOption = () => {
+    if (onPressDeleteRelated) {
+      onPressDeleteRelated(item);
+    }
+  };
 
   return (
     <Touch onPress={onPressTouch} activeOpacity={1.0}>
       <Container>
         <Title numberOfLines={2}>{item.title}</Title>
-        <Deadline numberOfLines={1}>{`${item.from?.split(' ')[0]}-${
+        <Deadline numberOfLines={1}>{`${item.from?.split(' ')[0]}  -  ${
           item.to?.split(' ')[0]
         }`}</Deadline>
-        <HLine />
+        {(item.assignees ?? []).length > 0 && <HLine />}
         <FlatList
           left={3}
           bottom={2}
@@ -44,6 +73,45 @@ const HorizontalEventItem: React.FC<Props> = ({item, onPress}) => {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
         />
+        <Menu
+          // width={240}
+          bgColor={colors.WHITE}
+          borderColor={colors.WHITE}
+          shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
+          placement={position == 'auto' ? undefined : position}
+          trigger={triggerProps => {
+            return (
+              <Pressable
+                top={2}
+                right={2}
+                width={8}
+                height={8}
+                borderRadius={20}
+                position={'absolute'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                {...triggerProps}>
+                <OptionsIcon
+                  tintColor={colors.SILVER}
+                  source={verticalOptions}
+                />
+              </Pressable>
+            );
+          }}>
+          <Menu.Item _text={{color: colors.TEXT}} onPress={onPressUpdateOption}>
+            {i18n.t('events.update')}
+          </Menu.Item>
+          <Menu.Item
+            onPress={onPressDeleteOption}
+            _text={{color: colors.RED_1}}>
+            {i18n.t('events.delete')}
+          </Menu.Item>
+          <Menu.Item
+            onPress={onPressDeleteRelatedOption}
+            _text={{color: colors.RED_1}}>
+            {i18n.t('events.deleteRelated')}
+          </Menu.Item>
+        </Menu>
       </Container>
     </Touch>
   );
@@ -86,5 +154,7 @@ const HLine = styled.View`
   position: absolute;
   background-color: ${colors.SILVER};
 `;
+
+const OptionsIcon = styled(PrimaryIcon)``;
 
 export default HorizontalEventItem;

@@ -92,10 +92,16 @@
   },
   "events": {
     "events": "Events",
+    "title": "Title",
     "createNewEvent": "Create new event",
     "from": "From",
     "to": "To",
+    "numberOfRepetitions": "Number of repetitions",
+    "times": "times",
     "updateEvent": "Update event",
+    "update": "Update",
+    "delete": "Delete",
+    "deleteRelated": "Delete related events",
     "latestCreate": "Latest create",
     "latestDeadline": "Almost finish"
   },
@@ -134,6 +140,7 @@
   },
   "album": {
     "myAlbums": "My Albums",
+    "previewAlbum": "Recent photos",
     "general": "General",
     "title": "Title",
     "description": "Description",
@@ -181,8 +188,11 @@
     "updateFamilyInfo": "Update family information successfully",
     "updateAlbum": "Update album successfully",
     "updateChore": "Update chore successfully",
+    "updateEvent": "Update event successfully",
     "createAlbum": "Create album successfully",
-    "createChore": "Create chore successfully"
+    "createChore": "Create chore successfully",
+    "createEvent": "Create event successfully",
+    "deleteEvent": "Deleted event"
   },
   "warningMessage": {
     "activeAccount": "You need to active this account",

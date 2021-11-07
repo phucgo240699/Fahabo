@@ -48,6 +48,8 @@ export enum ScreenName {
   EventsScreen = 'EventsScreen',
   CalendarEventsScreen = 'CalendarEventsScreen',
   CreateEventScreen = 'CreateEventScreen',
+  EventDetailScreen = 'EventDetailScreen',
+  EventPhotosScreen = 'EventPhotosScreen',
   TransactionsScreen = 'TransactionsScreen',
   InteractionsScreen = 'InteractionsScreen',
   LocationsScreen = 'LocationsScreen',

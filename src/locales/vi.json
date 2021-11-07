@@ -92,6 +92,16 @@
   },
   "events": {
     "events": "Sự kiện",
+    "title": "Tên sự kiện",
+    "createNewEvent": "Tạo sự kiện mới",
+    "from": "Từ",
+    "to": "Đến",
+    "numberOfRepetitions": "Số lần lặp lại",
+    "times": "lần",
+    "updateEvent": "Cập nhật sự kiện",
+    "update": "Cập nhật",
+    "delete": "Xoá",
+    "deleteRelated": "Xoá sự kiện liên quan",
     "latestCreate": "Tạo gần đây",
     "latestDeadline": "Sắp kết thúc"
   },
@@ -131,6 +141,7 @@
   },
   "album": {
     "myAlbums": "Album của tôi",
+    "previewAlbum": "Các ảnh gần đây",
     "general": "Chung",
     "title": "Tiêu đề",
     "description": "Mô tả",
@@ -178,8 +189,11 @@
     "updateFamilyInfo": "Cập nhật thông tin gia đình thành công",
     "updateAlbum": "Cập nhật album thành công",
     "updateChore": "Cập nhật công việc thành công",
+    "updateEvent": "Cập nhật sự kiện thành công",
     "createAlbum": "Tạo album thành công",
-    "createChore": "Tạo công việc thành công"
+    "createChore": "Tạo công việc thành công",
+    "createEvent": "Tạo sự kiện thành công",
+    "deleteEvent": "Đã xoá sự kiện"
   },
   "warningMessage": {
     "activeAccount": "Bạn cần kích hoạt tài khoản này",

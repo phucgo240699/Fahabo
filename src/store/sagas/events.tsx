@@ -20,6 +20,7 @@ import {
   deleteEventSuccessAction,
   DELETE_EVENT_REQUEST,
   getEventPhotosSuccessAction,
+  getEventsRequestAction,
   getEventsSuccessAction,
   GET_EVENTS_REQUEST,
   GET_EVENT_PHOTOS_REQUEST,
@@ -43,6 +44,11 @@ import {parsePhotos} from '@utils/parsers/albums';
 import {parseEvent, parseEvents} from '@utils/parsers/events';
 import {all, put, select, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
+import {navigate, navigationRef} from '@navigators/index';
+import {CommonActions} from '@react-navigation/native';
+import {focusFamilySelector} from '@store/selectors/family';
+import {isNull} from '@utils/index';
+import {ScreenName} from '@constants/Constants';
 
 function* createEventSaga({
   body,
@@ -57,6 +63,13 @@ function* createEventSaga({
       yield* put(
         createEventSuccessAction(parseEvent(parseDataResponse(response))),
       );
+      yield* put(
+        showToastAction(
+          i18n.t('successMessage.createEvent'),
+          ToastType.SUCCESS,
+        ),
+      );
+      navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(
@@ -84,9 +97,18 @@ function* updateEventSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(updateEventApi, body);
     if (response.status === 200) {
+      // yield* put(
+      //   updateEventSuccessAction(parseEvent(parseDataResponse(response))),
+      // );
+
       yield* put(
-        updateEventSuccessAction(parseEvent(parseDataResponse(response))),
+        showToastAction(
+          i18n.t('successMessage.updateEvent'),
+          ToastType.SUCCESS,
+        ),
       );
+      navigationRef.current?.dispatch(CommonActions.goBack());
+      navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(
@@ -114,7 +136,16 @@ function* deleteEventSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(deleteEventApi, body);
     if (response.status === 200) {
-      yield* put(deleteEventSuccessAction(parseDataResponse(response)));
+      // yield* put(deleteEventSuccessAction(parseDataResponse(response)));
+
+      yield* put(
+        showToastAction(
+          i18n.t('successMessage.deleteEvent'),
+          ToastType.SUCCESS,
+        ),
+      );
+      navigationRef.current?.dispatch(CommonActions.goBack());
+      // navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(

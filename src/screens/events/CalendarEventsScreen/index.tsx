@@ -21,7 +21,10 @@ const CalendarEventsScreen: React.FC<Props> = () => {
 
   const onPressDate = (date: DateData) => {
     navigate(ScreenName.EventsScreen, {
-      targetDate: getOriginDateStringFromYYYYMMDDString(date.dateString, '-'),
+      targetDateTime: getOriginDateStringFromYYYYMMDDString(
+        date.dateString,
+        '-',
+      ),
     });
   };
 
@@ -41,14 +44,24 @@ const CalendarEventsScreen: React.FC<Props> = () => {
         translucent
       />
       <Calendar
-        markedDates={{
-          '2021-11-02': {marked: true},
-          '2021-11-08': {marked: true},
-          '2021-11-13': {marked: true},
-          '2021-11-17': {marked: true},
-          '2021-11-29': {marked: true},
-          '2021-11-30': {marked: true},
+        // markedDates={{
+        //   '2021-11-02': {marked: true},
+        //   '2021-11-08': {marked: true},
+        //   '2021-11-13': {marked: true},
+        //   '2021-11-17': {marked: true},
+        //   '2021-11-29': {marked: true},
+        //   '2021-11-30': {marked: true},
+        // }}
+        theme={{
+          backgroundColor: colors.WHITE,
+          calendarBackground: colors.WHITE,
+          monthTextColor: colors.DARK_GRAY,
+          textSectionTitleColor: colors.DANUBE,
+          todayTextColor: colors.RED_1,
+          dayTextColor: colors.DARK_GRAY,
+          textDisabledColor: colors.SILVER,
         }}
+        style={{backgroundColor: colors.WHITE}}
         onDayPress={onPressDate}
       />
       <CreateButton

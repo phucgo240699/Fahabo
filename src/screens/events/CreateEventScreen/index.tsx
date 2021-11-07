@@ -15,7 +15,12 @@ import ProfileHeader from '@components/ProfileHeader';
 import i18n from '@locales/index';
 import styled from 'styled-components/native';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
-import {getDateStringFrom, getOriginDateString, isNull} from '@utils/index';
+import {
+  getDateTimeStringFrom,
+  getOriginDateTimeString,
+  isNull,
+  isNumber,
+} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {
@@ -56,9 +61,10 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const {isOpen, onOpen, onClose} = useDisclose();
 
   const [title, setTitle] = useState('');
-  const [from, setFrom] = useState(getOriginDateString(new Date()));
-  const [to, setTo] = useState(getOriginDateString(new Date()));
+  const [from, setFrom] = useState(getOriginDateTimeString(new Date()));
+  const [to, setTo] = useState(getOriginDateTimeString(new Date()));
   const [repeat, setRepeat] = useState<RepeatType>(RepeatType.NONE);
+  const [repetition, setRepetition] = useState(10);
   const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
   const [selectedPhotos, setSelectedPhotos] = useState<
     {id?: number; uri?: string; base64?: string}[]
@@ -105,7 +111,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
           }
         }
         if (route.params.oldEvent) {
-          const _oldEvent: EventType = route.params._oldEvent;
+          const _oldEvent: EventType = route.params.oldEvent;
           setOldEvent(_oldEvent);
           setTitle(_oldEvent.title ?? '');
           setFrom(_oldEvent.from ?? '');
@@ -156,7 +162,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const onFromDatePickerChange = (date: Date) => {};
   const onConfirmFromDatePicker = (date: Date) => {
     setVisibleFromDatePicker(false);
-    setFrom(getOriginDateString(date));
+    setFrom(getOriginDateTimeString(date));
   };
   const onCloseFromDatePicker = () => {
     setVisibleFromDatePicker(false);
@@ -169,7 +175,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const onToDatePickerChange = (date: Date) => {};
   const onConfirmToDatePicker = (date: Date) => {
     setVisibleToDatePicker(false);
-    setTo(getOriginDateString(date));
+    setTo(getOriginDateTimeString(date));
   };
   const onCloseToDatePicker = () => {
     setVisibleToDatePicker(false);
@@ -178,6 +184,17 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   // Repeat
   const onPressRepeat = () => {
     navigate(ScreenName.RepeatPickerScreen, {fromCreateEvent: true});
+  };
+
+  // Repetition
+  const onChangeRepetition = (value: string) => {
+    if (value.length > 0) {
+      if (isNumber(value) && parseInt(value) <= 100) {
+        setRepetition(parseInt(value));
+      }
+    } else {
+      setRepetition(0);
+    }
   };
 
   // Assign
@@ -305,7 +322,6 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
           description: description,
           from: from,
           to: to,
-          repeatType: repeat === RepeatType.NONE ? '' : repeat,
           assigneeIds: selectedMembers.map((item, index) => {
             return item.id;
           }),
@@ -319,13 +335,11 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
           deletePhotos: deletePhotos,
         });
         // dispatch(updateEventRequestAction({
-        //   goBack: true,
         //   eventId: oldEvent.id,
         //   title: title,
         //   description: description,
         //   from: from,
         //   to: to,
-        //   repeatType: repeat === RepeatType.NONE ? '' : repeat,
         //   assigneeIds: selectedMembers.map((item, index) => {
         //     return item.id;
         //   }),
@@ -347,7 +361,8 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
           description: description,
           from: from,
           to: to,
-          repeatType: repeat,
+          repeatType: repeat === RepeatType.NONE ? '' : repeat,
+          occurrences: repetition,
           assigneeIds: selectedMembers.map(item => {
             return item.id;
           }),
@@ -355,26 +370,27 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
             if (index < Constants.LIMIT_PHOTO_UPLOAD) {
               return item.base64;
             }
-          }),
+          }).length,
         });
-        // dispatch(
-        //   createEventRequestAction({
-        //     familyId: focusFamily?.id,
-        //     title: title,
-        //     description: description,
-        //     from: from,
-        //     to: to,
-        //     repeatType: repeat,
-        //     assigneeIds: selectedMembers.map(item => {
-        //       return item.id;
-        //     }),
-        //     photos: selectedPhotos.map((item, index) => {
-        //       if (index < Constants.LIMIT_PHOTO_UPLOAD) {
-        //         return item.base64;
-        //       }
-        //     }),
-        //   }),
-        // );
+        dispatch(
+          createEventRequestAction({
+            familyId: focusFamily?.id,
+            title: title,
+            description: description,
+            from: from,
+            to: to,
+            repeatType: repeat === RepeatType.NONE ? '' : repeat,
+            occurrences: repetition,
+            assigneeIds: selectedMembers.map(item => {
+              return item.id;
+            }),
+            photos: selectedPhotos.map((item, index) => {
+              if (index < Constants.LIMIT_PHOTO_UPLOAD) {
+                return item.base64;
+              }
+            }),
+          }),
+        );
       }
     }
   };
@@ -407,7 +423,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
           contentContainerStyle={styles.scroll}>
           {/* Title */}
           <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
-            <Label>{`${i18n.t('chores.title')}* :`}</Label>
+            <Label>{`${i18n.t('events.title')}* :`}</Label>
             <Input
               mt={-1}
               height={50}
@@ -430,7 +446,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
               onPress={onPressFrom}>
               {isNull(from)
                 ? i18n.t('profile.formatDate')
-                : getDateStringFrom(from.split(' ')[0] ?? '')}
+                : getDateTimeStringFrom(from)}
             </Button>
 
             {/* To */}
@@ -444,11 +460,11 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
               onPress={onPressTo}>
               {isNull(to)
                 ? i18n.t('profile.formatDate')
-                : getDateStringFrom(to.split(' ')[0] ?? '')}
+                : getDateTimeStringFrom(to)}
             </Button>
 
             {/* Repeat */}
-            {!isNull(from) && !isNull(to) && (
+            {!isNull(from) && !isNull(to) && isNull(oldEvent) && (
               <RepeatContainer onPress={onPressRepeat}>
                 <RepeatName>
                   {repeat === RepeatType.NONE
@@ -462,6 +478,24 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
                   tintColor={colors.SILVER}
                 />
               </RepeatContainer>
+            )}
+
+            {/* Number of repetitions */}
+            {!isNull(repeat) && repeat !== RepeatType.NONE && isNull(oldEvent) && (
+              <>
+                <Label>{`${i18n.t('events.numberOfRepetitions')}* :`}</Label>
+                <Input
+                  keyboardType="phone-pad"
+                  mt={-1}
+                  width={100}
+                  height={50}
+                  borderRadius={20}
+                  color={colors.TEXT}
+                  borderColor={colors.SILVER}
+                  value={repetition.toString()}
+                  onChangeText={onChangeRepetition}
+                />
+              </>
             )}
           </FormControl>
 
@@ -526,7 +560,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
 
           <DatePicker
             modal
-            mode="date"
+            mode="datetime"
             locale={i18n.locale}
             open={visibleFromDatePicker}
             minimumDate={dateNow}
@@ -538,7 +572,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
           />
           <DatePicker
             modal
-            mode="date"
+            mode="datetime"
             locale={i18n.locale}
             open={visibleToDatePicker}
             minimumDate={dateNow}
@@ -581,7 +615,7 @@ const Container = styled.TouchableWithoutFeedback`
 const Content = styled.ScrollView``;
 
 const Label = styled(fonts.PrimaryFontMediumSize14)`
-  margin-top: 14px;
+  margin-top: 16px;
   margin-bottom: 10px;
   color: ${colors.DANUBE};
 `;

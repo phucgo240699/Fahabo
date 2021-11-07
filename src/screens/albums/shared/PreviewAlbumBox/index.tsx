@@ -9,6 +9,7 @@ import {Constants} from '@constants/Constants';
 import {PhotoType} from '@constants/types/albums';
 
 interface Props {
+  title?: string;
   data: PhotoType[];
   hideViewAll?: boolean;
   onPressItem?: (index: number) => void;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const ProfileAlbumBox: React.FC<Props> = ({
+  title,
   data,
   hideViewAll,
   onPressItem,
@@ -24,7 +26,7 @@ const ProfileAlbumBox: React.FC<Props> = ({
   return (
     <Container>
       <Header>
-        <AlbumLabel>{i18n.t('profile.album')}</AlbumLabel>
+        <AlbumLabel>{title ?? i18n.t('album.previewAlbum')}</AlbumLabel>
         {!hideViewAll && (
           <PrimaryButton
             titleColor={colors.HYPER_LINK}
@@ -35,7 +37,7 @@ const ProfileAlbumBox: React.FC<Props> = ({
       </Header>
       <Box
         flexDirection={'row'}
-        justifyContent={'space-between'}
+        justifyContent={'flex-start'}
         flexWrap={'wrap'}>
         {data.map((item, index) => {
           return (
@@ -91,6 +93,7 @@ const AlbumLabel = styled(fonts.PrimaryFontMediumSize18)`
 
 const PictureContainer = styled.TouchableOpacity<{marginLeft?: number}>`
   margin-top: 5px;
+  margin-left: 5px;
   width: ${(Constants.MAX_WIDTH - 80) / 3}px;
   height: ${(Constants.MAX_WIDTH - 80) / 3}px;
 `;

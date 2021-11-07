@@ -5,40 +5,41 @@ import styled from 'styled-components/native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {backButtonIcon} from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
-import {Constants, ScreenName} from '@constants/Constants';
+import {ScreenName} from '@constants/Constants';
 import {Platform, StyleSheet} from 'react-native';
 import fonts from '@themes/fonts';
 import PreviewAlbumBox from '@screens/albums/shared/PreviewAlbumBox';
 import {useDispatch, useSelector} from 'react-redux';
-import {chorePhotosSelector} from '@store/selectors/chores';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {CommonActions, useNavigation} from '@react-navigation/native';
-import {AssigneeType, ChoreType} from '@constants/types/chores';
-import {getChoreStatusColor, getRepeatText} from '@utils/chores';
+import {AssigneeType} from '@constants/types/chores';
+import {getRepeatText} from '@utils/chores';
 import {navigate} from '@navigators/index';
 import i18n from '@locales/index';
+import {getDateTimeStringFrom, isNull} from '@utils/index';
+import {EventType} from '@constants/types/events';
+import {eventPhotosSelector} from '@store/selectors/events';
 import {
-  getChorePhotosRequestAction,
-  getChorePhotosSuccessAction,
-} from '@store/actionTypes/chores';
-import {isNull} from '@utils/index';
+  getEventPhotosRequestAction,
+  getEventPhotosSuccessAction,
+} from '@store/actionTypes/events';
 
 interface Props {
   route?: any;
 }
 
-const ChoreDetailScreen: React.FC<Props> = ({route}) => {
-  const detail: ChoreType = route.params.detail;
+const EventDetailScreen: React.FC<Props> = ({route}) => {
+  const detail: EventType = route.params.detail;
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const chorePhotos = useSelector(chorePhotosSelector);
+  const eventPhotos = useSelector(eventPhotosSelector);
 
   useEffect(() => {
     if (!isNull(detail.id)) {
-      dispatch(getChorePhotosSuccessAction([]));
+      dispatch(getEventPhotosSuccessAction([]));
       dispatch(
-        getChorePhotosRequestAction({
-          choreId: detail.id,
+        getEventPhotosRequestAction({
+          eventId: detail.id,
           size: 10,
         }),
       );
@@ -51,28 +52,28 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
 
   const onPressPhoto = (index: number) => {
     navigate(ScreenName.ImageViewerScreen, {
-      data: chorePhotos,
+      data: eventPhotos,
       currentIndex: index,
     });
   };
   const onPressViewAllPhotos = () => {
-    navigate(ScreenName.ChorePhotosScreen, {chore: detail});
+    // navigate(ScreenName.ChorePhotosScreen, {chore: detail});
   };
 
   const renderAssignee = ({item}: {item: AssigneeType}) => {
     return <Avatar mr={3} source={{uri: item.avatar}} />;
   };
 
-  const photos = chorePhotos.filter((item, index) => {
+  const photos = eventPhotos.filter((item, index) => {
     return index < 9;
   });
 
   return (
-    <SafeView backgroundColor={getChoreStatusColor(detail.status)}>
+    <SafeView backgroundColor={colors.THEME_COLOR_5}>
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
-        backgroundColor={getChoreStatusColor(detail.status)}
+        backgroundColor={colors.THEME_COLOR_5}
       />
       <ScrollView
         bounces={false}
@@ -80,7 +81,7 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scroll}>
-        <Banner backgroundColor={getChoreStatusColor(detail.status)}>
+        <Banner backgroundColor={colors.THEME_COLOR_5}>
           <BackButton onPress={onPressBack}>
             <PrimaryIcon width={48} height={48} source={backButtonIcon} />
           </BackButton>
@@ -88,12 +89,19 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
         <Content>
           <Title>{detail.title}</Title>
 
-          <Label>{`${i18n.t('chores.deadline')}:`}</Label>
-          {detail.deadline && (
-            <Description>{detail.deadline.split(' ')[0]}</Description>
+          <Label>{`${i18n.t('events.from')}:`}</Label>
+          {!isNull(detail.from) && (
+            <Description>
+              {getDateTimeStringFrom(detail.from ?? '')}
+            </Description>
           )}
 
-          {detail.repeatType && (
+          <Label>{`${i18n.t('events.to')}:`}</Label>
+          {!isNull(detail.to) && (
+            <Description>{getDateTimeStringFrom(detail.to ?? '')}</Description>
+          )}
+
+          {!isNull(detail.repeatType) && (
             <>
               <Label>{`${i18n.t('chores.repeat')}:`}</Label>
               <Description>{getRepeatText(detail.repeatType)}</Description>
@@ -113,17 +121,17 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
               />
             </>
           )}
-          {detail.description && (
+
+          {!isNull(detail.description) && (
             <>
               <Label>{`${i18n.t('chores.description')}:`}</Label>
               <Description>{detail.description}</Description>
             </>
           )}
-
           {photos.length > 0 && (
             <PreviewAlbumBox
               title={i18n.t('chores.photo')}
-              hideViewAll={chorePhotos.length <= 9}
+              hideViewAll={eventPhotos.length <= 9}
               data={photos}
               onPressItem={onPressPhoto}
               onPressViewAll={onPressViewAllPhotos}
@@ -181,4 +189,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChoreDetailScreen;
+export default EventDetailScreen;

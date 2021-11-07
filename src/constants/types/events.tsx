@@ -11,6 +11,7 @@ export type CreateEventRequestType = {
   from?: string; // dd-mm-yyyy
   to?: string; // dd-mm-yyyy
   repeatType?: string;
+  occurrences?: number;
   assigneeIds?: (number | undefined)[];
   photos?: (string | undefined)[]; // base64 string
 };
@@ -24,6 +25,7 @@ export type UpdateEventRequestType = {
   from?: string; // dd-mm-yyyy
   to?: string; // dd-mm-yyyy
   repeatType?: string;
+  occurrences?: number;
   assigneeIds?: (number | undefined)[];
   photos?: (string | undefined)[];
   deletePhotos?: number[];
@@ -31,6 +33,7 @@ export type UpdateEventRequestType = {
 
 export type DeleteEventRequestType = {
   eventId?: number;
+  deleteAll?: boolean;
 };
 
 export type GetEventsRequestType = {

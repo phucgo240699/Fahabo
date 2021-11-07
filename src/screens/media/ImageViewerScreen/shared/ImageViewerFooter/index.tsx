@@ -6,6 +6,7 @@ import {getInset} from 'react-native-safe-area-view';
 import styled from 'styled-components/native';
 import colors from '@themes/colors';
 import fonts from '@themes/fonts';
+import {Constants} from '@constants/Constants';
 
 interface Props {
   imageIndex: number;
@@ -25,10 +26,11 @@ const Container = styled.View`
   align-items: center;
   justify-content: center;
   margin-bottom: ${bottomInset}px;
-  background-color: #00000080;
 `;
 const Text = styled(fonts.PrimaryFontRegularSize14)`
+  padding: 4px 10px 4px 10px;
   color: #ffffff;
+  background-color: #00000080;
 `;
 
 export default React.memo(ImageViewerFooter);

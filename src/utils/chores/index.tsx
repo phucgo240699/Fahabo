@@ -63,7 +63,7 @@ export function getRepeatType(value?: string): RepeatType {
   }
 }
 
-export const getRepeatText = (type: RepeatType) => {
+export const getRepeatText = (type: RepeatType | string | undefined) => {
   switch (type) {
     case RepeatType.DAILY:
       return i18n.t('chores.daily');

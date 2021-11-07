@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import colors from '@themes/colors';
 import {Platform, StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
@@ -15,7 +15,14 @@ import VerticalEventItem from './shared/VerticalEventItem';
 import {isNull} from '@utils/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
-import {getEventsRequestAction} from '@store/actionTypes/events';
+import {
+  deleteEventRequestAction,
+  getEventsRequestAction,
+  getEventsSuccessAction,
+} from '@store/actionTypes/events';
+import {eventsSelector} from '@store/selectors/events';
+import {navigate} from '@navigators/index';
+import {ScreenName} from '@constants/Constants';
 
 interface Props {
   route?: any;
@@ -24,6 +31,7 @@ interface Props {
 const EventsScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const focusFamily = useSelector(focusFamilySelector);
+  const events = useSelector(eventsSelector);
   const [searchText, setSearchText] = useState('');
   const [submitSearchText, setSubmitSearchText] = useState('');
   const [selectedMember, setSelectedMember] = useState<MemberType[]>([]);
@@ -31,15 +39,25 @@ const EventsScreen: React.FC<Props> = ({route}) => {
     'created_at',
   );
 
-  const renderItem = ({item}: {item: any}) => {
-    return <VerticalEventItem item={item} onPress={onPressItem} />;
-  };
-  const onPressItem = (item: EventType) => {
-    console.log({item});
-    if (route && route.params && route.params.targetDate) {
-      console.log({targetDate: route.params.targetDate});
+  // Life Cycle
+  useEffect(() => {
+    dispatch(getEventsSuccessAction([]));
+    if (
+      !isNull(focusFamily?.id) &&
+      route &&
+      route.params &&
+      route.params.targetDateTime
+    ) {
+      dispatch(
+        getEventsRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          from: `${route.params.targetDateTime} 00:00:00`,
+          to: `${route.params.targetDateTime} 23:59:59`,
+        }),
+      );
     }
-  };
+  }, []);
 
   const getEvents = (
     _assignee: MemberType[],
@@ -50,28 +68,21 @@ const EventsScreen: React.FC<Props> = ({route}) => {
       !isNull(focusFamily?.id) &&
       route &&
       route.params &&
-      route.params.targetDate
+      route.params.targetDateTime
     ) {
-      console.log({
-        showHUD: true,
-        familyId: focusFamily?.id,
-        searchText: _text,
-        assigneeIds: _assignee.map(item => {
-          return item.id;
+      dispatch(
+        getEventsRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          searchText: _text,
+          assigneeIds: _assignee.map(item => {
+            return item.id;
+          }),
+          sortBy: _sortBy,
+          from: `${route.params.targetDateTime} 00:00:00`,
+          to: `${route.params.targetDateTime} 23:59:59`,
         }),
-        sortBy: _sortBy,
-        from: route.params.targetDate,
-        to: route.params.targetDate,
-      });
-      // dispatch(getEventsRequestAction({
-      //   showHUD: true,
-      //   familyId: focusFamily?.id,
-      //   searchText: _text,
-      //   assigneeIds: _assignee.map(item => { return item.id }),
-      //   sortBy: _sortBy,
-      //   from: route.params.targetDate,
-      //   to: route.params.targetDate
-      // }))
+      );
     }
   };
 
@@ -117,6 +128,31 @@ const EventsScreen: React.FC<Props> = ({route}) => {
     getEvents(selectedMember, 'deadline', submitSearchText);
   };
 
+  // Item
+  const renderItem = ({item}: {item: any}) => {
+    return (
+      <HorizontalEventItem
+        item={item}
+        onPress={onPressItem}
+        onPressUpdate={onPressUpdateItem}
+        onPressDelete={onPressDeleteItem}
+        onPressDeleteRelated={onPressDeleteRelatedItem}
+      />
+    );
+  };
+  const onPressItem = (item: EventType) => {
+    navigate(ScreenName.EventDetailScreen, {detail: item});
+  };
+  const onPressUpdateItem = (item: EventType) => {
+    navigate(ScreenName.CreateEventScreen, {oldEvent: item});
+  };
+  const onPressDeleteItem = (item: EventType) => {
+    dispatch(deleteEventRequestAction({eventId: item.id}));
+  };
+  const onPressDeleteRelatedItem = (item: EventType) => {
+    dispatch(deleteEventRequestAction({eventId: item.id, deleteAll: true}));
+  };
+
   return (
     <SafeView>
       <ProfileHeader title={i18n.t('events.events')} />
@@ -131,8 +167,8 @@ const EventsScreen: React.FC<Props> = ({route}) => {
         onSubmitSearchText={onSubmitSearchText}
       />
       <FlatList
-        numColumns={2}
-        data={DummyEvents}
+        // numColumns={2}
+        data={events}
         renderItem={renderItem}
         contentContainerStyle={styles.list}
         keyExtractor={(item, index) => index.toString()}
@@ -149,7 +185,7 @@ const SafeView = styled.SafeAreaView`
 
 const styles = StyleSheet.create({
   list: {
-    paddingLeft: 10,
+    // paddingLeft: 10,
     flexDirection: 'column',
   },
 });

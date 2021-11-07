@@ -151,7 +151,6 @@ const HLine = styled.View`
   height: 1px;
   margin-left: 30px;
   margin-right: 30px;
-  background-color: ${colors.CONCRETE};
 `;
 
 const styles = StyleSheet.create({

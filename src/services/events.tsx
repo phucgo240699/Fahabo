@@ -13,21 +13,30 @@ export function createEventApi(
   accessToken?: string,
   body?: CreateEventRequestType,
 ) {
-  return new apiProvider(accessToken).post(`${BASE_URL}`, body);
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/events/new_event`,
+    body,
+  );
 }
 
 export function updateEventApi(
   accessToken?: string,
   body?: UpdateEventRequestType,
 ) {
-  return new apiProvider(accessToken).post(`${BASE_URL}`, body);
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/events/update_event`,
+    body,
+  );
 }
 
 export function deleteEventApi(
   accessToken?: string,
   body?: DeleteEventRequestType,
 ) {
-  return new apiProvider(accessToken).post(`${BASE_URL}`, body);
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/events/delete_event`,
+    body,
+  );
 }
 
 export function getEventsApi(
@@ -45,7 +54,7 @@ export function getEventsApi(
     }
   }
   return new apiProvider(accessToken).post(
-    `${BASE_URL}?page=${page}&size=${size}`,
+    `${BASE_URL}/events?page=${page}&size=${size}`,
     body,
   );
 }
@@ -65,7 +74,7 @@ export function getEventPhotosApi(
     }
   }
   return new apiProvider(accessToken).post(
-    `${BASE_URL}?page=${page}&size=${size}`,
+    `${BASE_URL}/events/get_event_photos?page=${page}&size=${size}`,
     body,
   );
 }

@@ -10,6 +10,9 @@ import ChoreDetailScreen from '@screens/chores/ChoreDetailScreen';
 import ChorePhotosScreen from '@screens/chores/ChorePhotosScreen';
 import EventsScreen from '@screens/events';
 import CreateEventScreen from '@screens/events/CreateEventScreen';
+import CalendarEventsScreen from '@screens/events/CalendarEventsScreen';
+import EventDetailScreen from '@screens/events/EventDetailScreen';
+import EventPhotosScreen from '@screens/events/EventPhotosScreen';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +44,18 @@ const HomeStack = () => {
       <Stack.Screen
         name={ScreenName.CreateEventScreen}
         component={CreateEventScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.CalendarEventsScreen}
+        component={CalendarEventsScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.EventDetailScreen}
+        component={EventDetailScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.EventPhotosScreen}
+        component={EventPhotosScreen}
       />
     </Stack.Navigator>
   );
