@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import fonts from '@themes/fonts';
-import {Box, FlatList} from 'native-base';
+import {Box} from 'native-base';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   choreFilterMembersSelector,
   focusFamilySelector,
+  membersInFamilySelector,
 } from '@store/selectors/family';
 import {MemberType} from '@constants/types/family';
 import HorizontalMemberItem from '@screens/families/shared/HorizontalMemberItem';
@@ -14,7 +15,6 @@ import i18n from '@locales/index';
 import PrimarySearchBar from '@components/PrimarySearchBar';
 import {isNull} from '@utils/index';
 import {getChoreFilterMembersRequestAction} from '@store/actionTypes/family';
-import {StyleSheet} from 'react-native';
 
 interface Props {
   selectedMember: MemberType[];
@@ -43,18 +43,6 @@ const EventFilterBox: React.FC<Props> = ({selectedMember, onPressMember}) => {
     }
   };
 
-  const renderItem = ({item}: {item: any}) => {
-    return (
-      <HorizontalMemberItem
-        item={item}
-        size={'small'}
-        pickerMode={true}
-        isPicked={selectedMember.includes(item)}
-        onPress={onPressMember}
-      />
-    );
-  };
-
   return (
     <Box flex={1}>
       <Label>{`${i18n.t('chores.members')}:`}</Label>
@@ -63,16 +51,28 @@ const EventFilterBox: React.FC<Props> = ({selectedMember, onPressMember}) => {
         onChangeText={onChangeMemberName}
         onSubmitText={onSubmitMemberName}
       />
-      <FlatList
+      <Box
         mt={2}
-        numColumns={2}
-        data={members}
-        scrollEnabled={false}
-        renderItem={renderItem}
-        contentContainerStyle={styles.list}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item, index) => index.toString()}
-      />
+        flexDirection={'row'}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}>
+        {members.map((item, index) => {
+          if (index < 10) {
+            return (
+              <HorizontalMemberItem
+                key={index}
+                item={item}
+                size={'small'}
+                pickerMode={true}
+                isPicked={selectedMember.includes(item)}
+                onPress={onPressMember}
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
+      </Box>
     </Box>
   );
 };
@@ -81,12 +81,5 @@ const Label = styled(fonts.PrimaryFontMediumSize14)`
   margin-top: 8px;
   color: ${colors.DANUBE};
 `;
-
-const styles = StyleSheet.create({
-  list: {
-    paddingTop: 10,
-    flexDirection: 'column',
-  },
-});
 
 export default EventFilterBox;

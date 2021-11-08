@@ -19,7 +19,7 @@ const MainStack = () => {
       messaging()
         .getToken()
         .then(token => {
-          console.log({token});
+          Alert.alert('Device Token: ', token)
         });
     });
     const unsubscribe = messaging().onMessage(async remoteMessage => {

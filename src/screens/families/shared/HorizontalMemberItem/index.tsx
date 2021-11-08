@@ -53,7 +53,7 @@ const HorizontalMemberItem: React.FC<Props> = ({
 
 const Container = styled.TouchableOpacity<{size: string}>`
   width: ${props =>
-    props.size === 'large' ? Constants.MAX_WIDTH - 60 : 144}px;
+    props.size === 'large' ? Constants.MAX_WIDTH - 60 : 150}px;
   flex-direction: row;
   align-items: center;
   shadow-radius: ${props => (props.size === 'large' ? 10 : 4)}px;
@@ -62,9 +62,10 @@ const Container = styled.TouchableOpacity<{size: string}>`
   shadow-color: ${colors.BLACK};
   background-color: ${colors.WHITE};
   height: ${props => (props.size === 'large' ? 80 : 40)}px;
-  margin-top: ${props => (props.size === 'large' ? 15 : 5)}px;
-  margin-left: ${props => (props.size === 'large' ? 30 : 10)}px;
-  margin-right: ${props => (props.size === 'large' ? 30 : 10)}px;
+  margin-top: ${props => (props.size === 'large' ? 10 : 5)}px;
+  margin-left: ${props => (props.size === 'large' ? 30 : 5)}px;
+  margin-right: ${props => (props.size === 'large' ? 30 : 5)}px;
+  margin-bottom: 5px;
 `;
 
 const Name = styled(fonts.PrimaryFontMediumSize16)<{size: string}>`
