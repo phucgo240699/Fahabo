@@ -33,8 +33,7 @@ function* onSignInRequest(action: AnyAction) {
         // Check is join Family
         if (data.user.familyNum > 0) {
           if (!isNull(data.user.languageCode)) {
-            i18n.locale = data.user.languageCode;
-            i18n.defaultLocale = data.user.languageCode;
+            setGlobalLocale(data.user.languageCode);
           }
           yield* put(
             signInSuccessAction(
@@ -48,8 +47,7 @@ function* onSignInRequest(action: AnyAction) {
           navigateReset(StackName.MainStack);
         } else {
           if (!isNull(data.user.languageCode)) {
-            i18n.locale = data.user.languageCode;
-            i18n.defaultLocale = data.user.languageCode;
+            setGlobalLocale(data.user.languageCode);
           }
           yield* put(
             signInSuccessAction(
@@ -90,10 +88,6 @@ function* onSignInRequest(action: AnyAction) {
   }
 }
 
-// function* onSignInSuccess(action: AnyAction) {
-//   navigateReset(StackName.MainStack);
-// }
-
 // Call from FlashScreen
 function* onAutoSignInRequest(action: AnyAction) {
   try {
@@ -105,9 +99,6 @@ function* onAutoSignInRequest(action: AnyAction) {
         // Check is join Family
         if (data.user.familyNum > 0) {
           if (!isNull(data.user.languageCode)) {
-            console.log('data.user.languageCode: ', data.user.languageCode);
-            // i18n.locale = data.user.languageCode;
-            // i18n.defaultLocale = data.user.languageCode;
             setGlobalLocale(data.user.languageCode);
           }
           yield* put(
@@ -125,16 +116,10 @@ function* onAutoSignInRequest(action: AnyAction) {
       }
     }
     const languageCode = yield* select(languageCodeSelector);
-    console.log({languageCode});
     if (!isNull(languageCode)) {
-      // i18n.locale = languageCode ?? '';
-      // i18n.defaultLocale = languageCode ?? '';
       setGlobalLocale(languageCode ?? '');
     } else {
       // Device language
-      console.log('Device language');
-      // i18n.locale = getDefaultLanguageCode();
-      // i18n.defaultLocale = getDefaultLanguageCode();
       setGlobalLocale(getDefaultLanguageCode());
     }
     navigateReset(StackName.AuthenticationStack);

@@ -39,7 +39,7 @@ import {
 } from '@utils/parsers/authentication';
 import {ScreenName, StackName} from '@constants/Constants';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
-import {isNull} from '@utils/index';
+import {isNull, setGlobalLocale} from '@utils/index';
 
 // Avatar
 function* onUpdateProfileAvatarSaga(action: AnyAction) {
@@ -142,8 +142,10 @@ function* onUpdateLanguageSaga(action: AnyAction) {
     const response = yield* apiProxy(updateProfileApi, action.body);
     if (response.status === 200) {
       const data = parseDataResponse(response);
-      i18n.defaultLocale = data.languageCode;
-      i18n.locale = data.languageCode;
+      console.log('\n');
+      console.log('data.languageCode: ', data.languageCode);
+      console.log('\n');
+      setGlobalLocale(data.languageCode);
       yield* put(
         showToastAction(
           i18n.t('successMessage.updateLanguage'),

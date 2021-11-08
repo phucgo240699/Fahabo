@@ -44,7 +44,7 @@ const ListChoresHeader: React.FC<Props> = ({
       borderRadius={14}
       bgColor={colors.WHITE}
       borderColor={colors.WHITE}
-      width={Constants.MAX_WIDTH - 60}
+      width={350}
       placement={'bottom right'}
       trigger={triggerProps => {
         return (

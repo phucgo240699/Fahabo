@@ -158,7 +158,7 @@ export const setGlobalLocale = (_locale: string) => {
       };
       LocaleConfig.defaultLocale = _locale;
       break;
-    default:
+    case 'en':
       console.log('LocaleConfig.locales.en');
       i18n.locale = _locale;
       i18n.defaultLocale = _locale;
@@ -205,6 +205,55 @@ export const setGlobalLocale = (_locale: string) => {
         dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sar', 'Sun'],
       };
       LocaleConfig.defaultLocale = _locale;
+      break;
+    default:
+      const defaultLanguageCode = getDefaultLanguageCode();
+      console.log('LocaleConfig.locales.defaultLanguageCode');
+      i18n.locale = defaultLanguageCode;
+      i18n.defaultLocale = defaultLanguageCode;
+
+      LocaleConfig.locales.en = LocaleConfig.locales[''];
+      LocaleConfig.locales.en = {
+        monthNames: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ],
+        monthNamesShort: [
+          'Jan.',
+          'Feb.',
+          'Mar.',
+          'Apr.',
+          'May.',
+          'Jun.',
+          'Jul.',
+          'Aug.',
+          'Sep.',
+          'Oct.',
+          'Nov.',
+          'Dec.',
+        ],
+        dayNames: [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday',
+        ],
+        dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sar', 'Sun'],
+      };
+      LocaleConfig.defaultLocale = defaultLanguageCode;
       break;
   }
 };

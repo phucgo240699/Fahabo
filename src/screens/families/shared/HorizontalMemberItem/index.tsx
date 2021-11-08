@@ -9,6 +9,7 @@ import i18n from '@locales/index';
 import {Avatar} from 'native-base';
 import {MemberType} from '@constants/types/family';
 import {hostArmorialIcon} from '@constants/sources';
+import {Constants} from '@constants/Constants';
 
 interface Props {
   item: MemberType;
@@ -51,7 +52,8 @@ const HorizontalMemberItem: React.FC<Props> = ({
 };
 
 const Container = styled.TouchableOpacity<{size: string}>`
-  flex: 1;
+  width: ${props =>
+    props.size === 'large' ? Constants.MAX_WIDTH - 60 : 144}px;
   flex-direction: row;
   align-items: center;
   shadow-radius: ${props => (props.size === 'large' ? 10 : 4)}px;
