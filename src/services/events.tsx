@@ -2,6 +2,7 @@ import {BASE_URL, Pagination} from '@constants/Constants';
 import {
   CreateEventRequestType,
   DeleteEventRequestType,
+  GetDatesContainEventsRequestType,
   GetEventPhotosRequestType,
   GetEventsRequestType,
   UpdateEventRequestType,
@@ -75,6 +76,16 @@ export function getEventPhotosApi(
   }
   return new apiProvider(accessToken).post(
     `${BASE_URL}/events/get_event_photos?page=${page}&size=${size}`,
+    body,
+  );
+}
+
+export function getDatesContainEventsApi(
+  accessToken?: string,
+  body?: GetDatesContainEventsRequestType,
+) {
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/events/dates_contain_events`,
     body,
   );
 }

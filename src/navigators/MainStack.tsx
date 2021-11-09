@@ -19,7 +19,8 @@ const MainStack = () => {
       messaging()
         .getToken()
         .then(token => {
-          Alert.alert('Device Token: ', token)
+          // Alert.alert('Device Token: ', token)
+          console.log({token});
         });
     });
     const unsubscribe = messaging().onMessage(async remoteMessage => {
@@ -27,11 +28,6 @@ const MainStack = () => {
     });
 
     return unsubscribe;
-  }, []);
-  useEffect(() => {
-    return messaging().onTokenRefresh(token => {
-      console.log({tokenChanged: token});
-    });
   }, []);
 
   async function requestUserPermission() {

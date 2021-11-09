@@ -1,6 +1,7 @@
 import {
   CreateEventRequestType,
   DeleteEventRequestType,
+  GetDatesContainEventsRequestType,
   GetEventPhotosRequestType,
   GetEventsRequestType,
   UpdateEventRequestType,
@@ -10,6 +11,7 @@ import i18n from '@locales/index';
 import {
   createEventApi,
   deleteEventApi,
+  getDatesContainEventsApi,
   getEventPhotosApi,
   getEventsApi,
   updateEventApi,
@@ -17,14 +19,13 @@ import {
 import {
   createEventSuccessAction,
   CREATE_EVENT_REQUEST,
-  deleteEventSuccessAction,
   DELETE_EVENT_REQUEST,
+  getDatesContainEventsSuccessAction,
   getEventPhotosSuccessAction,
-  getEventsRequestAction,
   getEventsSuccessAction,
+  GET_DATES_CONTAIN_EVENTS_REQUEST,
   GET_EVENTS_REQUEST,
   GET_EVENT_PHOTOS_REQUEST,
-  updateEventSuccessAction,
   UPDATE_EVENT_REQUEST,
 } from '@store/actionTypes/events';
 import {
@@ -109,7 +110,7 @@ function* updateEventSaga({
       );
       // navigationRef.current?.dispatch(CommonActions.goBack());
       // navigationRef.current?.dispatch(CommonActions.goBack());
-      navigate(ScreenName.HomeScreen)
+      navigate(ScreenName.HomeScreen);
     } else {
       yield* put(
         showToastAction(
@@ -267,6 +268,33 @@ function* getEventPhotosSaga({
   }
 }
 
+function* getDatesContainEventsSaga({
+  body,
+}: {
+  type: string;
+  body: GetDatesContainEventsRequestType;
+}) {
+  try {
+    const response = yield* apiProxy(getDatesContainEventsApi, body);
+    if (response.status === 200) {
+      yield* put(
+        getDatesContainEventsSuccessAction(parseDataResponse(response)),
+      );
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  }
+}
+
 export default function* () {
   yield* all([
     takeLeading(CREATE_EVENT_REQUEST, createEventSaga),
@@ -274,5 +302,6 @@ export default function* () {
     takeLeading(DELETE_EVENT_REQUEST, deleteEventSaga),
     takeLeading(GET_EVENTS_REQUEST, getEventsSaga),
     takeLeading(GET_EVENT_PHOTOS_REQUEST, getEventPhotosSaga),
+    takeLeading(GET_DATES_CONTAIN_EVENTS_REQUEST, getDatesContainEventsSaga),
   ]);
 }

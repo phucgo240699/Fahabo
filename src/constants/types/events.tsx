@@ -58,6 +58,12 @@ export type GetEventPhotosRequestType = {
   size?: number;
 };
 
+export type GetDatesContainEventsRequestType = {
+  familyId?: number;
+  from?: string; // dd-mm-yyyy
+  to?: string; // dd-mm-yyyy
+};
+
 //
 // Response
 //

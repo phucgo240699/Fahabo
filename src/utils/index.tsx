@@ -47,6 +47,17 @@ export const getOriginDateStringFromYYYYMMDDString = (
   return `${day}-${month}-${year}`;
 };
 
+export const getYYYYMMDDStringFromOriginDateString = (
+  value: string,
+  separator: string,
+) => {
+  const elements = value.split(separator);
+  const day = elements[0];
+  const month = elements[1];
+  const year = elements[2];
+  return `${year}-${month}-${day}`;
+};
+
 export const getDateStringFrom = (originDateString: string) => {
   const elements = originDateString.split('-'); // DD-MM-YYYY
   const day = elements[0];
@@ -75,12 +86,28 @@ export const getDateTimeStringFrom = (originDateString: string) => {
   const second = timeElements[2];
   switch (i18n.locale) {
     case 'vi':
-      return `${day}-${month}-${year} ${hour}:${minute}:${second}`;
+      return `${day}-${month}-${year} ${hour}:${minute}`;
 
     default:
-      return `${month}-${day}-${year} ${hour}:${minute}:${second}`;
+      return `${month}-${day}-${year} ${hour}:${minute}`;
   }
 };
+
+export function convertOriginDateTimeStringToDate(
+  originDateTimeString: string,
+) {
+  let dateComponents = originDateTimeString.split(' ');
+  let datePieces = dateComponents[0].split('-');
+  let timePieces = dateComponents[1].split(':');
+  return new Date(
+    parseInt(datePieces[2]),
+    parseInt(datePieces[1]) - 1,
+    parseInt(datePieces[0]),
+    parseInt(timePieces[0]),
+    parseInt(timePieces[1]),
+    parseInt(timePieces[2]),
+  );
+}
 
 export const getLanguageName = (languageCode: string) => {
   switch (languageCode) {

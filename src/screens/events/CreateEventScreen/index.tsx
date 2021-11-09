@@ -16,10 +16,11 @@ import i18n from '@locales/index';
 import styled from 'styled-components/native';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
 import {
-  getDateTimeStringFrom,
-  getOriginDateTimeString,
   isNull,
   isNumber,
+  getDateTimeStringFrom,
+  getOriginDateTimeString,
+  convertOriginDateTimeStringToDate,
 } from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
@@ -61,8 +62,8 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const {isOpen, onOpen, onClose} = useDisclose();
 
   const [title, setTitle] = useState('');
-  const [from, setFrom] = useState(getOriginDateTimeString(new Date()));
-  const [to, setTo] = useState(getOriginDateTimeString(new Date()));
+  const [from, setFrom] = useState(new Date());
+  const [to, setTo] = useState(new Date());
   const [repeat, setRepeat] = useState<RepeatType>(RepeatType.NONE);
   const [repetition, setRepetition] = useState(10);
   const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
@@ -75,7 +76,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const [isUpdateRelated, setIsUpdateRelated] = useState(false);
   const [visibleFromDatePicker, setVisibleFromDatePicker] = useState(false);
   const [visibleToDatePicker, setVisibleToDatePicker] = useState(false);
-  const [dateNow, setDateNow] = useState(new Date());
+  const timeZoneOffset = new Date().getTimezoneOffset() * -1
 
   useEffect(() => {
     if (route && route.params) {
@@ -115,8 +116,8 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
           const _oldEvent: EventType = route.params.oldEvent;
           setOldEvent(_oldEvent);
           setTitle(_oldEvent.title ?? '');
-          setFrom(_oldEvent.from ?? '');
-          setTo(_oldEvent.to ?? '');
+          setFrom(convertOriginDateTimeStringToDate(_oldEvent.from ?? ''));
+          setTo(convertOriginDateTimeStringToDate(_oldEvent.to ?? ''));
           setIsUpdateRelated(route.params.isUpdateRelated);
           setRepeat(getRepeatType(_oldEvent.repeatType));
           setSelectedMembers(_oldEvent.assignees ?? []);
@@ -164,7 +165,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const onFromDatePickerChange = (date: Date) => {};
   const onConfirmFromDatePicker = (date: Date) => {
     setVisibleFromDatePicker(false);
-    setFrom(getOriginDateTimeString(date));
+    setFrom(date);
   };
   const onCloseFromDatePicker = () => {
     setVisibleFromDatePicker(false);
@@ -177,7 +178,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const onToDatePickerChange = (date: Date) => {};
   const onConfirmToDatePicker = (date: Date) => {
     setVisibleToDatePicker(false);
-    setTo(getOriginDateTimeString(date));
+    setTo(date);
   };
   const onCloseToDatePicker = () => {
     setVisibleToDatePicker(false);
@@ -341,8 +342,8 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
             eventId: oldEvent.id,
             title: title,
             description: description,
-            from: from,
-            to: to,
+            from: getOriginDateTimeString(from),
+            to: getOriginDateTimeString(to),
             updateAll: isUpdateRelated,
             assigneeIds: selectedMembers.map((item, index) => {
               return item.id;
@@ -382,8 +383,8 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
             familyId: focusFamily?.id,
             title: title,
             description: description,
-            from: from,
-            to: to,
+            from: getOriginDateTimeString(from),
+            to: getOriginDateTimeString(to),
             repeatType: repeat === RepeatType.NONE ? '' : repeat,
             occurrences: repetition,
             assigneeIds: selectedMembers.map(item => {
@@ -451,7 +452,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
               onPress={onPressFrom}>
               {isNull(from)
                 ? i18n.t('profile.formatDate')
-                : getDateTimeStringFrom(from)}
+                : getDateTimeStringFrom(getOriginDateTimeString(from))}
             </Button>
 
             {/* To */}
@@ -465,7 +466,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
               onPress={onPressTo}>
               {isNull(to)
                 ? i18n.t('profile.formatDate')
-                : getDateTimeStringFrom(to)}
+                : getDateTimeStringFrom(getOriginDateTimeString(to))}
             </Button>
 
             {/* Repeat */}
@@ -568,9 +569,9 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
             mode="datetime"
             locale={i18n.locale}
             open={visibleFromDatePicker}
-            minimumDate={dateNow}
-            date={dateNow}
+            date={from}
             textColor={colors.BLACK}
+            timeZoneOffsetInMinutes={timeZoneOffset}
             onDateChange={onFromDatePickerChange}
             onConfirm={onConfirmFromDatePicker}
             onCancel={onCloseFromDatePicker}
@@ -580,9 +581,9 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
             mode="datetime"
             locale={i18n.locale}
             open={visibleToDatePicker}
-            minimumDate={dateNow}
-            date={dateNow}
+            date={to}
             textColor={colors.BLACK}
+            timeZoneOffsetInMinutes={timeZoneOffset}
             onDateChange={onToDatePickerChange}
             onConfirm={onConfirmToDatePicker}
             onCancel={onCloseToDatePicker}

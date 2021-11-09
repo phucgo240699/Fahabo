@@ -3,6 +3,7 @@ import {
   CreateEventRequestType,
   DeleteEventRequestType,
   EventType,
+  GetDatesContainEventsRequestType,
   GetEventPhotosRequestType,
   GetEventsRequestType,
   UpdateEventRequestType,
@@ -67,5 +68,21 @@ export const getEventPhotosRequestAction = (
 export const GET_EVENT_PHOTOS_SUCCESS = 'GET_EVENT_PHOTOS_SUCCESS';
 export const getEventPhotosSuccessAction = (payload: PhotoType[]) => ({
   type: GET_EVENT_PHOTOS_SUCCESS,
+  payload,
+});
+
+// Get Dates
+export const GET_DATES_CONTAIN_EVENTS_REQUEST =
+  'GET_DATES_CONTAIN_EVENTS_REQUEST';
+export const getDatesContainEventsRequestAction = (
+  body: GetDatesContainEventsRequestType,
+) => ({
+  type: GET_DATES_CONTAIN_EVENTS_REQUEST,
+  body,
+});
+export const GET_DATES_CONTAIN_EVENTS_SUCCESS =
+  'GET_DATES_CONTAIN_EVENTS_REQUEST';
+export const getDatesContainEventsSuccessAction = (payload: string[]) => ({
+  type: GET_DATES_CONTAIN_EVENTS_SUCCESS,
   payload,
 });

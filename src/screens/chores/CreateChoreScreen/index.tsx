@@ -15,7 +15,13 @@ import ProfileHeader from '@components/ProfileHeader';
 import i18n from '@locales/index';
 import styled from 'styled-components/native';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
-import {getDateStringFrom, getOriginDateString, isNull} from '@utils/index';
+import {
+  convertOriginDateTimeStringToDate,
+  getDateStringFrom,
+  getOriginDateString,
+  getOriginDateTimeString,
+  isNull,
+} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {
@@ -56,7 +62,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const {isOpen, onOpen, onClose} = useDisclose();
 
   const [title, setTitle] = useState('');
-  const [deadline, setDeadline] = useState(getOriginDateString(new Date()));
+  const [deadline, setDeadline] = useState(new Date());
   const [status, setStatus] = useState<ChoreStatus | undefined>(
     ChoreStatus.IN_PROGRESS,
   );
@@ -69,7 +75,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const [description, setDescription] = useState('');
   const [oldChore, setOldChore] = useState<ChoreType | undefined>(undefined);
   const [visibleDatePicker, setVisibleDatePicker] = useState(false);
-  const dateNow = new Date();
+  const timeZoneOffset = new Date().getTimezoneOffset() * -1;
 
   useEffect(() => {
     if (route && route.params) {
@@ -109,7 +115,9 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
           const _oldChore: ChoreType = route.params.oldChore;
           setOldChore(_oldChore);
           setTitle(_oldChore.title ?? '');
-          setDeadline(_oldChore.deadline ?? '');
+          setDeadline(
+            convertOriginDateTimeStringToDate(_oldChore.deadline ?? ''),
+          );
           setStatus(getChoreStatus(_oldChore.status));
           setRepeat(getRepeatType(_oldChore.repeatType));
           setSelectedMembers(_oldChore.assignees ?? []);
@@ -156,7 +164,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const onDatePickerChange = (date: Date) => {};
   const onConfirmDatePicker = (date: Date) => {
     setVisibleDatePicker(false);
-    setDeadline(getOriginDateString(date));
+    setDeadline(date);
   };
   const onCloseDatePicker = () => {
     setVisibleDatePicker(false);
@@ -313,7 +321,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             status: status,
             title: title,
             description: description,
-            deadline: deadline,
+            deadline: getOriginDateString(deadline),
             repeatType: repeat === RepeatType.NONE ? '' : repeat,
             assigneeIds: selectedMembers.map((item, index) => {
               return item.id;
@@ -353,7 +361,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             status: status,
             title: title,
             description: description,
-            deadline: deadline,
+            deadline: getOriginDateString(deadline),
             repeatType: repeat === RepeatType.NONE ? '' : repeat,
             assigneeIds: selectedMembers.map((item, index) => {
               return item.id;
@@ -420,7 +428,7 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               onPress={onPressDeadline}>
               {isNull(deadline)
                 ? i18n.t('profile.formatDate')
-                : getDateStringFrom(deadline.split(' ')[0] ?? '')}
+                : getDateStringFrom(getOriginDateString(deadline))}
             </Button>
 
             {/* Repeat */}
@@ -510,9 +518,9 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             mode="date"
             locale={i18n.locale}
             open={visibleDatePicker}
-            minimumDate={dateNow}
-            date={dateNow}
+            date={deadline}
             textColor={colors.BLACK}
+            timeZoneOffsetInMinutes={timeZoneOffset}
             onDateChange={onDatePickerChange}
             onConfirm={onConfirmDatePicker}
             onCancel={onCloseDatePicker}
