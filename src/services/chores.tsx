@@ -2,6 +2,7 @@ import {BASE_URL, Pagination} from '@constants/Constants';
 import {
   CreateChoreRequestType,
   DeleteChoreRequestType,
+  GetChoreDetailRequestType,
   GetChorePhotosRequestType,
   GetChoresRequestType,
   UpdateChoreRequestType,
@@ -77,4 +78,11 @@ export function getChorePhotosApi(
     `${BASE_URL}/chores/get_chore_photos?page=${page}&size=${size}`,
     body,
   );
+}
+
+export function getChoreDetailApi(
+  accessToken?: string,
+  body?: GetChoreDetailRequestType,
+) {
+  return new apiProvider(accessToken).post(`${BASE_URL}/chores/detail`, body);
 }

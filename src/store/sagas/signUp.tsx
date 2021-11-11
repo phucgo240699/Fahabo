@@ -176,10 +176,6 @@ function* onVerifyUsernameRequest(action: AnyAction) {
   }
 }
 
-// function* onVerifyUsernameSuccess(action: AnyAction) {
-//   navigateReset(StackName.MainStack);
-// }
-
 function* onGetForgotPasswordOTPRequest(action: AnyAction) {
   try {
     yield* put(showHUDAction());

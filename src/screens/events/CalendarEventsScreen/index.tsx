@@ -21,48 +21,40 @@ import {plusIcon} from '@constants/sources';
 import {datesContainEventsSelector} from '@store/selectors/events';
 import {getDatesContainEventsRequestAction} from '@store/actionTypes/events';
 
-interface Props {}
+interface Props {
+  route?: any;
+}
 
-const CalendarEventsScreen: React.FC<Props> = () => {
+const CalendarEventsScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const focusFamily = useSelector(focusFamilySelector);
   const rawMarkedDateEvents = useSelector(datesContainEventsSelector);
 
   useEffect(() => {
     if (!isNull(focusFamily?.id)) {
-      const dateNowString = getOriginDateString(new Date());
-      const dateNowComponents = dateNowString.split('-');
-      const month = dateNowComponents[1];
-      const year = dateNowComponents[2];
-      const from = `01-${month}-${year}`;
-      const to = `31-${month}-${year}`;
-
-      dispatch(
-        getDatesContainEventsRequestAction({
-          familyId: focusFamily?.id,
-          from: from,
-          to: to,
-        }),
-      );
+      adaptMarkedDates(getOriginDateString(new Date()));
     }
   }, []);
 
-  // Month Change
-  const onMonthsChange = (months: DateData[]) => {
-    const dateComponents = months[0].dateString.split('-');
-    const year = dateComponents[0];
-    const month = dateComponents[1];
+  const adaptMarkedDates = (dateString: string) => {
+    const dateNowComponents = dateString.split('-');
+    const month = dateNowComponents[1];
+    const year = dateNowComponents[2];
     const from = `01-${month}-${year}`;
     const to = `31-${month}-${year}`;
-    if (!isNull(focusFamily?.id)) {
-      dispatch(
-        getDatesContainEventsRequestAction({
-          familyId: focusFamily?.id,
-          from: from,
-          to: to,
-        }),
-      );
-    }
+
+    dispatch(
+      getDatesContainEventsRequestAction({
+        familyId: focusFamily?.id,
+        from: from,
+        to: to,
+      }),
+    );
+  };
+
+  // Month Change
+  const onMonthsChange = (months: DateData[]) => {
+    adaptMarkedDates(months[0].dateString);
   };
 
   // Creation

@@ -19,9 +19,11 @@ import {ToastType} from '@constants/types/session';
 import {joinFamilyRequestAction} from '@store/actionTypes/family';
 import {Platform} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 
 const ScanFamilyQRScreen = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const onSuccess = (e: BarCodeReadEvent) => {
     const [qrSaltCode, familyId] = e.data.split('_');
@@ -33,6 +35,7 @@ const ScanFamilyQRScreen = () => {
         showToastAction(i18n.t('errorMessage.qrCodeInvalid'), ToastType.ERROR),
       );
     }
+    navigation.dispatch(CommonActions.goBack());
   };
 
   const onPressQRCode = () => {

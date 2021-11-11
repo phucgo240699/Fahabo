@@ -76,7 +76,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const [isUpdateRelated, setIsUpdateRelated] = useState(false);
   const [visibleFromDatePicker, setVisibleFromDatePicker] = useState(false);
   const [visibleToDatePicker, setVisibleToDatePicker] = useState(false);
-  const timeZoneOffset = new Date().getTimezoneOffset() * -1
+  const timeZoneOffset = new Date().getTimezoneOffset() * -1;
 
   useEffect(() => {
     if (route && route.params) {

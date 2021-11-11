@@ -3,6 +3,7 @@ import {
   ChoreType,
   CreateChoreRequestType,
   DeleteChoreRequestType,
+  GetChoreDetailRequestType,
   GetChorePhotosRequestType,
   GetChoresRequestType,
   UpdateChoreRequestType,
@@ -67,5 +68,19 @@ export const getChorePhotosRequestAction = (
 export const GET_CHORE_PHOTOS_SUCCESS = 'GET_CHORE_PHOTOS_SUCCESS';
 export const getChorePhotosSuccessAction = (payload: PhotoType[]) => ({
   type: GET_CHORE_PHOTOS_SUCCESS,
+  payload,
+});
+
+// Detail
+export const GET_CHORE_DETAIL_REQUEST = 'GET_CHORE_DETAIL_REQUEST';
+export const getChoreDetailRequestAction = (
+  body: GetChoreDetailRequestType,
+) => ({
+  type: GET_CHORE_DETAIL_REQUEST,
+  body,
+});
+export const GET_CHORE_DETAIL_SUCCESS = 'GET_CHORE_DETAIL_SUCCESS';
+export const getChoreDetailSuccessAction = (payload: ChoreType) => ({
+  type: GET_CHORE_DETAIL_SUCCESS,
   payload,
 });

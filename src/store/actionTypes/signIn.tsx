@@ -1,4 +1,5 @@
 import {
+  AddFCMTokenRequestType,
   RefreshAccessTokenResponseType,
   SignInRequestType,
 } from '@constants/types/authentication';
@@ -26,6 +27,12 @@ export const AUTO_SIGN_IN_SUCCESS = 'AUTO_SIGN_IN_SUCCESS';
 export const autoSignInSuccessAction = (payload: AuthenticationState) => ({
   type: AUTO_SIGN_IN_SUCCESS,
   payload,
+});
+
+export const ADD_FCM_TOKEN_REQUEST = 'ADD_FCM_TOKEN_REQUEST';
+export const addFCMTokenRequestAction = (body: AddFCMTokenRequestType) => ({
+  type: ADD_FCM_TOKEN_REQUEST,
+  body,
 });
 
 export const REFRESH_ACCESS_TOKEN_SUCCESS = 'REFRESH_ACCESS_TOKEN_SUCCESS';

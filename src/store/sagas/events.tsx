@@ -2,6 +2,7 @@ import {
   CreateEventRequestType,
   DeleteEventRequestType,
   GetDatesContainEventsRequestType,
+  GetEventDetailRequestType,
   GetEventPhotosRequestType,
   GetEventsRequestType,
   UpdateEventRequestType,
@@ -12,6 +13,7 @@ import {
   createEventApi,
   deleteEventApi,
   getDatesContainEventsApi,
+  getEventDetailApi,
   getEventPhotosApi,
   getEventsApi,
   updateEventApi,
@@ -21,10 +23,12 @@ import {
   CREATE_EVENT_REQUEST,
   DELETE_EVENT_REQUEST,
   getDatesContainEventsSuccessAction,
+  getEventDetailSuccessAction,
   getEventPhotosSuccessAction,
   getEventsSuccessAction,
   GET_DATES_CONTAIN_EVENTS_REQUEST,
   GET_EVENTS_REQUEST,
+  GET_EVENT_DETAIL_REQUEST,
   GET_EVENT_PHOTOS_REQUEST,
   UPDATE_EVENT_REQUEST,
 } from '@store/actionTypes/events';
@@ -45,7 +49,7 @@ import {parsePhotos} from '@utils/parsers/albums';
 import {parseEvent, parseEvents} from '@utils/parsers/events';
 import {all, put, select, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
-import {navigate, navigationRef} from '@navigators/index';
+import {navigate, navigationRef, push} from '@navigators/index';
 import {CommonActions} from '@react-navigation/native';
 import {focusFamilySelector} from '@store/selectors/family';
 import {isNull} from '@utils/index';
@@ -98,18 +102,12 @@ function* updateEventSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(updateEventApi, body);
     if (response.status === 200) {
-      // yield* put(
-      //   updateEventSuccessAction(parseEvent(parseDataResponse(response))),
-      // );
-
       yield* put(
         showToastAction(
           i18n.t('successMessage.updateEvent'),
           ToastType.SUCCESS,
         ),
       );
-      // navigationRef.current?.dispatch(CommonActions.goBack());
-      // navigationRef.current?.dispatch(CommonActions.goBack());
       navigate(ScreenName.HomeScreen);
     } else {
       yield* put(
@@ -268,6 +266,37 @@ function* getEventPhotosSaga({
   }
 }
 
+function* getEventDetailSaga({
+  body,
+}: {
+  type: string;
+  body: GetEventDetailRequestType;
+}) {
+  try {
+    yield* put(showHUDAction());
+    const response = yield* apiProxy(getEventDetailApi, body);
+    if (response.status === 200) {
+      yield* put(
+        getEventDetailSuccessAction(parseEvent(parseDataResponse(response))),
+      );
+      push(ScreenName.EventDetailScreen);
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(closeHUDAction());
+  }
+}
+
 function* getDatesContainEventsSaga({
   body,
 }: {
@@ -302,6 +331,7 @@ export default function* () {
     takeLeading(DELETE_EVENT_REQUEST, deleteEventSaga),
     takeLeading(GET_EVENTS_REQUEST, getEventsSaga),
     takeLeading(GET_EVENT_PHOTOS_REQUEST, getEventPhotosSaga),
+    takeLeading(GET_EVENT_DETAIL_REQUEST, getEventDetailSaga),
     takeLeading(GET_DATES_CONTAIN_EVENTS_REQUEST, getDatesContainEventsSaga),
   ]);
 }

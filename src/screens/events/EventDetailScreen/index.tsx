@@ -18,7 +18,10 @@ import {navigate} from '@navigators/index';
 import i18n from '@locales/index';
 import {getDateTimeStringFrom, isNull} from '@utils/index';
 import {EventType} from '@constants/types/events';
-import {eventPhotosSelector} from '@store/selectors/events';
+import {
+  eventDetailSelector,
+  eventPhotosSelector,
+} from '@store/selectors/events';
 import {
   getEventPhotosRequestAction,
   getEventPhotosSuccessAction,
@@ -29,17 +32,17 @@ interface Props {
 }
 
 const EventDetailScreen: React.FC<Props> = ({route}) => {
-  const detail: EventType = route.params.detail;
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const detail = useSelector(eventDetailSelector);
   const eventPhotos = useSelector(eventPhotosSelector);
 
   useEffect(() => {
-    if (!isNull(detail.id)) {
+    if (!isNull(detail?.id)) {
       dispatch(getEventPhotosSuccessAction([]));
       dispatch(
         getEventPhotosRequestAction({
-          eventId: detail.id,
+          eventId: detail?.id,
           size: 10,
         }),
       );
@@ -57,7 +60,7 @@ const EventDetailScreen: React.FC<Props> = ({route}) => {
     });
   };
   const onPressViewAllPhotos = () => {
-    // navigate(ScreenName.ChorePhotosScreen, {chore: detail});
+    navigate(ScreenName.EventPhotosScreen, {event: detail});
   };
 
   const renderAssignee = ({item}: {item: AssigneeType}) => {
@@ -87,34 +90,34 @@ const EventDetailScreen: React.FC<Props> = ({route}) => {
           </BackButton>
         </Banner>
         <Content>
-          <Title>{detail.title}</Title>
+          <Title>{detail?.title}</Title>
 
           <Label>{`${i18n.t('events.from')}:`}</Label>
-          {!isNull(detail.from) && (
+          {!isNull(detail?.from) && (
             <Description>
-              {getDateTimeStringFrom(detail.from ?? '')}
+              {getDateTimeStringFrom(detail?.from ?? '')}
             </Description>
           )}
 
           <Label>{`${i18n.t('events.to')}:`}</Label>
-          {!isNull(detail.to) && (
-            <Description>{getDateTimeStringFrom(detail.to ?? '')}</Description>
+          {!isNull(detail?.to) && (
+            <Description>{getDateTimeStringFrom(detail?.to ?? '')}</Description>
           )}
 
-          {!isNull(detail.repeatType) && (
+          {!isNull(detail?.repeatType) && (
             <>
               <Label>{`${i18n.t('chores.repeat')}:`}</Label>
-              <Description>{getRepeatText(detail.repeatType)}</Description>
+              <Description>{getRepeatText(detail?.repeatType)}</Description>
             </>
           )}
 
-          {(detail.assignees ?? []).length > 0 && (
+          {(detail?.assignees ?? []).length > 0 && (
             <>
               <Label>{`${i18n.t('chores.assignee')}:`}</Label>
               <FlatList
                 mt={1}
                 horizontal
-                data={detail.assignees}
+                data={detail?.assignees}
                 renderItem={renderAssignee}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
@@ -122,10 +125,10 @@ const EventDetailScreen: React.FC<Props> = ({route}) => {
             </>
           )}
 
-          {!isNull(detail.description) && (
+          {!isNull(detail?.description) && (
             <>
               <Label>{`${i18n.t('chores.description')}:`}</Label>
-              <Description>{detail.description}</Description>
+              <Description>{detail?.description}</Description>
             </>
           )}
           {photos.length > 0 && (

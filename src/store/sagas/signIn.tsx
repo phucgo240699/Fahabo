@@ -1,13 +1,14 @@
 import {AnyAction} from 'redux';
 import i18n from '@locales/index';
 import {
+  ADD_FCM_TOKEN_REQUEST,
   autoSignInSuccessAction,
   AUTO_SIGN_IN_REQUEST,
   LOG_OUT,
   signInSuccessAction,
   SIGN_IN_REQUEST,
 } from '@store/actionTypes/signIn';
-import {signIn} from '@services/signIn';
+import {addFCMTokenApi, signIn} from '@services/signIn';
 import {all, call, put, select, takeLeading} from 'typed-redux-saga';
 import {ScreenName, StackName} from '@constants/Constants';
 import {navigate, navigateReset} from '@navigators/index';
@@ -21,6 +22,8 @@ import {getDefaultLanguageCode, isNull, setGlobalLocale} from '@utils/index';
 import {parseSignInResponse} from '@utils/parsers/authentication';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {languageCodeSelector} from '@store/selectors/authentication';
+import {AddFCMTokenRequestType} from '@constants/types/authentication';
+import {apiProxy} from './apiProxy';
 
 function* onSignInRequest(action: AnyAction) {
   try {
@@ -130,9 +133,28 @@ function* onAutoSignInRequest(action: AnyAction) {
   }
 }
 
-// function* onAutoSignInSuccess(action: AnyAction) {
-//   navigateReset(StackName.MainStack);
-// }
+function* addFCMTokenSaga({
+  body,
+}: {
+  type: string;
+  body: AddFCMTokenRequestType;
+}) {
+  try {
+    const response = yield* apiProxy(addFCMTokenApi, body);
+    if (response.status !== 200) {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  }
+}
 
 function* onLogOut(action: AnyAction) {
   navigateReset(StackName.AuthenticationStack);
@@ -141,9 +163,8 @@ function* onLogOut(action: AnyAction) {
 export default function* () {
   yield* all([
     takeLeading(SIGN_IN_REQUEST, onSignInRequest),
-    // takeLeading(SIGN_IN_SUCCESS, onSignInSuccess),
     takeLeading(AUTO_SIGN_IN_REQUEST, onAutoSignInRequest),
-    // takeLeading(AUTO_SIGN_IN_SUCCESS, onAutoSignInSuccess),
+    takeLeading(ADD_FCM_TOKEN_REQUEST, addFCMTokenSaga),
     takeLeading(LOG_OUT, onLogOut),
   ]);
 }

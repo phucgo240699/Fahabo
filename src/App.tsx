@@ -11,14 +11,18 @@ import ToastSection from '@components/ToastSection';
 import {isLoadingSelector} from '@store/selectors/session';
 import {PersistGate} from 'redux-persist/integration/react';
 import {NavigationContainer} from '@react-navigation/native';
+import NotificationModal from '@components/NotificationModal';
+import {notificationModalSelector} from '@store/selectors/modals';
 
 const RootComponent = () => {
   const loading = useSelector(isLoadingSelector);
+  const notificationModal = useSelector(notificationModalSelector);
 
   return (
     <NavigationContainer ref={navigationRef}>
       <NativeBaseProvider theme={theme}>
         <AppStack />
+        <NotificationModal notificationModal={notificationModal} />
         <HUD loading={loading} />
         <ToastSection />
       </NativeBaseProvider>

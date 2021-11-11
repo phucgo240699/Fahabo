@@ -1,16 +1,18 @@
 import {
   CreateChoreRequestType,
   DeleteChoreRequestType,
+  GetChoreDetailRequestType,
   GetChorePhotosRequestType,
   GetChoresRequestType,
   UpdateChoreRequestType,
 } from '@constants/types/chores';
 import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
-import {navigationRef} from '@navigators/index';
+import {navigate, navigationRef, push} from '@navigators/index';
 import {
   createChoreApi,
   deleteChoreApi,
+  getChoreDetailApi,
   getChorePhotosApi,
   getChoresApi,
   updateChoreApi,
@@ -20,9 +22,11 @@ import {
   CREATE_CHORE_REQUEST,
   deleteChoreSuccessAction,
   DELETE_CHORE_REQUEST,
+  getChoreDetailSuccessAction,
   getChorePhotosSuccessAction,
   getChoresSuccessAction,
   GET_CHORES_REQUEST,
+  GET_CHORE_DETAIL_REQUEST,
   GET_CHORE_PHOTOS_REQUEST,
   updateChoreSuccessAction,
   UPDATE_CHORE_REQUEST,
@@ -45,6 +49,7 @@ import {parseChore, parseChores} from '@utils/parsers/chores';
 import {all, put, select, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
 import {CommonActions} from '@react-navigation/native';
+import {ScreenName} from '@constants/Constants';
 
 function* createChoreSaga({
   body,
@@ -253,6 +258,37 @@ function* getChorePhotosSaga({
   }
 }
 
+function* getChoreDetailSaga({
+  body,
+}: {
+  type: string;
+  body: GetChoreDetailRequestType;
+}) {
+  try {
+    yield* put(showHUDAction());
+    const response = yield* apiProxy(getChoreDetailApi, body);
+    if (response.status === 200) {
+      yield* put(
+        getChoreDetailSuccessAction(parseChore(parseDataResponse(response))),
+      );
+      push(ScreenName.ChoreDetailScreen);
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(closeHUDAction());
+  }
+}
+
 export default function* () {
   yield* all([
     takeLeading(CREATE_CHORE_REQUEST, createChoreSaga),
@@ -260,5 +296,6 @@ export default function* () {
     takeLeading(DELETE_CHORE_REQUEST, deleteChoreSaga),
     takeLeading(GET_CHORES_REQUEST, getChoresSaga),
     takeLeading(GET_CHORE_PHOTOS_REQUEST, getChorePhotosSaga),
+    takeLeading(GET_CHORE_DETAIL_REQUEST, getChoreDetailSaga),
   ]);
 }

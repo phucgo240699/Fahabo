@@ -31,7 +31,10 @@ import {
   updateFamilyInfoRequestAction,
   updateFamilyThumbnailRequestAction,
 } from '@store/actionTypes/family';
-import {membersInFamilySelector} from '@store/selectors/family';
+import {
+  familyDetailSelector,
+  membersInFamilySelector,
+} from '@store/selectors/family';
 import {isNull} from '@utils/index';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import {userSelector} from '@store/selectors/authentication';
@@ -39,7 +42,10 @@ import {isRefreshingFamilyMembersSelector} from '@store/selectors/session';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {previewAlbumSelector} from '@store/selectors/albums';
 import {FamilyType, MemberType} from '@constants/types/family';
-import {getPreviewAlbumRequestAction} from '@store/actionTypes/albums';
+import {
+  getPreviewAlbumRequestAction,
+  getPreviewAlbumSuccessAction,
+} from '@store/actionTypes/albums';
 
 interface Props {
   route?: any;
@@ -51,7 +57,7 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const {isOpen, onOpen, onClose} = useDisclose();
   const user = useSelector(userSelector);
   const isRefreshingMembers = useSelector(isRefreshingFamilyMembersSelector);
-  const familyDetail: FamilyType = route.params.familyDetail;
+  const familyDetail = useSelector(familyDetailSelector);
   const membersInFamily = useSelector(membersInFamilySelector);
   const previewAlbum = useSelector(previewAlbumSelector);
   const [allowEdit, setAllowEdit] = useState(false);
@@ -63,10 +69,10 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   useEffect(() => {
     if (!isNull(familyDetail?.id)) {
       dispatch(getFamilyMembersSuccessAction([]));
+      dispatch(getPreviewAlbumSuccessAction([]));
       dispatch(getPreviewAlbumRequestAction({familyId: familyDetail?.id}));
       dispatch(
         getFamilyMembersRequestAction({
-          showHUD: true,
           familyId: familyDetail?.id,
         }),
       );
@@ -346,9 +352,9 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   );
 };
 
-const SafeView = styled.SafeAreaView`
+const SafeView = styled.View`
   flex: 1;
-  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
+  padding-top: ${getStatusBarHeight()}px;
   background-color: ${colors.THEME_COLOR_4};
 `;
 

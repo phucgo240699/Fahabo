@@ -13,6 +13,7 @@ import {familiesSelector} from '@store/selectors/family';
 import {
   createFamilyRequestAction,
   getFamiliesRequestAction,
+  getFamilyDetailRequestAction,
 } from '@store/actionTypes/family';
 import {isNull} from '@utils/index';
 import PrimaryIcon from '@components/PrimaryIcon';
@@ -93,7 +94,8 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
     return <HorizontalFamilyItem item={item} onPress={onPressItem} />;
   };
   const onPressItem = (item: FamilyType) => {
-    navigate(ScreenName.FamilyDetailScreen, {familyDetail: item});
+    if (!isNull(item.id)) {}
+    dispatch(getFamilyDetailRequestAction({ familyId: item.id }))
   };
 
   // Modal

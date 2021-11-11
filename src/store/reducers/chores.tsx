@@ -4,6 +4,7 @@ import {
   CREATE_CHORE_SUCCESS,
   DELETE_CHORE_SUCCESS,
   GET_CHORES_SUCCESS,
+  GET_CHORE_DETAIL_SUCCESS,
   GET_CHORE_PHOTOS_SUCCESS,
   UPDATE_CHORE_SUCCESS,
 } from '@store/actionTypes/chores';
@@ -13,11 +14,13 @@ import {AnyAction} from 'redux';
 export type ChoresState = {
   chores: ChoreType[];
   chorePhotos: PhotoType[];
+  choreDetail?: ChoreType;
 };
 
 const defaultState: ChoresState = {
   chores: [],
   chorePhotos: [],
+  choreDetail: undefined,
 };
 
 export default function choresReducer(state = defaultState, action: AnyAction) {
@@ -54,11 +57,17 @@ export default function choresReducer(state = defaultState, action: AnyAction) {
         ...state,
         chorePhotos: action.payload,
       };
+    case GET_CHORE_DETAIL_SUCCESS:
+      return {
+        ...state,
+        choreDetail: action.payload,
+      };
     case LOG_OUT:
       return {
         ...state,
         chores: [],
         chorePhotos: [],
+        choreDetail: undefined,
       };
     default:
       return state;

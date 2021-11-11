@@ -65,7 +65,7 @@ import {
   UpdateFamilyThumbnailRequestType,
 } from '@constants/types/family';
 import {parseFamilies, parseFamily, parseMembers} from '@utils/parsers/family';
-import {navigate, navigateReset, navigationRef} from '@navigators/index';
+import {navigate, navigateReset, navigationRef, push} from '@navigators/index';
 import {ScreenName, StackName} from '@constants/Constants';
 import {CommonActions} from '@react-navigation/native';
 import {
@@ -346,7 +346,7 @@ function* getFamilyDetailSage({
       yield* put(
         getFamilyDetailSuccessAction(parseFamily(parseDataResponse(response))),
       );
-      navigate(ScreenName.FamilyDetailScreen);
+      push(ScreenName.FamilyDetailScreen);
     } else {
       yield* put(
         showToastAction(
@@ -378,7 +378,6 @@ function* getRefreshFamilyDetailSage({
       yield* put(
         getFamilyDetailSuccessAction(parseFamily(parseDataResponse(response))),
       );
-      navigate(ScreenName.FamilyDetailScreen);
     } else {
       yield* put(
         showToastAction(

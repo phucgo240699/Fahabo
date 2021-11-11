@@ -69,6 +69,10 @@ export type GetChorePhotosRequestType = {
   size?: number;
 };
 
+export type GetChoreDetailRequestType = {
+  choreId?: number;
+};
+
 //
 // Response
 //

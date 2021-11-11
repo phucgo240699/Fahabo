@@ -47,6 +47,10 @@ export type ForgotPasswordRequestType = {
   repeatPassword?: string;
 };
 
+export type AddFCMTokenRequestType = {
+  firebaseToken?: string;
+};
+
 //
 // Response
 //

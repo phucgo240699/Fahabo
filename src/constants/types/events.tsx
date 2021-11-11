@@ -64,6 +64,10 @@ export type GetDatesContainEventsRequestType = {
   to?: string; // dd-mm-yyyy
 };
 
+export type GetEventDetailRequestType = {
+  eventId?: number;
+};
+
 //
 // Response
 //

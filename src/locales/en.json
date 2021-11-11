@@ -164,7 +164,8 @@
     "takePhoto": "Take photo",
     "chooseFromGallery": "Choose from Gallery",
     "cancel": "Cancel",
-    "resetPasswordInstruction": "Access this link to reset password:"
+    "resetPasswordInstruction": "Access this link to reset password:",
+    "view": "View"
   },
   "media": {
     "takeAPhoto": "Take a photo",
@@ -242,6 +243,8 @@
       "fail": "System error."
     },
     "validation": {
+      "choreIdNotExist": "ChoreId does not exist.",
+      "dateFormatInvalid": "Date format must be dd-mm-yyyy",
       "albumTitleExists": "Album title must not be dupplicate.",
       "photoIdNotExist": "Photo doesn't exist.",
       "familyIdInvalid": "Family doesn't exist.",
@@ -281,6 +284,9 @@
     "unknownError": "System error.",
     "avatar": {
       "unavailable": "Avatar is not available."
+    },
+    "firebase": {
+      "tokenExist": "Token exists."
     }
   }
 }

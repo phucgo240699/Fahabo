@@ -10,7 +10,10 @@ import {Platform, StyleSheet} from 'react-native';
 import fonts from '@themes/fonts';
 import PreviewAlbumBox from '@screens/albums/shared/PreviewAlbumBox';
 import {useDispatch, useSelector} from 'react-redux';
-import {chorePhotosSelector} from '@store/selectors/chores';
+import {
+  choreDetailSelector,
+  chorePhotosSelector,
+} from '@store/selectors/chores';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {AssigneeType, ChoreType} from '@constants/types/chores';
@@ -28,17 +31,17 @@ interface Props {
 }
 
 const ChoreDetailScreen: React.FC<Props> = ({route}) => {
-  const detail: ChoreType = route.params.detail;
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const detail = useSelector(choreDetailSelector);
   const chorePhotos = useSelector(chorePhotosSelector);
 
   useEffect(() => {
-    if (!isNull(detail.id)) {
+    if (!isNull(detail?.id)) {
       dispatch(getChorePhotosSuccessAction([]));
       dispatch(
         getChorePhotosRequestAction({
-          choreId: detail.id,
+          choreId: detail?.id,
           size: 10,
         }),
       );
@@ -68,11 +71,11 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
   });
 
   return (
-    <SafeView backgroundColor={getChoreStatusColor(detail.status)}>
+    <SafeView backgroundColor={getChoreStatusColor(detail?.status)}>
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
-        backgroundColor={getChoreStatusColor(detail.status)}
+        backgroundColor={getChoreStatusColor(detail?.status)}
       />
       <ScrollView
         bounces={false}
@@ -80,43 +83,43 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scroll}>
-        <Banner backgroundColor={getChoreStatusColor(detail.status)}>
+        <Banner backgroundColor={getChoreStatusColor(detail?.status)}>
           <BackButton onPress={onPressBack}>
             <PrimaryIcon width={48} height={48} source={backButtonIcon} />
           </BackButton>
         </Banner>
         <Content>
-          <Title>{detail.title}</Title>
+          <Title>{detail?.title}</Title>
 
           <Label>{`${i18n.t('chores.deadline')}:`}</Label>
-          {detail.deadline && (
-            <Description>{detail.deadline.split(' ')[0]}</Description>
+          {detail?.deadline && (
+            <Description>{detail?.deadline.split(' ')[0]}</Description>
           )}
 
-          {detail.repeatType && (
+          {detail?.repeatType && (
             <>
               <Label>{`${i18n.t('chores.repeat')}:`}</Label>
-              <Description>{getRepeatText(detail.repeatType)}</Description>
+              <Description>{getRepeatText(detail?.repeatType)}</Description>
             </>
           )}
 
-          {(detail.assignees ?? []).length > 0 && (
+          {(detail?.assignees ?? []).length > 0 && (
             <>
               <Label>{`${i18n.t('chores.assignee')}:`}</Label>
               <FlatList
                 mt={1}
                 horizontal
-                data={detail.assignees}
+                data={detail?.assignees}
                 renderItem={renderAssignee}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
               />
             </>
           )}
-          {detail.description && (
+          {detail?.description && (
             <>
               <Label>{`${i18n.t('chores.description')}:`}</Label>
-              <Description>{detail.description}</Description>
+              <Description>{detail?.description}</Description>
             </>
           )}
 

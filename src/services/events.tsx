@@ -3,6 +3,7 @@ import {
   CreateEventRequestType,
   DeleteEventRequestType,
   GetDatesContainEventsRequestType,
+  GetEventDetailRequestType,
   GetEventPhotosRequestType,
   GetEventsRequestType,
   UpdateEventRequestType,
@@ -78,6 +79,13 @@ export function getEventPhotosApi(
     `${BASE_URL}/events/get_event_photos?page=${page}&size=${size}`,
     body,
   );
+}
+
+export function getEventDetailApi(
+  accessToken?: string,
+  body?: GetEventDetailRequestType,
+) {
+  return new apiProvider(accessToken).post(`${BASE_URL}/events/detail`, body);
 }
 
 export function getDatesContainEventsApi(

@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
 import {
   deleteEventRequestAction,
+  getEventDetailRequestAction,
   getEventsRequestAction,
   getEventsSuccessAction,
 } from '@store/actionTypes/events';
@@ -142,7 +143,9 @@ const EventsScreen: React.FC<Props> = ({route}) => {
     );
   };
   const onPressItem = (item: EventType) => {
-    navigate(ScreenName.EventDetailScreen, {detail: item});
+    if (!isNull(item.id)) {
+      dispatch(getEventDetailRequestAction({eventId: item.id}));
+    }
   };
   const onPressUpdateItem = (item: EventType) => {
     navigate(ScreenName.CreateEventScreen, {

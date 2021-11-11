@@ -165,7 +165,8 @@
     "takePhoto": "Chụp ảnh",
     "chooseFromGallery": "Chọn từ thư viện ảnh",
     "cancel": "Huỷ",
-    "resetPasswordInstruction": "Truy cập đường dẫn này để đặt lại mật khẩu:"
+    "resetPasswordInstruction": "Truy cập đường dẫn này để đặt lại mật khẩu:",
+    "view": "Xem"
   },
   "media": {
     "takeAPhoto": "Chụp 1 bức ảnh",
@@ -243,6 +244,8 @@
       "fail": "Lỗi hệ thống."
     },
     "validation": {
+      "choreIdNotExist": "Công việc nhà không tồn tại.",
+      "dateFormatInvalid": "Ngày phải có định dạng dd-mm-yyyy",
       "albumTitleExists": "Tên album không được trùng lặp.",
       "photoIdNotExist": "Ảnh không tồn tại.",
       "familyIdInvalid": "Gia đình không tồn tại.",
@@ -282,6 +285,9 @@
     "unknownError": "Lỗi hệ thống.",
     "avatar": {
       "unavailable": "Avatar không khả dụng."
+    },
+    "firebase": {
+      "tokenExist": "Token đã tồn tại."
     }
   }
 }

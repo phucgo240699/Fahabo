@@ -7,6 +7,7 @@ import {
   GET_EVENTS_SUCCESS,
   UPDATE_EVENT_SUCCESS,
   GET_DATES_CONTAIN_EVENTS_SUCCESS,
+  GET_EVENT_DETAIL_SUCCESS,
 } from '@store/actionTypes/events';
 import {LOG_OUT} from '@store/actionTypes/signIn';
 import {AnyAction} from 'redux';
@@ -14,12 +15,14 @@ import {AnyAction} from 'redux';
 export type EventsState = {
   events: EventType[];
   eventPhotos: PhotoType[];
+  eventDetail?: EventType;
   datesContainEvents: string[];
 };
 
 const defaultState: EventsState = {
   events: [],
   eventPhotos: [],
+  eventDetail: undefined,
   datesContainEvents: [],
 };
 
@@ -57,6 +60,11 @@ export default function eventsReducer(state = defaultState, action: AnyAction) {
         ...state,
         eventPhotos: action.payload,
       };
+    case GET_EVENT_DETAIL_SUCCESS:
+      return {
+        ...state,
+        eventDetail: action.payload,
+      };
     case GET_DATES_CONTAIN_EVENTS_SUCCESS:
       return {
         ...state,
@@ -67,6 +75,7 @@ export default function eventsReducer(state = defaultState, action: AnyAction) {
         ...state,
         events: [],
         eventPhotos: [],
+        eventDetail: undefined,
         datesContainEvents: [],
       };
     default:

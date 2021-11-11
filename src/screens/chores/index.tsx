@@ -12,6 +12,7 @@ import {choresSelector} from '@store/selectors/chores';
 import {isRefreshingChoresSelector} from '@store/selectors/session';
 import {
   deleteChoreRequestAction,
+  getChoreDetailRequestAction,
   getChoresRequestAction,
 } from '@store/actionTypes/chores';
 import {focusFamilySelector} from '@store/selectors/family';
@@ -19,7 +20,7 @@ import {isNull} from '@utils/index';
 import {RowMap, SwipeListView} from 'react-native-swipe-list-view';
 import {editProfileIcon, plusIcon, trashIcon} from '@constants/sources';
 import {MemberType} from '@constants/types/family';
-import {ChoreStatus} from '@constants/types/chores';
+import {ChoreStatus, ChoreType} from '@constants/types/chores';
 import {navigate} from '@navigators/index';
 import {ScreenName} from '@constants/Constants';
 import {getChoreFilterMembersRequestAction} from '@store/actionTypes/family';
@@ -160,8 +161,10 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   const renderItem = ({item}: {item: any}) => {
     return <HorizontalChoreItem item={item} onPress={onPressItem} />;
   };
-  const onPressItem = (item: any) => {
-    navigate(ScreenName.ChoreDetailScreen, {detail: item});
+  const onPressItem = (item: ChoreType) => {
+    if (!isNull(item.id)) {
+      dispatch(getChoreDetailRequestAction({choreId: item.id}));
+    }
   };
   const onPressDelete = () => {
     if (indexSwiped) {
