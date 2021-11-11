@@ -1,5 +1,5 @@
 import {
-  logOutAction,
+  logOutRequestAction,
   refreshAccessTokenSuccessAction,
 } from '../actionTypes/signIn';
 import {call, delay, put, select} from 'typed-redux-saga';
@@ -52,7 +52,7 @@ export function* apiProxy(
           return yield apiProxy(fn, body, header);
         } else {
           yield* put(turnOffIsRefreshingTokenAction());
-          yield* put(logOutAction());
+          yield* put(logOutRequestAction());
           return refreshResponse;
         }
       } else {

@@ -34,6 +34,11 @@ export const addFCMTokenRequestAction = (body: AddFCMTokenRequestType) => ({
   type: ADD_FCM_TOKEN_REQUEST,
   body,
 });
+export const ADD_FCM_TOKEN_SUCCESS = 'ADD_FCM_TOKEN_SUCCESS';
+export const addFCMTokenSuccessAction = (payload: string) => ({
+  type: ADD_FCM_TOKEN_SUCCESS,
+  payload,
+});
 
 export const REFRESH_ACCESS_TOKEN_SUCCESS = 'REFRESH_ACCESS_TOKEN_SUCCESS';
 export const refreshAccessTokenSuccessAction = (
@@ -43,6 +48,10 @@ export const refreshAccessTokenSuccessAction = (
   payload,
 });
 
+export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
+export const logOutRequestAction = () => ({
+  type: LOG_OUT_REQUEST,
+});
 export const LOG_OUT = 'LOG_OUT';
 export const logOutAction = () => ({
   type: LOG_OUT,

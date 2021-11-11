@@ -9,6 +9,9 @@ export const accessTokenSelector = (state: RootState) =>
 export const refreshTokenSelector = (state: RootState) =>
   state.authentication.refreshToken;
 
+export const fcmTokenSelector = (state: RootState) =>
+  state.authentication.fcmToken;
+
 export const userSelector = (state: RootState) => state.authentication.user;
 
 export const languageCodeSelector = (state: RootState) =>

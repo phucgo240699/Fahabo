@@ -94,8 +94,9 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
     return <HorizontalFamilyItem item={item} onPress={onPressItem} />;
   };
   const onPressItem = (item: FamilyType) => {
-    if (!isNull(item.id)) {}
-    dispatch(getFamilyDetailRequestAction({ familyId: item.id }))
+    if (!isNull(item.id)) {
+    }
+    dispatch(getFamilyDetailRequestAction({familyId: item.id}));
   };
 
   // Modal
@@ -193,8 +194,8 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
         onEndReached={onLoadMore}
         onEndReachedThreshold={0.5}
         contentContainerStyle={styles.list}
-        ListFooterComponent={<FooterLoadingIndicator loading={isLoadingMore} />}
         keyExtractor={(item, index) => index.toString()}
+        ListFooterComponent={<FooterLoadingIndicator loading={isLoadingMore} />}
       />
 
       {/* Modal Create Family */}

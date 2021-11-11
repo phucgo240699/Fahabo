@@ -21,7 +21,9 @@ import {
 import {
   createEventSuccessAction,
   CREATE_EVENT_REQUEST,
+  deleteEventSuccessAction,
   DELETE_EVENT_REQUEST,
+  getDatesContainEventsRequestAction,
   getDatesContainEventsSuccessAction,
   getEventDetailSuccessAction,
   getEventPhotosSuccessAction,
@@ -38,10 +40,16 @@ import {
   showToastAction,
   updateIsLoadingEventPhotosAction,
   updateIsLoadingEventsAction,
+  updateIsRefreshingDatesContainEventsAction,
   updateIsRefreshingEventPhotosAction,
   updateIsRefreshingEventsAction,
 } from '@store/actionTypes/session';
-import {eventPhotosSelector, eventsSelector} from '@store/selectors/events';
+import {
+  calendarEventBeginSelector,
+  calendarEventEndSelector,
+  eventPhotosSelector,
+  eventsSelector,
+} from '@store/selectors/events';
 import {mixPhotos} from '@utils/albums';
 import {mixEvents} from '@utils/events';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
@@ -65,9 +73,17 @@ function* createEventSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(createEventApi, body);
     if (response.status === 200) {
-      yield* put(
-        createEventSuccessAction(parseEvent(parseDataResponse(response))),
-      );
+      const from = yield* select(calendarEventBeginSelector);
+      const to = yield* select(calendarEventEndSelector);
+      if (!isNull(body.familyId) && !isNull(from) && !isNull(to)) {
+        yield* put(
+          getDatesContainEventsRequestAction({
+            familyId: body.familyId,
+            from: from,
+            to: to,
+          }),
+        );
+      }
       yield* put(
         showToastAction(
           i18n.t('successMessage.createEvent'),
@@ -102,6 +118,18 @@ function* updateEventSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(updateEventApi, body);
     if (response.status === 200) {
+      const focusFamily = yield* select(focusFamilySelector);
+      const from = yield* select(calendarEventBeginSelector);
+      const to = yield* select(calendarEventEndSelector);
+      if (!isNull(focusFamily?.id) && !isNull(from) && !isNull(to)) {
+        yield* put(
+          getDatesContainEventsRequestAction({
+            familyId: focusFamily?.id,
+            from: from,
+            to: to,
+          }),
+        );
+      }
       yield* put(
         showToastAction(
           i18n.t('successMessage.updateEvent'),
@@ -136,7 +164,18 @@ function* deleteEventSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(deleteEventApi, body);
     if (response.status === 200) {
-      // yield* put(deleteEventSuccessAction(parseDataResponse(response)));
+      const focusFamily = yield* select(focusFamilySelector);
+      const from = yield* select(calendarEventBeginSelector);
+      const to = yield* select(calendarEventEndSelector);
+      if (!isNull(focusFamily?.id) && !isNull(from) && !isNull(to)) {
+        yield* put(
+          getDatesContainEventsRequestAction({
+            familyId: focusFamily?.id,
+            from: from,
+            to: to,
+          }),
+        );
+      }
 
       yield* put(
         showToastAction(
@@ -144,8 +183,8 @@ function* deleteEventSaga({
           ToastType.SUCCESS,
         ),
       );
+
       navigationRef.current?.dispatch(CommonActions.goBack());
-      // navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(
@@ -304,6 +343,9 @@ function* getDatesContainEventsSaga({
   body: GetDatesContainEventsRequestType;
 }) {
   try {
+    if (body.refresh === true) {
+      yield* put(updateIsRefreshingDatesContainEventsAction(true));
+    }
     const response = yield* apiProxy(getDatesContainEventsApi, body);
     if (response.status === 200) {
       yield* put(
@@ -321,6 +363,10 @@ function* getDatesContainEventsSaga({
     yield* put(
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
+  } finally {
+    if (body.refresh === true) {
+      yield* put(updateIsRefreshingDatesContainEventsAction(false));
+    }
   }
 }
 

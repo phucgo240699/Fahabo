@@ -1,14 +1,17 @@
 import {AnyAction} from 'redux';
 import i18n from '@locales/index';
 import {
+  addFCMTokenSuccessAction,
   ADD_FCM_TOKEN_REQUEST,
   autoSignInSuccessAction,
   AUTO_SIGN_IN_REQUEST,
+  logOutAction,
   LOG_OUT,
+  LOG_OUT_REQUEST,
   signInSuccessAction,
   SIGN_IN_REQUEST,
 } from '@store/actionTypes/signIn';
-import {addFCMTokenApi, signIn} from '@services/signIn';
+import {addFCMTokenApi, logOutApi, signIn} from '@services/signIn';
 import {all, call, put, select, takeLeading} from 'typed-redux-saga';
 import {ScreenName, StackName} from '@constants/Constants';
 import {navigate, navigateReset} from '@navigators/index';
@@ -21,8 +24,14 @@ import {
 import {getDefaultLanguageCode, isNull, setGlobalLocale} from '@utils/index';
 import {parseSignInResponse} from '@utils/parsers/authentication';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
-import {languageCodeSelector} from '@store/selectors/authentication';
-import {AddFCMTokenRequestType} from '@constants/types/authentication';
+import {
+  fcmTokenSelector,
+  languageCodeSelector,
+} from '@store/selectors/authentication';
+import {
+  AddFCMTokenRequestType,
+  LogOutRequestType,
+} from '@constants/types/authentication';
 import {apiProxy} from './apiProxy';
 
 function* onSignInRequest(action: AnyAction) {
@@ -133,7 +142,7 @@ function* onAutoSignInRequest(action: AnyAction) {
   }
 }
 
-function* addFCMTokenSaga({
+function* addFCMTokenRequestSaga({
   body,
 }: {
   type: string;
@@ -141,7 +150,9 @@ function* addFCMTokenSaga({
 }) {
   try {
     const response = yield* apiProxy(addFCMTokenApi, body);
-    if (response.status !== 200) {
+    if (response.status === 200) {
+      yield* put(addFCMTokenSuccessAction(body.firebaseToken));
+    } else {
       yield* put(
         showToastAction(
           i18n.t(`backend.${parseErrorResponse(response)}`),
@@ -156,6 +167,31 @@ function* addFCMTokenSaga({
   }
 }
 
+function* logOutRequestSaga(action: AnyAction) {
+  try {
+    yield* put(showHUDAction());
+    const fcmToken = yield* select(fcmTokenSelector);
+    const body: LogOutRequestType = {firebaseToken: fcmToken};
+    const response = yield* apiProxy(logOutApi, body);
+    if (response.status === 200) {
+      yield* put(logOutAction());
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(closeHUDAction());
+  }
+}
+
 function* onLogOut(action: AnyAction) {
   navigateReset(StackName.AuthenticationStack);
 }
@@ -164,7 +200,8 @@ export default function* () {
   yield* all([
     takeLeading(SIGN_IN_REQUEST, onSignInRequest),
     takeLeading(AUTO_SIGN_IN_REQUEST, onAutoSignInRequest),
-    takeLeading(ADD_FCM_TOKEN_REQUEST, addFCMTokenSaga),
+    takeLeading(ADD_FCM_TOKEN_REQUEST, addFCMTokenRequestSaga),
+    takeLeading(LOG_OUT_REQUEST, logOutRequestSaga),
     takeLeading(LOG_OUT, onLogOut),
   ]);
 }

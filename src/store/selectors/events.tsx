@@ -8,5 +8,11 @@ export const eventPhotosSelector = (state: RootState) =>
 export const eventDetailSelector = (state: RootState) =>
   state.events.eventDetail;
 
+export const calendarEventBeginSelector = (state: RootState) =>
+  state.events.calendarEventBegin;
+
+export const calendarEventEndSelector = (state: RootState) =>
+  state.events.calendarEventEnd;
+
 export const datesContainEventsSelector = (state: RootState) =>
   state.events.datesContainEvents;

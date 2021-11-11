@@ -18,6 +18,7 @@ import {
   UPDATE_IS_REFRESHING_ALBUMS,
   UPDATE_IS_REFRESHING_CHORES,
   UPDATE_IS_REFRESHING_CHORE_PHOTOS,
+  UPDATE_IS_REFRESHING_DATES_CONTAIN_EVENTS,
   UPDATE_IS_REFRESHING_EVENTS,
   UPDATE_IS_REFRESHING_EVENT_PHOTOS,
   UPDATE_IS_REFRESHING_FAMILIES,
@@ -52,6 +53,7 @@ export type SessionState = {
   isRefreshingChorePhotos: boolean;
   isRefreshingEvents: boolean;
   isRefreshingEventPhotos: boolean;
+  isRefreshingDatesContainEvents: boolean;
 
   // Load More
   isLoadingFamilies: boolean;
@@ -83,6 +85,7 @@ const defaultState: SessionState = {
   isRefreshingChorePhotos: false,
   isRefreshingEvents: false,
   isRefreshingEventPhotos: false,
+  isRefreshingDatesContainEvents: false,
 
   // Load More
   isLoadingFamilies: false,
@@ -174,6 +177,11 @@ export default function sessionReducer(
         ...state,
         isRefreshingEventPhotos: action.payload,
       };
+    case UPDATE_IS_REFRESHING_DATES_CONTAIN_EVENTS:
+      return {
+        ...state,
+        isRefreshingDatesContainEvents: action.payload,
+      };
 
     // Loading
     case UPDATE_IS_LOADING_FAMILIES:
@@ -255,6 +263,7 @@ export default function sessionReducer(
         isRefreshingChorePhotos: false,
         isRefreshingEvents: false,
         isRefreshingEventPhotos: false,
+        isRefreshingDatesContainEvents: false,
         // Load More
         isLoadingFamilies: false,
         isLoadingFamilyMembers: false,

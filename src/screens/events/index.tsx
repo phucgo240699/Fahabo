@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import colors from '@themes/colors';
-import {Platform, StyleSheet} from 'react-native';
+import {Platform, RefreshControl, StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import HorizontalEventItem from './shared/HorizontalEventItem';
@@ -23,7 +23,13 @@ import {
 } from '@store/actionTypes/events';
 import {eventsSelector} from '@store/selectors/events';
 import {navigate} from '@navigators/index';
-import {ScreenName} from '@constants/Constants';
+import {Pagination, ScreenName} from '@constants/Constants';
+import {
+  isLoadingEventsSelector,
+  isRefreshingEventsSelector,
+} from '@store/selectors/session';
+import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
 interface Props {
   route?: any;
@@ -33,11 +39,17 @@ const EventsScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const focusFamily = useSelector(focusFamilySelector);
   const events = useSelector(eventsSelector);
+  const isRefreshing = useSelector(isRefreshingEventsSelector);
+  const isLoadingMore = useSelector(isLoadingEventsSelector);
+  const [pageIndex, setPageIndex] = useState(0);
   const [searchText, setSearchText] = useState('');
   const [submitSearchText, setSubmitSearchText] = useState('');
   const [selectedMember, setSelectedMember] = useState<MemberType[]>([]);
   const [sortBy, setSortBy] = React.useState<'created_at' | 'deadline'>(
     'created_at',
+  );
+  const [targetDateTime, setTargetDateTime] = useState<string | undefined>(
+    undefined,
   );
 
   // Life Cycle
@@ -49,6 +61,7 @@ const EventsScreen: React.FC<Props> = ({route}) => {
       route.params &&
       route.params.targetDateTime
     ) {
+      setTargetDateTime(route.params.targetDateTime);
       dispatch(
         getEventsRequestAction({
           showHUD: true,
@@ -59,6 +72,44 @@ const EventsScreen: React.FC<Props> = ({route}) => {
       );
     }
   }, []);
+
+  // Refresh & Load More
+  const onRefreshData = () => {
+    if (
+      isRefreshing === false &&
+      !isNull(targetDateTime) &&
+      !isNull(focusFamily?.id)
+    ) {
+      setPageIndex(0);
+      dispatch(
+        getEventsRequestAction({
+          refresh: true,
+          familyId: focusFamily?.id,
+          from: `${targetDateTime} 00:00:00`,
+          to: `${targetDateTime} 23:59:59`,
+        }),
+      );
+    }
+  };
+  const onLoadMore = () => {
+    if (
+      isLoadingMore === false &&
+      !isNull(targetDateTime) &&
+      !isNull(focusFamily?.id) &&
+      events.length >= Pagination.Events
+    ) {
+      dispatch(
+        getEventsRequestAction({
+          loadMore: true,
+          familyId: focusFamily?.id,
+          from: `${targetDateTime} 00:00:00`,
+          to: `${targetDateTime} 23:59:59`,
+          page: pageIndex + 1,
+        }),
+      );
+      setPageIndex(pageIndex + 1);
+    }
+  };
 
   const getEvents = (
     _assignee: MemberType[],
@@ -170,6 +221,11 @@ const EventsScreen: React.FC<Props> = ({route}) => {
 
   return (
     <SafeView>
+      <FocusAwareStatusBar
+        barStyle="dark-content"
+        backgroundColor={colors.WHITE}
+        translucent
+      />
       <ProfileHeader title={i18n.t('events.events')} />
       <ListEventsHeader
         sortBy={sortBy}
@@ -185,8 +241,14 @@ const EventsScreen: React.FC<Props> = ({route}) => {
         // numColumns={2}
         data={events}
         renderItem={renderItem}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefreshData} />
+        }
+        onEndReached={onLoadMore}
+        onEndReachedThreshold={0.5}
         contentContainerStyle={styles.list}
         keyExtractor={(item, index) => index.toString()}
+        ListFooterComponent={<FooterLoadingIndicator loading={isLoadingMore} />}
       />
     </SafeView>
   );
@@ -200,7 +262,7 @@ const SafeView = styled.SafeAreaView`
 
 const styles = StyleSheet.create({
   list: {
-    // paddingLeft: 10,
+    paddingBottom: 30,
     flexDirection: 'column',
   },
 });

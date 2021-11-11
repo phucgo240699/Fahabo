@@ -18,7 +18,7 @@ import {Box, useDisclose} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {Constants, ScreenName} from '@constants/Constants';
 import {useDispatch, useSelector} from 'react-redux';
-import {logOutAction} from '@store/actionTypes/signIn';
+import {logOutAction, logOutRequestAction} from '@store/actionTypes/signIn';
 import {userSelector} from '@store/selectors/authentication';
 import {isNull} from '@utils/index';
 import {
@@ -90,7 +90,7 @@ const ProfileScreen: React.FC<Props> = () => {
 
   // Log out
   const onLogOut = () => {
-    dispatch(logOutAction());
+    dispatch(logOutRequestAction());
   };
 
   return (

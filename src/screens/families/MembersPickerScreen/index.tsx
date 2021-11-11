@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {RefreshControl, StyleSheet} from 'react-native';
+import {Platform, RefreshControl, StyleSheet} from 'react-native';
 import ProfileHeader from '@components/ProfileHeader';
 import i18n from '@locales/index';
 import {FlatList} from 'native-base';
@@ -19,6 +19,8 @@ import {getFamilyMembersRequestAction} from '@store/actionTypes/family';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 import PrimaryButton from '@components/PrimaryButton';
 import {navigate} from '@navigators/index';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 interface Props {
   route?: any;
@@ -111,6 +113,11 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
 
   return (
     <SafeView>
+      <FocusAwareStatusBar
+        barStyle="dark-content"
+        backgroundColor={colors.WHITE}
+        translucent
+      />
       <ProfileHeader
         title={i18n.t('chores.assign')}
         rightComponent={
@@ -144,6 +151,7 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
 const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.WHITE};
+  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
 `;
 
 const HLine = styled.View`

@@ -5,6 +5,7 @@ import {
   VERIFY_USERNAME_SUCCESS,
 } from '@store/actionTypes/signUp';
 import {
+  ADD_FCM_TOKEN_SUCCESS,
   AUTO_SIGN_IN_SUCCESS,
   LOG_OUT,
   REFRESH_ACCESS_TOKEN_SUCCESS,
@@ -18,12 +19,12 @@ import {
   UPDATE_PROFILE_AVATAR_SUCCESS,
   UPDATE_PROFILE_SUCCESS,
 } from '@store/actionTypes/profile';
-import {ImageSource} from 'react-native-image-viewing/dist/@types';
 
 export type AuthenticationState = {
   user?: AuthenticationResponseType;
   accessToken?: string;
   refreshToken?: string;
+  fcmToken?: string;
   listCountryCode?: Record<string, string>[];
 };
 
@@ -31,6 +32,7 @@ const defaultState: AuthenticationState = {
   user: undefined,
   accessToken: undefined,
   refreshToken: undefined,
+  fcmToken: undefined,
   listCountryCode: [],
 };
 
@@ -107,6 +109,11 @@ export default function authenticationReducer(
         ...state,
         ...action.payload,
       };
+    case ADD_FCM_TOKEN_SUCCESS:
+      return {
+        ...state,
+        fcmToken: action.payload,
+      };
     case REFRESH_ACCESS_TOKEN_SUCCESS:
       return {
         ...state,
@@ -133,6 +140,7 @@ export default function authenticationReducer(
         },
         accessToken: undefined,
         refreshToken: undefined,
+        fcmToken: undefined,
       };
     default:
       return state;

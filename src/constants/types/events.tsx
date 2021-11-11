@@ -62,10 +62,16 @@ export type GetDatesContainEventsRequestType = {
   familyId?: number;
   from?: string; // dd-mm-yyyy
   to?: string; // dd-mm-yyyy
+  refresh?: boolean;
 };
 
 export type GetEventDetailRequestType = {
   eventId?: number;
+};
+
+export type UpdateCalendarEventRange = {
+  calendarEventBegin?: string;
+  calendarEventEnd?: string;
 };
 
 //

@@ -7,6 +7,7 @@ import {
   GetEventDetailRequestType,
   GetEventPhotosRequestType,
   GetEventsRequestType,
+  UpdateCalendarEventRange,
   UpdateEventRequestType,
 } from '@constants/types/events';
 
@@ -99,5 +100,14 @@ export const GET_DATES_CONTAIN_EVENTS_SUCCESS =
   'GET_DATES_CONTAIN_EVENTS_REQUEST';
 export const getDatesContainEventsSuccessAction = (payload: string[]) => ({
   type: GET_DATES_CONTAIN_EVENTS_SUCCESS,
+  payload,
+});
+
+export const UPDATE_CALENDAR_EVENT_RANGE_SUCCESS =
+  'UPDATE_CALENDAR_EVENT_RANGE_SUCCESS';
+export const updateCalendarEventRangeSuccessAction = (
+  payload: UpdateCalendarEventRange,
+) => ({
+  type: UPDATE_CALENDAR_EVENT_RANGE_SUCCESS,
   payload,
 });

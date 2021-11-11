@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import colors from '@themes/colors';
-import {Platform} from 'react-native';
+import {Platform, RefreshControl} from 'react-native';
 import styled from 'styled-components/native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {Calendar} from 'react-native-calendars';
@@ -18,8 +18,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
 import PrimaryButton from '@components/PrimaryButton';
 import {plusIcon} from '@constants/sources';
-import {datesContainEventsSelector} from '@store/selectors/events';
-import {getDatesContainEventsRequestAction} from '@store/actionTypes/events';
+import {
+  calendarEventBeginSelector,
+  calendarEventEndSelector,
+  datesContainEventsSelector,
+} from '@store/selectors/events';
+import {
+  getDatesContainEventsRequestAction,
+  updateCalendarEventRangeSuccessAction,
+} from '@store/actionTypes/events';
+import {isRefreshingDatesContainEventsSelector} from '@store/selectors/session';
+import {ScrollView} from 'native-base';
 
 interface Props {
   route?: any;
@@ -28,6 +37,9 @@ interface Props {
 const CalendarEventsScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const focusFamily = useSelector(focusFamilySelector);
+  const isRefreshing = useSelector(isRefreshingDatesContainEventsSelector);
+  const calendarEventBegin = useSelector(calendarEventBeginSelector);
+  const calendarEventEnd = useSelector(calendarEventEndSelector);
   const rawMarkedDateEvents = useSelector(datesContainEventsSelector);
 
   useEffect(() => {
@@ -36,20 +48,41 @@ const CalendarEventsScreen: React.FC<Props> = ({route}) => {
     }
   }, []);
 
-  const adaptMarkedDates = (dateString: string) => {
-    const dateNowComponents = dateString.split('-');
-    const month = dateNowComponents[1];
-    const year = dateNowComponents[2];
-    const from = `01-${month}-${year}`;
-    const to = `31-${month}-${year}`;
+  // Refresh
+  const onRefreshData = () => {
+    if (isRefreshing === false && !isNull(focusFamily?.id)) {
+      dispatch(
+        getDatesContainEventsRequestAction({
+          familyId: focusFamily?.id,
+          from: calendarEventBegin,
+          to: calendarEventEnd,
+        }),
+      );
+    }
+  };
 
-    dispatch(
-      getDatesContainEventsRequestAction({
-        familyId: focusFamily?.id,
-        from: from,
-        to: to,
-      }),
-    );
+  const adaptMarkedDates = (dateString: string) => {
+    if (!isNull(focusFamily?.id)) {
+      const dateNowComponents = dateString.split('-');
+      const month = dateNowComponents[1];
+      const year = dateNowComponents[2];
+      const from = `01-${month}-${year}`;
+      const to = `31-${month}-${year}`;
+
+      dispatch(
+        getDatesContainEventsRequestAction({
+          familyId: focusFamily?.id,
+          from: from,
+          to: to,
+        }),
+      );
+      dispatch(
+        updateCalendarEventRangeSuccessAction({
+          calendarEventBegin: from,
+          calendarEventEnd: to,
+        }),
+      );
+    }
   };
 
   // Month Change
@@ -93,21 +126,28 @@ const CalendarEventsScreen: React.FC<Props> = ({route}) => {
         backgroundColor={colors.WHITE}
         translucent
       />
-      <Calendar
-        markedDates={markedDateEvents}
-        onVisibleMonthsChange={onMonthsChange}
-        theme={{
-          backgroundColor: colors.WHITE,
-          calendarBackground: colors.WHITE,
-          monthTextColor: colors.DARK_GRAY,
-          textSectionTitleColor: colors.DANUBE,
-          todayTextColor: colors.RED_1,
-          dayTextColor: colors.DARK_GRAY,
-          textDisabledColor: colors.SILVER,
-        }}
-        style={{backgroundColor: colors.WHITE}}
-        onDayPress={onPressDate}
-      />
+      <ScrollView
+        flex={1}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefreshData} />
+        }>
+        <Calendar
+          markedDates={markedDateEvents}
+          onVisibleMonthsChange={onMonthsChange}
+          theme={{
+            backgroundColor: colors.WHITE,
+            calendarBackground: colors.WHITE,
+            monthTextColor: colors.DARK_GRAY,
+            textSectionTitleColor: colors.DANUBE,
+            todayTextColor: colors.RED_1,
+            dayTextColor: colors.DARK_GRAY,
+            textDisabledColor: colors.SILVER,
+          }}
+          style={{backgroundColor: colors.WHITE}}
+          onDayPress={onPressDate}
+        />
+      </ScrollView>
+
       <CreateButton
         padding={14}
         leftSource={plusIcon}

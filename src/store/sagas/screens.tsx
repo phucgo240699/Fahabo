@@ -15,7 +15,7 @@ import {
   showHUDAction,
   showToastAction,
 } from '@store/actionTypes/session';
-import {logOutAction} from '@store/actionTypes/signIn';
+import {logOutRequestAction} from '@store/actionTypes/signIn';
 import {focusFamilySelector} from '@store/selectors/family';
 import {isNull} from '@utils/index';
 import {
@@ -54,7 +54,7 @@ function* getHomeScreenDataSaga(action: AnyAction) {
               ToastType.WARNING,
             ),
           );
-          yield* put(logOutAction());
+          yield* put(logOutRequestAction());
         }
       }
     }

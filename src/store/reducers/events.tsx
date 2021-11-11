@@ -8,6 +8,7 @@ import {
   UPDATE_EVENT_SUCCESS,
   GET_DATES_CONTAIN_EVENTS_SUCCESS,
   GET_EVENT_DETAIL_SUCCESS,
+  UPDATE_CALENDAR_EVENT_RANGE_SUCCESS,
 } from '@store/actionTypes/events';
 import {LOG_OUT} from '@store/actionTypes/signIn';
 import {AnyAction} from 'redux';
@@ -16,6 +17,8 @@ export type EventsState = {
   events: EventType[];
   eventPhotos: PhotoType[];
   eventDetail?: EventType;
+  calendarEventBegin?: string;
+  calendarEventEnd?: string;
   datesContainEvents: string[];
 };
 
@@ -23,6 +26,8 @@ const defaultState: EventsState = {
   events: [],
   eventPhotos: [],
   eventDetail: undefined,
+  calendarEventBegin: undefined,
+  calendarEventEnd: undefined,
   datesContainEvents: [],
 };
 
@@ -65,6 +70,12 @@ export default function eventsReducer(state = defaultState, action: AnyAction) {
         ...state,
         eventDetail: action.payload,
       };
+    case UPDATE_CALENDAR_EVENT_RANGE_SUCCESS:
+      return {
+        ...state,
+        calendarEventBegin: action.payload.calendarEventBegin,
+        calendarEventEnd: action.payload.calendarEventEnd,
+      };
     case GET_DATES_CONTAIN_EVENTS_SUCCESS:
       return {
         ...state,
@@ -76,6 +87,8 @@ export default function eventsReducer(state = defaultState, action: AnyAction) {
         events: [],
         eventPhotos: [],
         eventDetail: undefined,
+        calendarEventBegin: undefined,
+        calendarEventEnd: undefined,
         datesContainEvents: [],
       };
     default:

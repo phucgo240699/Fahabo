@@ -41,6 +41,9 @@ export const isRefreshingEventsSelector = (state: RootState) =>
 export const isRefreshingEventPhotosSelector = (state: RootState) =>
   state.session.isRefreshingEventPhotos;
 
+export const isRefreshingDatesContainEventsSelector = (state: RootState) =>
+  state.session.isRefreshingDatesContainEvents;
+
 //
 // Load More
 //

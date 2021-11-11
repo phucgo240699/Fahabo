@@ -59,6 +59,15 @@ export const updateIsRefreshingEventPhotosAction = (payload: boolean) => ({
   payload,
 });
 
+export const UPDATE_IS_REFRESHING_DATES_CONTAIN_EVENTS =
+  'UPDATE_IS_REFRESHING_DATES_CONTAIN_EVENTS';
+export const updateIsRefreshingDatesContainEventsAction = (
+  payload: boolean,
+) => ({
+  type: UPDATE_IS_REFRESHING_DATES_CONTAIN_EVENTS,
+  payload,
+});
+
 //
 // Load More
 //

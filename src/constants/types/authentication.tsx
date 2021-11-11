@@ -48,6 +48,10 @@ export type ForgotPasswordRequestType = {
 };
 
 export type AddFCMTokenRequestType = {
+  firebaseToken: string;
+};
+
+export type LogOutRequestType = {
   firebaseToken?: string;
 };
 
