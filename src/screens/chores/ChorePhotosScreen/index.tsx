@@ -1,9 +1,9 @@
 import i18n from '@locales/index';
 import colors from '@themes/colors';
-import {RefreshControl, StyleSheet} from 'react-native';
+import {Platform, RefreshControl, StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 import {FlatList} from 'native-base';
-import {Pagination} from '@constants/Constants';
+import {Pagination, ScreenName} from '@constants/Constants';
 import React, {useEffect, useState} from 'react';
 import ProfileHeader from '@components/ProfileHeader';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
@@ -18,6 +18,8 @@ import {
 import {isNull} from '@utils/index';
 import {getChorePhotosRequestAction} from '@store/actionTypes/chores';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {navigate} from '@navigators/index';
 
 interface Props {
   route?: any;
@@ -71,7 +73,12 @@ const ChorePhotosScreen: React.FC<Props> = ({route}) => {
     }
   };
 
-  const onPressItem = (item: PhotoType) => {};
+  const onPressItem = (item: PhotoType) => {
+    navigate(ScreenName.ImageViewerScreen, {
+      data: chorePhotos,
+      currentIndex: item.index,
+    });
+  };
   const renderItem = ({item}: {item: PhotoType}) => {
     return <PhotoItem item={item} onPress={onPressItem} />;
   };
@@ -108,6 +115,7 @@ const ChorePhotosScreen: React.FC<Props> = ({route}) => {
 const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.WHITE};
+  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
 `;
 
 const styles = StyleSheet.create({

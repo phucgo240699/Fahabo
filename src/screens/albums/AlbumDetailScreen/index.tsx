@@ -27,6 +27,8 @@ import {AlbumType, PhotoType} from '@constants/types/albums';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {photosSelector} from '@store/selectors/albums';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
+import {showToastAction} from '@store/actionTypes/session';
+import {ToastType} from '@constants/types/session';
 
 interface Props {
   route?: any;
@@ -77,17 +79,28 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
       mediaType: 'photo',
       includeBase64: true,
     }).then(cropped => {
-      dispatch(
-        addPhotosRequestAction({
-          albumId: album.id,
-          photos: cropped.map(item => {
-            return {
-              name: 'photo',
-              base64Data: item.data ?? '',
-            };
+      if (cropped.length > Constants.LIMIT_PHOTO_UPLOAD) {
+        dispatch(
+          showToastAction(
+            `${i18n.t('warningMessage.limitPhotoUpload')} :${
+              Constants.LIMIT_PHOTO_UPLOAD
+            }`,
+            ToastType.WARNING,
+          ),
+        );
+      } else {
+        dispatch(
+          addPhotosRequestAction({
+            albumId: album.id,
+            photos: cropped.map(item => {
+              return {
+                name: 'photo',
+                base64Data: item.data ?? '',
+              };
+            }),
           }),
-        }),
-      );
+        );
+      }
     });
   };
   const onToggleChoosing = () => {
@@ -120,9 +133,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
           }),
         );
       } else {
-        if (selectedIds.length < Constants.LIMIT_PHOTO_DELETE) {
-          setSelectedIds([...selectedIds, item.id ?? -10]);
-        }
+        setSelectedIds([...selectedIds, item.id ?? -10]);
       }
     } else {
       navigate(ScreenName.ImageViewerScreen, {
@@ -178,7 +189,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item, index) => index.toString()}
       />
-      {isChoosing && (
+      {isChoosing && selectedIds.length > 0 && (
         <DeleteButtonContainer>
           <PrimaryButton
             leftSource={trashIcon}

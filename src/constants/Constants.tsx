@@ -67,7 +67,7 @@ export enum ScreenName {
 export const Constants = {
   MAX_WIDTH: width,
   MAX_HEIGHT: height,
-  LIMIT_PHOTO_UPLOAD: 4,
+  LIMIT_PHOTO_UPLOAD: 10,
   LIMIT_PHOTO_DELETE: 5,
   LIMIT_CHORE_PHOTO: 100,
   LIMIT_EVENT_PHOTO: 100,
