@@ -92,11 +92,11 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
           <Title>{detail?.title}</Title>
 
           <Label>{`${i18n.t('chores.deadline')}:`}</Label>
-          {detail?.deadline && (
-            <Description>{detail?.deadline.split(' ')[0]}</Description>
+          {!isNull(detail?.deadline) && (
+            <Description>{detail?.deadline?.split(' ')[0]}</Description>
           )}
 
-          {detail?.repeatType && (
+          {!isNull(detail?.repeatType) && (
             <>
               <Label>{`${i18n.t('chores.repeat')}:`}</Label>
               <Description>{getRepeatText(detail?.repeatType)}</Description>
@@ -116,7 +116,7 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
               />
             </>
           )}
-          {detail?.description && (
+          {!isNull(detail?.description) && (
             <>
               <Label>{`${i18n.t('chores.description')}:`}</Label>
               <Description>{detail?.description}</Description>
