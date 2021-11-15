@@ -239,6 +239,9 @@ dependencies {
 
     // Config
     implementation project(':react-native-config')
+
+    implementation project(':react-native-twilio-video-webrtc')
+
 }
 
 // Run this once to be able to run the application with BUCK

@@ -176,7 +176,8 @@
     "accessCameraTitle": "Fahabo wants to access camera",
     "accessCameraMessage": "Allow us to access your camera to help you explore Fahabo",
     "accessGalleryTitle": "Fahabo wants to access galler",
-    "accessGalleryMessage": "Allow us to access your gallery to help you explore Fahabo"
+    "accessGalleryMessage": "Allow us to access your gallery to help you explore Fahabo",
+    "accessMicrophoneTitle": "Fahabo wants to access camera"
   },
   "successMessage": {
     "signUpComplete": "Sign up completely",

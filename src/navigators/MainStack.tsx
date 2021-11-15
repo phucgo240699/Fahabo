@@ -9,7 +9,7 @@ import {Alert} from 'react-native';
 import {ScreenName} from '@constants/Constants';
 import messaging from '@react-native-firebase/messaging';
 import ImageViewerScreen from '@screens/media/ImageViewerScreen';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addFCMTokenRequestAction} from '@store/actionTypes/signIn';
 import {showNotificationModalAction} from '@store/actionTypes/modals';
 import {isNull} from '@utils/index';
@@ -20,6 +20,8 @@ import {getFamilyDetailRequestAction} from '@store/actionTypes/family';
 import FamilyDetailScreen from '@screens/families/FamilyDetailScreen';
 import EventDetailScreen from '@screens/events/EventDetailScreen';
 import ChoreDetailScreen from '@screens/chores/ChoreDetailScreen';
+import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
+import ConferenceCallScreen from '@screens/interactions/ConferenceCallScreen';
 
 const Stack = createStackNavigator();
 
@@ -60,7 +62,11 @@ const MainStack = () => {
         !isNull(remoteMessage?.data?.navigate) &&
         !isNull(remoteMessage?.data?.id)
       ) {
-        onDirectScreen(remoteMessage?.data?.navigate, remoteMessage?.data?.id);
+        onDirectScreen(
+          remoteMessage?.data?.navigate,
+          remoteMessage?.data?.id,
+          remoteMessage?.data?.familyId,
+        );
       }
     });
 
@@ -88,7 +94,7 @@ const MainStack = () => {
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
   }
 
-  const onDirectScreen = (value?: string, id?: string) => {
+  const onDirectScreen = (value?: string, id?: string, familyId?: string) => {
     switch (value) {
       case NotificationNavigationType.CHORE_DETAIL:
         dispatch(
@@ -111,6 +117,13 @@ const MainStack = () => {
           }),
         );
         break;
+      case NotificationNavigationType.VIDEO_CALL:
+        dispatch(
+          connectTwilioRequestActions({
+            familyId: parseInt(familyId ?? ''),
+            roomCallId: id,
+          }),
+        );
       default:
         break;
     }
@@ -138,6 +151,10 @@ const MainStack = () => {
       <Stack.Screen
         name={ScreenName.EventDetailScreen}
         component={EventDetailScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.ConferenceCallScreen}
+        component={ConferenceCallScreen}
       />
     </Stack.Navigator>
   );

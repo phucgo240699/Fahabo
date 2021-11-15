@@ -17,6 +17,7 @@ import {
 import {getChoreDetailRequestAction} from '@store/actionTypes/chores';
 import {getEventDetailRequestAction} from '@store/actionTypes/events';
 import {getFamilyDetailRequestAction} from '@store/actionTypes/family';
+import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
 
 const contentWidth = Constants.MAX_WIDTH - 90;
 
@@ -62,6 +63,13 @@ const NotificationModal: React.FC<Props> = ({notificationModal}) => {
           }),
         );
         break;
+      case NotificationNavigationType.VIDEO_CALL:
+        dispatch(
+          connectTwilioRequestActions({
+            familyId: parseInt(notificationModal?.familyId ?? ''),
+            roomCallId: notificationModal?.id,
+          }),
+        );
       default:
         break;
     }

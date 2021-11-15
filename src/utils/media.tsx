@@ -22,34 +22,30 @@ export const verifyCameraPermission = (onSuccess: () => void) => {
             : PERMISSIONS.ANDROID.CAMERA,
           {
             title: i18n.t('media.accessCameraTitle'),
-            message: i18n.t('media.accessCameraMessage'),
+            message: '',
             buttonPositive: i18n.t('media.allow'),
             buttonNegative: i18n.t('media.deny'),
           },
         ).then(requestResult => {
           if (requestResult === RESULTS.GRANTED) {
-            onSuccess;
+            onSuccess();
           }
         });
       } else if (checkResult === RESULTS.BLOCKED) {
-        Alert.alert(
-          i18n.t('media.accessCameraTitle'),
-          i18n.t('media.accessCameraMessage'),
-          [
-            {
-              text: i18n.t('media.deny'),
-              onPress: () => {},
-              style: 'destructive',
+        Alert.alert(i18n.t('media.accessCameraTitle'), '', [
+          {
+            text: i18n.t('media.deny'),
+            onPress: () => {},
+            style: 'destructive',
+          },
+          {
+            text: i18n.t('media.allow'),
+            onPress: () => {
+              openSettings();
             },
-            {
-              text: i18n.t('media.allow'),
-              onPress: () => {
-                openSettings();
-              },
-              style: 'default',
-            },
-          ],
-        );
+            style: 'default',
+          },
+        ]);
       }
     })
     .catch(error => {});
@@ -71,35 +67,79 @@ export const verifyGalleryPermission = (onSuccess: () => void) => {
             : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
           {
             title: i18n.t('media.accessCameraTitle'),
-            message: i18n.t('media.accessCameraMessage'),
+            message: '',
             buttonPositive: i18n.t('media.allow'),
             buttonNegative: i18n.t('media.deny'),
           },
         ).then(requestResult => {
           if (requestResult === RESULTS.GRANTED) {
-            onSuccess;
+            onSuccess();
           }
         });
       } else if (checkResult === RESULTS.BLOCKED) {
-        Alert.alert(
-          i18n.t('media.accessCameraTitle'),
-          i18n.t('media.accessCameraMessage'),
-          [
-            {
-              text: i18n.t('media.deny'),
-              onPress: () => {},
-              style: 'destructive',
+        Alert.alert(i18n.t('media.accessCameraTitle'), '', [
+          {
+            text: i18n.t('media.deny'),
+            onPress: () => {},
+            style: 'destructive',
+          },
+          {
+            text: i18n.t('media.allow'),
+            onPress: () => {
+              openSettings();
             },
-            {
-              text: i18n.t('media.allow'),
-              onPress: () => {
-                openSettings();
-              },
-              style: 'default',
-            },
-          ],
-        );
+            style: 'default',
+          },
+        ]);
       }
+    })
+    .catch(error => {});
+};
+
+export const verifyMicrophonePermission = (onSuccess: () => void) => {
+  check(
+    Platform.OS === 'ios'
+      ? PERMISSIONS.IOS.MICROPHONE
+      : PERMISSIONS.ANDROID.RECORD_AUDIO,
+  )
+    .then(checkResult => {
+      console.log({checkResult: checkResult});
+      if (checkResult === RESULTS.GRANTED) {
+        onSuccess();
+      } else if (checkResult === RESULTS.UNAVAILABLE) {
+        request(
+          Platform.OS === 'ios'
+            ? PERMISSIONS.IOS.MICROPHONE
+            : PERMISSIONS.ANDROID.RECORD_AUDIO,
+          {
+            title: i18n.t('media.accessMicrophoneTitle'),
+            message: '',
+            buttonPositive: i18n.t('media.allow'),
+            buttonNegative: i18n.t('media.deny'),
+          },
+        ).then(requestResult => {
+          console.log({requestResult});
+          // if (requestResult === RESULTS.GRANTED) {
+          //   onSuccess();
+          // }
+        });
+      }
+      // else if (checkResult === RESULTS.BLOCKED) {
+      //   Alert.alert(i18n.t('media.accessMicrophoneTitle'), '', [
+      //     {
+      //       text: i18n.t('media.deny'),
+      //       onPress: () => {},
+      //       style: 'destructive',
+      //     },
+      //     {
+      //       text: i18n.t('media.allow'),
+      //       onPress: () => {
+      //         openSettings();
+      //       },
+      //       style: 'default',
+      //     },
+      //   ]);
+      // }
     })
     .catch(error => {});
 };

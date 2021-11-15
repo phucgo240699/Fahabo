@@ -1,19 +1,35 @@
 import React from 'react';
 import {Box, Text} from 'native-base';
-import i18n from '@locales/index';
 import colors from '@themes/colors';
-import styled from 'styled-components/native';
-import {Constants} from '@constants/Constants';
-import PrimaryHeader from '@components/PrimaryHeader';
-import {SceneMap, TabView, TabBar} from 'react-native-tab-view';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import PrimaryButton from '@components/PrimaryButton';
+import {useDispatch, useSelector} from 'react-redux';
+import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
+import {focusFamilySelector} from '@store/selectors/family';
+import {isNull} from '@utils/index';
 
 interface Props {}
 
 const InteractionsScreen: React.FC<Props> = ({}) => {
+  const dispatch = useDispatch();
+  const focusFamily = useSelector(focusFamilySelector);
+
   return (
     <Box flex={1} safeArea bgColor={colors.WHITE}>
-      <Text color={colors.TEXT}>Interactions</Text>
+      <FocusAwareStatusBar
+        translucent
+        barStyle="dark-content"
+        backgroundColor={colors.WHITE}
+      />
+      <PrimaryButton
+        marginTop={50}
+        title="Move to conference call"
+        onPress={() => {
+          if (!isNull(focusFamily?.id)) {
+            dispatch(connectTwilioRequestActions({familyId: focusFamily?.id}));
+          }
+        }}
+      />
     </Box>
   );
 };

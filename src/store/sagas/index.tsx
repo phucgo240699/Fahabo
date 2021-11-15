@@ -7,6 +7,7 @@ import albums from './albums';
 import screens from './screens';
 import chores from './chores';
 import events from './events';
+import interactions from './interactions';
 
 export default function* rootSaga() {
   yield fork(signIn);
@@ -17,4 +18,5 @@ export default function* rootSaga() {
   yield fork(albums);
   yield fork(chores);
   yield fork(events);
+  yield fork(interactions);
 }
