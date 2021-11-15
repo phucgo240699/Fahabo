@@ -27,6 +27,15 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 import { notifyConferenceCallRequestActions } from "@store/actionTypes/interactions";
 import { focusFamilySelector } from "@store/selectors/family";
 import i18n from "@locales/index";
+import PrimaryButton from "@components/PrimaryButton";
+import { Box, ScrollView } from "native-base";
+import PrimaryIcon from "@components/PrimaryIcon";
+import { endCallIcon, flipCameraIcon, muteIcon, UnmuteIcon } from "@constants/sources";
+
+const localVideoWidth = Constants.MAX_WIDTH * 0.3
+const localVideoHeight = Constants.MAX_WIDTH * 0.4
+const participantVideoWidth = Constants.MAX_WIDTH * 0.5
+const participantVideoHeight = Constants.MAX_WIDTH * 0.75
 
 const ConferenceCallScreen = (props) => {
   const dispatch = useDispatch()
@@ -40,11 +49,10 @@ const ConferenceCallScreen = (props) => {
   const twilioVideo = useRef(null);
 
   useEffect(async () => {
-    if (!isNull(accessToken)) {
-      console.log({accessToken})
+    if (!isNull(accessToken) && !isNull(roomName)) {
       if (Platform.OS === 'android') {
-        await _requestCameraPermission()
-        await _requestAudioPermission()
+        await requestCameraPermission()
+        await requestAudioPermission()
         twilioVideo.current.connect({ accessToken: accessToken, enableNetworkQualityReporting: true, dominantSpeakerEnabled: true, roomName: roomName});
         setStatus("connecting");
       }
@@ -55,23 +63,22 @@ const ConferenceCallScreen = (props) => {
     }
   }, [])
 
-  const _onEndButtonPress = () => {
+  const onEndButtonPress = () => {
     twilioVideo.current.disconnect();
   };
 
-  const _onMuteButtonPress = () => {
+  const onMuteButtonPress = () => {
     twilioVideo.current
       .setLocalAudioEnabled(!isAudioEnabled)
       .then((isEnabled) => setIsAudioEnabled(isEnabled));
   };
 
-  const _onFlipButtonPress = () => {
+  const onFlipButtonPress = () => {
     twilioVideo.current.flipCamera();
   };
 
-  const _onRoomDidConnect = (p) => {
+  const onRoomDidConnect = (p) => {
     setStatus("connected");
-    console.log({...p, os: Platform.OS === 'android' ? 'android' : 'ios'})
     if (!isNull(focusFamily.id) && props.route && props.route.params && props.route.params.isHost === true) {
       dispatch(notifyConferenceCallRequestActions({ 
         familyId: focusFamily.id,
@@ -81,17 +88,17 @@ const ConferenceCallScreen = (props) => {
     }
   };
 
-  const _onRoomDidDisconnect = ({ error }) => {
+  const onRoomDidDisconnect = ({ error }) => {
     console.log("ERROR: ", error);
     navigation.dispatch(CommonActions.goBack())
   };
 
-  const _onRoomDidFailToConnect = (error) => {
+  const onRoomDidFailToConnect = (error) => {
     console.log("ERROR: ", error);
     navigation.dispatch(CommonActions.goBack())
   };
 
-  const _onParticipantAddedVideoTrack = ({ participant, track }) => {
+  const onParticipantAddedVideoTrack = ({ participant, track }) => {
     console.log("onParticipantAddedVideoTrack: ", participant, track);
 
     setVideoTracks(
@@ -105,7 +112,7 @@ const ConferenceCallScreen = (props) => {
     );
   };
 
-  const _onParticipantRemovedVideoTrack = ({ participant, track }) => {
+  const onParticipantRemovedVideoTrack = ({ participant, track }) => {
     console.log("onParticipantRemovedVideoTrack: ", participant, track);
 
     const newVideoTracks = new Map(videoTracks);
@@ -114,15 +121,15 @@ const ConferenceCallScreen = (props) => {
     setVideoTracks(newVideoTracks);
   };
 
-  const _onNetworkLevelChanged = ({ participant, isLocalUser, quality }) => {
+  const onNetworkLevelChanged = ({ participant, isLocalUser, quality }) => {
     console.log("Participant", participant, "isLocalUser", isLocalUser, "quality", quality, Platform.OS === 'android' ? 'android' : 'ios');
   };
 
-  const _onDominantSpeakerDidChange = ({ roomName, roomSid, participant }) => {
+  const onDominantSpeakerDidChange = ({ roomName, roomSid, participant }) => {
     console.log("onDominantSpeakerDidChange", `roomName: ${roomName}`, `roomSid: ${roomSid}`, "participant:", participant);
   };
 
-  const _requestAudioPermission = () => {
+  const requestAudioPermission = () => {
     return PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
       {
@@ -135,7 +142,7 @@ const ConferenceCallScreen = (props) => {
     );
   };
 
-  const _requestCameraPermission = () => {
+  const requestCameraPermission = () => {
     return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
       title: i18n.t('media.accessCameraTitle'),
       message:
@@ -145,10 +152,6 @@ const ConferenceCallScreen = (props) => {
     });
   };
 
-  const onPressBackground = () => {
-    Keyboard.dismiss();
-  };
-
   return (
     <SafeView>
     <FocusAwareStatusBar
@@ -156,61 +159,54 @@ const ConferenceCallScreen = (props) => {
       barStyle="dark-content"
       backgroundColor={colors.WHITE}
     />
-      <Container onPress={onPressBackground}>
         <Content>
       {(status === "connected" || status === "connecting") && (
-        <View style={styles.callContainer}>
+        <Box flex={1}>
           {status === "connected" && (
-            <View style={styles.remoteGrid}>
+          <ScrollView>
+            <ParticipantContainer>
               {Array.from(videoTracks, ([trackSid, trackIdentifier]) => {
                 return (
                   <TwilioVideoParticipantView
-                    style={styles.remoteVideo}
+                    style={styles.participantVideo}
                     key={trackSid}
                     trackIdentifier={trackIdentifier}
                   />
                 );
               })}
-            </View>
+            </ParticipantContainer>
+          </ScrollView>
           )}
-          <View style={styles.optionsContainer}>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={_onEndButtonPress}
-            >
-              <Text style={{ fontSize: 12 }}>End</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={_onMuteButtonPress}
-            >
-              <Text style={{ fontSize: 12 }}>
-                {isAudioEnabled ? "Mute" : "Unmute"}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={_onFlipButtonPress}
-            >
-              <Text style={{ fontSize: 12 }}>Flip</Text>
-            </TouchableOpacity>
-            <TwilioVideoLocalView enabled={true} style={styles.localVideo} />
-          </View>
-        </View>
+        </Box>
       )}
+
+      <TwilioVideoLocalView enabled={true} style={styles.localVideo} />
+
+      <BottomContainer>
+        <OperationsContainer>
+          <OperationButton onPress={onMuteButtonPress}>
+            {
+              isAudioEnabled ? <PrimaryIcon tintColor={'#ffffff'} source={muteIcon} /> : <PrimaryIcon tintColor={'#ffffff'} source={UnmuteIcon} />
+            }
+          </OperationButton>
+          <OperationButton onPress={onFlipButtonPress}>
+            <PrimaryIcon tintColor={'#ffffff'} source={flipCameraIcon} />
+          </OperationButton>
+        </OperationsContainer>
+        <EndCallButton onPress={onEndButtonPress}><PrimaryIcon width={30} height={30} tintColor={'#ffffff'} source={endCallIcon} /></EndCallButton>
+      </BottomContainer>
 
       <TwilioVideo
         ref={twilioVideo}
-        onRoomDidConnect={_onRoomDidConnect}
-        onRoomDidDisconnect={_onRoomDidDisconnect}
-        onRoomDidFailToConnect={_onRoomDidFailToConnect}
-        onParticipantAddedVideoTrack={_onParticipantAddedVideoTrack}
-        onParticipantRemovedVideoTrack={_onParticipantRemovedVideoTrack}
-        onNetworkQualityLevelsChanged={_onNetworkLevelChanged}
-        onDominantSpeakerDidChange={_onDominantSpeakerDidChange}
+        onRoomDidConnect={onRoomDidConnect}
+        onRoomDidDisconnect={onRoomDidDisconnect}
+        onRoomDidFailToConnect={onRoomDidFailToConnect}
+        onParticipantAddedVideoTrack={onParticipantAddedVideoTrack}
+        onParticipantRemovedVideoTrack={onParticipantRemovedVideoTrack}
+        onNetworkQualityLevelsChanged={onNetworkLevelChanged}
+        onDominantSpeakerDidChange={onDominantSpeakerDidChange}
       />
       </Content>
-      </Container>
     </SafeView>
   );
 };
@@ -220,80 +216,62 @@ const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.WHITE};
 `;
-const Container = styled.TouchableWithoutFeedback`
-  width: ${Constants.MAX_WIDTH}px;
-  height: ${Constants.MAX_HEIGHT}px;
-  background-color: ${colors.WHITE};
-`;
 const Content = styled.View`
   flex: 1;
 `;
+const ParticipantContainer = styled.View`
+  flex-wrap: wrap;
+  flex-direction: row;
+`
+const BottomContainer = styled.View`
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+`
+const OperationsContainer = styled.View`
+  margin-top: 10px;
+  padding-left: 30px;
+  margin-right: ${localVideoWidth}px;
+  flex-direction: row;
+  justify-content: space-around;
+`
+const EndCallButton = styled.TouchableOpacity`
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: #990000;
+`
+const OperationButton = styled.TouchableOpacity`
+  width: 50px;
+  height: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-width: 1px;
+  border-radius: 30px;
+  border-color: #ffffff;
+  align-items: center;
+  justify-content: center;
+`
 
 const styles = StyleSheet.create({
-  callContainer: {
-    flex: 1,
-    position: "absolute",
-    bottom: 0,
-    top: 0,
-    left: 0,
-    right: 0,
-  },
-  welcome: {
-    fontSize: 30,
-    textAlign: "center",
-    paddingTop: 40,
-  },
-  input: {
-    height: 50,
-    borderWidth: 1,
-    marginRight: 70,
-    marginLeft: 70,
-    marginTop: 50,
-    textAlign: "center",
-    backgroundColor: "white",
-  },
-  button: {
-    marginTop: 100,
-  },
   localVideo: {
     flex: 1,
-    width: 150,
-    height: 250,
+    width: localVideoWidth,
+    height: localVideoHeight,
+    right: 30,
+    bottom: 90,
     position: "absolute",
-    right: 10,
-    bottom: 10,
   },
-  remoteGrid: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  remoteVideo: {
-    marginTop: 20,
-    marginLeft: 10,
-    marginRight: 10,
-    width: 200,
-    height: 400,
-  },
-  optionsContainer: {
-    position: "absolute",
-    left: 0,
-    bottom: 0,
-    right: 0,
-    height: 100,
-    backgroundColor: "blue",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  optionButton: {
-    width: 60,
-    height: 60,
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius: 100 / 2,
-    backgroundColor: "grey",
-    justifyContent: "center",
-    alignItems: "center",
+  participantVideo: {
+    borderWidth: 1,
+    borderColor: colors.CONCRETE,
+    width: participantVideoWidth,
+    height: participantVideoHeight,
   },
 })
 
