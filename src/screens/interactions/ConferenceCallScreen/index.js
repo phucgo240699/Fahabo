@@ -53,11 +53,11 @@ const ConferenceCallScreen = (props) => {
       if (Platform.OS === 'android') {
         await requestCameraPermission()
         await requestAudioPermission()
-        twilioVideo.current.connect({ accessToken: accessToken, enableNetworkQualityReporting: true, dominantSpeakerEnabled: true, roomName: roomName});
+        twilioVideo.current.connect({ accessToken: accessToken, enableNetworkQualityReporting: true, dominantSpeakerEnabled: true});
         setStatus("connecting");
       }
       else {
-        twilioVideo.current.connect({ accessToken: accessToken, enableNetworkQualityReporting: true, dominantSpeakerEnabled: true, roomName: roomName});
+        twilioVideo.current.connect({ accessToken: accessToken, enableNetworkQualityReporting: true, dominantSpeakerEnabled: true});
         setStatus("connecting");
       }
     }

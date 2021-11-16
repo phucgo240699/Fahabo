@@ -25,6 +25,8 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
+        jcenter()
         mavenCentral()
         mavenLocal()
         maven {
@@ -36,8 +38,6 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
 
-        google()
-        jcenter()
         maven { url 'https://maven.google.com' }
         maven { url 'https://www.jitpack.io' }
     }
