@@ -71,6 +71,8 @@ export function* apiProxy(
             ToastType.ERROR,
           ),
         );
+        yield* put(logOutRequestAction());
+        return response;
       } else {
         return response;
       }
