@@ -11,10 +11,14 @@ import {
 import {isRefreshingTokenSelector} from '@store/selectors/session';
 import {AxiosResponse} from 'axios';
 import {
+  showToastAction,
   turnOffIsRefreshingTokenAction,
   turnOnIsRefreshingTokenAction,
 } from '@store/actionTypes/session';
 import {parseRefreshAccessTokenResponse} from '@utils/parsers/authentication';
+import i18n from '@locales/index';
+import {ToastType} from '@constants/types/session';
+import {parseDataResponse} from '@utils/parsers';
 
 export function* apiProxy(
   fn: (
@@ -26,9 +30,12 @@ export function* apiProxy(
   header?: any,
 ): any {
   try {
-    const isRefreshingToken = yield* select(state =>
-      isRefreshingTokenSelector(state),
-    );
+    // const isRefreshingToken = yield* select(state =>
+    //   isRefreshingTokenSelector(state),
+    // );
+
+    const isRefreshingToken = yield* select(isRefreshingTokenSelector);
+
     if (isRefreshingToken) {
       yield* delay(3000);
       yield* put(turnOffIsRefreshingTokenAction());
@@ -55,6 +62,15 @@ export function* apiProxy(
           yield* put(logOutRequestAction());
           return refreshResponse;
         }
+      } else if (response.status === 403) {
+        yield* put(
+          showToastAction(
+            `${i18n.t('errorMessage.notInFamily')} ${parseDataResponse(
+              response,
+            )} ${i18n.t('errorMessage.anymore')}`,
+            ToastType.ERROR,
+          ),
+        );
       } else {
         return response;
       }

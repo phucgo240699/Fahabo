@@ -205,7 +205,9 @@
   "errorMessage": {
     "general": "Có lỗi trong quá trình thao tác.\nXin kiểm tra lại",
     "passwordMatch": "Xác nhận lại mật khẩu chưa trùng khớp",
-    "qrCodeInvalid": "Mã QR không hợp lệ"
+    "qrCodeInvalid": "Mã QR không hợp lệ",
+    "notInFamily": "Bạn không còn trong",
+    "anymore": "nữa"
   },
   "backend": {
     "authentication": {
