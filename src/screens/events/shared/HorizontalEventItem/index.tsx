@@ -131,7 +131,7 @@ const HorizontalEventItem: React.FC<Props> = ({
 };
 
 const Touch = styled.TouchableOpacity`
-  height: 150px;
+  height: 120px;
   border-radius: 10px;
 `;
 

@@ -20,6 +20,8 @@ import {getFamilyDetailRequestAction} from '@store/actionTypes/family';
 import FamilyDetailScreen from '@screens/families/FamilyDetailScreen';
 import EventDetailScreen from '@screens/events/EventDetailScreen';
 import ChoreDetailScreen from '@screens/chores/ChoreDetailScreen';
+import ChorePhotosScreen from '@screens/chores/ChorePhotosScreen';
+import EventPhotosScreen from '@screens/events/EventPhotosScreen';
 import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
 import ConferenceCallScreen from '@screens/interactions/ConferenceCallScreen';
 
@@ -149,12 +151,20 @@ const MainStack = () => {
         component={ChoreDetailScreen}
       />
       <Stack.Screen
+        name={ScreenName.ChorePhotosScreen}
+        component={ChorePhotosScreen}
+      />
+      <Stack.Screen
         name={ScreenName.EventDetailScreen}
         component={EventDetailScreen}
       />
       <Stack.Screen
         name={ScreenName.ConferenceCallScreen}
         component={ConferenceCallScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.EventPhotosScreen}
+        component={EventPhotosScreen}
       />
     </Stack.Navigator>
   );

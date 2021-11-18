@@ -81,6 +81,7 @@ export const endCallIcon = require('@assets/images/end_call_icon.png');
 export const muteIcon = require('@assets/images/mute_icon.png');
 export const UnmuteIcon = require('@assets/images/unmute_icon.png');
 export const flipCameraIcon = require('@assets/images/flip_camera_icon.png');
+export const videoCallIcon = require('@assets/images/video_call_icon.png');
 
 //
 // Settings

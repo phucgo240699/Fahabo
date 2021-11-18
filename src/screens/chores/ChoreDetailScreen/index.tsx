@@ -71,12 +71,13 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
   });
 
   return (
-    <SafeView backgroundColor={getChoreStatusColor(detail?.status)}>
+    <SafeView>
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
         backgroundColor={getChoreStatusColor(detail?.status)}
       />
+      <EmptySpace backgroundColor={getChoreStatusColor(detail?.status)} />
       <ScrollView
         bounces={false}
         bgColor={colors.WHITE}
@@ -138,9 +139,13 @@ const ChoreDetailScreen: React.FC<Props> = ({route}) => {
   );
 };
 
-const SafeView = styled.SafeAreaView<{backgroundColor: string}>`
+const SafeView = styled.View`
   flex: 1;
-  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
+  background-color: ${colors.WHITE};
+`;
+
+const EmptySpace = styled.SafeAreaView<{backgroundColor: string}>`
+  height: ${getStatusBarHeight()}px;
   background-color: ${props => props.backgroundColor};
 `;
 

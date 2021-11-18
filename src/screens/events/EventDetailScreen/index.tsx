@@ -72,12 +72,13 @@ const EventDetailScreen: React.FC<Props> = ({route}) => {
   });
 
   return (
-    <SafeView backgroundColor={colors.THEME_COLOR_5}>
+    <SafeView>
       <FocusAwareStatusBar
         translucent
         barStyle="dark-content"
         backgroundColor={colors.THEME_COLOR_5}
       />
+      <EmptySpace backgroundColor={colors.THEME_COLOR_5} />
       <ScrollView
         bounces={false}
         bgColor={colors.WHITE}
@@ -146,9 +147,13 @@ const EventDetailScreen: React.FC<Props> = ({route}) => {
   );
 };
 
-const SafeView = styled.SafeAreaView<{backgroundColor: string}>`
+const SafeView = styled.View`
   flex: 1;
-  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
+  background-color: ${colors.WHITE};
+`;
+
+const EmptySpace = styled.SafeAreaView<{backgroundColor: string}>`
+  height: ${getStatusBarHeight()}px;
   background-color: ${props => props.backgroundColor};
 `;
 

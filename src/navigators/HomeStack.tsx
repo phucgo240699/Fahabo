@@ -1,18 +1,14 @@
-import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {navigationOptions} from './index';
-import {ScreenName} from '@constants/Constants';
 import HomeScreen from '@screens/home';
-import CreateChoreScreen from '@screens/chores/CreateChoreScreen';
-import MembersPickerScreen from '@screens/families/MembersPickerScreen';
-import RepeatPickerScreen from '@screens/chores/RepeatPickerScreen';
-import ChoreDetailScreen from '@screens/chores/ChoreDetailScreen';
-import ChorePhotosScreen from '@screens/chores/ChorePhotosScreen';
+import {navigationOptions} from './index';
 import EventsScreen from '@screens/events';
+import {ScreenName, StackName} from '@constants/Constants';
+import {createStackNavigator} from '@react-navigation/stack';
 import CreateEventScreen from '@screens/events/CreateEventScreen';
+import CreateChoreScreen from '@screens/chores/CreateChoreScreen';
+import RepeatPickerScreen from '@screens/chores/RepeatPickerScreen';
 import CalendarEventsScreen from '@screens/events/CalendarEventsScreen';
-import EventDetailScreen from '@screens/events/EventDetailScreen';
-import EventPhotosScreen from '@screens/events/EventPhotosScreen';
+import MembersPickerScreen from '@screens/families/MembersPickerScreen';
 
 const Stack = createStackNavigator();
 
@@ -32,14 +28,6 @@ const HomeStack = () => {
         name={ScreenName.RepeatPickerScreen}
         component={RepeatPickerScreen}
       />
-      <Stack.Screen
-        name={ScreenName.ChoreDetailScreen}
-        component={ChoreDetailScreen}
-      />
-      <Stack.Screen
-        name={ScreenName.ChorePhotosScreen}
-        component={ChorePhotosScreen}
-      />
       <Stack.Screen name={ScreenName.EventsScreen} component={EventsScreen} />
       <Stack.Screen
         name={ScreenName.CreateEventScreen}
@@ -48,14 +36,6 @@ const HomeStack = () => {
       <Stack.Screen
         name={ScreenName.CalendarEventsScreen}
         component={CalendarEventsScreen}
-      />
-      <Stack.Screen
-        name={ScreenName.EventDetailScreen}
-        component={EventDetailScreen}
-      />
-      <Stack.Screen
-        name={ScreenName.EventPhotosScreen}
-        component={EventPhotosScreen}
       />
     </Stack.Navigator>
   );
