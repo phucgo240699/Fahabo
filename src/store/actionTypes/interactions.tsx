@@ -1,7 +1,14 @@
 import {
   ConnectTwilioRequestType,
   NotifyConferenceCallRequestType,
+  SendMessageRequestType,
 } from '@constants/types/interactions';
+
+export const SEND_MESSAGE_REQUEST = 'SEND_MESSAGE_REQUEST';
+export const sendMessageRequestAction = (body: SendMessageRequestType) => ({
+  type: SEND_MESSAGE_REQUEST,
+  body,
+});
 
 export const CONNECT_TWILIO_REQUEST = 'CONNECT_TWILIO_REQUEST';
 export const connectTwilioRequestActions = (

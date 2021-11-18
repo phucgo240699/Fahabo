@@ -5,39 +5,39 @@ import styled from 'styled-components/native';
 import PrimaryButton from '@components/PrimaryButton';
 import {leftArrowIcon} from '@constants/sources/index';
 import {videoCallIcon} from '@constants/sources/index';
-import {CommonActions, useNavigation} from '@react-navigation/native';
+// import {CommonActions, useNavigation} from '@react-navigation/native';
 
 interface Props {
   title?: string;
   onPressVideoCall?: () => void;
-  onCustomNavigateBack?: () => void;
+  // onCustomNavigateBack?: () => void;
 }
 
 const ChatHeader: React.FC<Props> = ({
   title,
   onPressVideoCall,
-  onCustomNavigateBack,
+  // onCustomNavigateBack,
 }) => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
-  const onPressBack = () => {
-    if (onCustomNavigateBack) {
-      onCustomNavigateBack();
-    } else {
-      navigation.dispatch(CommonActions.goBack());
-    }
-  };
+  // const onPressBack = () => {
+  //   if (onCustomNavigateBack) {
+  //     onCustomNavigateBack();
+  //   } else {
+  //     navigation.dispatch(CommonActions.goBack());
+  //   }
+  // };
 
   return (
     <Container>
       <Content>
-        <PrimaryButton
+        {/* <PrimaryButton
           leftIconWidth={24}
           leftIconHeight={24}
           leftSource={leftArrowIcon}
           leftTintColor={colors.THEME_COLOR_5}
           onPress={onPressBack}
-        />
+        /> */}
         <Title numberOfLines={1}>{title}</Title>
         <VideoCallButton
           leftSource={videoCallIcon}

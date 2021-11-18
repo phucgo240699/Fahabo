@@ -1,5 +1,4 @@
 import {RepeatType} from './types/chores';
-import {MessageType} from '@flyerhq/react-native-chat-ui';
 
 export const DummyAlbums = [
   {
@@ -177,35 +176,10 @@ export const DummyEvents = [
   },
 ];
 
-export const DummyMessages: MessageType.Any[] = [
-  {
-    id: '0',
-    text: 'Hello, How are you?',
-    type: 'text',
-    author: {
-      id: '0',
-      lastName: 'Phuc',
-      imageUrl:
-        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=-JIm9VHEnmoAX_Yb9yZ&_nc_ht=scontent.fsgn13-2.fna&oh=ba3f129be8f600a34972a40f2cce8986&oe=61B87C60',
-    },
-  },
-  {
-    id: '1',
-    text: 'I am good',
-    type: 'text',
-    author: {
-      id: '1',
-      lastName: 'John',
-      imageUrl:
-        'https://padfieldstout.com/wp-content/uploads/2020/01/John_Easter_Padfield_Stout.jpg',
-    },
-  },
-];
-
 export const DummyAuthorMessage = {
-  id: '0',
-  lastName: 'Phuc',
-  imageUrl:
+  _id: 0,
+  name: 'Phuc',
+  avatar:
     'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=-JIm9VHEnmoAX_Yb9yZ&_nc_ht=scontent.fsgn13-2.fna&oh=ba3f129be8f600a34972a40f2cce8986&oe=61B87C60',
 };
 

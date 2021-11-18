@@ -32,7 +32,6 @@ const MainStack = () => {
 
   useEffect(() => {
     requestUserPermission().then(() => {
-      console.log('HAS FCM PERMISSION');
       messaging()
         .getToken()
         .then(token => {
