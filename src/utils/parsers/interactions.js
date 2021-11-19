@@ -15,6 +15,7 @@ export const convertFireStoreMessageToUIMessage = (item) => {
       name: item._data.authorName,
       avatar: item._data.authorAvatar,
     },
+    timeStamp: item._data.timeStamp
   }
 }
 

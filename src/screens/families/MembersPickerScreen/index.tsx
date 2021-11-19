@@ -9,13 +9,15 @@ import HorizontalMemberItem from '../shared/HorizontalMemberItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {membersInFamilySelector} from '@store/selectors/family';
 import {Pagination, ScreenName} from '@constants/Constants';
-import {isNull} from '@utils/index';
 import {MemberType} from '@constants/types/family';
 import {
   isLoadingFamilyMembersSelector,
   isRefreshingFamilyMembersSelector,
 } from '@store/selectors/session';
-import {getFamilyMembersRequestAction} from '@store/actionTypes/family';
+import {
+  getFamilyMembersForCallRequestAction,
+  getFamilyMembersRequestAction,
+} from '@store/actionTypes/family';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 import PrimaryButton from '@components/PrimaryButton';
 import {navigate} from '@navigators/index';
@@ -33,17 +35,30 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
   const isRefreshing = useSelector(isRefreshingFamilyMembersSelector);
 
   const [pageIndex, setPageIndex] = useState(0);
+  const [showMemberStatus, setShowMemberStatus] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState<MemberType[]>([]);
 
   // Life Cycle
   useEffect(() => {
-    if (route.params.familyId) {
-      dispatch(
-        getFamilyMembersRequestAction({
-          familyId: route.params.familyId,
-          showHUD: true,
-        }),
-      );
+    if (route && route.params) {
+      if (route.params.familyId) {
+        if (route.params.fromConferenceCall) {
+          dispatch(
+            getFamilyMembersForCallRequestAction({
+              familyId: route.params.familyId,
+              showHUD: true,
+            }),
+          );
+          setShowMemberStatus(true);
+        } else {
+          dispatch(
+            getFamilyMembersRequestAction({
+              familyId: route.params.familyId,
+              showHUD: true,
+            }),
+          );
+        }
+      }
     }
   }, []);
 
@@ -81,6 +96,7 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
       <HorizontalMemberItem
         pickerMode
         item={item}
+        showStatus={showMemberStatus}
         onPress={onPressItem}
         isPicked={selectedMembers.map(item => item.id).includes(item.id ?? -10)}
       />
@@ -108,6 +124,10 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
       navigate(ScreenName.CreateEventScreen, {
         selectedMembers: selectedMembers,
       });
+    } else if (route && route.params && route.params.fromConferenceCall) {
+      navigate(ScreenName.InteractionsScreen, {
+        selectedMembers: selectedMembers,
+      });
     }
   };
 
@@ -119,14 +139,16 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
         translucent
       />
       <ProfileHeader
-        title={i18n.t('chores.assign')}
+        title={i18n.t('family.chooseMember')}
         rightComponent={
-          <PrimaryButton
-            marginRight={8}
-            title={i18n.t('chores.save')}
-            titleColor={colors.THEME_COLOR_5}
-            onPress={onPressSave}
-          />
+          selectedMembers.length > 0 ? (
+            <PrimaryButton
+              marginRight={8}
+              title={i18n.t('chores.save')}
+              titleColor={colors.THEME_COLOR_5}
+              onPress={onPressSave}
+            />
+          ) : null
         }
       />
       <FlatList

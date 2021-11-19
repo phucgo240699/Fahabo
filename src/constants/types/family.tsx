@@ -33,6 +33,15 @@ export type GetFamilyMembersRequestType = {
   size?: number;
 };
 
+export type GetFamilyMembersForCallRequestType = {
+  showHUD?: boolean;
+  refresh?: boolean;
+  loadMore?: boolean;
+  familyId?: number;
+  page?: number;
+  size?: number;
+};
+
 export type GetChoreFilterMembersRequestType = {
   showHUD?: boolean;
   familyId?: number;
@@ -80,10 +89,15 @@ export type FamilyType = {
   name?: string;
   totalMembers?: number;
 };
+export enum MemberStatus {
+  AVAILABLE = 'AVAILABLE',
+  BUSY = 'BUSY',
+}
 export type MemberType = {
   id?: number;
   name?: string;
   phoneNumber?: string;
   avatar?: string;
   isHost?: boolean;
+  status?: MemberStatus;
 };

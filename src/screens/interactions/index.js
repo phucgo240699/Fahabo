@@ -4,13 +4,11 @@ import ChatHeader from '@components/ChatHeader';
 import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {DummyAuthorMessage} from '@constants/DummyData';
-import {GiftedChat, Message, MessageText, Time} from 'react-native-gifted-chat';
+import {GiftedChat, InputToolbar, Send} from 'react-native-gifted-chat';
 import styled from 'styled-components/native';
-import {Platform} from 'react-native';
+import {Image, Platform, StyleSheet} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {
-  convertOriginDateTimeStringToDate,
   getOriginDateTimeString,
   isNull,
 } from '@utils/index';
@@ -24,8 +22,11 @@ import {
   convertFireStoreMessageToUIMessage,
   convertUserDatabaseToUserUIMessage,
 } from '@utils/parsers/interactions';
+import { sendIcon } from '@constants/sources';
+import { navigate } from '@navigators/index';
+import { ScreenName } from '@constants/Constants';
 
-function ChatScreen() {
+function ChatScreen(props) {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
   const focusFamily = useSelector(focusFamilySelector);
@@ -35,16 +36,14 @@ function ChatScreen() {
     const subscriber = firestore()
       .collection('Messages')
       .where('familyId', '==', focusFamily?.id)
-      .orderBy('timeStamp', 'desc')
+      .limit(100)
       .onSnapshot(querySnapShot => {
         if (!isNull(querySnapShot)) {
-          // console.log(
-          //   Platform.OS === 'android' ? 'android' : 'ios',
-          //   querySnapShot.docs,
-          // );
           setMessages(
             querySnapShot.docs.map(item => {
               return convertFireStoreMessageToUIMessage(item);
+            }).sort((pre, cur) => {
+              return cur.timeStamp > pre.timeStamp
             }),
           );
         }
@@ -52,10 +51,18 @@ function ChatScreen() {
       return () => subscriber();
   }, []);
 
+  useEffect(() => {
+    if (props.route && props.route.params && props.route.params.selectedMembers) {
+      if (!isNull(focusFamily?.id)) {
+        dispatch(connectTwilioRequestActions({familyId: focusFamily?.id}));
+      }
+    }
+  }, [props.route])
+
   // Video Call
   const onPressVideoCall = () => {
     if (!isNull(focusFamily?.id)) {
-      dispatch(connectTwilioRequestActions({familyId: focusFamily?.id}));
+      navigate(ScreenName.MembersPickerScreen, { familyId: focusFamily?.id, fromConferenceCall: true })
     }
   };
 
@@ -75,6 +82,26 @@ function ChatScreen() {
     );
   }, []);
 
+  // Refactoring UI
+  const renderInputToolbar = (props) => (
+    <InputToolbar
+      {...props}
+      containerStyle={styles.input}
+    />
+  )
+
+  const renderSend = (props) => (
+    <Send
+      {...props}
+      disabled={!props.text}
+      containerStyle={styles.sendBtn}
+    >
+      <SendIcon
+        source={sendIcon}
+      />
+    </Send>
+  );
+
   return (
     <SafeView>
       <FocusAwareStatusBar
@@ -88,6 +115,8 @@ function ChatScreen() {
       />
       <GiftedChat
         messages={messages}
+        renderSend={renderSend}
+        renderInputToolbar={renderInputToolbar}
         user={convertUserDatabaseToUserUIMessage(user)}
         onSend={messages => onSend(messages)}
       />
@@ -100,5 +129,23 @@ const SafeView = styled.SafeAreaView`
   background-color: ${colors.WHITE};
   margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
 `;
+
+const SendIcon = styled.Image`
+  width: 32px;
+  height: 32px;
+`
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: colors.SILVER,
+  },
+  sendBtn: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 4,
+  }
+})
 
 export default ChatScreen;

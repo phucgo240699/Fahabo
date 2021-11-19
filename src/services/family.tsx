@@ -1,6 +1,7 @@
 import {
   CreateFamilyRequestType,
   GetFamilyDetailRequestType,
+  GetFamilyMembersForCallRequestType,
   GetFamilyMembersRequestType,
   GetMyFamiliesRequestType,
   JoinFamilyRequestType,
@@ -114,6 +115,26 @@ export function getFamilyMembersApi(
   }
   return new apiProvider(accessToken).post(
     `${BASE_URL}/families/users_in_family?page=${page}&size=${size}`,
+    body,
+  );
+}
+
+export function getFamilyMembersForCallApi(
+  accessToken?: string,
+  body?: GetFamilyMembersForCallRequestType,
+) {
+  let page = 0;
+  let size = Pagination.FamilyMembers;
+  if (!isNull(body)) {
+    if (!isNull(body?.page)) {
+      page = body?.page ?? 0;
+    }
+    if (!isNull(body?.size)) {
+      size = body?.size ?? Pagination.FamilyMembers;
+    }
+  }
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/callback/getUsersInChatRoom?page=${page}&size=${size}`,
     body,
   );
 }

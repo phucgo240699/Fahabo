@@ -52,13 +52,15 @@
     "viewAll": "View all",
     "members": "Members",
     "leave": "Leave",
+    "chooseMember": "Choose members",
     "scanInstruction": "Scan QR code to join family",
     "createFamily": "Create family",
     "joinFamily": "Join family",
     "name": "Name",
     "thumbnail": "Thumbnail",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "busy": "Busy"
   },
   "qrCode": {
     "qrCode": "QR Code"

@@ -7,7 +7,7 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 import ProfileHeader from '@components/ProfileHeader';
 import i18n from '@locales/index';
 import {Avatar} from 'native-base';
-import {MemberType} from '@constants/types/family';
+import {MemberStatus, MemberType} from '@constants/types/family';
 import {hostArmorialIcon} from '@constants/sources';
 import {Constants} from '@constants/Constants';
 
@@ -17,6 +17,7 @@ interface Props {
   isPicked?: boolean; // only work when pickerMode === true
   size?: 'large' | 'small';
   detectHost?: boolean;
+  showStatus?: boolean;
   onPress?: (item: MemberType) => void;
 }
 
@@ -26,6 +27,7 @@ const HorizontalMemberItem: React.FC<Props> = ({
   isPicked,
   size = 'large',
   detectHost,
+  showStatus,
   onPress,
 }) => {
   const onPressContainer = () => {
@@ -46,6 +48,9 @@ const HorizontalMemberItem: React.FC<Props> = ({
       <Name size={size} numberOfLines={2}>
         {item?.name}
       </Name>
+      {showStatus && item.status === MemberStatus.BUSY && (
+        <IsBusy>{i18n.t('family.busy')}</IsBusy>
+      )}
       {item.isHost && detectHost && <HostArmorial source={hostArmorialIcon} />}
     </Container>
   );
@@ -73,6 +78,10 @@ const Name = styled(fonts.PrimaryFontMediumSize16)<{size: string}>`
   margin-left: ${props => (props.size === 'large' ? 15 : 5)}px;
   margin-right: ${props => (props.size === 'large' ? 15 : 5)}px;
   font-size: ${props => (props.size === 'large' ? 16 : 12)}px;
+`;
+
+const IsBusy = styled(fonts.PrimaryFontRegularSize12)`
+  color: ${colors.SILVER};
 `;
 
 const Circle = styled.View<{size: string}>`

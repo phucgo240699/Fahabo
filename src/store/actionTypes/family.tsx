@@ -4,6 +4,7 @@ import {
   GetChoreFilterMembersRequestType,
   GetEventFilterMembersRequestType,
   GetFamilyDetailRequestType,
+  GetFamilyMembersForCallRequestType,
   GetFamilyMembersRequestType,
   GetMyFamiliesRequestType,
   JoinFamilyRequestType,
@@ -131,6 +132,15 @@ export const getFamilyMembersRequestAction = (
   type: GET_FAMILY_MEMBERS_REQUEST,
   body,
 });
+export const GET_FAMILY_MEMBERS_FOR_CALL_REQUEST =
+  'GET_FAMILY_MEMBERS_FOR_CALL_REQUEST';
+export const getFamilyMembersForCallRequestAction = (
+  body: GetFamilyMembersForCallRequestType,
+) => ({
+  type: GET_FAMILY_MEMBERS_FOR_CALL_REQUEST,
+  body,
+});
+
 export const GET_FAMILY_MEMBERS_SUCCESS = 'GET_FAMILY_MEMBERS_SUCCESS';
 export const getFamilyMembersSuccessAction = (payload: MemberType[]) => ({
   type: GET_FAMILY_MEMBERS_SUCCESS,

@@ -65,9 +65,9 @@ export function* apiProxy(
       } else if (response.status === 403) {
         yield* put(
           showToastAction(
-            `${i18n.t('errorMessage.notInFamily')} ${parseDataResponse(
-              response,
-            )} ${i18n.t('errorMessage.anymore')}`,
+            `${i18n.t('errorMessage.notInFamily')} ${
+              parseDataResponse(response).familyName
+            } ${i18n.t('errorMessage.anymore')}`,
             ToastType.ERROR,
           ),
         );

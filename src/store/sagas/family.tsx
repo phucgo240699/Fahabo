@@ -15,6 +15,7 @@ import {
   createFamilyApi,
   getFamilyDetailApi,
   getFamilyMembersApi,
+  getFamilyMembersForCallApi,
   getMyFamiliesApi,
   joinFamilyApi,
   kickFamilyMemberApi,
@@ -35,6 +36,7 @@ import {
   GET_CHORE_FILTER_MEMBERS_REQUEST,
   GET_FAMILIES_REQUEST,
   GET_FAMILY_DETAIL_REQUEST,
+  GET_FAMILY_MEMBERS_FOR_CALL_REQUEST,
   GET_FAMILY_MEMBERS_REQUEST,
   GET_REFRESH_FAMILY_DETAIL_REQUEST,
   joinFamilySuccessAction,
@@ -453,6 +455,64 @@ function* getFamilyMembersSaga({
   }
 }
 
+function* getFamilyMembersForCallSaga({
+  body,
+}: {
+  type: string;
+  body: GetFamilyMembersRequestType;
+}) {
+  try {
+    if (body.showHUD === true) {
+      yield* put(showHUDAction());
+    }
+    if (body.refresh === true) {
+      yield* put(updateIsRefreshingFamilyMembersAction(true));
+    }
+    if (body.loadMore === true) {
+      yield* put(updateIsLoadingFamilyMembersAction(true));
+    }
+    const response = yield* apiProxy(getFamilyMembersForCallApi, body);
+    if (response.status === 200) {
+      if (body.page && body.page > 0) {
+        const oldData = yield* select(membersInFamilySelector);
+        yield* put(
+          getFamilyMembersSuccessAction([
+            ...oldData,
+            ...parseMembers(parseDataResponse(response)),
+          ]),
+        );
+      } else {
+        yield* put(
+          getFamilyMembersSuccessAction(
+            parseMembers(parseDataResponse(response)),
+          ),
+        );
+      }
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    if (body.showHUD === true) {
+      yield* put(closeHUDAction());
+    }
+    if (body.refresh === true) {
+      yield* put(updateIsRefreshingFamilyMembersAction(false));
+    }
+    if (body.loadMore === true) {
+      yield* put(updateIsLoadingFamilyMembersAction(false));
+    }
+  }
+}
+
 function* getChoreFilterMembersSaga({
   body,
 }: {
@@ -553,6 +613,10 @@ export default function* () {
     takeLeading(GET_FAMILY_DETAIL_REQUEST, getFamilyDetailSage),
     takeLeading(GET_REFRESH_FAMILY_DETAIL_REQUEST, getRefreshFamilyDetailSage),
     takeLeading(GET_FAMILY_MEMBERS_REQUEST, getFamilyMembersSaga),
+    takeLeading(
+      GET_FAMILY_MEMBERS_FOR_CALL_REQUEST,
+      getFamilyMembersForCallSaga,
+    ),
     takeLeading(GET_CHORE_FILTER_MEMBERS_REQUEST, getChoreFilterMembersSaga),
     takeLeading(GET_CHORE_FILTER_MEMBERS_REQUEST, getEventFilterMembersSaga),
     takeLeading(UPDATE_FOCUS_FAMILY_REQUEST, updateFocusFamilySaga),

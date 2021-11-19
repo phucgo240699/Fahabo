@@ -52,13 +52,15 @@
     "viewAll": "Xem tất cả",
     "members": "Các thành viên",
     "leave": "Leave",
+    "chooseMember": "Chọn thành viên",
     "scanInstruction": "Quét mã QR để tham gia vào gia đình",
     "createFamily": "Tạo gia đình",
     "joinFamily": "Tham gia vào gia đình",
     "name": "Tên",
     "thumbnail": "Ảnh đại diện",
     "cancel": "Huỷ",
-    "save": "Lưu"
+    "save": "Lưu",
+    "busy": "Đang bận"
   },
   "qrCode": {
     "qrCode": "Mã QR"
