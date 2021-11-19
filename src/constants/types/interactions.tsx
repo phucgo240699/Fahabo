@@ -12,11 +12,13 @@ export type SendMessageRequestType = {
   createdAt?: string;
   authorId?: number;
   timeStamp?: string;
+  type: 'text' | 'video_call';
 };
 
 export type ConnectTwilioRequestType = {
   familyId?: number;
   roomCallId?: string;
+  participantIds?: number[];
 };
 
 export type NotifyConferenceCallRequestType = {

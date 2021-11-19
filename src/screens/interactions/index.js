@@ -4,9 +4,9 @@ import ChatHeader from '@components/ChatHeader';
 import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {GiftedChat, InputToolbar, Send} from 'react-native-gifted-chat';
+import {GiftedChat, Message, InputToolbar, Send} from 'react-native-gifted-chat';
 import styled from 'styled-components/native';
-import {Image, Platform, StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {
   getOriginDateTimeString,
@@ -54,7 +54,9 @@ function ChatScreen(props) {
   useEffect(() => {
     if (props.route && props.route.params && props.route.params.selectedMembers) {
       if (!isNull(focusFamily?.id)) {
-        dispatch(connectTwilioRequestActions({familyId: focusFamily?.id}));
+        dispatch(connectTwilioRequestActions({familyId: focusFamily?.id, participantIds: props.route.params.selectedMembers.map(item => {
+          return item.id
+        }) }));
       }
     }
   }, [props.route])
@@ -78,11 +80,15 @@ function ChatScreen(props) {
         createdAt: getOriginDateTimeString(message.createdAt),
         timeStamp: today.getTime().toString(),
         authorId: user?.id,
+        type: 'text'
       }),
     );
   }, []);
 
   // Refactoring UI
+  const renderMessage = (props) => (
+    <Message {...props} />
+  )
   const renderInputToolbar = (props) => (
     <InputToolbar
       {...props}
@@ -116,6 +122,7 @@ function ChatScreen(props) {
       <GiftedChat
         messages={messages}
         renderSend={renderSend}
+        renderMessage={renderMessage}
         renderInputToolbar={renderInputToolbar}
         user={convertUserDatabaseToUserUIMessage(user)}
         onSend={messages => onSend(messages)}
@@ -133,6 +140,7 @@ const SafeView = styled.SafeAreaView`
 const SendIcon = styled.Image`
   width: 32px;
   height: 32px;
+  tint-color: ${colors.ROYAL_BLUE};
 `
 
 const styles = StyleSheet.create({

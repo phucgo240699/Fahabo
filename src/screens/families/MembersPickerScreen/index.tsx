@@ -23,6 +23,7 @@ import PrimaryButton from '@components/PrimaryButton';
 import {navigate} from '@navigators/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {userSelector} from '@store/selectors/authentication';
 
 interface Props {
   route?: any;
@@ -30,6 +31,7 @@ interface Props {
 
 const MembersPickerScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
+  const user = useSelector(userSelector);
   const membersInFamily = useSelector(membersInFamilySelector);
   const isLoading = useSelector(isLoadingFamilyMembersSelector);
   const isRefreshing = useSelector(isRefreshingFamilyMembersSelector);
@@ -62,6 +64,10 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
     }
   }, []);
 
+  const members = membersInFamily.filter(item => {
+    return item.id !== user?.id;
+  });
+
   // Refresh & Load More
   const onRefreshData = () => {
     if (isRefreshing === false) {
@@ -75,10 +81,7 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
     }
   };
   const onLoadMore = () => {
-    if (
-      isLoading === false &&
-      membersInFamily.length >= Pagination.FamilyMembers
-    ) {
+    if (isLoading === false && members.length >= Pagination.FamilyMembers) {
       dispatch(
         getFamilyMembersRequestAction({
           loadMore: true,
@@ -152,7 +155,7 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
         }
       />
       <FlatList
-        data={membersInFamily}
+        data={members}
         renderItem={renderItem}
         keyExtractor={(item, index) => {
           return index.toString();

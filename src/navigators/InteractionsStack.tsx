@@ -4,6 +4,7 @@ import {ScreenName} from '@constants/Constants';
 import InteractionsScreen from '@screens/interactions';
 import {createStackNavigator} from '@react-navigation/stack';
 import ConferenceCallScreen from '@screens/interactions/ConferenceCallScreen';
+import MembersPickerScreen from '@screens/families/MembersPickerScreen';
 
 const Stack = createStackNavigator();
 
@@ -13,6 +14,10 @@ const InteractionsStack = () => {
       <Stack.Screen
         name={ScreenName.InteractionsScreen}
         component={InteractionsScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.MembersPickerScreen}
+        component={MembersPickerScreen}
       />
       <Stack.Screen
         name={ScreenName.ConferenceCallScreen}

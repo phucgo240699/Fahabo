@@ -60,6 +60,7 @@ function* sendMessageSaga({
             text: body.text,
             createdAt: body.createdAt,
             timeStamp: body.timeStamp,
+            type: body.type,
             authorId: author?.id,
             authorName: author?.name,
             authorAvatar: author?.avatarUrl,
@@ -97,10 +98,15 @@ function* connectTwilioSaga({
       yield* put(updateTwilioAccessTokenAction(data.twilioAccessToken));
       if (!isNull(body.roomCallId)) {
         yield* put(updateTwilioRoomNameAction(data.roomCallId));
-        navigate(ScreenName.ConferenceCallScreen);
+        navigate(ScreenName.ConferenceCallScreen, {
+          participantIds: body.participantIds,
+        });
       } else {
         yield* put(updateTwilioRoomNameAction(data.roomCallId));
-        navigate(ScreenName.ConferenceCallScreen, {isHost: true});
+        navigate(ScreenName.ConferenceCallScreen, {
+          isHost: true,
+          participantIds: body.participantIds,
+        });
       }
     } else {
       yield* put(

@@ -46,6 +46,7 @@ const ConferenceCallScreen = (props) => {
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [status, setStatus] = useState("disconnected");
   const [videoTracks, setVideoTracks] = useState(new Map());
+  const [participantIds, setParticipantIds] = useState([])
   const twilioVideo = useRef(null);
 
   useEffect(async () => {
@@ -60,6 +61,9 @@ const ConferenceCallScreen = (props) => {
         twilioVideo.current.connect({ accessToken: accessToken, enableNetworkQualityReporting: true, dominantSpeakerEnabled: true});
         setStatus("connecting");
       }
+    }
+    if (props.route && props.route.params && props.route.params.participantIds) {
+      setParticipantIds(props.route.params.participantIds)
     }
   }, [])
 
@@ -82,7 +86,7 @@ const ConferenceCallScreen = (props) => {
     if (!isNull(focusFamily.id) && props.route && props.route.params && props.route.params.isHost === true) {
       dispatch(notifyConferenceCallRequestActions({ 
         familyId: focusFamily.id,
-        participantIds: [],
+        participantIds: participantIds,
         roomCallId: p.roomName
       }))
     }
@@ -186,11 +190,11 @@ const ConferenceCallScreen = (props) => {
         <OperationsContainer>
           <OperationButton onPress={onMuteButtonPress}>
             {
-              isAudioEnabled ? <PrimaryIcon tintColor={'#ffffff'} source={muteIcon} /> : <PrimaryIcon tintColor={'#ffffff'} source={UnmuteIcon} />
+              isAudioEnabled ? <PrimaryIcon tintColor={colors.BLACK} source={muteIcon} /> : <PrimaryIcon tintColor={colors.BLACK} source={UnmuteIcon} />
             }
           </OperationButton>
           <OperationButton onPress={onFlipButtonPress}>
-            <PrimaryIcon tintColor={'#ffffff'} source={flipCameraIcon} />
+            <PrimaryIcon tintColor={colors.BLACK} source={flipCameraIcon} />
           </OperationButton>
         </OperationsContainer>
         <EndCallButton onPress={onEndButtonPress}><PrimaryIcon width={30} height={30} tintColor={'#ffffff'} source={endCallIcon} /></EndCallButton>
@@ -253,7 +257,7 @@ const OperationButton = styled.TouchableOpacity`
   margin-right: 10px;
   border-width: 1px;
   border-radius: 30px;
-  border-color: #ffffff;
+  border-color: ${colors.BLACK};
   align-items: center;
   justify-content: center;
 `
