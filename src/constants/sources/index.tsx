@@ -14,8 +14,8 @@ export const bellIcon = require('@assets/images/bell_icon.png');
 // Bottom Bar
 export const homeIcon = require('@assets/images/home_icon.png');
 export const selectedHomeIcon = require('@assets/images/selected_home_icon.png');
-export const transactionsIcon = require('@assets/images/transactions_icon.png');
-export const selectedTransactionsIcon = require('@assets/images/selected_transactions_icon.png');
+export const notificationsIcon = require('@assets/images/notifications_icon.png');
+export const selectedNotificationsIcon = require('@assets/images/selected_notifications_icon.png');
 export const interactionsIcon = require('@assets/images/interactions_icon.png');
 export const selectedInteractionsIcon = require('@assets/images/selected_interactions_icon.png');
 export const locationsIcon = require('@assets/images/locations_icon.png');
@@ -42,13 +42,13 @@ export const downArrowIcon = require('@assets/images/down_arrow_icon.png');
 //
 // Chores
 //
-export const choresIcon = require('@assets/images/chores_icon.png');
+export const choresIconColor = require('@assets/images/chores_icon_color.png');
 export const filterIcon = require('@assets/images/filter_icon.png');
 
 //
 // Events
 //
-export const eventsIcon = require('@assets/images/events_icon.png');
+export const eventsIconColor = require('@assets/images/events_icon_color.png');
 
 //
 // Profile
@@ -82,6 +82,7 @@ export const muteIcon = require('@assets/images/mute_icon.png');
 export const UnmuteIcon = require('@assets/images/unmute_icon.png');
 export const flipCameraIcon = require('@assets/images/flip_camera_icon.png');
 export const videoCallIcon = require('@assets/images/video_call_icon.png');
+export const videoCallIconColor = require('@assets/images/video_call_icon_color.png');
 export const sendIcon = require('@assets/images/send_icon.png');
 
 //

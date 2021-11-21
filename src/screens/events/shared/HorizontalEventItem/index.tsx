@@ -61,82 +61,71 @@ const HorizontalEventItem: React.FC<Props> = ({
   };
 
   return (
-    <Touch onPress={onPressTouch} activeOpacity={1.0}>
-      <Container>
-        <Title numberOfLines={2}>{item.title}</Title>
-        <Deadline numberOfLines={1}>{`${item.from?.split(' ')[0]}  -  ${
-          item.to?.split(' ')[0]
-        }`}</Deadline>
-        {(item.assignees ?? []).length > 0 && <HLine />}
-        <FlatList
-          left={3}
-          bottom={2}
-          horizontal
-          position="absolute"
-          scrollEnabled={false}
-          renderItem={renderItem}
-          data={(item.assignees ?? []).filter((item, index) => {
-            return index < 5;
-          })}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item, index) => index.toString()}
-        />
-        <Menu
-          // width={240}
-          bgColor={colors.WHITE}
-          borderColor={colors.WHITE}
-          shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
-          placement={position == 'auto' ? undefined : position}
-          trigger={triggerProps => {
-            return (
-              <Pressable
-                top={2}
-                right={2}
-                width={8}
-                height={8}
-                borderRadius={20}
-                position={'absolute'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                {...triggerProps}>
-                <OptionsIcon
-                  tintColor={colors.SILVER}
-                  source={verticalOptions}
-                />
-              </Pressable>
-            );
-          }}>
-          <Menu.Item _text={{color: colors.TEXT}} onPress={onPressUpdateOption}>
-            {i18n.t('events.update')}
-          </Menu.Item>
-          <Menu.Item
-            _text={{color: colors.TEXT}}
-            onPress={onPressUpdateRelatedOption}>
-            {i18n.t('events.updateRelated')}
-          </Menu.Item>
-          <Menu.Item
-            onPress={onPressDeleteOption}
-            _text={{color: colors.RED_1}}>
-            {i18n.t('events.delete')}
-          </Menu.Item>
-          <Menu.Item
-            onPress={onPressDeleteRelatedOption}
-            _text={{color: colors.RED_1}}>
-            {i18n.t('events.deleteRelated')}
-          </Menu.Item>
-        </Menu>
-      </Container>
-    </Touch>
+    <Container onPress={onPressTouch} activeOpacity={1.0}>
+      <Title numberOfLines={2}>{item.title}</Title>
+      <Deadline numberOfLines={1}>{`${item.from?.split(' ')[0]}  -  ${
+        item.to?.split(' ')[0]
+      }`}</Deadline>
+      {(item.assignees ?? []).length > 0 && <HLine />}
+      <FlatList
+        left={3}
+        bottom={2}
+        horizontal
+        position="absolute"
+        scrollEnabled={false}
+        renderItem={renderItem}
+        data={(item.assignees ?? []).filter((item, index) => {
+          return index < 5;
+        })}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item, index) => index.toString()}
+      />
+      <Menu
+        // width={240}
+        bgColor={colors.WHITE}
+        borderColor={colors.WHITE}
+        shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
+        placement={position == 'auto' ? undefined : position}
+        trigger={triggerProps => {
+          return (
+            <Pressable
+              top={2}
+              right={2}
+              width={8}
+              height={8}
+              borderRadius={20}
+              position={'absolute'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              {...triggerProps}>
+              <OptionsIcon tintColor={colors.SILVER} source={verticalOptions} />
+            </Pressable>
+          );
+        }}>
+        <Menu.Item _text={{color: colors.TEXT}} onPress={onPressUpdateOption}>
+          {i18n.t('events.update')}
+        </Menu.Item>
+        <Menu.Item
+          _text={{color: colors.TEXT}}
+          onPress={onPressUpdateRelatedOption}>
+          {i18n.t('events.updateRelated')}
+        </Menu.Item>
+        <Menu.Item onPress={onPressDeleteOption} _text={{color: colors.RED_1}}>
+          {i18n.t('events.delete')}
+        </Menu.Item>
+        <Menu.Item
+          onPress={onPressDeleteRelatedOption}
+          _text={{color: colors.RED_1}}>
+          {i18n.t('events.deleteRelated')}
+        </Menu.Item>
+      </Menu>
+    </Container>
   );
 };
 
-const Touch = styled.TouchableOpacity`
-  height: 120px;
-  border-radius: 10px;
-`;
-
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
   flex: 1;
+  height: 100px;
   padding: 10px;
   elevation: 10;
   margin-top: 15px;

@@ -37,87 +37,83 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   };
 
   return (
-    <Touch onPress={onPressTouch} activeOpacity={1.0}>
-      <Container>
-        <Title numberOfLines={2}>{item.title}</Title>
-        <Deadline numberOfLines={1}>{item.deadline?.split(' ')[0]}</Deadline>
-        <HLine />
-        <FlatList
-          left={3}
-          bottom={2}
-          horizontal
-          position="absolute"
-          scrollEnabled={false}
-          renderItem={renderItem}
-          data={(item.assignees ?? []).filter((item, index) => {
-            return index < 5;
-          })}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item, index) => index.toString()}
-        />
+    <Container onPress={onPressTouch} activeOpacity={1.0}>
+      <Title numberOfLines={2}>{item.title}</Title>
+      <Deadline numberOfLines={1}>{item.deadline?.split(' ')[0]}</Deadline>
+      <HLine />
+      <FlatList
+        left={3}
+        bottom={2}
+        horizontal
+        position="absolute"
+        scrollEnabled={false}
+        renderItem={renderItem}
+        data={(item.assignees ?? []).filter((item, index) => {
+          return index < 5;
+        })}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item, index) => index.toString()}
+      />
 
-        {item.status !== ChoreStatus.DONE ? (
-          <Menu
-            p={1}
-            width={200}
-            borderRadius={14}
+      {item.status !== ChoreStatus.DONE ? (
+        <Menu
+          p={1}
+          width={200}
+          borderRadius={14}
+          bgColor={colors.WHITE}
+          borderColor={colors.WHITE}
+          shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
+          placement={position == 'auto' ? undefined : position}
+          trigger={triggerProps => {
+            return (
+              <Pressable
+                top={2}
+                right={2}
+                width={24}
+                height={8}
+                borderRadius={16}
+                position={'absolute'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                bgColor={getChoreStatusColor(item.status)}
+                {...triggerProps}>
+                <StatusText>{getChoreStatusText(item.status)}</StatusText>
+              </Pressable>
+            );
+          }}>
+          <Menu.Item
+            borderRadius={10}
             bgColor={colors.WHITE}
-            borderColor={colors.WHITE}
-            shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
-            placement={position == 'auto' ? undefined : position}
-            trigger={triggerProps => {
-              return (
-                <Pressable
-                  top={2}
-                  right={2}
-                  width={24}
-                  height={8}
-                  borderRadius={16}
-                  position={'absolute'}
-                  alignItems={'center'}
-                  justifyContent={'center'}
-                  bgColor={getChoreStatusColor(item.status)}
-                  {...triggerProps}>
-                  <StatusText>{getChoreStatusText(item.status)}</StatusText>
-                </Pressable>
-              );
-            }}>
-            <Menu.Item
-              borderRadius={10}
-              bgColor={colors.WHITE}
-              _text={{color: getChoreStatusColor(ChoreStatus.DONE)}}
-              onPress={onUpdateDoneStatus}>
-              {getChoreStatusText(ChoreStatus.DONE)}
-            </Menu.Item>
-          </Menu>
-        ) : (
-          <Pressable
-            top={2}
-            right={2}
-            width={24}
-            height={8}
-            borderRadius={16}
-            position={'absolute'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            bgColor={getChoreStatusColor(item.status)}>
-            <StatusText>{getChoreStatusText(item.status)}</StatusText>
-          </Pressable>
-        )}
-      </Container>
-    </Touch>
+            _text={{color: getChoreStatusColor(ChoreStatus.DONE)}}
+            onPress={onUpdateDoneStatus}>
+            {getChoreStatusText(ChoreStatus.DONE)}
+          </Menu.Item>
+        </Menu>
+      ) : (
+        <Pressable
+          top={2}
+          right={2}
+          width={24}
+          height={8}
+          borderRadius={16}
+          position={'absolute'}
+          alignItems={'center'}
+          justifyContent={'center'}
+          bgColor={getChoreStatusColor(item.status)}>
+          <StatusText>{getChoreStatusText(item.status)}</StatusText>
+        </Pressable>
+      )}
+    </Container>
   );
 };
 
-const Touch = styled.TouchableOpacity`
-  height: 150px;
-  border-radius: 10px;
-`;
+const Touch = styled.TouchableOpacity``;
 
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
   flex: 1;
   padding: 10px;
   elevation: 10;
+  height: 150px;
   margin-top: 15px;
   margin-left: 30px;
   margin-right: 30px;

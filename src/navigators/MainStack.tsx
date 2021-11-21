@@ -1,17 +1,15 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import BottomTabs from './BottomTabs';
 import {navigationOptions} from './index';
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
-import {Alert} from 'react-native';
-import {ScreenName} from '@constants/Constants';
+import {ScreenName, StackName} from '@constants/Constants';
 import messaging from '@react-native-firebase/messaging';
 import ImageViewerScreen from '@screens/media/ImageViewerScreen';
 import {useDispatch, useSelector} from 'react-redux';
 import {addFCMTokenRequestAction} from '@store/actionTypes/signIn';
-import {showNotificationModalAction} from '@store/actionTypes/modals';
 import {isNull} from '@utils/index';
 import {NotificationNavigationType} from '@constants/types/modals';
 import {getChoreDetailRequestAction} from '@store/actionTypes/chores';
@@ -24,35 +22,64 @@ import ChorePhotosScreen from '@screens/chores/ChorePhotosScreen';
 import EventPhotosScreen from '@screens/events/EventPhotosScreen';
 import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
 import ConferenceCallScreen from '@screens/interactions/ConferenceCallScreen';
+import {getBadgesRequestAction} from '@store/actionTypes/notifications';
+import {focusFamilySelector} from '@store/selectors/family';
+import {routeNameSelector} from '@store/selectors/session';
+import {Alert} from 'react-native';
+
+interface Props {
+  route?: any;
+  navigation?: any;
+}
 
 const Stack = createStackNavigator();
 
-const MainStack = () => {
+const MainStack: React.FC<Props> = ({navigation, route}) => {
   const dispatch = useDispatch();
+  const focusFamily = useSelector(focusFamilySelector);
+  const routeName = useSelector(routeNameSelector);
+
+  // useLayoutEffect(() => {
+  //   if (!isNull(focusFamily?.id)) {
+  //     console.log({routeName});
+  //     switch (routeName) {
+  //       case StackName.InteractionsStack:
+  //         dispatch(
+  //           getBadgesRequestAction({
+  //             familyId: focusFamily?.id,
+  //             onlyNotification: true,
+  //           }),
+  //         );
+  //         break;
+  //       case StackName.NotificationsStack:
+  //         dispatch(
+  //           getBadgesRequestAction({
+  //             familyId: focusFamily?.id,
+  //             onlyInteraction: true,
+  //           }),
+  //         );
+  //       default:
+  //         dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
+  //         break;
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
-    requestUserPermission().then(() => {
-      messaging()
-        .getToken()
-        .then(token => {
-          dispatch(addFCMTokenRequestAction({firebaseToken: token}));
-        });
-    });
-
-    // Foreground
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log({Foreground: remoteMessage});
-      dispatch(
-        showNotificationModalAction({
-          title: remoteMessage.notification?.title,
-          description: remoteMessage.notification?.body,
-          navigate: remoteMessage.data?.navigate,
-          id: remoteMessage.data?.id,
-        }),
-      );
-    });
-
-    return unsubscribe;
+    messaging()
+      .requestPermission()
+      .then(authStatus => {
+        if (
+          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+          authStatus === messaging.AuthorizationStatus.PROVISIONAL
+        ) {
+          messaging()
+            .getToken()
+            .then(token => {
+              dispatch(addFCMTokenRequestAction({firebaseToken: token}));
+            });
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -87,13 +114,6 @@ const MainStack = () => {
         }
       });
   }, []);
-
-  async function requestUserPermission() {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-  }
 
   const onDirectScreen = (value?: string, id?: string, familyId?: string) => {
     switch (value) {

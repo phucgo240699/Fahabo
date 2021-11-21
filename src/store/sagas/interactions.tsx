@@ -2,8 +2,9 @@ import i18n from '@locales/index';
 import {
   connectTwilioApi,
   notifyConferenceCallApi,
+  notifyNewMessageApi,
 } from '@services/interactions';
-import {all, put, select, takeLeading} from 'typed-redux-saga';
+import {all, delay, put, select, takeLeading} from 'typed-redux-saga';
 import {ScreenName} from '@constants/Constants';
 import {navigate} from '@navigators/index';
 import {ToastType} from '@constants/types/session';
@@ -20,10 +21,13 @@ import {
   NOTIFY_CONFERENCE_CALL_REQUEST,
   updateTwilioRoomNameAction,
   SEND_MESSAGE_REQUEST,
+  NOTIFY_NEW_MESSAGE_REQUEST,
+  notifyNewMessageRequestAction,
 } from '@store/actionTypes/interactions';
 import {
   ConnectTwilioRequestType,
   NotifyConferenceCallRequestType,
+  NotifyNewMessageRequestType,
   SendMessageRequestType,
 } from '@constants/types/interactions';
 import {isNull} from '@utils/index';
@@ -33,6 +37,7 @@ import {getProfileSuccessAction} from '@store/actionTypes/profile';
 import {parseUser} from '@utils/parsers/authentication';
 import firestore from '@react-native-firebase/firestore';
 import {userSelector} from '@store/selectors/authentication';
+import {focusFamilySelector} from '@store/selectors/family';
 
 function* sendMessageSaga({
   body,
@@ -51,6 +56,7 @@ function* sendMessageSaga({
           getProfileSuccessAction(parseUser(parseDataResponse(authorResponse))),
         );
         const author = yield* select(userSelector);
+        const focusFamily = yield* select(focusFamilySelector);
         // Send message to firebase store
         firestore()
           .collection('Messages')
@@ -68,6 +74,14 @@ function* sendMessageSaga({
           .then(() => {
             console.log('\nMessage added!\n');
           });
+
+        // Notify new message
+        if (!isNull(focusFamily?.id)) {
+          yield* delay(1000);
+          yield* put(
+            notifyNewMessageRequestAction({familyId: focusFamily?.id}),
+          );
+        }
       } else {
         yield* put(
           showToastAction(
@@ -81,6 +95,19 @@ function* sendMessageSaga({
     yield* put(
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );
+  }
+}
+
+function* notifyNewMessageSaga({
+  body,
+}: {
+  type: string;
+  body: NotifyNewMessageRequestType;
+}) {
+  try {
+    yield* apiProxy(notifyNewMessageApi, body);
+  } catch (error) {
+    console.log({error});
   }
 }
 
@@ -152,6 +179,7 @@ function* notifyConferenceCallSaga({
 export default function* () {
   yield* all([
     takeLeading(SEND_MESSAGE_REQUEST, sendMessageSaga),
+    takeLeading(NOTIFY_NEW_MESSAGE_REQUEST, notifyNewMessageSaga),
     takeLeading(CONNECT_TWILIO_REQUEST, connectTwilioSaga),
     takeLeading(NOTIFY_CONFERENCE_CALL_REQUEST, notifyConferenceCallSaga),
   ]);

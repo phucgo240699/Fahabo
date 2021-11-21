@@ -10,6 +10,7 @@ interface Props {
   title?: string;
   rightComponent?: any;
   backgroundColor?: string;
+  hideNavigateBack?: boolean;
   onCustomNavigateBack?: () => void;
 }
 
@@ -17,6 +18,7 @@ const ProfileHeader: React.FC<Props> = ({
   title,
   rightComponent = <></>,
   backgroundColor = 'transparent',
+  hideNavigateBack = false,
   onCustomNavigateBack,
 }) => {
   const navigation = useNavigation();
@@ -32,13 +34,18 @@ const ProfileHeader: React.FC<Props> = ({
   return (
     <Container backgroundColor={backgroundColor}>
       <Content>
-        <PrimaryButton
-          leftIconWidth={24}
-          leftIconHeight={24}
-          leftSource={leftArrowIcon}
-          leftTintColor={colors.THEME_COLOR_5}
-          onPress={onPressBack}
-        />
+        {hideNavigateBack === false ? (
+          <PrimaryButton
+            leftIconWidth={24}
+            leftIconHeight={24}
+            leftSource={leftArrowIcon}
+            leftTintColor={colors.THEME_COLOR_5}
+            onPress={onPressBack}
+          />
+        ) : (
+          <EmptyView />
+        )}
+
         <Title numberOfLines={1}>{title}</Title>
         <EmptyView />
         <RightContainer>{rightComponent}</RightContainer>

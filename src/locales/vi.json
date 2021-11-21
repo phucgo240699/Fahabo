@@ -108,6 +108,9 @@
     "latestCreate": "Tạo gần đây",
     "latestDeadline": "Sắp kết thúc"
   },
+  "notification": {
+    "notifications": "Thông báo"
+  },
   "profile": {
     "profile": "Thông tin cá nhân",
     "logOut": "Đăng xuất",

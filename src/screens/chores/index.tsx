@@ -9,7 +9,10 @@ import PrimaryButton from '@components/PrimaryButton';
 import ListChoresHeader from './shared/ListChoresHeader';
 import {useDispatch, useSelector} from 'react-redux';
 import {choresSelector} from '@store/selectors/chores';
-import {isRefreshingChoresSelector} from '@store/selectors/session';
+import {
+  isLoadingChoresSelector,
+  isRefreshingChoresSelector,
+} from '@store/selectors/session';
 import {
   deleteChoreRequestAction,
   getChoreDetailRequestAction,
@@ -22,8 +25,9 @@ import {editProfileIcon, plusIcon, trashIcon} from '@constants/sources';
 import {MemberType} from '@constants/types/family';
 import {ChoreStatus, ChoreType} from '@constants/types/chores';
 import {navigate} from '@navigators/index';
-import {ScreenName} from '@constants/Constants';
+import {Pagination, ScreenName} from '@constants/Constants';
 import {getChoreFilterMembersRequestAction} from '@store/actionTypes/family';
+import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 
 interface Props {}
 
@@ -31,7 +35,9 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   const dispatch = useDispatch();
   const chores = useSelector(choresSelector);
   const focusFamily = useSelector(focusFamilySelector);
+  const isLoadingMore = useSelector(isLoadingChoresSelector);
   const isRefreshing = useSelector(isRefreshingChoresSelector);
+  const [pageIndex, setPageIndex] = useState(0);
   const [indexSwiped, setIndexSwiped] = useState<string | undefined>(undefined);
 
   // Search, Filter, Sort
@@ -152,8 +158,39 @@ const ChoresScreen: React.FC<Props> = ({}) => {
     if (isRefreshing === false && !isNull(focusFamily?.id)) {
       dispatch(getChoreFilterMembersRequestAction({familyId: focusFamily?.id}));
       dispatch(
-        getChoresRequestAction({refresh: true, familyId: focusFamily?.id}),
+        getChoresRequestAction({
+          refresh: true,
+          familyId: focusFamily?.id,
+          assigneeIds: selectedMember.map(item => {
+            return item.id;
+          }),
+          statuses: selectedStatus,
+          sortBy: sortBy,
+          searchText: searchText,
+        }),
       );
+    }
+  };
+  const onLoadMore = () => {
+    if (
+      isLoadingMore === false &&
+      !isNull(focusFamily?.id) &&
+      chores.length >= Pagination.Events
+    ) {
+      dispatch(
+        getChoresRequestAction({
+          loadMore: true,
+          familyId: focusFamily?.id,
+          assigneeIds: selectedMember.map(item => {
+            return item.id;
+          }),
+          statuses: selectedStatus,
+          sortBy: sortBy,
+          searchText: searchText,
+          page: pageIndex + 1,
+        }),
+      );
+      setPageIndex(pageIndex + 1);
     }
   };
 
@@ -248,6 +285,11 @@ const ChoresScreen: React.FC<Props> = ({}) => {
               />
             }
             keyExtractor={(item, index) => index.toString()}
+            onEndReached={onLoadMore}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={
+              <FooterLoadingIndicator loading={isLoadingMore} />
+            }
           />
           <CreateButton
             padding={14}

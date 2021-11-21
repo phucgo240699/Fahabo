@@ -108,6 +108,9 @@
     "latestCreate": "Latest create",
     "latestDeadline": "Almost finish"
   },
+  "notification": {
+    "notifications": "Notifications"
+  },
   "profile": {
     "profile": "Profile",
     "logOut": "Log out",

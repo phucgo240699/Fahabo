@@ -15,6 +15,10 @@ export type SendMessageRequestType = {
   type: 'text' | 'video_call';
 };
 
+export type NotifyNewMessageRequestType = {
+  familyId?: number;
+};
+
 export type ConnectTwilioRequestType = {
   familyId?: number;
   roomCallId?: string;

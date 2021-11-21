@@ -85,8 +85,13 @@ const EventsScreen: React.FC<Props> = ({route}) => {
         getEventsRequestAction({
           refresh: true,
           familyId: focusFamily?.id,
-          from: `${targetDateTime} 00:00:00`,
-          to: `${targetDateTime} 23:59:59`,
+          searchText: searchText,
+          assigneeIds: selectedMember.map(item => {
+            return item.id;
+          }),
+          sortBy: sortBy,
+          from: `${route.params.targetDateTime} 00:00:00`,
+          to: `${route.params.targetDateTime} 23:59:59`,
         }),
       );
     }
@@ -102,8 +107,13 @@ const EventsScreen: React.FC<Props> = ({route}) => {
         getEventsRequestAction({
           loadMore: true,
           familyId: focusFamily?.id,
-          from: `${targetDateTime} 00:00:00`,
-          to: `${targetDateTime} 23:59:59`,
+          searchText: searchText,
+          assigneeIds: selectedMember.map(item => {
+            return item.id;
+          }),
+          sortBy: sortBy,
+          from: `${route.params.targetDateTime} 00:00:00`,
+          to: `${route.params.targetDateTime} 23:59:59`,
           page: pageIndex + 1,
         }),
       );

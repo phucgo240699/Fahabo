@@ -26,6 +26,7 @@ import {
   UPDATE_IS_REFRESHING_FAMILY_MEMBERS,
   UPDATE_IS_REFRESHING_PHOTOS,
   UPDATE_IS_REFRESHING_PROFILE,
+  UPDATE_ROUTE_NAME,
 } from '@store/actionTypes/session';
 import {LOG_OUT} from '@store/actionTypes/signIn';
 
@@ -36,6 +37,11 @@ export type ToastState = {
 };
 
 export type SessionState = {
+  //
+  // Route
+  //
+  routeName?: string;
+
   //
   // HUD
   //
@@ -70,6 +76,9 @@ export type SessionState = {
 };
 
 const defaultState: SessionState = {
+  // Route
+  routeName: undefined,
+
   // HUD
   loading: false,
 
@@ -115,6 +124,11 @@ export default function sessionReducer(
       return {
         ...state,
         loading: false,
+      };
+    case UPDATE_ROUTE_NAME:
+      return {
+        ...state,
+        routeName: action.payload,
       };
     case TURN_ON_REFRESHING_TOKEN:
       return {
@@ -249,6 +263,8 @@ export default function sessionReducer(
     case LOG_OUT:
       return {
         ...state,
+        //Route
+        routeName: undefined,
         // HUD
         loading: false,
         // Refresh

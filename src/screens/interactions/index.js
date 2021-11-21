@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import colors from '@themes/colors';
 import ChatHeader from '@components/ChatHeader';
 import {useDispatch, useSelector} from 'react-redux';
@@ -25,6 +25,7 @@ import {
 import { sendIcon } from '@constants/sources';
 import { navigate } from '@navigators/index';
 import { ScreenName } from '@constants/Constants';
+import { clearInteractionBadgeRequestAction } from '@store/actionTypes/notifications';
 
 function ChatScreen(props) {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function ChatScreen(props) {
   const focusFamily = useSelector(focusFamilySelector);
   const [messages, setMessages] = useState([]);
 
+  // Get Messages
   useEffect(() => {
     const subscriber = firestore()
       .collection('Messages')
@@ -48,9 +50,32 @@ function ChatScreen(props) {
           );
         }
       });
+    // const subscriber = firestore()
+    //   .collection('Messages')
+    //   .where('familyId', '==', focusFamily?.id)
+    //   .limit(1)
+    //   .onSnapshot(triggerSnapShot => {
+    //     firestore()
+    //     .collection('Messages')
+    //     .where('familyId', '==', focusFamily?.id)
+    //     .orderBy('timeStamp', 'desc')
+    //     .limit(100)
+    //     .onSnapshot(querySnapShot => {
+    //       if (!isNull(querySnapShot)) {
+    //         setMessages(
+    //           querySnapShot.docs.map(item => {
+    //             return convertFireStoreMessageToUIMessage(item);
+    //           }).sort((pre, cur) => {
+    //             return cur.timeStamp > pre.timeStamp
+    //           }),
+    //         );
+    //       }
+    //     })
+    //   });
       return () => subscriber();
   }, []);
 
+  // Connect to Twilio
   useEffect(() => {
     if (props.route && props.route.params && props.route.params.selectedMembers) {
       if (!isNull(focusFamily?.id)) {

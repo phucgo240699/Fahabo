@@ -1,5 +1,13 @@
-import {SessionState} from '@store/reducers/session';
 import {ToastType} from '@constants/types/session';
+
+//
+// Route
+//
+export const UPDATE_ROUTE_NAME = 'UPDATE_ROUTE_NAME';
+export const updateRouteNameAction = (payload: string) => ({
+  type: UPDATE_ROUTE_NAME,
+  payload,
+});
 
 //
 // Refresh Control

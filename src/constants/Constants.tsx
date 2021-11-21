@@ -13,7 +13,7 @@ export enum StackName {
   MainStack = 'MainStack',
   AuthenticationStack = 'AuthenticationStack',
   HomeStack = 'HomeStack',
-  TransactionsStack = 'TransactionsStack',
+  NotificationsStack = 'NotificationsStack',
   InteractionsStack = 'InteractionsStack',
   LocationsStack = 'LocationsStack',
   FamilyStack = 'FamilyStack',
@@ -50,7 +50,7 @@ export enum ScreenName {
   CreateEventScreen = 'CreateEventScreen',
   EventDetailScreen = 'EventDetailScreen',
   EventPhotosScreen = 'EventPhotosScreen',
-  TransactionsScreen = 'TransactionsScreen',
+  NotificationsScreen = 'NotificationsScreen',
   InteractionsScreen = 'InteractionsScreen',
   ConferenceCallScreen = 'ConferenceCallScreen',
   LocationsScreen = 'LocationsScreen',
@@ -93,4 +93,5 @@ export const Pagination = {
   ChorePhotos: 24,
   Events: 10,
   EventPhotos: 24,
+  Notifications: 10,
 };

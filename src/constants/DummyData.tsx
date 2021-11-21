@@ -183,6 +183,27 @@ export const DummyAuthorMessage = {
     'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=-JIm9VHEnmoAX_Yb9yZ&_nc_ht=scontent.fsgn13-2.fna&oh=ba3f129be8f600a34972a40f2cce8986&oe=61B87C60',
 };
 
+export const DummyNotifications = [
+  {
+    id: 0,
+    type: 'CHORE',
+    title: 'Abc',
+    descriptions: 'dsa',
+  },
+  {
+    id: 1,
+    type: 'EVENT',
+    title: 'Abc',
+    descriptions: 'dsa',
+  },
+  {
+    id: 2,
+    type: 'VIDEO_CALL',
+    title: 'Abc',
+    descriptions: 'dsa',
+  },
+];
+
 export const DummyRepeat = [
   RepeatType.NONE,
   RepeatType.DAILY,

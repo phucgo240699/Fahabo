@@ -1,20 +1,20 @@
 import React from 'react';
 import {navigationOptions} from './index';
 import {ScreenName} from '@constants/Constants';
-import TransactionsScreen from '@screens/transactions';
+import NotificationsScreen from '@screens/notifications';
 import {createStackNavigator} from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-const TransactionsStack = () => {
+const NotificationsStack = () => {
   return (
     <Stack.Navigator screenOptions={navigationOptions}>
       <Stack.Screen
-        name={ScreenName.TransactionsScreen}
-        component={TransactionsScreen}
+        name={ScreenName.NotificationsScreen}
+        component={NotificationsScreen}
       />
     </Stack.Navigator>
   );
 };
 
-export default TransactionsStack;
+export default NotificationsStack;

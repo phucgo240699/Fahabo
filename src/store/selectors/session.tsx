@@ -1,6 +1,11 @@
 import {RootState} from '@store/index';
 
 //
+// Route
+//
+export const routeNameSelector = (state: RootState) => state.session.routeName;
+
+//
 // HUD
 //
 export const isLoadingSelector = (state: RootState) => state.session.loading;

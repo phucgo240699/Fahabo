@@ -12,7 +12,7 @@ import ProfileHeader from '@components/ProfileHeader';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {useDispatch, useSelector} from 'react-redux';
 import {languageCodeSelector} from '@store/selectors/authentication';
-// import {getLanguageName, isNull} from '@utils/index';
+import {isNull} from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {updateLanguageRequestAction} from '@store/actionTypes/profile';
 import {getLanguageName, setGlobalLocale} from '@utils/index';
@@ -41,7 +41,8 @@ const LanguageScreen: React.FC<Props> = ({}) => {
     return (
       <ItemContainer onPress={() => onChooseLanguage(item.key)}>
         <ItemName>{getLanguageName(item.key)}</ItemName>
-        {languageCode === item.key && (
+        {(languageCode === item.key ||
+          (isNull(languageCode) && item.key === 'auto')) && (
           <PrimaryIcon
             source={tickIcon}
             style={styles.tick}

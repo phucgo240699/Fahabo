@@ -3,7 +3,7 @@ import colors from '@themes/colors';
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import styled from 'styled-components/native';
-import {choresIcon, eventsIcon} from '@constants/sources/index';
+import {choresIconColor, eventsIconColor} from '@constants/sources/index';
 import {Constants} from '@constants/Constants';
 
 interface Props {
@@ -18,12 +18,12 @@ const ProfileRelationBox: React.FC<Props> = ({
   return (
     <Container>
       <Button onPress={onPressChores}>
-        <Icon source={choresIcon} />
+        <Icon source={choresIconColor} />
         <Label>{i18n.t('chores.chores')}</Label>
       </Button>
       <VerticalLine />
       <Button onPress={onPressEvents}>
-        <Icon source={eventsIcon} />
+        <Icon source={eventsIconColor} />
         <Label>{i18n.t('events.events')}</Label>
       </Button>
     </Container>

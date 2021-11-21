@@ -2,6 +2,7 @@ export enum NotificationNavigationType {
   FAMILY_DETAIL = 'FAMILY_DETAIL',
   CHORE_DETAIL = 'CHORE_DETAIL',
   EVENT_DETAIL = 'EVENT_DETAIL',
+  CHAT = 'CHAT',
   VIDEO_CALL = 'VIDEO_CALL',
 }
 

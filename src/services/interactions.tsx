@@ -3,7 +3,15 @@ import {BASE_URL} from '@constants/Constants';
 import {
   ConnectTwilioRequestType,
   NotifyConferenceCallRequestType,
+  NotifyNewMessageRequestType,
 } from '@constants/types/interactions';
+
+export function notifyNewMessageApi(
+  accessToken?: string,
+  body?: NotifyNewMessageRequestType,
+) {
+  return new apiProvider(accessToken).post(`${BASE_URL}/chat`, body);
+}
 
 export function connectTwilioApi(
   accessToken?: string,
