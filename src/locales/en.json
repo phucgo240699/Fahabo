@@ -108,6 +108,9 @@
     "latestCreate": "Latest create",
     "latestDeadline": "Almost finish"
   },
+  "interaction": {
+    "typeAMessage": "Type a message"
+  },
   "notification": {
     "notifications": "Notifications"
   },

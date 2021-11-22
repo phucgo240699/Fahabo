@@ -101,14 +101,14 @@ function* getBadgesSaga({body}: {type: string; body: GetBadgesRequestType}) {
   try {
     const response = yield* apiProxy(getBadgesApi, body);
     if (response.status === 200) {
-      if (body.onlyInteraction) {
-        console.log('getBadgesSaga', parseDataResponse(response));
+      console.log('getBadgesSaga ', parseDataResponse(response));
+      if (body.onlyInteraction === true) {
         yield* put(
           getInteractionBadgeSuccessAction(
             parseDataResponse(response).countChat,
           ),
         );
-      } else if (body.onlyNotification) {
+      } else if (body.onlyNotification === true) {
         yield* put(
           getNotificationBadgeSuccessAction(
             parseDataResponse(response).countNoti,

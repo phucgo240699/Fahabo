@@ -32,8 +32,8 @@ import {
   clearInteractionBadgeRequestAction,
   clearNotificationBadgeRequestAction,
   getBadgesRequestAction,
+  getNotificationsRequestAction,
 } from '@store/actionTypes/notifications';
-import {updateRouteNameAction} from '@store/actionTypes/session';
 import messaging from '@react-native-firebase/messaging';
 
 interface Props {
@@ -54,7 +54,6 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
     const routeName = getFocusedRouteNameFromRoute(route);
     switch (routeName) {
       case StackName.HomeStack:
-        dispatch(updateRouteNameAction(StackName.HomeStack));
         if (!isNull(focusFamily?.id)) {
           dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
         }
@@ -73,7 +72,6 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
         }
         break;
       case StackName.FamilyStack:
-        dispatch(updateRouteNameAction(StackName.FamilyStack));
         if (!isNull(focusFamily?.id)) {
           dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
         }
@@ -87,10 +85,10 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
               onlyInteraction: true,
             }),
           );
+          dispatch(getNotificationsRequestAction({}));
         }
         break;
       case StackName.ProfileStack:
-        dispatch(updateRouteNameAction(StackName.ProfileStack));
         if (!isNull(focusFamily?.id)) {
           dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
         }
@@ -101,15 +99,16 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
   }, [navigation, route]);
 
   React.useEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route);
     // Foreground
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log({Foreground: remoteMessage});
-      console.log('focusFamily?.id', focusFamily?.id);
       if (!isNull(focusFamily?.id)) {
-        console.log({routeName});
-        switch (routeName) {
+        console.log({routeName: getFocusedRouteNameFromRoute(route)});
+        switch (getFocusedRouteNameFromRoute(route)) {
           case StackName.InteractionsStack:
+            dispatch(
+              clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
+            );
             dispatch(
               getBadgesRequestAction({
                 familyId: focusFamily?.id,
@@ -118,12 +117,15 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
             );
             break;
           case StackName.NotificationsStack:
+            dispatch(clearNotificationBadgeRequestAction());
             dispatch(
               getBadgesRequestAction({
                 familyId: focusFamily?.id,
                 onlyInteraction: true,
               }),
             );
+            dispatch(getNotificationsRequestAction({}));
+            break;
           default:
             dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
             break;

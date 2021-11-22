@@ -5,7 +5,7 @@ import React, {useRef, useState} from 'react';
 import styled from 'styled-components/native';
 import PrimaryButton from '@components/PrimaryButton';
 import PrimarySearchBar from '@components/PrimarySearchBar';
-import {searchIcon, bellIcon, plusIcon} from '@constants/sources/index';
+import {searchIcon, plusIcon} from '@constants/sources/index';
 import {Animated, Easing} from 'react-native';
 import {Constants} from '@constants/Constants';
 
@@ -109,15 +109,6 @@ const PrimaryHeader: React.FC<Props> = ({
           />
         </SearchIconLayer>
       )}
-      {/* {!isSearching && (
-        <SearchIconLayer style={{opacity: searchIconOpacityAnim}}>
-          <PrimaryButton
-            marginLeft={8}
-            leftSource={bellIcon}
-            leftTintColor={colors.THEME_COLOR_7}
-          />
-        </SearchIconLayer>
-      )} */}
 
       {isSearching && (
         <SearchBarLayer style={{width: searchBarWidthAnim}}>

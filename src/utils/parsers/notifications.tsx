@@ -21,6 +21,7 @@ export function parseNotification(rawData: any): NotificationType {
   const title = get('title', rawData);
   const description = get('description', rawData);
   const isClicked = get('isClicked', rawData);
+  const createdAt = get('created_at', rawData);
   const data = parseDataNotification(rawData.data);
   return {
     id,
@@ -28,6 +29,7 @@ export function parseNotification(rawData: any): NotificationType {
     title,
     description,
     isClicked,
+    createdAt,
     data,
   };
 }

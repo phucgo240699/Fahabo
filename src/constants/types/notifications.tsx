@@ -2,7 +2,6 @@ export type GetNotificationsRequestType = {
   getting?: boolean;
   refresh?: boolean;
   loadMore?: boolean;
-  familyId?: number;
   page?: number;
   size?: number;
 };
@@ -39,4 +38,5 @@ export type NotificationType = {
   description?: string;
   data?: NotificationDataType;
   isClicked?: boolean;
+  createdAt?: string;
 };

@@ -25,7 +25,6 @@ import {
 import { sendIcon } from '@constants/sources';
 import { navigate } from '@navigators/index';
 import { ScreenName } from '@constants/Constants';
-import { clearInteractionBadgeRequestAction } from '@store/actionTypes/notifications';
 
 function ChatScreen(props) {
   const dispatch = useDispatch();
@@ -50,28 +49,6 @@ function ChatScreen(props) {
           );
         }
       });
-    // const subscriber = firestore()
-    //   .collection('Messages')
-    //   .where('familyId', '==', focusFamily?.id)
-    //   .limit(1)
-    //   .onSnapshot(triggerSnapShot => {
-    //     firestore()
-    //     .collection('Messages')
-    //     .where('familyId', '==', focusFamily?.id)
-    //     .orderBy('timeStamp', 'desc')
-    //     .limit(100)
-    //     .onSnapshot(querySnapShot => {
-    //       if (!isNull(querySnapShot)) {
-    //         setMessages(
-    //           querySnapShot.docs.map(item => {
-    //             return convertFireStoreMessageToUIMessage(item);
-    //           }).sort((pre, cur) => {
-    //             return cur.timeStamp > pre.timeStamp
-    //           }),
-    //         );
-    //       }
-    //     })
-    //   });
       return () => subscriber();
   }, []);
 

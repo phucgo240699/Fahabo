@@ -6,13 +6,7 @@ import { isNull } from "@utils/index";
 import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Button,
   PermissionsAndroid,
-  TouchableOpacity,
-  Keyboard,
   Platform,
 } from "react-native";
 
@@ -27,7 +21,6 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 import { notifyConferenceCallRequestActions } from "@store/actionTypes/interactions";
 import { focusFamilySelector } from "@store/selectors/family";
 import i18n from "@locales/index";
-import PrimaryButton from "@components/PrimaryButton";
 import { Box, ScrollView } from "native-base";
 import PrimaryIcon from "@components/PrimaryIcon";
 import { endCallIcon, flipCameraIcon, muteIcon, UnmuteIcon } from "@constants/sources";
@@ -172,7 +165,7 @@ const ConferenceCallScreen = (props) => {
               {Array.from(videoTracks, ([trackSid, trackIdentifier]) => {
                 return (
                   <TwilioVideoParticipantView
-                    style={styles.participantVideo}
+                    style={Array.from(videoTracks).length > 1 ? styles.participantVideo : styles.singleParticipantVideo}
                     key={trackSid}
                     trackIdentifier={trackIdentifier}
                   />
@@ -184,13 +177,11 @@ const ConferenceCallScreen = (props) => {
         </Box>
       )}
 
-      <TwilioVideoLocalView enabled={true} style={styles.localVideo} />
-
       <BottomContainer>
         <OperationsContainer>
           <OperationButton onPress={onMuteButtonPress}>
             {
-              isAudioEnabled ? <PrimaryIcon tintColor={colors.BLACK} source={muteIcon} /> : <PrimaryIcon tintColor={colors.BLACK} source={UnmuteIcon} />
+              isAudioEnabled ? <PrimaryIcon tintColor={colors.BLACK} source={UnmuteIcon} /> : <PrimaryIcon tintColor={colors.BLACK} source={muteIcon} />
             }
           </OperationButton>
           <OperationButton onPress={onFlipButtonPress}>
@@ -199,6 +190,8 @@ const ConferenceCallScreen = (props) => {
         </OperationsContainer>
         <EndCallButton onPress={onEndButtonPress}><PrimaryIcon width={30} height={30} tintColor={'#ffffff'} source={endCallIcon} /></EndCallButton>
       </BottomContainer>
+
+      <TwilioVideoLocalView enabled={true} style={styles.localVideo} />
 
       <TwilioVideo
         ref={twilioVideo}
@@ -229,10 +222,10 @@ const ParticipantContainer = styled.View`
 `
 const BottomContainer = styled.View`
   width: 100%;
-  margin-top: 10px;
-  margin-bottom: 30px;
+  bottom: 30px;
   padding-left: 30px;
   padding-right: 30px;
+  position: absolute;
 `
 const OperationsContainer = styled.View`
   margin-top: 10px;
@@ -258,6 +251,7 @@ const OperationButton = styled.TouchableOpacity`
   border-width: 1px;
   border-radius: 30px;
   border-color: ${colors.BLACK};
+  background-color: ${colors.CONCRETE};
   align-items: center;
   justify-content: center;
 `
@@ -277,6 +271,10 @@ const styles = StyleSheet.create({
     width: participantVideoWidth,
     height: participantVideoHeight,
   },
+  singleParticipantVideo: {
+    width: Constants.MAX_WIDTH,
+    height: Constants.MAX_HEIGHT
+  }
 })
 
 export default ConferenceCallScreen

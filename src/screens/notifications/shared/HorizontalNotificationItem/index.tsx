@@ -11,6 +11,13 @@ import {
   eventsIconColor,
   videoCallIconColor,
 } from '@constants/sources';
+import {
+  convertOriginDateTimeStringToDate,
+  getDateTimeStringFrom,
+  getOriginDateString,
+  getOriginDateTimeString,
+  isNull,
+} from '@utils/index';
 
 interface Props {
   item: NotificationType;
@@ -29,12 +36,21 @@ const HorizontalNotificationItem: React.FC<Props> = ({item, onPress}) => {
       onPress(item);
     }
   };
+  const today = new Date();
+  // const createdAtDate = convertOriginDateTimeStringToDate(item.createdAt ?? '')
   return (
     <Container onPress={onPressContainer}>
+      {!item.isClicked && <Dot />}
       <Thumbnail source={thumbnailSource} />
       <Content>
         <Title numberOfLines={2}>{item.title}</Title>
         <Description numberOfLines={2}>{item.description}</Description>
+        {!isNull(item.createdAt) &&
+          item.createdAt?.includes(' ') &&
+          item.createdAt?.includes('-') &&
+          item.createdAt?.includes(':') && (
+            <PeriodAgo>{item.createdAt}</PeriodAgo>
+          )}
       </Content>
     </Container>
   );
@@ -61,12 +77,26 @@ const Content = styled.View`
 const Thumbnail = styled.Image`
   width: 32px;
   height: 32px;
+  margin-left: 4px;
 `;
 
-const Title = styled(fonts.PrimaryFontBoldSize14)``;
+const Title = styled(fonts.PrimaryFontBoldSize16)``;
 
-const Description = styled(fonts.PrimaryFontMediumSize12)`
-  color: ${colors.GRAY};
+const Description = styled(fonts.PrimaryFontMediumSize14)`
+  color: ${colors.DARK_GRAY};
+`;
+
+const PeriodAgo = styled(fonts.PrimaryFontRegularSize12)`
+  color: ${colors.SILVER};
+`;
+
+const Dot = styled.View`
+  width: 6px;
+  height: 6px;
+  margin-top: 4px;
+  margin-left: 4px;
+  border-radius: 3px;
+  background-color: ${colors.ROYAL_BLUE};
 `;
 
 export default HorizontalNotificationItem;

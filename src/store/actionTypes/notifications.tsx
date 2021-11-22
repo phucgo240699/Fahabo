@@ -33,16 +33,12 @@ export const getBadgesSuccessAction = (payload: GetBadgesResponseType) => ({
   payload,
 });
 export const GET_INTERACTION_BADGE_SUCCESS = 'GET_INTERACTION_BADGE_SUCCESS';
-export const getInteractionBadgeSuccessAction = (
-  payload: GetBadgesResponseType,
-) => ({
+export const getInteractionBadgeSuccessAction = (payload: number) => ({
   type: GET_INTERACTION_BADGE_SUCCESS,
   payload,
 });
 export const GET_NOTIFICATION_BADGE_SUCCESS = 'GET_NOTIFICATION_BADGE_SUCCESS';
-export const getNotificationBadgeSuccessAction = (
-  payload: GetBadgesResponseType,
-) => ({
+export const getNotificationBadgeSuccessAction = (payload: number) => ({
   type: GET_NOTIFICATION_BADGE_SUCCESS,
   payload,
 });

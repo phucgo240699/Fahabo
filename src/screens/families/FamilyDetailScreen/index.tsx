@@ -8,7 +8,6 @@ import {
   backButtonIcon,
   cameraIcon,
   clearIcon,
-  defaultFamilyThumbnail,
   editProfileIcon,
   qrCodeIcon,
   tickIcon,
@@ -271,31 +270,17 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
             leftTintColor={colors.BLACK}
           />
         </Banner>
-        {!isNull(familyDetail?.thumbnail) ? (
-          <ThumbnailContainer
-            disabled={!allowEdit}
-            activeOpacity={0.6}
-            onPress={onPressThumbnail}>
-            <Thumbnail source={{uri: thumbnailUri}} />
-            {allowEdit && (
-              <CameraIconContainer>
-                <CameraIconImage source={cameraIcon} />
-              </CameraIconContainer>
-            )}
-          </ThumbnailContainer>
-        ) : (
-          <ThumbnailContainer
-            disabled={!allowEdit}
-            activeOpacity={0.6}
-            onPress={onPressThumbnail}>
-            <Thumbnail source={defaultFamilyThumbnail} />
-            {allowEdit && (
-              <CameraIconContainer>
-                <CameraIconImage source={cameraIcon} />
-              </CameraIconContainer>
-            )}
-          </ThumbnailContainer>
-        )}
+        <ThumbnailContainer
+          disabled={!allowEdit}
+          activeOpacity={0.6}
+          onPress={onPressThumbnail}>
+          <Thumbnail source={{uri: thumbnailUri}} />
+          {allowEdit && (
+            <CameraIconContainer>
+              <CameraIconImage source={cameraIcon} />
+            </CameraIconContainer>
+          )}
+        </ThumbnailContainer>
         <Content>
           <Name value={name} editable={allowEdit} onChangeText={onChangeName} />
           <HLine />

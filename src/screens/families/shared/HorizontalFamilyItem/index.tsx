@@ -2,17 +2,13 @@ import React, {memo} from 'react';
 import colors from '@themes/colors';
 import fonts from '@themes/fonts';
 import styled from 'styled-components/native';
-import {defaultFamilyThumbnail, profileIcon} from '@constants/sources';
+import {profileIcon} from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
-import {isNull} from '@utils/index';
 import {FamilyType} from '@constants/types/family';
 import {Platform} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
-import {
-  getFamilyMembersRequestAction,
-  updateFocusFamilyRequestAction,
-} from '@store/actionTypes/family';
+import {updateFocusFamilyRequestAction} from '@store/actionTypes/family';
 
 interface Props {
   item: FamilyType;
@@ -30,11 +26,6 @@ const HorizontalFamilyItem: React.FC<Props> = ({
 
   const onPressCircle = () => {
     dispatch(updateFocusFamilyRequestAction(item));
-    // if (!isNull(item.id)) {
-    //   dispatch(
-    //     getFamilyMembersRequestAction({familyId: item.id, showHUD: true}),
-    //   );
-    // }
   };
   const onPressContainer = () => {
     if (onPress) {
@@ -47,11 +38,7 @@ const HorizontalFamilyItem: React.FC<Props> = ({
       onPress={onPressContainer}
       activeOpacity={Platform.OS === 'ios' ? 0.6 : 1.0}>
       <Container style={containerStyle}>
-        {isNull(item?.thumbnail) ? (
-          <Thumbnail source={defaultFamilyThumbnail} />
-        ) : (
-          <Thumbnail source={{uri: item?.thumbnail}} />
-        )}
+        <Thumbnail source={{uri: item?.thumbnail}} />
         <Content>
           <Title numberOfLines={2}>{item?.name}</Title>
           <HLine />

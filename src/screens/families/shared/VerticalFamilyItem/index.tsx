@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import colors from '@themes/colors';
 import fonts from '@themes/fonts';
 import styled from 'styled-components/native';
-import {defaultFamilyThumbnail, profileIcon} from '@constants/sources';
+import {profileIcon} from '@constants/sources';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {isNull} from '@utils/index';
 import {Platform} from 'react-native';
@@ -28,11 +28,7 @@ const VerticalFamilyItem: React.FC<Props> = ({
       onPress={onPressContainer}
       activeOpacity={Platform.OS === 'ios' ? 0.6 : 1.0}>
       <Container style={containerStyle}>
-        {isNull(item.thumbnail) ? (
-          <Thumbnail source={defaultFamilyThumbnail} />
-        ) : (
-          <Thumbnail source={{uri: item.thumbnail}} />
-        )}
+        <Thumbnail source={{uri: item.thumbnail}} />
         <Title numberOfLines={2}>{item.name}</Title>
         <HLine />
         <BottomContainer>

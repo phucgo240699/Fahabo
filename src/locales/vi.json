@@ -108,6 +108,9 @@
     "latestCreate": "Tạo gần đây",
     "latestDeadline": "Sắp kết thúc"
   },
+  "interaction": {
+    "typeAMessage": "Nhập tin nhắn"
+  },
   "notification": {
     "notifications": "Thông báo"
   },

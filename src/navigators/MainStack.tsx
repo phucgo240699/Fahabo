@@ -1,14 +1,14 @@
-import React, {useEffect, useLayoutEffect} from 'react';
+import React, {useEffect} from 'react';
 import BottomTabs from './BottomTabs';
-import {navigationOptions} from './index';
+import {navigate, navigationOptions} from './index';
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
-import {ScreenName, StackName} from '@constants/Constants';
+import {ScreenName} from '@constants/Constants';
 import messaging from '@react-native-firebase/messaging';
 import ImageViewerScreen from '@screens/media/ImageViewerScreen';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {addFCMTokenRequestAction} from '@store/actionTypes/signIn';
 import {isNull} from '@utils/index';
 import {NotificationNavigationType} from '@constants/types/modals';
@@ -22,48 +22,11 @@ import ChorePhotosScreen from '@screens/chores/ChorePhotosScreen';
 import EventPhotosScreen from '@screens/events/EventPhotosScreen';
 import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
 import ConferenceCallScreen from '@screens/interactions/ConferenceCallScreen';
-import {getBadgesRequestAction} from '@store/actionTypes/notifications';
-import {focusFamilySelector} from '@store/selectors/family';
-import {routeNameSelector} from '@store/selectors/session';
-import {Alert} from 'react-native';
-
-interface Props {
-  route?: any;
-  navigation?: any;
-}
 
 const Stack = createStackNavigator();
 
-const MainStack: React.FC<Props> = ({navigation, route}) => {
+const MainStack = () => {
   const dispatch = useDispatch();
-  const focusFamily = useSelector(focusFamilySelector);
-  const routeName = useSelector(routeNameSelector);
-
-  // useLayoutEffect(() => {
-  //   if (!isNull(focusFamily?.id)) {
-  //     console.log({routeName});
-  //     switch (routeName) {
-  //       case StackName.InteractionsStack:
-  //         dispatch(
-  //           getBadgesRequestAction({
-  //             familyId: focusFamily?.id,
-  //             onlyNotification: true,
-  //           }),
-  //         );
-  //         break;
-  //       case StackName.NotificationsStack:
-  //         dispatch(
-  //           getBadgesRequestAction({
-  //             familyId: focusFamily?.id,
-  //             onlyInteraction: true,
-  //           }),
-  //         );
-  //       default:
-  //         dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
-  //         break;
-  //     }
-  //   }
-  // }, []);
 
   useEffect(() => {
     messaging()
@@ -137,6 +100,9 @@ const MainStack: React.FC<Props> = ({navigation, route}) => {
             familyId: parseInt(id ?? ''),
           }),
         );
+        break;
+      case NotificationNavigationType.CHAT:
+        navigate(ScreenName.InteractionsScreen);
         break;
       case NotificationNavigationType.VIDEO_CALL:
         dispatch(
