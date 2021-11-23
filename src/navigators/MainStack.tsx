@@ -22,6 +22,7 @@ import ChorePhotosScreen from '@screens/chores/ChorePhotosScreen';
 import EventPhotosScreen from '@screens/events/EventPhotosScreen';
 import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
 import ConferenceCallScreen from '@screens/interactions/ConferenceCallScreen';
+import LocationsScreen from '@screens/locations';
 
 const Stack = createStackNavigator();
 
@@ -150,6 +151,10 @@ const MainStack = () => {
       <Stack.Screen
         name={ScreenName.EventPhotosScreen}
         component={EventPhotosScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.LocationsScreen}
+        component={LocationsScreen}
       />
     </Stack.Navigator>
   );

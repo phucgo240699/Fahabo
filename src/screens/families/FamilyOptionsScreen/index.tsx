@@ -27,7 +27,6 @@ interface Props {
 const FamilyOptionsScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const bottomInset = getInset('bottom', false);
   const {isOpen, onOpen, onClose} = useDisclose();
   const [showCreationModal, setShowCreationModal] = useState(false);
   const [name, setName] = useState('');

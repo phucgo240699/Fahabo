@@ -9,6 +9,7 @@ import {
   cameraIcon,
   clearIcon,
   editProfileIcon,
+  locationsIcon,
   qrCodeIcon,
   tickIcon,
 } from '@constants/sources';
@@ -121,6 +122,11 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
         iconUri: familyDetail?.thumbnail,
       });
     }
+  };
+
+  // Location Button
+  const onPressLocation = () => {
+    navigate(ScreenName.LocationsScreen);
   };
 
   // Update
@@ -269,6 +275,11 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
             onPress={onPressQRCode}
             leftTintColor={colors.BLACK}
           />
+          <LocationButton
+            leftSource={locationsIcon}
+            onPress={onPressLocation}
+            leftTintColor={colors.BLACK}
+          />
         </Banner>
         <ThumbnailContainer
           disabled={!allowEdit}
@@ -365,16 +376,23 @@ const BackButton = styled.TouchableOpacity`
 
 const EditButton = styled(PrimaryButton)`
   top: 8px;
-  right: 70px;
+  right: 110px;
   position: absolute;
 `;
 
 const QRButton = styled(PrimaryButton)`
   top: 10px;
-  right: 14px;
+  right: 66px;
   position: absolute;
   border-width: 1px;
   border-radius: 4px;
+  border-color: ${colors.BLACK};
+`;
+
+const LocationButton = styled(PrimaryButton)`
+  top: 10px;
+  right: 14px;
+  position: absolute;
   border-color: ${colors.BLACK};
 `;
 

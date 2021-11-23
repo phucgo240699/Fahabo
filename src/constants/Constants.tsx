@@ -15,7 +15,6 @@ export enum StackName {
   HomeStack = 'HomeStack',
   NotificationsStack = 'NotificationsStack',
   InteractionsStack = 'InteractionsStack',
-  LocationsStack = 'LocationsStack',
   FamilyStack = 'FamilyStack',
   ProfileStack = 'ProfileStack',
 }

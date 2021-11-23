@@ -794,6 +794,8 @@ PODS:
     - React-Core
   - react-native-image-picker (4.1.1):
     - React-Core
+  - react-native-maps (0.29.4):
+    - React-Core
   - react-native-pager-view (5.4.4):
     - React-Core
   - react-native-restart (0.0.22):
@@ -980,6 +982,7 @@ DEPENDENCIES:
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -1112,6 +1115,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fbsdk-next"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-maps:
+    :path: "../node_modules/react-native-maps"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
   react-native-restart:
@@ -1245,6 +1250,7 @@ SPEC CHECKSUMS:
   react-native-date-picker: 52937fb39322ee5f6c44a10117456b3fa4225d4c
   react-native-fbsdk-next: 5a8e6915d7e4191dcb2c9843ea9771e3a29def9c
   react-native-image-picker: 7c37cd600a9b7338ced8609cc3ad108ebe6c444f
+  react-native-maps: a421fe6aeb74279597c4ea9598f25796108e2d89
   react-native-pager-view: f21658a2e12eced35ef998250375e4e4dc9b8487
   react-native-restart: d4ea7637e193da7558d229b3704d500ec0d75f9c
   react-native-safe-area-context: 5cf05f49df9d17261e40e518481f2e334c6cd4b5

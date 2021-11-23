@@ -8,6 +8,7 @@ import FamilyDetailScreen from '@screens/families/FamilyDetailScreen';
 import FamilyMembersScreen from '@screens/families/FamilyMembersScreen';
 import QRPresenterScreen from '@screens/families/QRPresenterScreen';
 import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
+import LocationsScreen from '@screens/locations';
 import CameraScreen from '@screens/media/CameraScreen';
 import React from 'react';
 import {navigationOptions} from './index';
@@ -63,6 +64,10 @@ const FamilyStack: React.FC<Props> = ({navigation, route}) => {
         name={ScreenName.AlbumDetailScreen}
         component={AlbumDetailScreen}
       />
+      {/* <Stack.Screen
+        name={ScreenName.LocationsScreen}
+        component={LocationsScreen}
+      /> */}
     </Stack.Navigator>
   );
 };
