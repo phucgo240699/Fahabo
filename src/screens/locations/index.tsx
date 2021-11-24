@@ -1,6 +1,6 @@
 import {Box} from 'native-base';
 import colors from '@themes/colors';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import styled from 'styled-components/native';
@@ -10,20 +10,13 @@ import Geolocation from 'react-native-geolocation-service';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {CommonActions, useNavigation} from '@react-navigation/native';
-import {MemberLocationType, RegionType} from '@constants/types/locations';
-import {isNull} from '@utils/index';
-import {calculateRegionForCoordinates} from '@utils/locations';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   memberLocationsSelector,
   regionSelector,
 } from '@store/selectors/locations';
-import {
-  getMemberLocationsRequestAction,
-  updateNewLocationRequestType,
-} from '@store/actionTypes/locations';
+import {updateNewLocationRequestType} from '@store/actionTypes/locations';
 import {fcmTokenSelector} from '@store/selectors/authentication';
-import {focusFamilySelector} from '@store/selectors/family';
 import MemberLocationMarker from './shared/MemberLocationMarker';
 
 interface Props {}
@@ -33,19 +26,38 @@ const LocationsScreen: React.FC<Props> = ({}) => {
   const navigation = useNavigation();
   const region = useSelector(regionSelector);
   const fcmToken = useSelector(fcmTokenSelector);
-  const focusFamily = useSelector(focusFamilySelector);
   const memberLocations = useSelector(memberLocationsSelector);
 
   // Life Cycle
   useEffect(() => {
-    adaptMemberLocations();
+    adaptMemberLocationsAndRegion();
     const refreshIntervalId = setInterval(adaptMemberLocations, 20000);
 
     return () => {
-      console.log('Component UnMount');
       clearInterval(refreshIntervalId);
     };
   }, []);
+
+  const adaptMemberLocationsAndRegion = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        dispatch(
+          updateNewLocationRequestType({
+            firebaseToken: fcmToken,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            showHUD: true,
+          }),
+        );
+      },
+      error => {
+        console.log(error);
+      },
+      {
+        timeout: 15000,
+      },
+    );
+  };
 
   const adaptMemberLocations = () => {
     Geolocation.getCurrentPosition(
@@ -55,13 +67,9 @@ const LocationsScreen: React.FC<Props> = ({}) => {
             firebaseToken: fcmToken,
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
+            onlyMemberLocations: true,
           }),
         );
-        if (!isNull(focusFamily?.id)) {
-          dispatch(
-            getMemberLocationsRequestAction({familyId: focusFamily?.id}),
-          );
-        }
       },
       error => {
         console.log(error);
@@ -70,6 +78,10 @@ const LocationsScreen: React.FC<Props> = ({}) => {
         timeout: 15000,
       },
     );
+  };
+
+  const onPressFocus = () => {
+    adaptMemberLocationsAndRegion();
   };
 
   // Navigation Back

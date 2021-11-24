@@ -93,13 +93,13 @@ export function calculateRegionForCoordinates(
 
   const midX = (minX + maxX) / 2;
   const midY = (minY + maxY) / 2;
-  const deltaX = maxX - minX;
-  const deltaY = maxY - minY;
+  const deltaX = Math.abs(maxX) - Math.abs(minX);
+  const deltaY = Math.abs(maxY) - Math.abs(minY);
 
   return {
     latitude: midX,
     longitude: midY,
-    latitudeDelta: deltaX,
-    longitudeDelta: deltaY,
+    latitudeDelta: deltaX + deltaX / 4,
+    longitudeDelta: deltaY + deltaY / 4,
   };
 }

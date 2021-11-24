@@ -28,3 +28,8 @@ export const getMemberLocationsSuccessAction = (payload: {
   type: GET_MEMBER_LOCATIONS_SUCCESS,
   payload,
 });
+export const UPDATE_MEMBER_LOCATIONS = 'UPDATE_MEMBER_LOCATIONS';
+export const updateMemberLocationsAction = (payload: MemberLocationType[]) => ({
+  type: UPDATE_MEMBER_LOCATIONS,
+  payload,
+});

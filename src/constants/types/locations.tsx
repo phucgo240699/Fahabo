@@ -3,9 +3,13 @@ export type UpdateNewLocationRequestType = {
   latitude?: number;
   longitude?: number;
   firebaseToken?: string;
+  showHUD?: boolean;
+  onlyMemberLocations?: boolean;
 };
 export type GetMemberLocationsRequestType = {
   familyId?: number;
+  showHUD?: boolean;
+  onlyMemberLocations?: boolean;
 };
 
 // Data
