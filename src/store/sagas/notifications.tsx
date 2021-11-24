@@ -101,7 +101,6 @@ function* getBadgesSaga({body}: {type: string; body: GetBadgesRequestType}) {
   try {
     const response = yield* apiProxy(getBadgesApi, body);
     if (response.status === 200) {
-      console.log('getBadgesSaga ', parseDataResponse(response));
       if (body.onlyInteraction === true) {
         yield* put(
           getInteractionBadgeSuccessAction(

@@ -46,6 +46,7 @@ import {
   getPreviewAlbumRequestAction,
   getPreviewAlbumSuccessAction,
 } from '@store/actionTypes/albums';
+import {hasLocationPermission} from '@utils/locations';
 
 interface Props {
   route?: any;
@@ -126,7 +127,11 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
 
   // Location Button
   const onPressLocation = () => {
-    navigate(ScreenName.LocationsScreen);
+    hasLocationPermission().then(allow => {
+      if (allow) {
+        navigate(ScreenName.LocationsScreen);
+      }
+    });
   };
 
   // Update
@@ -370,19 +375,21 @@ const Name = styled.TextInput`
 `;
 
 const BackButton = styled.TouchableOpacity`
+  width: 48px;
+  height: 48px;
   margin-top: 10px;
   margin-left: 10px;
 `;
 
 const EditButton = styled(PrimaryButton)`
   top: 8px;
-  right: 110px;
+  right: 14px;
   position: absolute;
 `;
 
 const QRButton = styled(PrimaryButton)`
   top: 10px;
-  right: 66px;
+  right: 60px;
   position: absolute;
   border-width: 1px;
   border-radius: 4px;
@@ -391,7 +398,7 @@ const QRButton = styled(PrimaryButton)`
 
 const LocationButton = styled(PrimaryButton)`
   top: 10px;
-  right: 14px;
+  right: 110px;
   position: absolute;
   border-color: ${colors.BLACK};
 `;

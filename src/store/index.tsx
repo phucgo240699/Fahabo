@@ -24,6 +24,7 @@ import interactionsReducer, {
 import notificationsReducer, {
   NotificationsState,
 } from '@store/reducers/notifications';
+import locationsReducer, {LocationsState} from '@store/reducers/locations';
 
 const persistConfig: PersistConfig<
   CombinedState<{
@@ -36,6 +37,7 @@ const persistConfig: PersistConfig<
     events: any;
     interactions: any;
     notifications: any;
+    locations: any;
   }>,
   any,
   any,
@@ -67,6 +69,7 @@ const rootReducer = combineReducers({
   events: eventsReducer,
   interactions: interactionsReducer,
   notifications: notificationsReducer,
+  locations: locationsReducer,
 });
 
 const store = createStore(
@@ -87,6 +90,7 @@ export interface RootState {
   events: EventsState;
   interactions: InteractionsState;
   notifications: NotificationsState;
+  locations: LocationsState;
 }
 
 export default store;

@@ -9,6 +9,7 @@ import chores from './chores';
 import events from './events';
 import interactions from './interactions';
 import notifications from './notifications';
+import locations from './locations';
 
 export default function* rootSaga() {
   yield fork(signIn);
@@ -21,4 +22,5 @@ export default function* rootSaga() {
   yield fork(events);
   yield fork(interactions);
   yield fork(notifications);
+  yield fork(locations);
 }

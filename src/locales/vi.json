@@ -161,6 +161,10 @@
     "update": "Cập nhật",
     "delete": "Xoá"
   },
+  "location": {
+    "accessLocationInUse": "Fahabo muốn truy cập thư viện ảnh",
+    "accessLocationInUseMessage": "Cho phép chúng tôi truy cập vị trí nhằm tăng trải nghiệm sử dụng"
+  },
   "application": {
     "loading": "Đăng tải...",
     "fahabo": "Fahabo"

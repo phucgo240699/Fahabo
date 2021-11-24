@@ -160,6 +160,10 @@
     "update": "Update",
     "delete": "Delete"
   },
+  "location": {
+    "accessLocationInUse": "Fahabo wants to access your location in use",
+    "accessLocationInUseMessage": "Allow us to access your location to help you explore Fahabo"
+  },
   "application": {
     "loading": "Loading...",
     "fahabo": "Fahabo"
