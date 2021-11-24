@@ -3,12 +3,15 @@ import {
   closeHUDAction,
   showHUDAction,
   showToastAction,
+} from '@store/actionTypes/session';
+import {
+  updateIsGettingFamilyMembersAction,
   updateIsLoadingFamiliesAction,
   updateIsLoadingFamilyMembersAction,
   updateIsRefreshingFamiliesAction,
   updateIsRefreshingFamilyDetailAction,
   updateIsRefreshingFamilyMembersAction,
-} from '@store/actionTypes/session';
+} from '@store/actionTypes/family';
 import {apiProxy} from './apiProxy';
 import {ToastType} from '@constants/types/session';
 import {
@@ -290,6 +293,9 @@ function* getFamiliesSaga({
     if (body.showHUD === true) {
       yield* put(showHUDAction());
     }
+    if (body.getting === true) {
+      yield* put(updateIsGettingFamilyMembersAction(true));
+    }
     if (body.refresh === true) {
       yield* put(updateIsRefreshingFamiliesAction(true));
     }
@@ -324,6 +330,9 @@ function* getFamiliesSaga({
   } finally {
     if (body.showHUD === true) {
       yield* put(closeHUDAction());
+    }
+    if (body.getting === true) {
+      yield* put(updateIsGettingFamilyMembersAction(false));
     }
     if (body.refresh === true) {
       yield* put(updateIsRefreshingFamiliesAction(false));
@@ -407,6 +416,9 @@ function* getFamilyMembersSaga({
     if (body.showHUD === true) {
       yield* put(showHUDAction());
     }
+    if (body.getting === true) {
+      yield* put(updateIsGettingFamilyMembersAction(true));
+    }
     if (body.refresh === true) {
       yield* put(updateIsRefreshingFamilyMembersAction(true));
     }
@@ -445,6 +457,9 @@ function* getFamilyMembersSaga({
   } finally {
     if (body.showHUD === true) {
       yield* put(closeHUDAction());
+    }
+    if (body.getting === true) {
+      yield* put(updateIsGettingFamilyMembersAction(false));
     }
     if (body.refresh === true) {
       yield* put(updateIsRefreshingFamilyMembersAction(false));

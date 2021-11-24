@@ -7,16 +7,20 @@ import i18n from '@locales/index';
 import {FlatList} from 'native-base';
 import HorizontalMemberItem from '../shared/HorizontalMemberItem';
 import {useDispatch, useSelector} from 'react-redux';
-import {membersInFamilySelector} from '@store/selectors/family';
+import {
+  isGettingFamilyMembersSelector,
+  membersInFamilySelector,
+} from '@store/selectors/family';
 import {Pagination} from '@constants/Constants';
 import {isNull} from '@utils/index';
 import {MemberType} from '@constants/types/family';
 import {
   isLoadingFamilyMembersSelector,
   isRefreshingFamilyMembersSelector,
-} from '@store/selectors/session';
+} from '@store/selectors/family';
 import {getFamilyMembersRequestAction} from '@store/actionTypes/family';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
+import GettingIndicator from '@components/GettingIndicator';
 
 interface Props {
   route?: any;
@@ -25,6 +29,7 @@ interface Props {
 const FamilyMembersScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const [pageIndex, setPageIndex] = useState(0);
+  const isGetting = useSelector(isGettingFamilyMembersSelector);
   const isLoading = useSelector(isLoadingFamilyMembersSelector);
   const isRefreshing = useSelector(isRefreshingFamilyMembersSelector);
   const membersInFamily = useSelector(membersInFamilySelector);
@@ -33,7 +38,7 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
     if (route && route.params && route.params.familyId) {
       dispatch(
         getFamilyMembersRequestAction({
-          showHUD: true,
+          getting: true,
           familyId: route.params.familyId,
         }),
       );
@@ -76,21 +81,25 @@ const FamilyMembersScreen: React.FC<Props> = ({route}) => {
   return (
     <SafeView>
       <ProfileHeader title={i18n.t('family.members')} />
-      <FlatList
-        data={membersInFamily}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => {
-          return index.toString();
-        }}
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={onRefreshData} />
-        }
-        onEndReached={onLoadMore}
-        onEndReachedThreshold={0.5}
-        contentContainerStyle={styles.list}
-        ListFooterComponent={<FooterLoadingIndicator loading={isLoading} />}
-        ItemSeparatorComponent={() => <HLine />}
-      />
+      {isGetting === true ? (
+        <GettingIndicator />
+      ) : (
+        <FlatList
+          data={membersInFamily}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
+          refreshControl={
+            <RefreshControl refreshing={false} onRefresh={onRefreshData} />
+          }
+          onEndReached={onLoadMore}
+          onEndReachedThreshold={0.5}
+          contentContainerStyle={styles.list}
+          ListFooterComponent={<FooterLoadingIndicator loading={isLoading} />}
+          ItemSeparatorComponent={() => <HLine />}
+        />
+      )}
     </SafeView>
   );
 };

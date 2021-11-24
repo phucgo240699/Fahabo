@@ -30,10 +30,6 @@ export function* apiProxy(
   header?: any,
 ): any {
   try {
-    // const isRefreshingToken = yield* select(state =>
-    //   isRefreshingTokenSelector(state),
-    // );
-
     const isRefreshingToken = yield* select(isRefreshingTokenSelector);
 
     if (isRefreshingToken) {

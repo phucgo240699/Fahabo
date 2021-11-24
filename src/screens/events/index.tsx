@@ -27,7 +27,7 @@ import {Pagination, ScreenName} from '@constants/Constants';
 import {
   isLoadingEventsSelector,
   isRefreshingEventsSelector,
-} from '@store/selectors/session';
+} from '@store/selectors/events';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 

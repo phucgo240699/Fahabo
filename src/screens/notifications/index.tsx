@@ -1,18 +1,11 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {Box, FlatList, Text} from 'native-base';
+import React, {useEffect, useState} from 'react';
+import {FlatList} from 'native-base';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
-import {Constants, Pagination} from '@constants/Constants';
-import PrimaryHeader from '@components/PrimaryHeader';
-import {SceneMap, TabView, TabBar} from 'react-native-tab-view';
+import {Pagination} from '@constants/Constants';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {
-  ActivityIndicator,
-  Platform,
-  RefreshControl,
-  StyleSheet,
-} from 'react-native';
+import {Platform, RefreshControl, StyleSheet} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -24,12 +17,10 @@ import {
 import {isNull} from '@utils/index';
 import {focusFamilySelector} from '@store/selectors/family';
 import {
-  clearNotificationBadgeRequestAction,
   clickNotificationRequestAction,
   getNotificationsRequestAction,
 } from '@store/actionTypes/notifications';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
-import {DummyNotifications} from '@constants/DummyData';
 import HorizontalNotificationItem from './shared/HorizontalNotificationItem';
 import ProfileHeader from '@components/ProfileHeader';
 import {NotificationType} from '@constants/types/notifications';
@@ -38,6 +29,7 @@ import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
 import {getFamilyDetailRequestAction} from '@store/actionTypes/family';
 import {getEventDetailRequestAction} from '@store/actionTypes/events';
 import {getChoreDetailRequestAction} from '@store/actionTypes/chores';
+import GettingIndicator from '@components/GettingIndicator';
 
 interface Props {}
 
@@ -137,7 +129,7 @@ const NotificationsScreen: React.FC<Props> = ({}) => {
         title={i18n.t('notification.notifications')}
       />
       {isGetting === true ? (
-        <GettingIndicator size="large" color={colors.SILVER} />
+        <GettingIndicator />
       ) : (
         <FlatList
           data={notifications}
@@ -165,10 +157,6 @@ const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.WHITE};
   margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
-`;
-
-const GettingIndicator = styled.ActivityIndicator`
-  margin-top: 30px;
 `;
 
 const styles = StyleSheet.create({

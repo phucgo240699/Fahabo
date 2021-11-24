@@ -16,7 +16,7 @@ import {
 import PrimaryIcon from '@components/PrimaryIcon';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {Constants, Pagination, ScreenName} from '@constants/Constants';
-import {Platform, RefreshControl, StyleSheet} from 'react-native';
+import {RefreshControl, StyleSheet} from 'react-native';
 import fonts, {PrimaryFontBold} from '@themes/fonts';
 import PreviewAlbumBox from '@screens/albums/shared/PreviewAlbumBox';
 import i18n from '@locales/index';
@@ -38,10 +38,10 @@ import {
 import {isNull} from '@utils/index';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import {userSelector} from '@store/selectors/authentication';
-import {isRefreshingFamilyMembersSelector} from '@store/selectors/session';
+import {isRefreshingFamilyMembersSelector} from '@store/selectors/family';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {previewAlbumSelector} from '@store/selectors/albums';
-import {FamilyType, MemberType} from '@constants/types/family';
+import {MemberType} from '@constants/types/family';
 import {
   getPreviewAlbumRequestAction,
   getPreviewAlbumSuccessAction,
@@ -55,16 +55,16 @@ interface Props {
 const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {isOpen, onOpen, onClose} = useDisclose();
   const user = useSelector(userSelector);
-  const isRefreshingMembers = useSelector(isRefreshingFamilyMembersSelector);
+  const previewAlbum = useSelector(previewAlbumSelector);
   const familyDetail = useSelector(familyDetailSelector);
   const membersInFamily = useSelector(membersInFamilySelector);
-  const previewAlbum = useSelector(previewAlbumSelector);
+  const isRefreshingMembers = useSelector(isRefreshingFamilyMembersSelector);
+  const {isOpen, onOpen, onClose} = useDisclose();
   const [allowEdit, setAllowEdit] = useState(false);
   const [name, setName] = useState(familyDetail?.name);
-  const [thumbnailUri, setThumbnailUri] = useState(familyDetail?.thumbnail);
   const [thumbnailBase64, setThumbnailBase64] = useState('');
+  const [thumbnailUri, setThumbnailUri] = useState(familyDetail?.thumbnail);
 
   // Life Cycle
   useEffect(() => {

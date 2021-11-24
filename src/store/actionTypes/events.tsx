@@ -111,3 +111,41 @@ export const updateCalendarEventRangeSuccessAction = (
   type: UPDATE_CALENDAR_EVENT_RANGE_SUCCESS,
   payload,
 });
+
+//
+// Refresh Control
+//
+export const UPDATE_IS_REFRESHING_EVENTS = 'UPDATE_IS_REFRESHING_EVENTS';
+export const updateIsRefreshingEventsAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_EVENTS,
+  payload,
+});
+export const UPDATE_IS_REFRESHING_EVENT_PHOTOS =
+  'UPDATE_IS_REFRESHING_EVENT_PHOTOS';
+export const updateIsRefreshingEventPhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_EVENT_PHOTOS,
+  payload,
+});
+
+export const UPDATE_IS_REFRESHING_DATES_CONTAIN_EVENTS =
+  'UPDATE_IS_REFRESHING_DATES_CONTAIN_EVENTS';
+export const updateIsRefreshingDatesContainEventsAction = (
+  payload: boolean,
+) => ({
+  type: UPDATE_IS_REFRESHING_DATES_CONTAIN_EVENTS,
+  payload,
+});
+
+//
+// Load More
+//
+export const UPDATE_IS_LOADING_EVENTS = 'UPDATE_IS_LOADING_EVENTS';
+export const updateIsLoadingEventsAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_EVENTS,
+  payload,
+});
+export const UPDATE_IS_LOADING_EVENT_PHOTOS = 'UPDATE_IS_LOADING_EVENT_PHOTOS';
+export const updateIsLoadingEventPhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_EVENT_PHOTOS,
+  payload,
+});

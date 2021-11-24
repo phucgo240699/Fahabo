@@ -13,9 +13,10 @@ import {Constants, Pagination, ScreenName} from '@constants/Constants';
 import PhotoItem from './PhotoItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  isGettingPhotosSelector,
   isLoadingPhotosSelector,
   isRefreshingPhotosSelector,
-} from '@store/selectors/session';
+} from '@store/selectors/albums';
 import {
   addPhotosRequestAction,
   deletePhotosRequestAction,
@@ -29,6 +30,7 @@ import {photosSelector} from '@store/selectors/albums';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
+import GettingIndicator from '@components/GettingIndicator';
 
 interface Props {
   route?: any;
@@ -38,6 +40,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
   const album: AlbumType = route.params.album;
   const dispatch = useDispatch();
   const photos = useSelector(photosSelector);
+  const isGetting = useSelector(isGettingPhotosSelector);
   const isLoadingMore = useSelector(isLoadingPhotosSelector);
   const isRefreshing = useSelector(isRefreshingPhotosSelector);
   const [isChoosing, setIsChoosing] = useState(false);
@@ -47,7 +50,7 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
   // Life Cycle
   useEffect(() => {
     if (!isNull(album.id)) {
-      dispatch(getPhotosRequestAction({albumId: album.id}));
+      dispatch(getPhotosRequestAction({getting: true, albumId: album.id}));
     }
   }, []);
 
@@ -175,20 +178,29 @@ const AlbumDetailScreen: React.FC<Props> = ({route}) => {
           </Box>
         }
       />
-      <FlatList
-        numColumns={3}
-        data={photos}
-        renderItem={renderItem}
-        onEndReachedThreshold={0.5}
-        onEndReached={onLoadMoreData}
-        ListFooterComponent={<FooterLoadingIndicator loading={isLoadingMore} />}
-        refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={onRefreshData} />
-        }
-        contentContainerStyle={styles.list}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      {isGetting === true ? (
+        <GettingIndicator />
+      ) : (
+        <FlatList
+          numColumns={3}
+          data={photos}
+          renderItem={renderItem}
+          onEndReachedThreshold={0.5}
+          onEndReached={onLoadMoreData}
+          ListFooterComponent={
+            <FooterLoadingIndicator loading={isLoadingMore} />
+          }
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefreshData}
+            />
+          }
+          contentContainerStyle={styles.list}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
       {isChoosing && selectedIds.length > 0 && (
         <DeleteButtonContainer>
           <PrimaryButton

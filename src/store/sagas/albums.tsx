@@ -15,6 +15,8 @@ import {
   GET_PHOTOS_REQUEST,
   GET_PREVIEW_ALBUM_REQUEST,
   updateAlbumSuccessAction,
+  updateIsGettingAlbumsAction,
+  updateIsGettingPhotosAction,
   updatePhotoSuccessAction,
   UPDATE_ALBUM_REQUEST,
   UPDATE_PHOTO_REQUEST,
@@ -34,11 +36,13 @@ import {
   closeHUDAction,
   showHUDAction,
   showToastAction,
+} from '@store/actionTypes/session';
+import {
   updateIsLoadingAlbumsAction,
   updateIsLoadingPhotosAction,
   updateIsRefreshingAlbumsAction,
   updateIsRefreshingPhotosAction,
-} from '@store/actionTypes/session';
+} from '@store/actionTypes/albums';
 import {ToastType} from '@constants/types/session';
 import {apiProxy} from './apiProxy';
 import {
@@ -170,6 +174,9 @@ function* getAlbumsSaga({body}: {type: string; body: GetAlbumsRequestType}) {
     if (body.showHUD) {
       yield* put(showHUDAction());
     }
+    if (body.getting) {
+      yield* put(updateIsGettingAlbumsAction(true));
+    }
     if (body.refresh) {
       yield* put(updateIsRefreshingAlbumsAction(true));
     }
@@ -204,6 +211,9 @@ function* getAlbumsSaga({body}: {type: string; body: GetAlbumsRequestType}) {
   } finally {
     if (body.showHUD) {
       yield* put(closeHUDAction());
+    }
+    if (body.getting) {
+      yield* put(updateIsGettingAlbumsAction(false));
     }
     if (body.refresh) {
       yield* put(updateIsRefreshingAlbumsAction(false));
@@ -302,6 +312,9 @@ function* getPhotosSaga({body}: {type: string; body: GetPhotosRequestType}) {
     if (body.showHUD) {
       yield* put(showHUDAction());
     }
+    if (body.getting) {
+      yield* put(updateIsGettingPhotosAction(true));
+    }
     if (body.refresh) {
       yield* put(updateIsRefreshingPhotosAction(true));
     }
@@ -336,6 +349,9 @@ function* getPhotosSaga({body}: {type: string; body: GetPhotosRequestType}) {
   } finally {
     if (body.showHUD) {
       yield* put(closeHUDAction());
+    }
+    if (body.getting) {
+      yield* put(updateIsGettingPhotosAction(false));
     }
     if (body.refresh) {
       yield* put(updateIsRefreshingPhotosAction(false));

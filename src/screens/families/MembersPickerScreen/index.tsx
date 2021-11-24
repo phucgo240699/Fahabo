@@ -7,13 +7,16 @@ import i18n from '@locales/index';
 import {FlatList} from 'native-base';
 import HorizontalMemberItem from '../shared/HorizontalMemberItem';
 import {useDispatch, useSelector} from 'react-redux';
-import {membersInFamilySelector} from '@store/selectors/family';
+import {
+  isGettingFamilyMembersSelector,
+  membersInFamilySelector,
+} from '@store/selectors/family';
 import {Pagination, ScreenName} from '@constants/Constants';
 import {MemberType} from '@constants/types/family';
 import {
   isLoadingFamilyMembersSelector,
   isRefreshingFamilyMembersSelector,
-} from '@store/selectors/session';
+} from '@store/selectors/family';
 import {
   getFamilyMembersForCallRequestAction,
   getFamilyMembersRequestAction,
@@ -24,6 +27,7 @@ import {navigate} from '@navigators/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {userSelector} from '@store/selectors/authentication';
+import GettingIndicator from '@components/GettingIndicator';
 
 interface Props {
   route?: any;
@@ -33,6 +37,7 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
   const membersInFamily = useSelector(membersInFamilySelector);
+  const isGetting = useSelector(isGettingFamilyMembersSelector);
   const isLoading = useSelector(isLoadingFamilyMembersSelector);
   const isRefreshing = useSelector(isRefreshingFamilyMembersSelector);
 
@@ -48,7 +53,7 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
           dispatch(
             getFamilyMembersForCallRequestAction({
               familyId: route.params.familyId,
-              showHUD: true,
+              getting: true,
             }),
           );
           setShowMemberStatus(true);
@@ -56,7 +61,7 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
           dispatch(
             getFamilyMembersRequestAction({
               familyId: route.params.familyId,
-              showHUD: true,
+              getting: true,
             }),
           );
         }
@@ -154,21 +159,25 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
           ) : null
         }
       />
-      <FlatList
-        data={members}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => {
-          return index.toString();
-        }}
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={onRefreshData} />
-        }
-        onEndReached={onLoadMore}
-        onEndReachedThreshold={0.5}
-        contentContainerStyle={styles.list}
-        ListFooterComponent={<FooterLoadingIndicator loading={isLoading} />}
-        ItemSeparatorComponent={() => <HLine />}
-      />
+      {isGetting === true ? (
+        <GettingIndicator />
+      ) : (
+        <FlatList
+          data={members}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
+          refreshControl={
+            <RefreshControl refreshing={false} onRefresh={onRefreshData} />
+          }
+          onEndReached={onLoadMore}
+          onEndReachedThreshold={0.5}
+          contentContainerStyle={styles.list}
+          ListFooterComponent={<FooterLoadingIndicator loading={isLoading} />}
+          ItemSeparatorComponent={() => <HLine />}
+        />
+      )}
     </SafeView>
   );
 };

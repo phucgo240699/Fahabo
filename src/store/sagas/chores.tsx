@@ -35,11 +35,13 @@ import {
   closeHUDAction,
   showHUDAction,
   showToastAction,
+} from '@store/actionTypes/session';
+import {
   updateIsLoadingChorePhotosAction,
   updateIsLoadingChoresAction,
   updateIsRefreshingChorePhotosAction,
   updateIsRefreshingChoresAction,
-} from '@store/actionTypes/session';
+} from '@store/actionTypes/chores';
 import {chorePhotosSelector, choresSelector} from '@store/selectors/chores';
 import {mixPhotos} from '@utils/albums';
 import {mixChores} from '@utils/chores';

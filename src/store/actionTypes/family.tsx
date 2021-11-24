@@ -15,6 +15,46 @@ import {
   UpdateFamilyThumbnailRequestType,
 } from '@constants/types/family';
 
+// Getting
+export const UPDATE_IS_GETTING_FAMILY_MEMBERS =
+  'UPDATE_IS_GETTING_FAMILY_MEMBERS';
+export const updateIsGettingFamilyMembersAction = (payload: boolean) => ({
+  type: UPDATE_IS_GETTING_FAMILY_MEMBERS,
+  payload,
+});
+
+// Refresh
+export const UPDATE_IS_REFRESHING_FAMILIES = 'UPDATE_IS_REFRESHING_FAMILIES';
+export const updateIsRefreshingFamiliesAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_FAMILIES,
+  payload,
+});
+export const UPDATE_IS_REFRESHING_FAMILY_DETAIL =
+  'UPDATE_IS_REFRESHING_FAMILY_DETAIL';
+export const updateIsRefreshingFamilyDetailAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_FAMILY_DETAIL,
+  payload,
+});
+export const UPDATE_IS_REFRESHING_FAMILY_MEMBERS =
+  'UPDATE_IS_REFRESHING_FAMILY_MEMBERS';
+export const updateIsRefreshingFamilyMembersAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_FAMILY_MEMBERS,
+  payload,
+});
+
+// Load more
+export const UPDATE_IS_LOADING_FAMILIES = 'UPDATE_IS_LOADING_FAMILIES';
+export const updateIsLoadingFamiliesAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_FAMILIES,
+  payload,
+});
+export const UPDATE_IS_LOADING_FAMILY_MEMBERS =
+  'UPDATE_IS_LOADING_FAMILY_MEMBERS';
+export const updateIsLoadingFamilyMembersAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_FAMILY_MEMBERS,
+  payload,
+});
+
 // Create
 export const CREATE_FAMILY_REQUEST = 'CREATE_FAMILY_REQUEST';
 export const createFamilyRequestAction = (body: CreateFamilyRequestType) => ({

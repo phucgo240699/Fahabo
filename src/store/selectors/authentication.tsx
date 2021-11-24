@@ -16,3 +16,6 @@ export const userSelector = (state: RootState) => state.authentication.user;
 
 export const languageCodeSelector = (state: RootState) =>
   state.authentication.user?.languageCode;
+
+export const isRefreshingProfileSelector = (state: RootState) =>
+  state.authentication.isRefreshing;

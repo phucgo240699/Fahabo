@@ -12,6 +12,42 @@ import {
   UpdatePhotoRequestType,
 } from '@constants/types/albums';
 
+// Getting
+export const UPDATE_IS_GETTING_ALBUMS = 'UPDATE_IS_GETTING_ALBUMS';
+export const updateIsGettingAlbumsAction = (payload: boolean) => ({
+  type: UPDATE_IS_GETTING_ALBUMS,
+  payload,
+});
+export const UPDATE_IS_GETTING_PHOTOS = 'UPDATE_IS_GETTING_PHOTOS';
+export const updateIsGettingPhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_GETTING_PHOTOS,
+  payload,
+});
+
+// Refresh
+export const UPDATE_IS_REFRESHING_ALBUMS = 'UPDATE_IS_REFRESHING_ALBUMS';
+export const updateIsRefreshingAlbumsAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_ALBUMS,
+  payload,
+});
+export const UPDATE_IS_REFRESHING_PHOTOS = 'UPDATE_IS_REFRESHING_PHOTOS';
+export const updateIsRefreshingPhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_PHOTOS,
+  payload,
+});
+
+// Load more
+export const UPDATE_IS_LOADING_ALBUMS = 'UPDATE_IS_LOADING_ALBUMS';
+export const updateIsLoadingAlbumsAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_ALBUMS,
+  payload,
+});
+export const UPDATE_IS_LOADING_PHOTOS = 'UPDATE_IS_LOADING_PHOTOS';
+export const updateIsLoadingPhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_PHOTOS,
+  payload,
+});
+
 export const CREATE_ALBUM_REQUEST = 'CREATE_ALBUM_REQUEST';
 export const createAlbumRequestAction = (body: CreateAlbumRequestType) => ({
   type: CREATE_ALBUM_REQUEST,

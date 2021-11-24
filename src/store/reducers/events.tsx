@@ -9,6 +9,11 @@ import {
   GET_DATES_CONTAIN_EVENTS_SUCCESS,
   GET_EVENT_DETAIL_SUCCESS,
   UPDATE_CALENDAR_EVENT_RANGE_SUCCESS,
+  UPDATE_IS_REFRESHING_EVENTS,
+  UPDATE_IS_REFRESHING_EVENT_PHOTOS,
+  UPDATE_IS_REFRESHING_DATES_CONTAIN_EVENTS,
+  UPDATE_IS_LOADING_EVENTS,
+  UPDATE_IS_LOADING_EVENT_PHOTOS,
 } from '@store/actionTypes/events';
 import {LOG_OUT} from '@store/actionTypes/signIn';
 import {AnyAction} from 'redux';
@@ -20,6 +25,15 @@ export type EventsState = {
   calendarEventBegin?: string;
   calendarEventEnd?: string;
   datesContainEvents: string[];
+
+  // Refresh
+  isRefreshingEvents: boolean;
+  isRefreshingEventPhotos: boolean;
+  isRefreshingDatesContainEvents: boolean;
+
+  // Load more
+  isLoadingEvents: boolean;
+  isLoadingEventPhotos: boolean;
 };
 
 const defaultState: EventsState = {
@@ -29,6 +43,15 @@ const defaultState: EventsState = {
   calendarEventBegin: undefined,
   calendarEventEnd: undefined,
   datesContainEvents: [],
+
+  // Refresh
+  isRefreshingEvents: false,
+  isRefreshingEventPhotos: false,
+  isRefreshingDatesContainEvents: false,
+
+  // Load more
+  isLoadingEvents: false,
+  isLoadingEventPhotos: false,
 };
 
 export default function eventsReducer(state = defaultState, action: AnyAction) {
@@ -81,6 +104,35 @@ export default function eventsReducer(state = defaultState, action: AnyAction) {
         ...state,
         datesContainEvents: action.payload,
       };
+
+    // Refresh
+    case UPDATE_IS_REFRESHING_EVENTS:
+      return {
+        ...state,
+        isRefreshingEvents: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_EVENT_PHOTOS:
+      return {
+        ...state,
+        isRefreshingEventPhotos: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_DATES_CONTAIN_EVENTS:
+      return {
+        ...state,
+        isRefreshingDatesContainEvents: action.payload,
+      };
+
+    // Loading
+    case UPDATE_IS_LOADING_EVENTS:
+      return {
+        ...state,
+        isLoadingEvents: action.payload,
+      };
+    case UPDATE_IS_LOADING_EVENT_PHOTOS:
+      return {
+        ...state,
+        isLoadingEventPhotos: action.payload,
+      };
     case LOG_OUT:
       return {
         ...state,
@@ -90,6 +142,14 @@ export default function eventsReducer(state = defaultState, action: AnyAction) {
         calendarEventBegin: undefined,
         calendarEventEnd: undefined,
         datesContainEvents: [],
+
+        // Refresh
+        isRefreshingEvents: false,
+        isRefreshingEventPhotos: false,
+        isRefreshingDatesContainEvents: false,
+        // Load More
+        isLoadingEvents: false,
+        isLoadingEventPhotos: false,
       };
     default:
       return state;

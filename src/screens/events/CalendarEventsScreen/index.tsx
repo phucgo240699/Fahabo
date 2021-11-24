@@ -27,7 +27,7 @@ import {
   getDatesContainEventsRequestAction,
   updateCalendarEventRangeSuccessAction,
 } from '@store/actionTypes/events';
-import {isRefreshingDatesContainEventsSelector} from '@store/selectors/session';
+import {isRefreshingDatesContainEventsSelector} from '@store/selectors/events';
 import {ScrollView} from 'native-base';
 
 interface Props {

@@ -8,22 +8,19 @@ import React, {useEffect, useState} from 'react';
 import ProfileHeader from '@components/ProfileHeader';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {useDispatch, useSelector} from 'react-redux';
-import {chorePhotosSelector} from '@store/selectors/chores';
 import PhotoItem from '@screens/albums/AlbumDetailScreen/PhotoItem';
 import {PhotoType} from '@constants/types/albums';
 import {
-  isLoadingChorePhotosSelector,
   isLoadingEventPhotosSelector,
-  isRefreshingChorePhotosSelector,
   isRefreshingEventPhotosSelector,
-} from '@store/selectors/session';
+} from '@store/selectors/events';
 import {isNull} from '@utils/index';
 import {getChorePhotosRequestAction} from '@store/actionTypes/chores';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 import {eventPhotosSelector} from '@store/selectors/events';
 import {getEventPhotosRequestAction} from '@store/actionTypes/events';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import { navigate } from '@navigators/index';
+import {navigate} from '@navigators/index';
 
 interface Props {
   route?: any;

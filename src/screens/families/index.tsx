@@ -24,7 +24,7 @@ import FamilyCreationModal from './shared/FamilyCreationModal';
 import {
   isLoadingFamiliesSelector,
   isRefreshingFamiliesSelector,
-} from '@store/selectors/session';
+} from '@store/selectors/family';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 import PrimaryHeader from '@components/PrimaryHeader';

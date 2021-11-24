@@ -14,7 +14,7 @@ import {PhotoType} from '@constants/types/albums';
 import {
   isLoadingChorePhotosSelector,
   isRefreshingChorePhotosSelector,
-} from '@store/selectors/session';
+} from '@store/selectors/chores';
 import {isNull} from '@utils/index';
 import {getChorePhotosRequestAction} from '@store/actionTypes/chores';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';

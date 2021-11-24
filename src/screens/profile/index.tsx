@@ -10,15 +10,13 @@ import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import PrimaryIcon from '@components/PrimaryIcon';
 import PrimaryButton from '@components/PrimaryButton';
-import {ImageBackground, RefreshControl, StyleSheet} from 'react-native';
 import {navigate} from '@navigators/index';
-import ProfileRelationBox from './shared/ProfileRelationBox';
 import ProfileSettingsBox from './shared/ProfileSettingsBox';
 import {Box, useDisclose} from 'native-base';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {Constants, ScreenName} from '@constants/Constants';
 import {useDispatch, useSelector} from 'react-redux';
-import {logOutAction, logOutRequestAction} from '@store/actionTypes/signIn';
+import {logOutRequestAction} from '@store/actionTypes/signIn';
 import {userSelector} from '@store/selectors/authentication';
 import {isNull} from '@utils/index';
 import {
@@ -26,9 +24,10 @@ import {
   updateProfileAvatarRequestAction,
 } from '@store/actionTypes/profile';
 import PrimaryFastImage from '@components/PrimaryFastImage';
-import {isRefreshingProfileSelector} from '@store/selectors/session';
+import {isRefreshingProfileSelector} from '@store/selectors/authentication';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
+import {ImageBackground, RefreshControl, StyleSheet} from 'react-native';
 
 interface Props {}
 
@@ -120,11 +119,6 @@ const ProfileScreen: React.FC<Props> = () => {
               <NameText>{user?.name}</NameText>
               <EmailText>{user?.username}</EmailText>
             </Box>
-
-            {/* <ProfileRelationBox
-              onPressChores={onPressChores}
-              onPressEvents={onPressEvents}
-            /> */}
 
             <ProfileSettingsBox
               onPressSettings={onPressSettings}

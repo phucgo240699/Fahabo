@@ -18,6 +18,7 @@ export type DeleteAlbumRequestType = {
 
 export type GetAlbumsRequestType = {
   showHUD?: boolean;
+  getting?: boolean;
   refresh?: boolean;
   loadMore?: boolean;
   familyId?: number;
@@ -46,6 +47,7 @@ export type DeletePhotosRequestType = {
 
 export type GetPhotosRequestType = {
   showHUD?: boolean;
+  getting?: boolean;
   refresh?: boolean;
   loadMore?: boolean;
   albumId?: number;

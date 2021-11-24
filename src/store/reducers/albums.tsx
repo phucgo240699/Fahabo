@@ -7,6 +7,12 @@ import {
   GET_PHOTOS_SUCCESS,
   GET_PREVIEW_ALBUM_SUCCESS,
   UPDATE_ALBUM_SUCCESS,
+  UPDATE_IS_GETTING_ALBUMS,
+  UPDATE_IS_GETTING_PHOTOS,
+  UPDATE_IS_LOADING_ALBUMS,
+  UPDATE_IS_LOADING_PHOTOS,
+  UPDATE_IS_REFRESHING_ALBUMS,
+  UPDATE_IS_REFRESHING_PHOTOS,
   UPDATE_PHOTO_SUCCESS,
 } from '@store/actionTypes/albums';
 import {LOG_OUT} from '@store/actionTypes/signIn';
@@ -16,12 +22,36 @@ export type AlbumsState = {
   albums: AlbumType[];
   photos: PhotoType[];
   previewAlbum: PhotoType[];
+
+  // Getting
+  isGettingAlbums: boolean;
+  isGettingPhotos: boolean;
+
+  // Refresh
+  isRefreshingAlbums: boolean;
+  isRefreshingPhotos: boolean;
+
+  // Load more
+  isLoadingAlbums: boolean;
+  isLoadingPhotos: boolean;
 };
 
 const defaultState: AlbumsState = {
   albums: [],
   photos: [],
   previewAlbum: [],
+
+  // Getting
+  isGettingAlbums: false,
+  isGettingPhotos: false,
+
+  // Refresh
+  isRefreshingAlbums: false,
+  isRefreshingPhotos: false,
+
+  // Load more
+  isLoadingAlbums: false,
+  isLoadingPhotos: false,
 };
 
 export default function albumsReducer(state = defaultState, action: AnyAction) {
@@ -78,12 +108,53 @@ export default function albumsReducer(state = defaultState, action: AnyAction) {
         ...state,
         previewAlbum: action.payload,
       };
+    // Getting
+    case UPDATE_IS_GETTING_ALBUMS:
+      return {
+        ...state,
+        isGettingAlbums: action.payload,
+      };
+    case UPDATE_IS_GETTING_PHOTOS:
+      return {
+        ...state,
+        isGettingPhotos: action.payload,
+      };
+
+    // Refresh
+    case UPDATE_IS_REFRESHING_ALBUMS:
+      return {
+        ...state,
+        isRefreshingAlbums: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_PHOTOS:
+      return {
+        ...state,
+        isRefreshingPhotos: action.payload,
+      };
+
+    // Load more
+    case UPDATE_IS_LOADING_ALBUMS:
+      return {
+        ...state,
+        isLoadingAlbums: action.payload,
+      };
+    case UPDATE_IS_LOADING_PHOTOS:
+      return {
+        ...state,
+        isLoadingPhotos: action.payload,
+      };
     case LOG_OUT:
       return {
         ...state,
         albums: [],
         photos: [],
         previewAlbum: [],
+        isGettingAlbums: false,
+        isGettingPhotos: false,
+        isRefreshingAlbums: false,
+        isRefreshingPhotos: false,
+        isLoadingAlbums: false,
+        isLoadingPhotos: false,
       };
     default:
       return state;

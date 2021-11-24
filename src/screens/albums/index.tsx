@@ -1,6 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, useDisclose} from 'native-base';
-import fonts from '@themes/fonts';
 import i18n from '@locales/index';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -8,7 +7,6 @@ import {plusIcon} from '@constants/sources';
 import ProfileHeader from '@components/ProfileHeader';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import PrimaryButton from '@components/PrimaryButton';
-import {DummyAlbums} from '@constants/DummyData';
 import AlbumItem from './shared/AlbumItem';
 import {Constants, Pagination, ScreenName} from '@constants/Constants';
 import {Platform, RefreshControl, StyleSheet} from 'react-native';
@@ -22,13 +20,14 @@ import {
   getAlbumsRequestAction,
   updateAlbumRequestAction,
 } from '@store/actionTypes/albums';
-import {albumsSelector} from '@store/selectors/albums';
+import {albumsSelector, isGettingAlbumsSelector} from '@store/selectors/albums';
 import {
   isLoadingAlbumsSelector,
   isRefreshingAlbumsSelector,
-} from '@store/selectors/session';
+} from '@store/selectors/albums';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 import {AlbumType} from '@constants/types/albums';
+import GettingIndicator from '@components/GettingIndicator';
 
 const itemHeight = (Constants.MAX_WIDTH - 36) / 2;
 const itemWidth = (Constants.MAX_WIDTH - 36) / 2;
@@ -40,6 +39,7 @@ interface Props {
 const AlbumsScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const albums = useSelector(albumsSelector);
+  const isGetting = useSelector(isGettingAlbumsSelector);
   const isLoadingMore = useSelector(isLoadingAlbumsSelector);
   const isRefreshing = useSelector(isRefreshingAlbumsSelector);
   const [pageIndex, setPageIndex] = useState(0);
@@ -57,6 +57,7 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
     if (route.params.familyId) {
       dispatch(
         getAlbumsRequestAction({
+          getting: true,
           familyId: route.params.familyId,
         }),
       );
@@ -179,20 +180,29 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
           />
         }
       />
-      <FlatList
-        data={albums}
-        numColumns={2}
-        renderItem={renderItem}
-        onEndReachedThreshold={0.5}
-        onEndReached={onLoadMoreData}
-        ListFooterComponent={<FooterLoadingIndicator loading={isLoadingMore} />}
-        refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={onRefreshData} />
-        }
-        contentContainerStyle={styles.list}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      {isGetting === true ? (
+        <GettingIndicator />
+      ) : (
+        <FlatList
+          data={albums}
+          numColumns={2}
+          renderItem={renderItem}
+          onEndReachedThreshold={0.5}
+          onEndReached={onLoadMoreData}
+          ListFooterComponent={
+            <FooterLoadingIndicator loading={isLoadingMore} />
+          }
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefreshData}
+            />
+          }
+          contentContainerStyle={styles.list}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
 
       <AlbumCreationModal
         isOpen={isOpen}

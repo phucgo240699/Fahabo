@@ -14,6 +14,7 @@ import {
 import {AuthenticationResponseType} from '@constants/types/authentication';
 import {
   GET_PROFILE_SUCCESS,
+  UPDATE_IS_REFRESHING_PROFILE,
   UPDATE_LANGUAGE_SUCCESS,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PROFILE_AVATAR_SUCCESS,
@@ -26,6 +27,7 @@ export type AuthenticationState = {
   refreshToken?: string;
   fcmToken?: string;
   listCountryCode?: Record<string, string>[];
+  isRefreshing: boolean;
 };
 
 const defaultState: AuthenticationState = {
@@ -34,6 +36,7 @@ const defaultState: AuthenticationState = {
   refreshToken: undefined,
   fcmToken: undefined,
   listCountryCode: [],
+  isRefreshing: false,
 };
 
 export default function authenticationReducer(
@@ -120,6 +123,11 @@ export default function authenticationReducer(
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
         listCountryCode: [],
+      };
+    case UPDATE_IS_REFRESHING_PROFILE:
+      return {
+        ...state,
+        isRefreshing: action.payload,
       };
     case LOG_OUT:
       return {

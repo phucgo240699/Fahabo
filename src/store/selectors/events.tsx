@@ -16,3 +16,24 @@ export const calendarEventEndSelector = (state: RootState) =>
 
 export const datesContainEventsSelector = (state: RootState) =>
   state.events.datesContainEvents;
+
+//
+// Refresh
+//
+export const isRefreshingEventsSelector = (state: RootState) =>
+  state.events.isRefreshingEvents;
+
+export const isRefreshingEventPhotosSelector = (state: RootState) =>
+  state.events.isRefreshingEventPhotos;
+
+export const isRefreshingDatesContainEventsSelector = (state: RootState) =>
+  state.events.isRefreshingDatesContainEvents;
+
+//
+// Load More
+//
+export const isLoadingEventsSelector = (state: RootState) =>
+  state.events.isLoadingEvents;
+
+export const isLoadingEventPhotosSelector = (state: RootState) =>
+  state.events.isLoadingEventPhotos;

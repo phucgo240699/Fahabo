@@ -25,6 +25,7 @@ export type KickFamilyMemberRequestType = {
 
 export type GetFamilyMembersRequestType = {
   showHUD?: boolean;
+  getting?: boolean;
   refresh?: boolean;
   loadMore?: boolean;
   familyId?: number;
@@ -35,6 +36,7 @@ export type GetFamilyMembersRequestType = {
 
 export type GetFamilyMembersForCallRequestType = {
   showHUD?: boolean;
+  getting?: boolean;
   refresh?: boolean;
   loadMore?: boolean;
   familyId?: number;
@@ -44,18 +46,21 @@ export type GetFamilyMembersForCallRequestType = {
 
 export type GetChoreFilterMembersRequestType = {
   showHUD?: boolean;
+  getting?: boolean;
   familyId?: number;
   searchText?: string;
 };
 
 export type GetEventFilterMembersRequestType = {
   showHUD?: boolean;
+  getting?: boolean;
   familyId?: number;
   searchText?: string;
 };
 
 export type GetMyFamiliesRequestType = {
   showHUD?: boolean;
+  getting?: boolean;
   refresh?: boolean;
   loadMore?: boolean;
   searchText?: string;

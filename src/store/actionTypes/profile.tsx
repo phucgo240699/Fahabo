@@ -81,3 +81,9 @@ export const updatePasswordSuccessAction = (
   type: UPDATE_PASSWORD_SUCCESS,
   payload,
 });
+
+export const UPDATE_IS_REFRESHING_PROFILE = 'UPDATE_IS_REFRESHING_PROFILE';
+export const updateIsRefreshingProfileAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_PROFILE,
+  payload,
+});

@@ -27,8 +27,8 @@ import {
   closeHUDAction,
   showHUDAction,
   showToastAction,
-  updateIsRefreshingProfileAction,
 } from '@store/actionTypes/session';
+import {updateIsRefreshingProfileAction} from '@store/actionTypes/profile';
 import {AnyAction} from 'redux';
 import {all, delay, put, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';

@@ -11,6 +11,12 @@ import {
   UPDATE_FOCUS_FAMILY_SUCCESS,
   LEAVE_FAMILY_SUCCESS,
   GET_EVENT_FILTER_MEMBERS_SUCCESS,
+  UPDATE_IS_REFRESHING_FAMILIES,
+  UPDATE_IS_REFRESHING_FAMILY_DETAIL,
+  UPDATE_IS_REFRESHING_FAMILY_MEMBERS,
+  UPDATE_IS_LOADING_FAMILIES,
+  UPDATE_IS_LOADING_FAMILY_MEMBERS,
+  UPDATE_IS_GETTING_FAMILY_MEMBERS,
 } from '@store/actionTypes/family';
 import {LOG_OUT} from '@store/actionTypes/signIn';
 import {AnyAction} from 'redux';
@@ -22,6 +28,18 @@ export type FamilyState = {
   choreFilterMembers: MemberType[];
   eventFilterMembers: MemberType[];
   focusFamily?: FamilyType;
+
+  // Getting
+  isGettingFamilyMembers: boolean;
+
+  // Refresh
+  isRefreshingFamilies: boolean;
+  isRefreshingFamilyDetail: boolean;
+  isRefreshingFamilyMembers: boolean;
+
+  // Load more
+  isLoadingFamilies: boolean;
+  isLoadingFamilyMembers: boolean;
 };
 
 const defaultState: FamilyState = {
@@ -31,6 +49,18 @@ const defaultState: FamilyState = {
   choreFilterMembers: [],
   eventFilterMembers: [],
   focusFamily: undefined,
+
+  // Getting
+  isGettingFamilyMembers: false,
+
+  // Refresh
+  isRefreshingFamilies: false,
+  isRefreshingFamilyDetail: false,
+  isRefreshingFamilyMembers: false,
+
+  // Load more
+  isLoadingFamilies: false,
+  isLoadingFamilyMembers: false,
 };
 
 export default function familyReducer(state = defaultState, action: AnyAction) {
@@ -90,6 +120,42 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
         ...state,
         focusFamily: action.payload,
       };
+
+    // Getting
+    case UPDATE_IS_GETTING_FAMILY_MEMBERS:
+      return {
+        ...state,
+        isGettingFamilyMembers: action.payload,
+      };
+
+    // Refresh
+    case UPDATE_IS_REFRESHING_FAMILIES:
+      return {
+        ...state,
+        isRefreshingFamilies: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_FAMILY_DETAIL:
+      return {
+        ...state,
+        isRefreshingFamilyDetail: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_FAMILY_MEMBERS:
+      return {
+        ...state,
+        isRefreshingFamilyMembers: action.payload,
+      };
+
+    // Load more
+    case UPDATE_IS_LOADING_FAMILIES:
+      return {
+        ...state,
+        isLoadingFamilies: action.payload,
+      };
+    case UPDATE_IS_LOADING_FAMILY_MEMBERS:
+      return {
+        ...state,
+        isLoadingFamilyMembers: action.payload,
+      };
     case LOG_OUT:
       return {
         ...state,
@@ -98,6 +164,12 @@ export default function familyReducer(state = defaultState, action: AnyAction) {
         membersInFamily: [],
         choreFilterMembers: [],
         focusFamily: undefined,
+        isGettingFamilyMembers: false,
+        isRefreshingFamilies: false,
+        isRefreshingFamilyDetail: false,
+        isRefreshingFamilyMembers: false,
+        isLoadingFamilies: false,
+        isLoadingFamilyMembers: false,
       };
     default:
       return state;

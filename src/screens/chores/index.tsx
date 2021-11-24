@@ -12,7 +12,7 @@ import {choresSelector} from '@store/selectors/chores';
 import {
   isLoadingChoresSelector,
   isRefreshingChoresSelector,
-} from '@store/selectors/session';
+} from '@store/selectors/chores';
 import {
   deleteChoreRequestAction,
   getChoreDetailRequestAction,

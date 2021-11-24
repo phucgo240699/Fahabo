@@ -38,12 +38,14 @@ import {
   closeHUDAction,
   showHUDAction,
   showToastAction,
+} from '@store/actionTypes/session';
+import {
   updateIsLoadingEventPhotosAction,
   updateIsLoadingEventsAction,
   updateIsRefreshingDatesContainEventsAction,
   updateIsRefreshingEventPhotosAction,
   updateIsRefreshingEventsAction,
-} from '@store/actionTypes/session';
+} from '@store/actionTypes/events';
 import {
   calendarEventBeginSelector,
   calendarEventEndSelector,

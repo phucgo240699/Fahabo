@@ -9,6 +9,31 @@ import {
   UpdateChoreRequestType,
 } from '@constants/types/chores';
 
+// Refresh
+export const UPDATE_IS_REFRESHING_CHORES = 'UPDATE_IS_REFRESHING_CHORES';
+export const updateIsRefreshingChoresAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_CHORES,
+  payload,
+});
+export const UPDATE_IS_REFRESHING_CHORE_PHOTOS =
+  'UPDATE_IS_REFRESHING_CHORE_PHOTOS';
+export const updateIsRefreshingChorePhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_REFRESHING_CHORE_PHOTOS,
+  payload,
+});
+
+// Load more
+export const UPDATE_IS_LOADING_CHORES = 'UPDATE_IS_LOADING_CHORES';
+export const updateIsLoadingChoresAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_CHORES,
+  payload,
+});
+export const UPDATE_IS_LOADING_CHORE_PHOTOS = 'UPDATE_IS_LOADING_CHORE_PHOTOS';
+export const updateIsLoadingChorePhotosAction = (payload: boolean) => ({
+  type: UPDATE_IS_LOADING_CHORE_PHOTOS,
+  payload,
+});
+
 // Create
 export const CREATE_CHORE_REQUEST = 'CREATE_CHORE_REQUEST';
 export const createChoreRequestAction = (body: CreateChoreRequestType) => ({
