@@ -91,10 +91,11 @@ const PeriodAgo = styled(fonts.PrimaryFontRegularSize12)`
 `;
 
 const Dot = styled.View`
+  top: 4px;
+  left: 4px;
   width: 6px;
   height: 6px;
-  margin-top: 4px;
-  margin-left: 4px;
+  position: absolute;
   border-radius: 3px;
   background-color: ${colors.ROYAL_BLUE};
 `;

@@ -84,6 +84,11 @@ export const videoCallIconColor = require('@assets/images/video_call_icon_color.
 export const sendIcon = require('@assets/images/send_icon.png');
 
 //
+// Location
+//
+export const targetLocationsIcon = require('@assets/images/target_locations_icon.png');
+
+//
 // Settings
 //
 export const tickIcon = require('@assets/images/tick_icon.png');

@@ -66,13 +66,7 @@ function* getMemberLocationsSaga({
       const memberLocations = parseMemberLocations(parseDataResponse(response));
       if (memberLocations.length > 0) {
         const region = calculateRegionForCoordinates(memberLocations);
-        if (body.onlyMemberLocations === true) {
-          yield* put(updateMemberLocationsAction(memberLocations));
-        } else {
-          yield* put(
-            getMemberLocationsSuccessAction({region, memberLocations}),
-          );
-        }
+        yield* put(getMemberLocationsSuccessAction({region, memberLocations}));
       }
     }
   } catch (error) {
