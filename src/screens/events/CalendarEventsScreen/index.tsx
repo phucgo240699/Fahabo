@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
 import colors from '@themes/colors';
-import {Platform, RefreshControl} from 'react-native';
+import {RefreshControl} from 'react-native';
 import styled from 'styled-components/native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {Calendar} from 'react-native-calendars';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {
   getOriginDateString,
   getOriginDateStringFromYYYYMMDDString,
@@ -161,7 +160,6 @@ const CalendarEventsScreen: React.FC<Props> = ({route}) => {
 const SafeView = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.WHITE};
-  margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
 `;
 
 const CreateButton = styled(PrimaryButton)`
@@ -169,7 +167,7 @@ const CreateButton = styled(PrimaryButton)`
   bottom: 14px;
   position: absolute;
   border-radius: 40px;
-  background-color: ${colors.DANUBE};
+  background-color: ${colors.THEME_COLOR_6};
 `;
 
 export default CalendarEventsScreen;

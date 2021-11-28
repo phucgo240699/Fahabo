@@ -165,6 +165,21 @@
     "accessLocationInUse": "Fahabo muốn truy cập thư viện ảnh",
     "accessLocationInUseMessage": "Cho phép chúng tôi truy cập vị trí nhằm tăng trải nghiệm sử dụng"
   },
+  "transaction": {
+    "transaction": "Thu chi",
+    "cash": "Tiền mặt",
+    "income": "Thu nhập",
+    "expense": "Chi tiêu",
+    "createNewTransaction": "Tạo giao dịch mới",
+    "category": "Category",
+    "cost": "Cost",
+    "date": "Date",
+    "note": "Note",
+    "photo": "Photo",
+    "addCategory": "Thêm thể loại mới",
+    "categoryName": "Tên thể loại",
+    "categoryIcon": "Icon thể loại"
+  },
   "application": {
     "loading": "Đăng tải...",
     "fahabo": "Fahabo"

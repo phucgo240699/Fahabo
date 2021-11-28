@@ -204,6 +204,28 @@ export const DummyNotifications = [
   },
 ];
 
+export const DummyTransactions = [
+  {
+    id: 0,
+    uri: 'https://cdn-icons-png.flaticon.com/512/891/891462.png',
+    name: 'Buy some food',
+    cost: 123000,
+  },
+];
+
+export const DummyTransactionCategories = [
+  {
+    id: 0,
+    uri: 'https://cdn-icons-png.flaticon.com/512/891/891462.png',
+    name: 'Buy some food',
+  },
+  {
+    id: 0,
+    uri: 'https://cdn-icons-png.flaticon.com/512/891/891462.png',
+    name: 'Buy some food',
+  },
+];
+
 export const DummyRepeat = [
   RepeatType.NONE,
   RepeatType.DAILY,

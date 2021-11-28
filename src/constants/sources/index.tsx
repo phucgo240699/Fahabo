@@ -1,5 +1,6 @@
 export const appIcon = require('@assets/images/app_icon.png');
-
+export const squarePlaceHolderImage = require('@assets/images/placeholder_image_square.png');
+export const rectanglePlaceHolderImage = require('@assets/images/placeholder_image_rectangle.png');
 // Toast
 export const closeIcon = require('@assets/images/close_icon.png');
 

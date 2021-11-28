@@ -1,11 +1,11 @@
-import colors from '@themes/colors';
+import {
+  rectanglePlaceHolderImage,
+  squarePlaceHolderImage,
+} from '@constants/sources';
 import React, {memo, useCallback, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components/native';
-
-const rectanglePlaceHolder = require('@assets/images/loading_placeholder_image_rectangle.png');
-const squarePlaceHolder = require('@assets/images/loading_placeholder_image_square.png');
 
 interface Props {
   source: any;
@@ -28,7 +28,9 @@ const PrimaryFastImage: React.FC<Props> = ({
       {isLoading && (
         <PlaceHolderImage
           source={
-            imageShape === 'square' ? squarePlaceHolder : rectanglePlaceHolder
+            imageShape === 'square'
+              ? squarePlaceHolderImage
+              : rectanglePlaceHolderImage
           }
           style={StyleSheet.absoluteFill}
         />

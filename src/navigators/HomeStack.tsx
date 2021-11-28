@@ -9,6 +9,9 @@ import CreateChoreScreen from '@screens/chores/CreateChoreScreen';
 import RepeatPickerScreen from '@screens/chores/RepeatPickerScreen';
 import CalendarEventsScreen from '@screens/events/CalendarEventsScreen';
 import MembersPickerScreen from '@screens/families/MembersPickerScreen';
+import CreateTransactionScreen from '@screens/transactions/shared/CreateTransactionScreen';
+import TransactionCategoriesScreen from '@screens/transactions/shared/TransactionCategoriesScreen';
+import CreateTransactionCategoryScreen from '@screens/transactions/shared/TransactionCategoriesScreen/shared/CreateTransactionCategoryScreen';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +39,18 @@ const HomeStack = () => {
       <Stack.Screen
         name={ScreenName.CalendarEventsScreen}
         component={CalendarEventsScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.CreateTransactionScreen}
+        component={CreateTransactionScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.TransactionCategoriesScreen}
+        component={TransactionCategoriesScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.CreateTransactionCategoryScreen}
+        component={CreateTransactionCategoryScreen}
       />
     </Stack.Navigator>
   );

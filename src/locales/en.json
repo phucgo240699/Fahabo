@@ -164,6 +164,21 @@
     "accessLocationInUse": "Fahabo wants to access your location in use",
     "accessLocationInUseMessage": "Allow us to access your location to help you explore Fahabo"
   },
+  "transaction": {
+    "transaction": "Transaction",
+    "cash": "Cash",
+    "income": "Income",
+    "expense": "Expense",
+    "createNewTransaction": "Create new transaction",
+    "category": "Category",
+    "cost": "Cost",
+    "date": "Date",
+    "note": "Note",
+    "photo": "Photo",
+    "addCategory": "Add new category",
+    "categoryName": "Category name",
+    "categoryIcon": "Category icon"
+  },
   "application": {
     "loading": "Loading...",
     "fahabo": "Fahabo"

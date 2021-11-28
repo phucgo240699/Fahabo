@@ -12,6 +12,7 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useDispatch, useSelector} from 'react-redux';
 import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 import CalendarEventsScreen from '@screens/events/CalendarEventsScreen';
+import TransactionsScreen from '@screens/transactions';
 
 interface Props {}
 
@@ -29,10 +30,12 @@ const HomeScreen: React.FC<Props> = () => {
   const [routes] = useState([
     {key: 'chores', title: i18n.t('chores.chores')},
     {key: 'events', title: i18n.t('events.events')},
+    {key: 'transaction', title: i18n.t('transaction.transaction')},
   ]);
   const renderScene = SceneMap({
     chores: () => <ChoresScreen />,
     events: () => <CalendarEventsScreen />,
+    transaction: () => <TransactionsScreen />,
   });
   const renderTabLabel = ({route, focused}: {route: any; focused: boolean}) => {
     return <TabTitle isFocus={focused}>{route.title}</TabTitle>;

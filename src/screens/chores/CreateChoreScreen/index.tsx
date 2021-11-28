@@ -508,7 +508,8 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
               borderRadius={28}
               onPress={onCreateChore}
               disabled={isNull(title) || isNull(deadline)}
-              _text={{color: colors.WHITE}}>
+              _text={{color: colors.WHITE}}
+              backgroundColor={colors.DANUBE}>
               {i18n.t('chores.done')}
             </Button>
           </FormControl>

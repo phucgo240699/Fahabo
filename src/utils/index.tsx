@@ -109,6 +109,26 @@ export function convertOriginDateTimeStringToDate(
   );
 }
 
+export function getDateMinusOneMonth(_date: Date): Date {
+  const result = new Date(_date);
+  if (_date.getMonth() === 0) {
+    result.setFullYear(_date.getFullYear() - 1);
+  } else {
+    result.setMonth(_date.getMonth() - 1);
+  }
+  return result;
+}
+
+export function getDatePlusOneMonth(_date: Date): Date {
+  const result = new Date(_date);
+  if (_date.getMonth() === 11) {
+    result.setFullYear(_date.getFullYear() + 1);
+  } else {
+    result.setMonth(_date.getMonth() + 1);
+  }
+  return result;
+}
+
 export const getLanguageName = (languageCode: string) => {
   switch (languageCode) {
     case 'vi':
@@ -325,4 +345,8 @@ export const isNumber = (text: string) => {
     }
   }
   return true;
+};
+
+export const getNumberWithCommas = (x: number) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };

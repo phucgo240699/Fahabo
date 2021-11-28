@@ -88,6 +88,7 @@ const UpdateProfileScreen: React.FC<Props> = ({}) => {
           value={phoneNumber}
           height={50}
           borderRadius={20}
+          keyboardType={'number-pad'}
           color={colors.TEXT}
           borderColor={colors.SILVER}
           onChangeText={onChangePhoneNumber}
