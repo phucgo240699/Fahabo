@@ -52,6 +52,11 @@ const CameraScreen: React.FC<Props> = ({route}) => {
         thumbnailUri: data.uri,
         thumbnailBase64: data.base64,
       });
+    } else if (route && route.params && route.params.fromCreateTransaction) {
+      navigate(ScreenName.CreateTransactionScreen, {
+        thumbnailUri: data.uri,
+        thumbnailBase64: data.base64,
+      });
     } else {
       onMakeEffect(data.uri);
     }

@@ -48,6 +48,8 @@ const RepeatPickerScreen: React.FC<Props> = ({route}) => {
       navigate(ScreenName.CreateChoreScreen, {selectedRepeat: value});
     } else if (route && route.params && route.params.fromCreateEvent) {
       navigate(ScreenName.CreateEventScreen, {selectedRepeat: value});
+    } else if (route && route.params && route.params.fromCreateTransaction) {
+      navigate(ScreenName.CreateTransactionScreen, {selectedRepeat: value});
     }
   };
 

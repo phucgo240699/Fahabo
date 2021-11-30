@@ -79,6 +79,8 @@ export const Constants = {
   PROFILE_AVATAR_HEIGHT: 128,
   FAMILY_THUMBNAIL_WIDTH: 512,
   FAMILY_THUMBNAIL_HEIGHT: 320,
+  TRANSACTION_CATEGORY_ICON_WIDTH: 128,
+  TRANSACTION_CATEGORY_ICON_HEIGHT: 128,
 };
 
 export const languages: {key: string; value: string}[] = [
@@ -97,4 +99,7 @@ export const Pagination = {
   Events: 10,
   EventPhotos: 24,
   Notifications: 10,
+  Transactions: 10,
+  TransactionPhotos: 10,
+  TransactionCategories: 10,
 };

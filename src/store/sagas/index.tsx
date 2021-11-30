@@ -10,6 +10,7 @@ import events from './events';
 import interactions from './interactions';
 import notifications from './notifications';
 import locations from './locations';
+import transactions from './transactions';
 
 export default function* rootSaga() {
   yield fork(signIn);
@@ -23,4 +24,5 @@ export default function* rootSaga() {
   yield fork(interactions);
   yield fork(notifications);
   yield fork(locations);
+  yield fork(transactions);
 }

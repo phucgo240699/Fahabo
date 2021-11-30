@@ -274,8 +274,8 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
       mediaType: 'photo',
       includeBase64: true,
       maxFiles: Constants.LIMIT_PHOTO_UPLOAD,
-      width: Constants.FAMILY_THUMBNAIL_WIDTH,
-      height: Constants.FAMILY_THUMBNAIL_HEIGHT,
+      // width: Constants.FAMILY_THUMBNAIL_WIDTH,
+      // height: Constants.FAMILY_THUMBNAIL_HEIGHT,
     }).then(cropped => {
       const unique = new Set<{id?: number; uri?: string; base64?: string}>([]);
       const currentNumberPhotoBase64 = selectedPhotos.filter((item, index) => {

@@ -17,35 +17,25 @@ import styled from 'styled-components/native';
 import {Keyboard, Platform, StyleSheet} from 'react-native';
 import {
   isNull,
-  isNumber,
-  getDateTimeStringFrom,
-  getOriginDateTimeString,
-  convertOriginDateTimeStringToDate,
   getNumberWithCommas,
   getDateStringFrom,
   getOriginDateString,
 } from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {
-  clearIcon,
-  familyIcon,
-  plusIcon,
-  rightArrowIcon,
-} from '@constants/sources';
+import {clearIcon, plusIcon, rightArrowIcon} from '@constants/sources';
 import {Constants, ScreenName} from '@constants/Constants';
 import {RepeatType} from '@constants/types/chores';
 import DatePicker from 'react-native-date-picker';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {navigate} from '@navigators/index';
-import {MemberType} from '@constants/types/family';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
-import ImageCropPicker from 'react-native-image-crop-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
-import {getRepeatText, getRepeatType} from '@utils/chores';
+import {getRepeatText} from '@utils/chores';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
 interface Props {
   route?: any;
@@ -57,6 +47,7 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
   const [cost, setCost] = useState(0);
   const [category, setCategory] = useState('');
   const [date, setDate] = useState(new Date());
+  const [repeat, setRepeat] = useState<RepeatType>(RepeatType.NONE);
   const [selectedPhotos, setSelectedPhotos] = useState<
     {id?: number; uri?: string; base64?: string}[]
   >([]);
@@ -66,6 +57,40 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
   const timeZoneOffset = new Date().getTimezoneOffset() * -1;
   const {isOpen, onOpen, onClose} = useDisclose();
 
+  // Life Cycle
+  useEffect(() => {
+    if (route && route.params) {
+      if (route.params.selectedRepeat) {
+        setRepeat(route.params.selectedRepeat);
+      }
+      if (route.params.thumbnailUri && route.params.thumbnailBase64) {
+        if (
+          selectedPhotos.filter((item, index) => {
+            return !isNull(item.base64);
+          }).length >= Constants.LIMIT_PHOTO_UPLOAD
+        ) {
+          dispatch(
+            showToastAction(
+              `${i18n.t('warningMessage.limitPhotoUpload')} :${
+                Constants.LIMIT_PHOTO_UPLOAD
+              }`,
+              ToastType.WARNING,
+            ),
+          );
+        } else {
+          setSelectedPhotos([
+            ...selectedPhotos,
+            {
+              id: undefined,
+              uri: route.params.thumbnailUri,
+              base64: route.params.thumbnailBase64,
+            },
+          ]);
+        }
+      }
+    }
+  }, [route]);
+
   // Keyboard
   const onDismissKeyboard = () => {
     Keyboard.dismiss();
@@ -73,7 +98,13 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
 
   // Cost
   const onChangeCost = (value: string) => {
-    setCost(parseFloat(value));
+    if (value === '') {
+      setCost(0);
+    } else {
+      const parts = value.split(',');
+
+      setCost(parseInt(parts.join('')));
+    }
   };
 
   // Category
@@ -92,6 +123,10 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
   };
   const onCloseDatePicker = () => {
     setVisibleDatePicker(false);
+  };
+
+  const onPressRepeat = () => {
+    navigate(ScreenName.RepeatPickerScreen, {fromCreateTransaction: true});
   };
 
   // ActionSheet
@@ -128,27 +163,51 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
 
   const takePhoto = () => {
     onClose();
+    navigate(ScreenName.CameraScreen, {fromCreateTransaction: true});
   };
   const chooseFromGallery = () => {
     onClose();
-    // ImageCropPicker.openPicker({
-    //   cropping: true,
-    //   mediaType: 'photo',
-    //   includeBase64: true,
-    //   width: Constants.PROFILE_AVATAR_WIDTH,
-    //   height: Constants.PROFILE_AVATAR_HEIGHT,
-    // }).then(cropped => {
-    //   if (!isNull(cropped.data)) {
-    //     dispatch(
-    //       updateProfileAvatarRequestAction({
-    //         avatar: {
-    //           name: 'avatar.jpg',
-    //           base64Data: cropped.data ?? '',
-    //         },
-    //       }),
-    //     );
-    //   }
-    // });
+    ImageCropPicker.openPicker({
+      multiple: true,
+      mediaType: 'photo',
+      includeBase64: true,
+      maxFiles: Constants.LIMIT_PHOTO_UPLOAD,
+    }).then(cropped => {
+      const unique = new Set<{id?: number; uri?: string; base64?: string}>([]);
+      const currentNumberPhotoBase64 = selectedPhotos.filter((item, index) => {
+        return !isNull(item.base64);
+      }).length;
+      if (
+        cropped.length + currentNumberPhotoBase64 >
+        Constants.LIMIT_PHOTO_UPLOAD
+      ) {
+        dispatch(
+          showToastAction(
+            `${i18n.t('warningMessage.limitPhotoUpload')} :${
+              Constants.LIMIT_PHOTO_UPLOAD
+            }`,
+            ToastType.WARNING,
+          ),
+        );
+      }
+      cropped.forEach((item, index) => {
+        if (index + currentNumberPhotoBase64 < Constants.LIMIT_PHOTO_UPLOAD) {
+          unique.add({
+            id: undefined,
+            uri: item.path,
+            base64: item.data ?? undefined,
+          });
+        }
+      });
+      selectedPhotos.forEach(item => {
+        unique.add(item);
+      });
+      const result: {id?: number; uri?: string; base64?: string}[] = [];
+      unique.forEach(item => {
+        result.push(item);
+      });
+      setSelectedPhotos(result);
+    });
   };
 
   const onChangeNote = (text: string) => {
@@ -210,6 +269,21 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
                 ? i18n.t('profile.formatDate')
                 : getDateStringFrom(getOriginDateString(date))}
             </Button>
+
+            {/* Repeat */}
+            <RepeatContainer onPress={onPressRepeat}>
+              <RepeatName>
+                {repeat === RepeatType.NONE
+                  ? i18n.t('chores.repeat')
+                  : getRepeatText(repeat)}
+              </RepeatName>
+              <ArrowIcon
+                width={16}
+                height={16}
+                source={rightArrowIcon}
+                tintColor={colors.SILVER}
+              />
+            </RepeatContainer>
 
             {/* Photos */}
             <Box flexDirection="row" justifyContent="space-between">
@@ -321,6 +395,23 @@ const CategoryButton = styled.TouchableOpacity`
 `;
 
 const CategoryName = styled(fonts.PrimaryFontRegularSize16)`
+  color: ${colors.BLACK};
+`;
+
+const RepeatContainer = styled.TouchableOpacity`
+  height: 50px;
+  margin-top: 30px;
+  border-width: 1px;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  justify-content: space-between;
+  border-color: ${colors.CONCRETE};
+`;
+
+const RepeatName = styled(fonts.PrimaryFontRegularSize16)`
   color: ${colors.BLACK};
 `;
 
