@@ -2,18 +2,22 @@ import {ToastType} from '@constants/types/session';
 import {
   CreateTransactionCategoryRequestType,
   CreateTransactionRequestType,
+  DeleteTransactionCategoryRequestType,
   DeleteTransactionRequestType,
   GetTransactionCategoriesRequestType,
   GetTransactionDetailRequestType,
   GetTransactionPhotosRequestType,
   GetTransactionsRequestType,
+  TransactionCategorySegment,
   UpdateTransactionRequestType,
 } from '@constants/types/transactions';
 import i18n from '@locales/index';
+import {navigationRef, push} from '@navigators/index';
 import {
   createTransactionApi,
   createTransactionCategoryApi,
   deleteTransactionApi,
+  deleteTransactionCategoryApi,
   getTransactionCategoriesApi,
   getTransactionDetailApi,
   getTransactionPhotosApi,
@@ -26,32 +30,41 @@ import {
   showToastAction,
 } from '@store/actionTypes/session';
 import {
-  createTransactionCategorySuccessAction,
+  createTransactionExpenseCategorySuccessAction,
+  createTransactionIncomeCategorySuccessAction,
   createTransactionSuccessAction,
   CREATE_TRANSACTION_CATEGORY_REQUEST,
   CREATE_TRANSACTION_REQUEST,
+  deleteTransactionExpenseCategorySuccessAction,
+  deleteTransactionIncomeCategorySuccessAction,
   deleteTransactionSuccessAction,
+  DELETE_TRANSACTION_CATEGORY_REQUEST,
   DELETE_TRANSACTION_REQUEST,
-  getTransactionCategoriesSuccessAction,
   getTransactionDetailSuccessAction,
+  getTransactionExpenseCategoriesSuccessAction,
+  getTransactionIncomeCategoriesSuccessAction,
   getTransactionPhotosSuccessAction,
   getTransactionsSuccessAction,
   GET_TRANSACTIONS_REQUEST,
   GET_TRANSACTION_CATEGORIES_REQUEST,
   GET_TRANSACTION_DETAIL_REQUEST,
   GET_TRANSACTION_PHOTOS_REQUEST,
-  updateIsGettingTransactionCategoriesAction,
+  updateIsGettingTransactionExpenseCategoriesAction,
+  updateIsGettingTransactionIncomeCategoriesAction,
   updateIsGettingTransactionPhotosAction,
   updateIsGettingTransactionsAction,
-  updateIsLoadingTransactionCategoriesAction,
+  updateIsLoadingTransactionExpenseCategoriesAction,
+  updateIsLoadingTransactionIncomeCategoriesAction,
   updateIsLoadingTransactionsAction,
-  updateIsRefreshingTransactionCategoriesAction,
+  updateIsRefreshingTransactionExpenseCategoriesAction,
+  updateIsRefreshingTransactionIncomeCategoriesAction,
   updateIsRefreshingTransactionsAction,
   updateTransactionSuccessAction,
   UPDATE_TRANSACTION_REQUEST,
 } from '@store/actionTypes/transactions';
 import {
-  transactionCategoriesSelector,
+  transactionExpenseCategoriesSelector,
+  transactionIncomeCategoriesSelector,
   transactionPhotosSelector,
   transactionsSelector,
 } from '@store/selectors/transactions';
@@ -62,12 +75,13 @@ import {
   parseTransaction,
   parseTransactionCategories,
   parseTransactionCategory,
-  parseTransactionDetail,
   parseTransactions,
 } from '@utils/parsers/transactions';
 import {mixTransactionCategories, mixTransactions} from '@utils/transactions';
 import {all, put, takeLeading, select} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
+import {CommonActions} from '@react-navigation/native';
+import {ScreenName} from '@constants/Constants';
 
 function* createTransactionSaga({
   body,
@@ -79,11 +93,16 @@ function* createTransactionSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(createTransactionApi, body);
     if (response.status === 200) {
+      console.log('\n');
+      console.log('createTransactionSuccessAction:');
+      console.log(parseTransaction(parseDataResponse(response)));
+      console.log('\n');
       yield* put(
         createTransactionSuccessAction(
           parseTransaction(parseDataResponse(response)),
         ),
       );
+      navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(
@@ -116,6 +135,7 @@ function* updateTransactionSaga({
           parseTransaction(parseDataResponse(response)),
         ),
       );
+      navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(
@@ -181,7 +201,7 @@ function* getTransactionsSaga({
     if (body.refresh) {
       yield* put(updateIsRefreshingTransactionsAction(true));
     }
-    if (body.getting) {
+    if (body.loadMore) {
       yield* put(updateIsLoadingTransactionsAction(true));
     }
     const response = yield* apiProxy(getTransactionsApi, body);
@@ -215,7 +235,7 @@ function* getTransactionsSaga({
     );
   } finally {
     if (body.showHUD) {
-      yield* put(showHUDAction());
+      yield* put(closeHUDAction());
     }
     if (body.getting) {
       yield* put(updateIsGettingTransactionsAction(false));
@@ -223,7 +243,7 @@ function* getTransactionsSaga({
     if (body.refresh) {
       yield* put(updateIsRefreshingTransactionsAction(false));
     }
-    if (body.getting) {
+    if (body.loadMore) {
       yield* put(updateIsLoadingTransactionsAction(false));
     }
   }
@@ -241,9 +261,10 @@ function* getTransactionDetailSaga({
     if (response.status === 200) {
       yield* put(
         getTransactionDetailSuccessAction(
-          parseTransactionDetail(parseDataResponse(response)),
+          parseTransaction(parseDataResponse(response)),
         ),
       );
+      push(ScreenName.TransactionDetailScreen);
     } else {
       yield* put(
         showToastAction(
@@ -305,7 +326,7 @@ function* getTransactionPhotosSaga({
     );
   } finally {
     if (body.showHUD) {
-      yield* put(showHUDAction());
+      yield* put(closeHUDAction());
     }
     if (body.getting) {
       yield* put(updateIsGettingTransactionPhotosAction(false));
@@ -323,11 +344,60 @@ function* createTransactionCategorySaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(createTransactionCategoryApi, body);
     if (response.status === 200) {
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        yield* put(
+          createTransactionExpenseCategorySuccessAction(
+            parseTransactionCategory(parseDataResponse(response)),
+          ),
+        );
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        yield* put(
+          createTransactionIncomeCategorySuccessAction(
+            parseTransactionCategory(parseDataResponse(response)),
+          ),
+        );
+      }
+      navigationRef.current?.dispatch(CommonActions.goBack());
+    } else {
       yield* put(
-        createTransactionCategorySuccessAction(
-          parseTransactionCategory(parseDataResponse(response)),
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
         ),
       );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(closeHUDAction());
+  }
+}
+
+function* deleteTransactionCategorySaga({
+  body,
+}: {
+  type: string;
+  body: DeleteTransactionCategoryRequestType;
+}) {
+  try {
+    yield* put(showHUDAction());
+    const response = yield* apiProxy(deleteTransactionCategoryApi, body);
+    if (response.status === 200) {
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        yield* put(
+          deleteTransactionExpenseCategorySuccessAction(
+            parseTransactionCategory(parseDataResponse(response)),
+          ),
+        );
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        yield* put(
+          deleteTransactionIncomeCategorySuccessAction(
+            parseTransactionCategory(parseDataResponse(response)),
+          ),
+        );
+      }
     } else {
       yield* put(
         showToastAction(
@@ -356,13 +426,25 @@ function* getTransactionCategoriesSaga({
       yield* put(showHUDAction());
     }
     if (body.getting) {
-      yield* put(updateIsGettingTransactionCategoriesAction(true));
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        yield* put(updateIsGettingTransactionExpenseCategoriesAction(true));
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        yield* put(updateIsGettingTransactionIncomeCategoriesAction(true));
+      }
     }
     if (body.refresh) {
-      yield* put(updateIsRefreshingTransactionCategoriesAction(true));
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        yield* put(updateIsRefreshingTransactionExpenseCategoriesAction(true));
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        yield* put(updateIsRefreshingTransactionIncomeCategoriesAction(true));
+      }
     }
-    if (body.getting) {
-      yield* put(updateIsLoadingTransactionCategoriesAction(true));
+    if (body.loadMore) {
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        yield* put(updateIsLoadingTransactionExpenseCategoriesAction(true));
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        yield* put(updateIsLoadingTransactionIncomeCategoriesAction(true));
+      }
     }
 
     const response = yield* apiProxy(getTransactionCategoriesApi, body);
@@ -370,19 +452,36 @@ function* getTransactionCategoriesSaga({
       if (body.page && body.page > 0) {
         const newData = parseTransactionCategories(parseDataResponse(response));
         if (newData.length > 0) {
-          const oldData = yield* select(transactionCategoriesSelector);
+          if (body.type === TransactionCategorySegment.EXPENSE) {
+            const oldData = yield* select(transactionExpenseCategoriesSelector);
+            yield* put(
+              getTransactionExpenseCategoriesSuccessAction(
+                mixTransactionCategories(oldData, newData),
+              ),
+            );
+          } else if (body.type === TransactionCategorySegment.INCOME) {
+            const oldData = yield* select(transactionIncomeCategoriesSelector);
+            yield* put(
+              getTransactionIncomeCategoriesSuccessAction(
+                mixTransactionCategories(oldData, newData),
+              ),
+            );
+          }
+        }
+      } else {
+        if (body.type === TransactionCategorySegment.EXPENSE) {
           yield* put(
-            getTransactionCategoriesSuccessAction(
-              mixTransactionCategories(oldData, newData),
+            getTransactionExpenseCategoriesSuccessAction(
+              parseTransactionCategories(parseDataResponse(response)),
+            ),
+          );
+        } else if (body.type === TransactionCategorySegment.INCOME) {
+          yield* put(
+            getTransactionIncomeCategoriesSuccessAction(
+              parseTransactionCategories(parseDataResponse(response)),
             ),
           );
         }
-      } else {
-        yield* put(
-          getTransactionCategoriesSuccessAction(
-            parseTransactionCategories(parseDataResponse(response)),
-          ),
-        );
       }
     } else {
       yield* put(
@@ -401,13 +500,25 @@ function* getTransactionCategoriesSaga({
       yield* put(closeHUDAction());
     }
     if (body.getting) {
-      yield* put(updateIsGettingTransactionCategoriesAction(false));
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        yield* put(updateIsGettingTransactionExpenseCategoriesAction(false));
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        yield* put(updateIsGettingTransactionIncomeCategoriesAction(false));
+      }
     }
     if (body.refresh) {
-      yield* put(updateIsRefreshingTransactionCategoriesAction(false));
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        yield* put(updateIsRefreshingTransactionExpenseCategoriesAction(false));
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        yield* put(updateIsRefreshingTransactionIncomeCategoriesAction(false));
+      }
     }
-    if (body.getting) {
-      yield* put(updateIsLoadingTransactionCategoriesAction(false));
+    if (body.loadMore) {
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        yield* put(updateIsLoadingTransactionExpenseCategoriesAction(false));
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        yield* put(updateIsLoadingTransactionIncomeCategoriesAction(false));
+      }
     }
   }
 }
@@ -423,6 +534,10 @@ export default function* () {
     takeLeading(
       CREATE_TRANSACTION_CATEGORY_REQUEST,
       createTransactionCategorySaga,
+    ),
+    takeLeading(
+      DELETE_TRANSACTION_CATEGORY_REQUEST,
+      deleteTransactionCategorySaga,
     ),
     takeLeading(
       GET_TRANSACTION_CATEGORIES_REQUEST,

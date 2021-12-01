@@ -50,6 +50,8 @@ export enum ScreenName {
   EventDetailScreen = 'EventDetailScreen',
   EventPhotosScreen = 'EventPhotosScreen',
   TransactionsScreen = 'TransactionsScreen',
+  TransactionDetailScreen = 'TransactionDetailScreen',
+  TransactionPhotosScreen = 'TransactionPhotosScreen',
   CreateTransactionScreen = 'CreateTransactionScreen',
   TransactionCategoriesScreen = 'TransactionCategoriesScreen',
   CreateTransactionCategoryScreen = 'CreateTransactionCategoryScreen',
@@ -100,6 +102,6 @@ export const Pagination = {
   EventPhotos: 24,
   Notifications: 10,
   Transactions: 10,
-  TransactionPhotos: 10,
+  TransactionPhotos: 24,
   TransactionCategories: 10,
 };

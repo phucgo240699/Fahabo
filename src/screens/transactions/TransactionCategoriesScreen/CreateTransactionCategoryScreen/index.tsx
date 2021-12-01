@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {Keyboard, Platform} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {Button, FormControl, Input} from 'native-base';
+import {Box, Button, FormControl, Input} from 'native-base';
 import i18n from '@locales/index';
 import {squarePlaceHolderImage} from '@constants/sources';
 import ProfileHeader from '@components/ProfileHeader';
@@ -15,6 +15,9 @@ import {createTransactionCategoryRequestAction} from '@store/actionTypes/transac
 import {focusFamilySelector} from '@store/selectors/family';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {Constants} from '@constants/Constants';
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import {getCategorySegmentName} from '@utils/transactions';
+import {TransactionCategorySegment} from '@constants/types/transactions';
 
 interface Props {}
 
@@ -24,7 +27,11 @@ const CreateTransactionCategoryScreen: React.FC<Props> = ({}) => {
   const [name, setName] = useState('');
   const [iconUri, setIconUri] = useState('');
   const [iconBase64, setIconBase64] = useState('');
-  const [type, setType] = useState('EXPENSE'); // INCOME
+  const types = [
+    TransactionCategorySegment.EXPENSE,
+    TransactionCategorySegment.INCOME,
+  ];
+  const [selectedTypeIndex, setSelectedTypeIndex] = useState(0); // INCOME
 
   // Keyboard
   const onKeyboardDismiss = () => {
@@ -52,11 +59,16 @@ const CreateTransactionCategoryScreen: React.FC<Props> = ({}) => {
     });
   };
 
+  // Segment control
+  const onChangeSegment = (event: any) => {
+    setSelectedTypeIndex(event.nativeEvent.selectedSegmentIndex);
+  };
+
   const onCreateCategory = () => {
     if (!isNull(focusFamily?.id)) {
       dispatch(
         createTransactionCategoryRequestAction({
-          type: type,
+          type: types[selectedTypeIndex],
           familyId: focusFamily?.id,
           name: name,
           icon: iconBase64,
@@ -89,13 +101,26 @@ const CreateTransactionCategoryScreen: React.FC<Props> = ({}) => {
             />
 
             <Label>{`${i18n.t('transaction.categoryIcon')}* :`}</Label>
-            <IconButton onPress={onPressChooseIcon}>
-              {isNull(iconUri) ? (
-                <Icon source={squarePlaceHolderImage} />
-              ) : (
-                <Icon source={{uri: iconUri}} />
-              )}
-            </IconButton>
+            <Box
+              flexDirection={'row'}
+              alignItems={'center'}
+              justifyContent={'space-between'}>
+              <Box>
+                <IconButton onPress={onPressChooseIcon}>
+                  {isNull(iconUri) ? (
+                    <Icon source={squarePlaceHolderImage} />
+                  ) : (
+                    <Icon source={{uri: iconUri}} />
+                  )}
+                </IconButton>
+              </Box>
+              <SegmentedControl
+                values={types.map(item => getCategorySegmentName(item))}
+                selectedIndex={selectedTypeIndex}
+                onChange={onChangeSegment}
+                style={{width: 200, height: 30}}
+              />
+            </Box>
 
             <Button
               mt={10}

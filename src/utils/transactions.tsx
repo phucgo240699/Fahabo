@@ -2,6 +2,7 @@ import {
   TransactionCategoryType,
   TransactionType,
 } from '@constants/types/transactions';
+import i18n from '@locales/index';
 
 export const mixTransactions = (
   oldData: TransactionType[],
@@ -31,4 +32,14 @@ export const mixTransactionCategories = (
     result.push(item);
   });
   return result;
+};
+
+export const getCategorySegmentName = (value: string) => {
+  switch (value) {
+    case 'EXPENSE':
+      return i18n.t('transaction.expense');
+
+    default:
+      return i18n.t('transaction.income');
+  }
 };

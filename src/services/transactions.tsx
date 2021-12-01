@@ -4,6 +4,7 @@ import {BASE_URL, Pagination} from '@constants/Constants';
 import {
   CreateTransactionCategoryRequestType,
   CreateTransactionRequestType,
+  DeleteTransactionCategoryRequestType,
   DeleteTransactionRequestType,
   GetTransactionCategoriesRequestType,
   GetTransactionDetailRequestType,
@@ -96,6 +97,16 @@ export function createTransactionCategoryApi(
 ) {
   return new apiProvider(accessToken).post(
     `${BASE_URL}/transaction_category/create`,
+    body,
+  );
+}
+
+export function deleteTransactionCategoryApi(
+  accessToken?: string,
+  body?: DeleteTransactionCategoryRequestType,
+) {
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/transaction_category/delete`,
     body,
   );
 }

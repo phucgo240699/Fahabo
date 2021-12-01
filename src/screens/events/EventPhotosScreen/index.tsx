@@ -15,7 +15,6 @@ import {
   isRefreshingEventPhotosSelector,
 } from '@store/selectors/events';
 import {isNull} from '@utils/index';
-import {getChorePhotosRequestAction} from '@store/actionTypes/chores';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 import {eventPhotosSelector} from '@store/selectors/events';
 import {getEventPhotosRequestAction} from '@store/actionTypes/events';
@@ -49,9 +48,9 @@ const EventPhotosScreen: React.FC<Props> = ({route}) => {
   const onRefreshData = () => {
     if (!isNull(route.params.event.id) && isRefreshing === false) {
       dispatch(
-        getChorePhotosRequestAction({
+        getEventPhotosRequestAction({
           refresh: true,
-          choreId: route.params.event.id,
+          eventId: route.params.event.id,
         }),
       );
       setPageIndex(0);
@@ -64,10 +63,10 @@ const EventPhotosScreen: React.FC<Props> = ({route}) => {
       eventPhotos.length >= Pagination.EventPhotos
     ) {
       dispatch(
-        getChorePhotosRequestAction({
+        getEventPhotosRequestAction({
           loadMore: true,
           page: pageIndex + 1,
-          choreId: route.params.event.id,
+          eventId: route.params.event.id,
         }),
       );
       setPageIndex(pageIndex + 1);

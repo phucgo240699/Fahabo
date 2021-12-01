@@ -3,20 +3,23 @@ export type CreateTransactionRequestType = {
   familyId?: number;
   type?: string;
   note?: string;
-  categoryId?: string;
-  occurrences?: number;
+  categoryId?: number;
+  repeatType?: string;
   date?: string; // dd-mm-yyyy
   cost?: number;
-  photos?: string[];
+  photos?: (string | undefined)[]; // base64 string
 };
 
 export type UpdateTransactionRequestType = {
   transactionId?: number;
   type?: string;
+  note?: string;
   date?: string;
+  categoryId?: number;
+  repeatType?: string;
   cost?: number;
-  categoryName?: string;
-  categoryIcon?: string;
+  photos?: (string | undefined)[];
+  deletePhotos?: number[];
 };
 
 export type DeleteTransactionRequestType = {
@@ -70,28 +73,30 @@ export type GetTransactionCategoriesRequestType = {
   size?: number;
 };
 
+export type DeleteTransactionCategoryRequestType = {
+  categoryId?: number;
+  type?: string;
+};
+
 export type TransactionType = {
   id?: number;
   type?: string;
   date?: string;
-  cost?: number;
-  categoryName?: string;
-  categoryIcon?: string;
-};
-
-export type TransactionDetailType = {
-  id?: number;
-  type?: string;
   note?: string;
-  date?: string;
-  cost?: number;
-  categoryName?: string;
-  categoryIcon?: string;
   repeatType?: string;
+  cost?: number;
+  category?: TransactionCategoryType;
 };
 
 export type TransactionCategoryType = {
   id?: number;
-  name?: string;
+  title?: string;
   icon?: string;
+  translated?: boolean;
+  type?: string;
 };
+
+export enum TransactionCategorySegment {
+  EXPENSE = 'EXPENSE',
+  INCOME = 'INCOME',
+}

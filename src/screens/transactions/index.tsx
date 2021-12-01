@@ -3,12 +3,17 @@ import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import TransactionHeader from './shared/TransactionHeader';
 import PrimaryButton from '@components/PrimaryButton';
-import {getDateMinusOneMonth, getDatePlusOneMonth, isNull} from '@utils/index';
-import {FlatList} from 'native-base';
-import {DummyTransactions} from '@constants/DummyData';
+import {
+  getDateMinusOneMonth,
+  getDatePlusOneMonth,
+  getOriginDateStringWithMaximumDate,
+  getOriginDateStringWithMinimumDate,
+  isNull,
+} from '@utils/index';
+import {Box, FlatList} from 'native-base';
 import HorizontalTransactionItem from './shared/HorizontalTransactionItem';
 import {RefreshControl, StyleSheet} from 'react-native';
-import {plusIcon} from '@constants/sources';
+import {editProfileIcon, plusIcon, trashIcon} from '@constants/sources';
 import {navigate} from '@navigators/index';
 import {Pagination, ScreenName} from '@constants/Constants';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,10 +23,16 @@ import {
   isRefreshingTransactionsSelector,
   transactionsSelector,
 } from '@store/selectors/transactions';
-import {getTransactionsRequestAction} from '@store/actionTypes/transactions';
+import {
+  deleteTransactionRequestAction,
+  getTransactionDetailRequestAction,
+  getTransactionsRequestAction,
+} from '@store/actionTypes/transactions';
 import {focusFamilySelector} from '@store/selectors/family';
 import GettingIndicator from '@components/GettingIndicator';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
+import {RowMap, SwipeListView} from 'react-native-swipe-list-view';
+import {TransactionType} from '@constants/types/transactions';
 
 interface Props {}
 
@@ -34,22 +45,25 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
   const isLoadingMore = useSelector(isLoadingTransactionsSelector);
 
   const [pageIndex, setPageIndex] = useState(0);
+  const [indexSwiped, setIndexSwiped] = useState<string | undefined>(undefined);
   const [today, setToday] = useState(new Date());
   const [currentDate, setCurrentDate] = useState(today);
   const lastDate = getDateMinusOneMonth(currentDate);
   const nextDate = getDatePlusOneMonth(currentDate);
 
-  // Life cycle
-  useEffect(() => {
-    if (!isNull(focusFamily?.id)) {
-      dispatch(
-        getTransactionsRequestAction({
-          getting: true,
-          familyId: focusFamily?.id,
-        }),
-      );
-    }
-  }, []);
+  // // Life cycle
+  // useEffect(() => {
+  //   if (!isNull(focusFamily?.id)) {
+  //     dispatch(
+  //       getTransactionsRequestAction({
+  //         getting: true,
+  //         familyId: focusFamily?.id,
+  //         from: `${getOriginDateStringWithMinimumDate(currentDate)} 00:00:00`,
+  //         to: `${getOriginDateStringWithMaximumDate(currentDate)} 23:59:59`,
+  //       }),
+  //     );
+  //   }
+  // }, []);
 
   // Refresh && Load more
   const onRefreshData = () => {
@@ -57,8 +71,10 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
       setPageIndex(0),
         dispatch(
           getTransactionsRequestAction({
-            familyId: focusFamily?.id,
             refresh: true,
+            familyId: focusFamily?.id,
+            from: `${getOriginDateStringWithMinimumDate(currentDate)} 00:00:00`,
+            to: `${getOriginDateStringWithMaximumDate(currentDate)} 23:59:59`,
           }),
         );
     }
@@ -70,9 +86,11 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
     ) {
       dispatch(
         getTransactionsRequestAction({
-          familyId: focusFamily?.id,
           loadMore: true,
           page: pageIndex + 1,
+          familyId: focusFamily?.id,
+          from: `${getOriginDateStringWithMinimumDate(currentDate)} 00:00:00`,
+          to: `${getOriginDateStringWithMaximumDate(currentDate)} 23:59:59`,
         }),
       );
       setPageIndex(pageIndex + 1);
@@ -81,15 +99,80 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
 
   // Switch Months
   const onPressLastMonth = () => {
+    if (!isNull(focusFamily?.id)) {
+      dispatch(
+        getTransactionsRequestAction({
+          getting: true,
+          familyId: focusFamily?.id,
+          from: `${getOriginDateStringWithMinimumDate(
+            getDateMinusOneMonth(currentDate),
+          )} 00:00:00`,
+          to: `${getOriginDateStringWithMaximumDate(
+            getDateMinusOneMonth(currentDate),
+          )} 23:59:59`,
+        }),
+      );
+    }
     setCurrentDate(getDateMinusOneMonth(currentDate));
   };
   const onPressNextMonth = () => {
+    if (!isNull(focusFamily?.id)) {
+      dispatch(
+        getTransactionsRequestAction({
+          getting: true,
+          familyId: focusFamily?.id,
+          from: `${getOriginDateStringWithMinimumDate(
+            getDatePlusOneMonth(currentDate),
+          )} 00:00:00`,
+          to: `${getOriginDateStringWithMaximumDate(
+            getDatePlusOneMonth(currentDate),
+          )} 23:59:59`,
+        }),
+      );
+    }
     setCurrentDate(getDatePlusOneMonth(currentDate));
   };
 
   // Item
   const renderItem = ({item}: {item: any}) => {
-    return <HorizontalTransactionItem item={item} />;
+    return <HorizontalTransactionItem item={item} onPress={onPressItem} />;
+  };
+  const onPressItem = (item: TransactionType) => {
+    if (!isNull(item.id)) {
+      dispatch(
+        getTransactionDetailRequestAction({
+          transactionId: item.id,
+        }),
+      );
+    }
+  };
+  const onPressDelete = () => {
+    if (indexSwiped) {
+      for (let i = 0; i < transactions.length; ++i) {
+        if (i.toString() === indexSwiped) {
+          dispatch(
+            deleteTransactionRequestAction({transactionId: transactions[i].id}),
+          );
+          return;
+        }
+      }
+    }
+  };
+  const onPressUpdate = () => {
+    if (indexSwiped) {
+      for (let i = 0; i < transactions.length; ++i) {
+        if (i.toString() === indexSwiped) {
+          navigate(ScreenName.CreateTransactionScreen, {
+            oldTransaction: transactions[i],
+          });
+          // console.log(transactions[i]);
+          return;
+        }
+      }
+    }
+  };
+  const onDidSwipe = (rowKey: string, rowMap: RowMap<any>, toValue: number) => {
+    setIndexSwiped(rowKey);
   };
 
   // Creation
@@ -134,12 +217,36 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
       {isGetting ? (
         <GettingIndicator />
       ) : (
-        <FlatList
-          mt={2}
+        <SwipeListView
           data={transactions}
           renderItem={renderItem}
+          disableRightSwipe={true}
           contentContainerStyle={styles.list}
           keyExtractor={(item, index) => index.toString()}
+          renderHiddenItem={(data, rowMap) => (
+            <Box
+              mt={2}
+              mr={31}
+              height={'100%'}
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="flex-end"
+              backgroundColor={colors.WHITE}>
+              <SwipeUpdateButton
+                onPress={onPressUpdate}
+                leftTintColor={'#ffffff'}
+                leftSource={editProfileIcon}
+              />
+              <SwipeDeleteButton
+                leftSource={trashIcon}
+                leftTintColor={'#ffffff'}
+                onPress={onPressDelete}
+              />
+            </Box>
+          )}
+          leftOpenValue={150}
+          rightOpenValue={-150}
+          onRowOpen={onDidSwipe}
           onEndReachedThreshold={0.5}
           onEndReached={onLoadMoreData}
           ListFooterComponent={
@@ -184,6 +291,24 @@ const EmptyView = styled.View`
   width: 100px;
   height: 30px;
   margin-top: 10px;
+`;
+
+const SwipeDeleteButton = styled(PrimaryButton)`
+  width: 80px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #ff4000;
+`;
+
+const SwipeUpdateButton = styled(PrimaryButton)`
+  width: 80px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  background-color: #134db9;
 `;
 
 const CreateButton = styled(PrimaryButton)`

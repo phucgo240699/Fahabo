@@ -177,7 +177,8 @@
     "photo": "Photo",
     "addCategory": "Add new category",
     "categoryName": "Category name",
-    "categoryIcon": "Category icon"
+    "categoryIcon": "Category icon",
+    "selectCategory": "Select category"
   },
   "application": {
     "loading": "Loading...",
@@ -273,6 +274,7 @@
       "fail": "System error."
     },
     "validation": {
+      "transactionIdNotExist": "Transaction id does not exist.",
       "choreIdNotExist": "ChoreId does not exist.",
       "dateFormatInvalid": "Date format must be dd-mm-yyyy",
       "albumTitleExists": "Album title must not be dupplicate.",
@@ -317,6 +319,14 @@
     },
     "firebase": {
       "tokenExist": "Token exists."
+    },
+    "transactionGroup": {
+      "requiredExpenses": "Required Expenses",
+      "upAndComers": "Up And Comers",
+      "funAndRelax": "Fun And Relax",
+      "InvestingAndDebt": "Investing And Debt",
+      "income": "Income",
+      "other": "Other"
     }
   }
 }

@@ -1,25 +1,31 @@
 import {PhotoType} from '@constants/types/albums';
 import {
   TransactionCategoryType,
-  TransactionDetailType,
   TransactionType,
 } from '@constants/types/transactions';
 import {LOG_OUT} from '@store/actionTypes/signIn';
 import {
-  CREATE_TRANSACTION_CATEGORY_SUCCESS,
+  CREATE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS,
+  CREATE_TRANSACTION_INCOME_CATEGORY_SUCCESS,
   CREATE_TRANSACTION_SUCCESS,
+  DELETE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS,
+  DELETE_TRANSACTION_INCOME_CATEGORY_SUCCESS,
   DELETE_TRANSACTION_SUCCESS,
   GET_TRANSACTIONS_SUCCESS,
-  GET_TRANSACTION_CATEGORIES_SUCCESS,
   GET_TRANSACTION_DETAIL_SUCCESS,
+  GET_TRANSACTION_EXPENSE_CATEGORIES_SUCCESS,
+  GET_TRANSACTION_INCOME_CATEGORIES_SUCCESS,
   GET_TRANSACTION_PHOTOS_SUCCESS,
   UPDATE_IS_GETTING_TRANSACTIONS,
-  UPDATE_IS_GETTING_TRANSACTION_CATEGORIES,
+  UPDATE_IS_GETTING_TRANSACTION_EXPENSE_CATEGORIES,
+  UPDATE_IS_GETTING_TRANSACTION_INCOME_CATEGORIES,
   UPDATE_IS_GETTING_TRANSACTION_PHOTOS,
   UPDATE_IS_LOADING_TRANSACTIONS,
-  UPDATE_IS_LOADING_TRANSACTION_CATEGORIES,
+  UPDATE_IS_LOADING_TRANSACTION_EXPENSE_CATEGORIES,
+  UPDATE_IS_LOADING_TRANSACTION_INCOME_CATEGORIES,
   UPDATE_IS_REFRESHING_TRANSACTIONS,
-  UPDATE_IS_REFRESHING_TRANSACTION_CATEGORIES,
+  UPDATE_IS_REFRESHING_TRANSACTION_EXPENSE_CATEGORIES,
+  UPDATE_IS_REFRESHING_TRANSACTION_INCOME_CATEGORIES,
   UPDATE_TRANSACTION_SUCCESS,
 } from '@store/actionTypes/transactions';
 import {AnyAction} from 'redux';
@@ -27,35 +33,43 @@ import {AnyAction} from 'redux';
 export type TransactionsState = {
   transactions: TransactionType[];
   transactionPhotos: PhotoType[];
-  transactionDetail?: TransactionDetailType;
-  transactionCategories: TransactionCategoryType[];
+  transactionDetail?: TransactionType;
+  transactionExpenseCategories: TransactionCategoryType[];
+  transactionIncomeCategories: TransactionCategoryType[];
 
   // Getting
   isGettingTransactions: boolean;
   isGettingTransactionPhotos: boolean;
-  isGettingTransactionCategories: boolean;
+  isGettingTransactionExpenseCategories: boolean;
+  isGettingTransactionIncomeCategories: boolean;
 
   // Refreshing
   isRefreshingTransactions: boolean;
-  isRefreshingTransactionCategories: boolean;
+  isRefreshingTransactionExpenseCategories: boolean;
+  isRefreshingTransactionIncomeCategories: boolean;
 
   // Load more
   isLoadingTransactions: boolean;
-  isLoadingTransactionCategories: boolean;
+  isLoadingTransactionExpenseCategories: boolean;
+  isLoadingTransactionIncomeCategories: boolean;
 };
 
 const defaultState: TransactionsState = {
   transactions: [],
   transactionPhotos: [],
   transactionDetail: undefined,
-  transactionCategories: [],
+  transactionExpenseCategories: [],
+  transactionIncomeCategories: [],
   isGettingTransactions: false,
   isGettingTransactionPhotos: false,
-  isGettingTransactionCategories: false,
+  isGettingTransactionExpenseCategories: false,
+  isGettingTransactionIncomeCategories: false,
   isRefreshingTransactions: false,
-  isRefreshingTransactionCategories: false,
+  isRefreshingTransactionExpenseCategories: false,
+  isRefreshingTransactionIncomeCategories: false,
   isLoadingTransactions: false,
-  isLoadingTransactionCategories: false,
+  isLoadingTransactionExpenseCategories: false,
+  isLoadingTransactionIncomeCategories: false,
 };
 
 export default function transactionsReducer(
@@ -124,32 +138,82 @@ export default function transactionsReducer(
       };
 
     // Category CRUD
-    case CREATE_TRANSACTION_CATEGORY_SUCCESS:
+    case CREATE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS:
       return {
         ...state,
-        transactionCategories: [action.payload, ...state.transactionCategories],
+        transactionExpenseCategories: [
+          action.payload,
+          ...state.transactionExpenseCategories,
+        ],
       };
-    case GET_TRANSACTION_CATEGORIES_SUCCESS:
+    case CREATE_TRANSACTION_INCOME_CATEGORY_SUCCESS:
       return {
         ...state,
-        transactionCategories: action.payload,
+        transactionIncomeCategories: [
+          action.payload,
+          ...state.transactionIncomeCategories,
+        ],
+      };
+    case GET_TRANSACTION_EXPENSE_CATEGORIES_SUCCESS:
+      return {
+        ...state,
+        transactionExpenseCategories: action.payload,
+      };
+    case GET_TRANSACTION_INCOME_CATEGORIES_SUCCESS:
+      return {
+        ...state,
+        transactionIncomeCategories: action.payload,
+      };
+    case DELETE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        transactionExpenseCategories: state.transactionExpenseCategories.filter(
+          item => {
+            return item.id !== action.payload.id;
+          },
+        ),
+      };
+    case DELETE_TRANSACTION_INCOME_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        transactionIncomeCategories: state.transactionIncomeCategories.filter(
+          item => {
+            return item.id !== action.payload.id;
+          },
+        ),
       };
 
     // Category Session
-    case UPDATE_IS_GETTING_TRANSACTION_CATEGORIES:
+    case UPDATE_IS_GETTING_TRANSACTION_EXPENSE_CATEGORIES:
       return {
         ...state,
-        isGettingTransactionCategories: action.payload,
+        isGettingTransactionExpenseCategories: action.payload,
       };
-    case UPDATE_IS_REFRESHING_TRANSACTION_CATEGORIES:
+
+    case UPDATE_IS_GETTING_TRANSACTION_INCOME_CATEGORIES:
       return {
         ...state,
-        isRefreshingTransactionCategories: action.payload,
+        isGettingTransactionIncomeCategories: action.payload,
       };
-    case UPDATE_IS_LOADING_TRANSACTION_CATEGORIES:
+    case UPDATE_IS_REFRESHING_TRANSACTION_EXPENSE_CATEGORIES:
       return {
         ...state,
-        isLoadingTransactionCategories: action.payload,
+        isRefreshingTransactionExpenseCategories: action.payload,
+      };
+    case UPDATE_IS_REFRESHING_TRANSACTION_INCOME_CATEGORIES:
+      return {
+        ...state,
+        isRefreshingTransactionIncomeCategories: action.payload,
+      };
+    case UPDATE_IS_LOADING_TRANSACTION_EXPENSE_CATEGORIES:
+      return {
+        ...state,
+        isLoadingTransactionExpenseCategories: action.payload,
+      };
+    case UPDATE_IS_LOADING_TRANSACTION_INCOME_CATEGORIES:
+      return {
+        ...state,
+        isLoadingTransactionIncomeCategories: action.payload,
       };
     case LOG_OUT:
       return {
@@ -157,14 +221,18 @@ export default function transactionsReducer(
         transactions: [],
         transactionPhotos: [],
         transactionDetail: undefined,
-        transactionCategories: [],
+        transactionExpenseCategories: [],
+        transactionIncomeCategories: [],
         isGettingTransactions: false,
         isGettingTransactionPhotos: false,
-        isGettingTransactionCategories: false,
+        isGettingTransactionExpenseCategories: false,
+        isGettingTransactionIncomeCategories: false,
         isRefreshingTransactions: false,
-        isRefreshingTransactionCategories: false,
+        isRefreshingTransactionExpenseCategories: false,
+        isRefreshingTransactionIncomeCategories: false,
         isLoadingTransactions: false,
-        isLoadingTransactionCategories: false,
+        isLoadingTransactionExpenseCategories: false,
+        isLoadingTransactionIncomeCategories: false,
       };
 
     default:

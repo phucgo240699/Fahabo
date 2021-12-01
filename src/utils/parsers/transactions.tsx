@@ -1,7 +1,6 @@
 import {get} from 'lodash/fp';
 import {
   TransactionCategoryType,
-  TransactionDetailType,
   TransactionType,
 } from '@constants/types/transactions';
 
@@ -15,30 +14,11 @@ export function parseTransactions(rawData: any[]): TransactionType[] {
 export function parseTransaction(rawData: any): TransactionType {
   const id = get('transactionId', rawData);
   const type = get('type', rawData);
-  const date = get('date', rawData);
-  const cost = get('cost', rawData);
-  const categoryName = get('categoryName', rawData);
-  const categoryIcon = get('categoryIcon', rawData);
-
-  return {
-    id,
-    type,
-    date,
-    cost,
-    categoryName,
-    categoryIcon,
-  };
-}
-
-export function parseTransactionDetail(rawData: any): TransactionDetailType {
-  const id = get('transactionId', rawData);
-  const type = get('type', rawData);
   const note = get('note', rawData);
   const date = get('date', rawData);
-  const cost = get('cost', rawData);
-  const categoryName = get('categoryName', rawData);
-  const categoryIcon = get('categoryIcon', rawData);
+  const cost = parseInt(get('cost', rawData));
   const repeatType = get('repeatType', rawData);
+  const category = parseTransactionCategory(get('category', rawData));
 
   return {
     id,
@@ -46,9 +26,8 @@ export function parseTransactionDetail(rawData: any): TransactionDetailType {
     note,
     date,
     cost,
-    categoryName,
-    categoryIcon,
     repeatType,
+    category,
   };
 }
 
@@ -65,12 +44,16 @@ export function parseTransactionCategory(
   rawData: any,
 ): TransactionCategoryType {
   const id = get('categoryId', rawData);
-  const name = get('name', rawData);
+  const title = get('title', rawData);
   const icon = get('icon', rawData);
+  const translated = get('translated', rawData);
+  const type = get('type', rawData);
 
   return {
     id,
-    name,
+    title,
     icon,
+    translated,
+    type,
   };
 }

@@ -16,6 +16,22 @@ export const getOriginDateString = (date: Date) => {
   return `${day}-${month}-${date.getFullYear()}`; // DD-MM-YYYY
 };
 
+export const getOriginDateStringWithMinimumDate = (date: Date) => {
+  const month: string =
+    date.getMonth() + 1 < 10
+      ? `0${date.getMonth() + 1}`
+      : `${date.getMonth() + 1}`;
+  return `01-${month}-${date.getFullYear()}`; // DD-MM-YYYY
+};
+
+export const getOriginDateStringWithMaximumDate = (date: Date) => {
+  const month: string =
+    date.getMonth() + 1 < 10
+      ? `0${date.getMonth() + 1}`
+      : `${date.getMonth() + 1}`;
+  return `31-${month}-${date.getFullYear()}`; // DD-MM-YYYY
+};
+
 export const getOriginDateTimeString = (date: Date) => {
   const day: string =
     date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
@@ -92,6 +108,18 @@ export const getDateTimeStringFrom = (originDateString: string) => {
       return `${month}-${day}-${year} ${hour}:${minute}`;
   }
 };
+
+export function convertOriginDateStringToDate(originDateString: string) {
+  let datePieces = originDateString.split('-');
+  return new Date(
+    parseInt(datePieces[2]),
+    parseInt(datePieces[1]) - 1,
+    parseInt(datePieces[0]),
+    0,
+    0,
+    0,
+  );
+}
 
 export function convertOriginDateTimeStringToDate(
   originDateTimeString: string,
@@ -348,5 +376,9 @@ export const isNumber = (text: string) => {
 };
 
 export const getNumberWithCommas = (x: number) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const rawResult = x.toString();
+  if (rawResult.length < 4) {
+    return rawResult;
+  }
+  return rawResult.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };

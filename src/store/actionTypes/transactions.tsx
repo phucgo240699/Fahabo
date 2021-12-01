@@ -6,13 +6,13 @@ import {PhotoType} from '@constants/types/albums';
 import {
   CreateTransactionCategoryRequestType,
   CreateTransactionRequestType,
+  DeleteTransactionCategoryRequestType,
   DeleteTransactionRequestType,
   GetTransactionCategoriesRequestType,
   GetTransactionDetailRequestType,
   GetTransactionPhotosRequestType,
   GetTransactionsRequestType,
   TransactionCategoryType,
-  TransactionDetailType,
   TransactionType,
   UpdateTransactionRequestType,
 } from '@constants/types/transactions';
@@ -50,7 +50,7 @@ export const DELETE_TRANSACTION_REQUEST = 'DELETE_TRANSACTION_REQUEST';
 export const deleteTransactionRequestAction = (
   body: DeleteTransactionRequestType,
 ) => ({
-  type: UPDATE_TRANSACTION_REQUEST,
+  type: DELETE_TRANSACTION_REQUEST,
   body,
 });
 export const DELETE_TRANSACTION_SUCCESS = 'DELETE_TRANSACTION_SUCCESS';
@@ -83,7 +83,7 @@ export const getTransactionDetailRequestAction = (
 });
 export const GET_TRANSACTION_DETAIL_SUCCESS = 'GET_TRANSACTION_DETAIL_SUCCESS';
 export const getTransactionDetailSuccessAction = (
-  payload: TransactionDetailType,
+  payload: TransactionType,
 ) => ({
   type: GET_TRANSACTION_DETAIL_SUCCESS,
   payload,
@@ -140,12 +140,20 @@ export const createTransactionCategoryRequestAction = (
   type: CREATE_TRANSACTION_CATEGORY_REQUEST,
   body,
 });
-export const CREATE_TRANSACTION_CATEGORY_SUCCESS =
-  'CREATE_TRANSACTION_CATEGORY_SUCCESS';
-export const createTransactionCategorySuccessAction = (
+export const CREATE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS =
+  'CREATE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS';
+export const createTransactionExpenseCategorySuccessAction = (
   payload: TransactionCategoryType,
 ) => ({
-  type: CREATE_TRANSACTION_CATEGORY_SUCCESS,
+  type: CREATE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS,
+  payload,
+});
+export const CREATE_TRANSACTION_INCOME_CATEGORY_SUCCESS =
+  'CREATE_TRANSACTION_INCOME_CATEGORY_SUCCESS';
+export const createTransactionIncomeCategorySuccessAction = (
+  payload: TransactionCategoryType,
+) => ({
+  type: CREATE_TRANSACTION_INCOME_CATEGORY_SUCCESS,
   payload,
 });
 
@@ -158,37 +166,95 @@ export const getTransactionCategoriesRequestAction = (
   type: GET_TRANSACTION_CATEGORIES_REQUEST,
   body,
 });
-export const GET_TRANSACTION_CATEGORIES_SUCCESS =
-  'GET_TRANSACTION_CATEGORIES_SUCCESS';
-export const getTransactionCategoriesSuccessAction = (
+export const GET_TRANSACTION_EXPENSE_CATEGORIES_SUCCESS =
+  'GET_TRANSACTION_EXPENSE_CATEGORIES_SUCCESS';
+export const getTransactionExpenseCategoriesSuccessAction = (
   payload: TransactionCategoryType[],
 ) => ({
-  type: GET_TRANSACTION_CATEGORIES_SUCCESS,
+  type: GET_TRANSACTION_EXPENSE_CATEGORIES_SUCCESS,
+  payload,
+});
+export const GET_TRANSACTION_INCOME_CATEGORIES_SUCCESS =
+  'GET_TRANSACTION_INCOME_CATEGORIES_SUCCESS';
+export const getTransactionIncomeCategoriesSuccessAction = (
+  payload: TransactionCategoryType[],
+) => ({
+  type: GET_TRANSACTION_INCOME_CATEGORIES_SUCCESS,
+  payload,
+});
+
+// Delete
+export const DELETE_TRANSACTION_CATEGORY_REQUEST =
+  'DELETE_TRANSACTION_CATEGORY_REQUEST';
+export const deleteTransactionCategoryRequestAction = (
+  body: DeleteTransactionCategoryRequestType,
+) => ({
+  type: DELETE_TRANSACTION_CATEGORY_REQUEST,
+  body,
+});
+export const DELETE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS =
+  'DELETE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS';
+export const deleteTransactionExpenseCategorySuccessAction = (
+  payload: TransactionCategoryType,
+) => ({
+  type: DELETE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS,
+  payload,
+});
+export const DELETE_TRANSACTION_INCOME_CATEGORY_SUCCESS =
+  'DELETE_TRANSACTION_INCOME_CATEGORY_SUCCESS';
+export const deleteTransactionIncomeCategorySuccessAction = (
+  payload: TransactionCategoryType,
+) => ({
+  type: DELETE_TRANSACTION_INCOME_CATEGORY_SUCCESS,
   payload,
 });
 
 // Session
-export const UPDATE_IS_GETTING_TRANSACTION_CATEGORIES =
-  'UPDATE_IS_GETTING_TRANSACTION_CATEGORIES';
-export const updateIsGettingTransactionCategoriesAction = (
+export const UPDATE_IS_GETTING_TRANSACTION_EXPENSE_CATEGORIES =
+  'UPDATE_IS_GETTING_TRANSACTION_EXPENSE_CATEGORIES';
+export const updateIsGettingTransactionExpenseCategoriesAction = (
   payload: boolean,
 ) => ({
-  type: UPDATE_IS_GETTING_TRANSACTION_CATEGORIES,
+  type: UPDATE_IS_GETTING_TRANSACTION_EXPENSE_CATEGORIES,
   payload,
 });
-export const UPDATE_IS_REFRESHING_TRANSACTION_CATEGORIES =
-  'UPDATE_IS_REFRESHING_TRANSACTION_CATEGORIES';
-export const updateIsRefreshingTransactionCategoriesAction = (
+export const UPDATE_IS_GETTING_TRANSACTION_INCOME_CATEGORIES =
+  'UPDATE_IS_GETTING_TRANSACTION_INCOME_CATEGORIES';
+export const updateIsGettingTransactionIncomeCategoriesAction = (
   payload: boolean,
 ) => ({
-  type: UPDATE_IS_REFRESHING_TRANSACTION_CATEGORIES,
+  type: UPDATE_IS_GETTING_TRANSACTION_INCOME_CATEGORIES,
   payload,
 });
-export const UPDATE_IS_LOADING_TRANSACTION_CATEGORIES =
-  'UPDATE_IS_LOADING_TRANSACTION_CATEGORIES';
-export const updateIsLoadingTransactionCategoriesAction = (
+export const UPDATE_IS_REFRESHING_TRANSACTION_EXPENSE_CATEGORIES =
+  'UPDATE_IS_REFRESHING_TRANSACTION_EXPENSE_CATEGORIES';
+export const updateIsRefreshingTransactionExpenseCategoriesAction = (
   payload: boolean,
 ) => ({
-  type: UPDATE_IS_LOADING_TRANSACTION_CATEGORIES,
+  type: UPDATE_IS_REFRESHING_TRANSACTION_EXPENSE_CATEGORIES,
+  payload,
+});
+export const UPDATE_IS_REFRESHING_TRANSACTION_INCOME_CATEGORIES =
+  'UPDATE_IS_REFRESHING_TRANSACTION_INCOME_CATEGORIES';
+export const updateIsRefreshingTransactionIncomeCategoriesAction = (
+  payload: boolean,
+) => ({
+  type: UPDATE_IS_REFRESHING_TRANSACTION_INCOME_CATEGORIES,
+  payload,
+});
+export const UPDATE_IS_LOADING_TRANSACTION_EXPENSE_CATEGORIES =
+  'UPDATE_IS_LOADING_TRANSACTION_EXPENSE_CATEGORIES';
+export const updateIsLoadingTransactionExpenseCategoriesAction = (
+  payload: boolean,
+) => ({
+  type: UPDATE_IS_LOADING_TRANSACTION_EXPENSE_CATEGORIES,
+  payload,
+});
+export const UPDATE_IS_LOADING_TRANSACTION_INCOME_CATEGORIES =
+  'UPDATE_IS_LOADING_TRANSACTION_INCOME_CATEGORIES';
+export const updateIsLoadingTransactionIncomeCategoriesAction = (
+  payload: boolean,
+) => ({
+  type: UPDATE_IS_LOADING_TRANSACTION_INCOME_CATEGORIES,
   payload,
 });

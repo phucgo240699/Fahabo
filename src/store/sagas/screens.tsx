@@ -2,6 +2,7 @@ import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
 import {getChoresApi} from '@services/chores';
 import {getFamilyMembersApi, getMyFamiliesApi} from '@services/family';
+import {getTransactionsApi} from '@services/transactions';
 import {getChoresSuccessAction} from '@store/actionTypes/chores';
 import {
   getChoreFilterMembersSuccessAction,
@@ -16,8 +17,13 @@ import {
   showToastAction,
 } from '@store/actionTypes/session';
 import {logOutRequestAction} from '@store/actionTypes/signIn';
+import {getTransactionsSuccessAction} from '@store/actionTypes/transactions';
 import {focusFamilySelector} from '@store/selectors/family';
-import {isNull} from '@utils/index';
+import {
+  getOriginDateStringWithMaximumDate,
+  getOriginDateStringWithMinimumDate,
+  isNull,
+} from '@utils/index';
 import {
   parseDataResponse,
   parseErrorResponse,
@@ -25,6 +31,7 @@ import {
 } from '@utils/parsers';
 import {parseChores} from '@utils/parsers/chores';
 import {parseFamilies, parseMembers} from '@utils/parsers/family';
+import {parseTransactions} from '@utils/parsers/transactions';
 import {AnyAction} from 'redux';
 import {all, put, select, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
@@ -60,13 +67,21 @@ function* getHomeScreenDataSaga(action: AnyAction) {
     }
 
     if (!isNull(focusFamily)) {
-      const [choresResponse, membersResponse] = yield* all([
-        apiProxy(getChoresApi, {familyId: focusFamily?.id}),
-        apiProxy(getFamilyMembersApi, {familyId: focusFamily?.id}),
-      ]);
+      const today = new Date();
+      const [choresResponse, membersResponse, transactionsResponse] =
+        yield* all([
+          apiProxy(getChoresApi, {familyId: focusFamily?.id}),
+          apiProxy(getFamilyMembersApi, {familyId: focusFamily?.id}),
+          apiProxy(getTransactionsApi, {
+            familyId: focusFamily?.id,
+            from: `${getOriginDateStringWithMinimumDate(today)} 00:00:00`,
+            to: `${getOriginDateStringWithMaximumDate(today)} 23:59:59`,
+          }),
+        ]);
       if (
         (choresResponse as any).status === 200 &&
-        (membersResponse as any).status === 200
+        (membersResponse as any).status === 200 &&
+        (transactionsResponse as any).status === 200
       ) {
         yield* all([
           put(
@@ -82,6 +97,11 @@ function* getHomeScreenDataSaga(action: AnyAction) {
           put(
             getChoreFilterMembersSuccessAction(
               parseMembers(parseDataResponse(membersResponse)),
+            ),
+          ),
+          put(
+            getTransactionsSuccessAction(
+              parseTransactions(parseDataResponse(transactionsResponse)),
             ),
           ),
         ]);

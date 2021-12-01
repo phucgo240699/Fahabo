@@ -8,7 +8,6 @@ export const shades = {
   GRAY: Appearance.getColorScheme() === 'light' ? '#8C8C8C' : '#C0C0C0',
   DARK_GRAY: Appearance.getColorScheme() === 'light' ? '#595959' : '#F2F2F2',
   BLACK: Appearance.getColorScheme() === 'light' ? '#000000' : '#FFFFFF',
-  ABBEY: Appearance.getColorScheme() === 'light' ? '#333333' : '#f2f2f2',
   THEME_COLOR_1:
     Appearance.getColorScheme() === 'light' ? '#FFF1CC' : '#332500',
   THEME_COLOR_2:

@@ -23,6 +23,8 @@ import EventPhotosScreen from '@screens/events/EventPhotosScreen';
 import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
 import ConferenceCallScreen from '@screens/interactions/ConferenceCallScreen';
 import LocationsScreen from '@screens/locations';
+import TransactionDetailScreen from '@screens/transactions/TransactionDetailScreen';
+import TransactionPhotosScreen from '@screens/transactions/TransactionPhotosScreen';
 
 const Stack = createStackNavigator();
 
@@ -145,12 +147,20 @@ const MainStack = () => {
         component={EventDetailScreen}
       />
       <Stack.Screen
-        name={ScreenName.ConferenceCallScreen}
-        component={ConferenceCallScreen}
-      />
-      <Stack.Screen
         name={ScreenName.EventPhotosScreen}
         component={EventPhotosScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.TransactionDetailScreen}
+        component={TransactionDetailScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.TransactionPhotosScreen}
+        component={TransactionPhotosScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.ConferenceCallScreen}
+        component={ConferenceCallScreen}
       />
       <Stack.Screen
         name={ScreenName.LocationsScreen}

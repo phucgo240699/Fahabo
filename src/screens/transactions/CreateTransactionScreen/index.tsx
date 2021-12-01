@@ -20,6 +20,8 @@ import {
   getNumberWithCommas,
   getDateStringFrom,
   getOriginDateString,
+  convertOriginDateTimeStringToDate,
+  convertOriginDateStringToDate,
 } from '@utils/index';
 import PrimaryButton from '@components/PrimaryButton';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
@@ -32,10 +34,20 @@ import {navigate} from '@navigators/index';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
-import {getRepeatText} from '@utils/chores';
+import {getRepeatText, getRepeatType} from '@utils/chores';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import {
+  TransactionCategoryType,
+  TransactionType,
+} from '@constants/types/transactions';
+import {
+  createTransactionRequestAction,
+  getTransactionPhotosRequestAction,
+  updateTransactionRequestAction,
+} from '@store/actionTypes/transactions';
+import {transactionPhotosSelector} from '@store/selectors/transactions';
 
 interface Props {
   route?: any;
@@ -44,14 +56,20 @@ interface Props {
 const CreateTransactionScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const focusFamily = useSelector(focusFamilySelector);
+  const transactionPhotos = useSelector(transactionPhotosSelector);
   const [cost, setCost] = useState(0);
-  const [category, setCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<
+    TransactionCategoryType | undefined
+  >(undefined);
   const [date, setDate] = useState(new Date());
   const [repeat, setRepeat] = useState<RepeatType>(RepeatType.NONE);
   const [selectedPhotos, setSelectedPhotos] = useState<
     {id?: number; uri?: string; base64?: string}[]
   >([]);
   const [deletePhotos, setDeletePhotos] = useState<number[]>([]);
+  const [oldTransaction, setOldTransaction] = useState<
+    TransactionType | undefined
+  >(undefined);
   const [note, setNote] = useState('');
   const [visibleDatePicker, setVisibleDatePicker] = useState(false);
   const timeZoneOffset = new Date().getTimezoneOffset() * -1;
@@ -62,6 +80,9 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
     if (route && route.params) {
       if (route.params.selectedRepeat) {
         setRepeat(route.params.selectedRepeat);
+      }
+      if (route.params.selectedCategory) {
+        setSelectedCategory(route.params.selectedCategory);
       }
       if (route.params.thumbnailUri && route.params.thumbnailBase64) {
         if (
@@ -88,8 +109,39 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
           ]);
         }
       }
+      if (route.params.oldTransaction) {
+        const _oldTransaction: TransactionType = route.params.oldTransaction;
+
+        setOldTransaction(_oldTransaction);
+        setCost(_oldTransaction.cost ?? 0);
+        setSelectedCategory(_oldTransaction.category);
+        setDate(convertOriginDateStringToDate(_oldTransaction.date ?? ''));
+        setRepeat(getRepeatType(_oldTransaction.repeatType));
+        setNote(_oldTransaction.note ?? '');
+
+        dispatch(
+          getTransactionPhotosRequestAction({
+            showHUD: true,
+            transactionId: _oldTransaction.id,
+          }),
+        );
+      }
     }
   }, [route]);
+
+  useEffect(() => {
+    if (oldTransaction) {
+      setSelectedPhotos(
+        transactionPhotos.map(item => {
+          return {
+            id: item.id,
+            uri: item.uri,
+            base64: undefined,
+          };
+        }),
+      );
+    }
+  }, [transactionPhotos]);
 
   // Keyboard
   const onDismissKeyboard = () => {
@@ -101,9 +153,12 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
     if (value === '') {
       setCost(0);
     } else {
-      const parts = value.split(',');
-
-      setCost(parseInt(parts.join('')));
+      if (value.includes(',')) {
+        const parts = value.split(',');
+        setCost(parseInt(parts.join('')));
+      } else {
+        setCost(parseInt(value));
+      }
     }
   };
 
@@ -135,23 +190,23 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
   };
   const renderSelectedPhoto = ({item}: {item: any}) => {
     const onPressContainer = () => {
-      // if (!isNull(item.id)) {
-      //   setSelectedPhotos(
-      //     selectedPhotos.filter(photo => {
-      //       return photo.id !== item.id;
-      //     }),
-      //   );
-      //   if (oldChore) {
-      //     // update
-      //     setDeletePhotos([...deletePhotos, item.id]);
-      //   }
-      // } else {
-      //   setSelectedPhotos(
-      //     selectedPhotos.filter(photo => {
-      //       return photo.uri !== item.uri;
-      //     }),
-      //   );
-      // }
+      if (!isNull(item.id)) {
+        setSelectedPhotos(
+          selectedPhotos.filter(photo => {
+            return photo.id !== item.id;
+          }),
+        );
+        if (oldTransaction) {
+          // update
+          setDeletePhotos([...deletePhotos, item.id]);
+        }
+      } else {
+        setSelectedPhotos(
+          selectedPhotos.filter(photo => {
+            return photo.uri !== item.uri;
+          }),
+        );
+      }
     };
     return (
       <PhotoContainer onPress={onPressContainer}>
@@ -215,7 +270,50 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
   };
 
   // Done
-  const onCreateTraction = () => {};
+  const onCreateTraction = () => {
+    if (oldTransaction) {
+      if (!isNull(oldTransaction.id)) {
+        dispatch(
+          updateTransactionRequestAction({
+            transactionId: oldTransaction.id,
+            // type: selectedCategory?.type,
+            note: note,
+            categoryId: selectedCategory?.id,
+            repeatType: repeat,
+            date: getOriginDateString(date),
+            cost: cost,
+            photos: selectedPhotos
+              .filter(item => {
+                return !isNull(item.base64);
+              })
+              .map(item => {
+                return item.base64;
+              }),
+            deletePhotos: deletePhotos,
+          }),
+        );
+      }
+    } else {
+      if (!isNull(focusFamily?.id)) {
+        dispatch(
+          createTransactionRequestAction({
+            familyId: focusFamily?.id,
+            // type: selectedCategory?.type,
+            note: note,
+            categoryId: selectedCategory?.id,
+            repeatType: repeat === RepeatType.NONE ? '' : repeat,
+            date: getOriginDateString(date),
+            cost: cost,
+            photos: selectedPhotos.map((item, index) => {
+              if (index < Constants.LIMIT_PHOTO_UPLOAD) {
+                return item.base64;
+              }
+            }),
+          }),
+        );
+      }
+    }
+  };
 
   return (
     <SafeView>
@@ -247,7 +345,14 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
             {/* Category */}
             <Label>{`${i18n.t('transaction.category')}* :`}</Label>
             <CategoryButton onPress={onPressCategory}>
-              <CategoryName>All</CategoryName>
+              <CategoryName
+                color={isNull(selectedCategory) ? colors.SILVER : colors.BLACK}>
+                {isNull(selectedCategory)
+                  ? i18n.t('transaction.selectCategory')
+                  : selectedCategory?.translated
+                  ? i18n.t(`backend.${selectedCategory.title}`)
+                  : selectedCategory?.title}
+              </CategoryName>
               <ArrowIcon
                 width={16}
                 height={16}
@@ -324,7 +429,12 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
               size="lg"
               borderRadius={28}
               onPress={onCreateTraction}
-              disabled={isNull(cost) || isNull(category) || isNull(date)}
+              disabled={
+                isNull(cost) ||
+                cost == 0 ||
+                isNull(selectedCategory) ||
+                isNull(date)
+              }
               _text={{color: colors.WHITE}}
               backgroundColor={colors.GREEN_1}>
               {i18n.t('chores.done')}
@@ -394,8 +504,8 @@ const CategoryButton = styled.TouchableOpacity`
   border-color: ${colors.CONCRETE};
 `;
 
-const CategoryName = styled(fonts.PrimaryFontRegularSize16)`
-  color: ${colors.BLACK};
+const CategoryName = styled(fonts.PrimaryFontRegularSize16)<{color: string}>`
+  color: ${props => props.color};
 `;
 
 const RepeatContainer = styled.TouchableOpacity`

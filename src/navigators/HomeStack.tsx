@@ -9,9 +9,9 @@ import CreateChoreScreen from '@screens/chores/CreateChoreScreen';
 import RepeatPickerScreen from '@screens/chores/RepeatPickerScreen';
 import CalendarEventsScreen from '@screens/events/CalendarEventsScreen';
 import MembersPickerScreen from '@screens/families/MembersPickerScreen';
-import CreateTransactionScreen from '@screens/transactions/shared/CreateTransactionScreen';
-import TransactionCategoriesScreen from '@screens/transactions/shared/TransactionCategoriesScreen';
-import CreateTransactionCategoryScreen from '@screens/transactions/shared/TransactionCategoriesScreen/shared/CreateTransactionCategoryScreen';
+import CreateTransactionScreen from '@screens/transactions/CreateTransactionScreen';
+import TransactionCategoriesScreen from '@screens/transactions/TransactionCategoriesScreen';
+import CreateTransactionCategoryScreen from '@screens/transactions/TransactionCategoriesScreen/CreateTransactionCategoryScreen';
 
 const Stack = createStackNavigator();
 

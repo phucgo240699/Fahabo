@@ -178,7 +178,8 @@
     "photo": "Photo",
     "addCategory": "Thêm thể loại mới",
     "categoryName": "Tên thể loại",
-    "categoryIcon": "Icon thể loại"
+    "categoryIcon": "Icon thể loại",
+    "selectCategory": "Chọn thể loại"
   },
   "application": {
     "loading": "Đăng tải...",
@@ -273,6 +274,7 @@
       "fail": "Lỗi hệ thống."
     },
     "validation": {
+      "transactionIdNotExist": "Giao dịch không tồn tại.",
       "choreIdNotExist": "Công việc nhà không tồn tại.",
       "dateFormatInvalid": "Ngày phải có định dạng dd-mm-yyyy",
       "albumTitleExists": "Tên album không được trùng lặp.",
@@ -317,6 +319,14 @@
     },
     "firebase": {
       "tokenExist": "Token đã tồn tại."
+    },
+    "transactionGroup": {
+      "requiredExpenses": "Chi tiêu thiết yếu",
+      "upAndComers": "Phát sinh",
+      "funAndRelax": "Vui chơi giải trí",
+      "InvestingAndDebt": "Đầu tư và công nợ",
+      "income": "Thu nhập",
+      "other": "Khác"
     }
   }
 }
