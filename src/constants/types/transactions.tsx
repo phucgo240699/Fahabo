@@ -25,6 +25,8 @@ export type UpdateTransactionRequestType = {
 export type DeleteTransactionRequestType = {
   transactionId?: number;
   deleteAll?: boolean;
+  month?: number;
+  year?: number;
 };
 
 export type GetTransactionsRequestType = {
@@ -78,6 +80,16 @@ export type DeleteTransactionCategoryRequestType = {
   type?: string;
 };
 
+// Statistic
+export type GetTransactionStatisticRequestType = {
+  getting?: boolean;
+  showHUD?: boolean;
+  familyId?: number;
+  month?: number;
+  year?: number;
+  type?: string;
+};
+
 export type TransactionType = {
   id?: number;
   type?: string;
@@ -94,6 +106,14 @@ export type TransactionCategoryType = {
   icon?: string;
   translated?: boolean;
   type?: string;
+};
+
+export type TransactionStatisticType = {
+  name?: string;
+  population?: number;
+  color?: string;
+  legendFontColor?: string;
+  legendFontSize?: number;
 };
 
 export enum TransactionCategorySegment {

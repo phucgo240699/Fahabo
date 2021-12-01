@@ -1,5 +1,6 @@
 import {RootState} from '@store/index';
 
+// CRUD
 export const transactionsSelector = (state: RootState) =>
   state.transactions.transactions;
 
@@ -15,6 +16,19 @@ export const transactionExpenseCategoriesSelector = (state: RootState) =>
 export const transactionIncomeCategoriesSelector = (state: RootState) =>
   state.transactions.transactionIncomeCategories;
 
+export const expenseTransactionStatisticsSelector = (state: RootState) =>
+  state.transactions.expenseTransactionStatistics;
+
+export const incomeTransactionStatisticsSelector = (state: RootState) =>
+  state.transactions.incomeTransactionStatistics;
+
+export const totalExpenseSelector = (state: RootState) =>
+  state.transactions.totalExpense;
+
+export const totalIncomeSelector = (state: RootState) =>
+  state.transactions.totalIncome;
+
+// Session
 export const isGettingTransactionsSelector = (state: RootState) =>
   state.transactions.isGettingTransactions;
 
@@ -28,6 +42,14 @@ export const isGettingTransactionExpenseCategoriesSelector = (
 export const isGettingTransactionIncomeCategoriesSelector = (
   state: RootState,
 ) => state.transactions.isGettingTransactionIncomeCategories;
+
+export const isGettingExpenseTransactionStatisticsSelector = (
+  state: RootState,
+) => state.transactions.isGettingExpenseTransactionStatistics;
+
+export const isGettingIncomeTransactionStatisticsSelector = (
+  state: RootState,
+) => state.transactions.isGettingIncomeTransactionStatistics;
 
 export const isRefreshingTransactionsSelector = (state: RootState) =>
   state.transactions.isRefreshingTransactions;

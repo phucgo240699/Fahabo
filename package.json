@@ -41,6 +41,7 @@
     "react-native": "0.65.1",
     "react-native-calendars": "^1.1268.0",
     "react-native-camera": "^4.2.1",
+    "react-native-chart-kit": "^6.11.0",
     "react-native-config": "^1.4.4",
     "react-native-confirmation-code-field": "^7.1.0",
     "react-native-date-picker": "^4.1.0",

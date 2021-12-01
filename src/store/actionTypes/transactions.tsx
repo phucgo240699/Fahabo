@@ -12,7 +12,9 @@ import {
   GetTransactionDetailRequestType,
   GetTransactionPhotosRequestType,
   GetTransactionsRequestType,
+  GetTransactionStatisticRequestType,
   TransactionCategoryType,
+  TransactionStatisticType,
   TransactionType,
   UpdateTransactionRequestType,
 } from '@constants/types/transactions';
@@ -256,5 +258,65 @@ export const updateIsLoadingTransactionIncomeCategoriesAction = (
   payload: boolean,
 ) => ({
   type: UPDATE_IS_LOADING_TRANSACTION_INCOME_CATEGORIES,
+  payload,
+});
+
+//
+// Statistic
+//
+
+// Statistic CRUD
+export const GET_TRANSACTION_STATISTICS_REQUEST =
+  'GET_TRANSACTION_STATISTICS_REQUEST';
+export const getTransactionStatisticsRequestAction = (
+  body: GetTransactionStatisticRequestType,
+) => ({
+  type: GET_TRANSACTION_STATISTICS_REQUEST,
+  body,
+});
+export const GET_EXPENSE_TRANSACTION_STATISTICS_SUCCESS =
+  'GET_EXPENSE_TRANSACTION_STATISTICS_SUCCESS';
+export const getExpenseTransactionStatisticsSuccessAction = (
+  payload: TransactionStatisticType[],
+) => ({
+  type: GET_EXPENSE_TRANSACTION_STATISTICS_SUCCESS,
+  payload,
+});
+export const GET_INCOME_TRANSACTION_STATISTICS_SUCCESS =
+  'GET_INCOME_TRANSACTION_STATISTICS_SUCCESS';
+export const getIncomeTransactionStatisticsSuccessAction = (
+  payload: TransactionStatisticType[],
+) => ({
+  type: GET_INCOME_TRANSACTION_STATISTICS_SUCCESS,
+  payload,
+});
+export const GET_TOTAL_EXPENSE_TRANSACTION_SUCCESS =
+  'GET_TOTAL_EXPENSE_TRANSACTION_SUCCESS';
+export const getTotalExpenseTransactionSuccessAction = (payload: number) => ({
+  type: GET_TOTAL_EXPENSE_TRANSACTION_SUCCESS,
+  payload,
+});
+export const GET_TOTAL_INCOME_TRANSACTION_SUCCESS =
+  'GET_TOTAL_INCOME_TRANSACTION_SUCCESS';
+export const getTotalIncomeTransactionSuccessAction = (payload: number) => ({
+  type: GET_TOTAL_INCOME_TRANSACTION_SUCCESS,
+  payload,
+});
+
+// Statistic Session
+export const UPDATE_IS_GETTING_EXPENSE_TRANSACTION_STATISTICS =
+  'UPDATE_IS_GETTING_EXPENSE_TRANSACTION_STATISTICS';
+export const updateIsGettingExpenseTransactionStatisticsAction = (
+  payload: boolean,
+) => ({
+  type: UPDATE_IS_GETTING_EXPENSE_TRANSACTION_STATISTICS,
+  payload,
+});
+export const UPDATE_IS_GETTING_INCOME_TRANSACTION_STATISTICS =
+  'UPDATE_IS_GETTING_INCOME_TRANSACTION_STATISTICS';
+export const updateIsGettingIncomeTransactionStatisticsAction = (
+  payload: boolean,
+) => ({
+  type: UPDATE_IS_GETTING_INCOME_TRANSACTION_STATISTICS,
   payload,
 });

@@ -21,18 +21,24 @@ import {
   isGettingTransactionsSelector,
   isLoadingTransactionsSelector,
   isRefreshingTransactionsSelector,
+  totalExpenseSelector,
+  totalIncomeSelector,
   transactionsSelector,
 } from '@store/selectors/transactions';
 import {
   deleteTransactionRequestAction,
   getTransactionDetailRequestAction,
   getTransactionsRequestAction,
+  getTransactionStatisticsRequestAction,
 } from '@store/actionTypes/transactions';
 import {focusFamilySelector} from '@store/selectors/family';
 import GettingIndicator from '@components/GettingIndicator';
 import FooterLoadingIndicator from '@components/FooterLoadingIndicator';
 import {RowMap, SwipeListView} from 'react-native-swipe-list-view';
-import {TransactionType} from '@constants/types/transactions';
+import {
+  TransactionCategorySegment,
+  TransactionType,
+} from '@constants/types/transactions';
 
 interface Props {}
 
@@ -40,6 +46,8 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
   const dispatch = useDispatch();
   const focusFamily = useSelector(focusFamilySelector);
   const transactions = useSelector(transactionsSelector);
+  const totalExpense = useSelector(totalExpenseSelector);
+  const totalIncome = useSelector(totalIncomeSelector);
   const isGetting = useSelector(isGettingTransactionsSelector);
   const isRefreshing = useSelector(isRefreshingTransactionsSelector);
   const isLoadingMore = useSelector(isLoadingTransactionsSelector);
@@ -51,32 +59,64 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
   const lastDate = getDateMinusOneMonth(currentDate);
   const nextDate = getDatePlusOneMonth(currentDate);
 
-  // // Life cycle
-  // useEffect(() => {
-  //   if (!isNull(focusFamily?.id)) {
-  //     dispatch(
-  //       getTransactionsRequestAction({
-  //         getting: true,
-  //         familyId: focusFamily?.id,
-  //         from: `${getOriginDateStringWithMinimumDate(currentDate)} 00:00:00`,
-  //         to: `${getOriginDateStringWithMaximumDate(currentDate)} 23:59:59`,
-  //       }),
-  //     );
-  //   }
-  // }, []);
+  // Life cycle
+  useEffect(() => {
+    if (!isNull(focusFamily?.id)) {
+      dispatch(
+        getTransactionStatisticsRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          month: currentDate.getMonth() + 1,
+          year: currentDate.getFullYear(),
+          type: TransactionCategorySegment.EXPENSE,
+        }),
+      );
+      dispatch(
+        getTransactionStatisticsRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          month: currentDate.getMonth() + 1,
+          year: currentDate.getFullYear(),
+          type: TransactionCategorySegment.INCOME,
+        }),
+      );
+    }
+  }, []);
 
   // Refresh && Load more
   const onRefreshData = () => {
-    if (isRefreshing === false) {
-      setPageIndex(0),
-        dispatch(
-          getTransactionsRequestAction({
-            refresh: true,
-            familyId: focusFamily?.id,
-            from: `${getOriginDateStringWithMinimumDate(currentDate)} 00:00:00`,
-            to: `${getOriginDateStringWithMaximumDate(currentDate)} 23:59:59`,
-          }),
-        );
+    if (isRefreshing === false && !isNull(focusFamily?.id)) {
+      setPageIndex(0);
+      const newDate = new Date();
+      setCurrentDate(newDate);
+      setToday(newDate);
+
+      dispatch(
+        getTransactionsRequestAction({
+          refresh: true,
+          familyId: focusFamily?.id,
+          from: `${getOriginDateStringWithMinimumDate(currentDate)} 00:00:00`,
+          to: `${getOriginDateStringWithMaximumDate(currentDate)} 23:59:59`,
+        }),
+      );
+      dispatch(
+        getTransactionStatisticsRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          month: currentDate.getMonth() + 1,
+          year: currentDate.getFullYear(),
+          type: TransactionCategorySegment.EXPENSE,
+        }),
+      );
+      dispatch(
+        getTransactionStatisticsRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          month: currentDate.getMonth() + 1,
+          year: currentDate.getFullYear(),
+          type: TransactionCategorySegment.INCOME,
+        }),
+      );
     }
   };
   const onLoadMoreData = () => {
@@ -100,6 +140,7 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
   // Switch Months
   const onPressLastMonth = () => {
     if (!isNull(focusFamily?.id)) {
+      // adapt transactions
       dispatch(
         getTransactionsRequestAction({
           getting: true,
@@ -112,11 +153,32 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
           )} 23:59:59`,
         }),
       );
+
+      // adapt total
+      dispatch(
+        getTransactionStatisticsRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          month: currentDate.getMonth() + 1,
+          year: currentDate.getFullYear(),
+          type: TransactionCategorySegment.EXPENSE,
+        }),
+      );
+      dispatch(
+        getTransactionStatisticsRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          month: currentDate.getMonth() + 1,
+          year: currentDate.getFullYear(),
+          type: TransactionCategorySegment.INCOME,
+        }),
+      );
     }
     setCurrentDate(getDateMinusOneMonth(currentDate));
   };
   const onPressNextMonth = () => {
     if (!isNull(focusFamily?.id)) {
+      // adapt transactions
       dispatch(
         getTransactionsRequestAction({
           getting: true,
@@ -127,6 +189,26 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
           to: `${getOriginDateStringWithMaximumDate(
             getDatePlusOneMonth(currentDate),
           )} 23:59:59`,
+        }),
+      );
+
+      // adapt total
+      dispatch(
+        getTransactionStatisticsRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          month: currentDate.getMonth() + 1,
+          year: currentDate.getFullYear(),
+          type: TransactionCategorySegment.EXPENSE,
+        }),
+      );
+      dispatch(
+        getTransactionStatisticsRequestAction({
+          showHUD: true,
+          familyId: focusFamily?.id,
+          month: currentDate.getMonth() + 1,
+          year: currentDate.getFullYear(),
+          type: TransactionCategorySegment.INCOME,
         }),
       );
     }
@@ -157,7 +239,11 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
       for (let i = 0; i < transactions.length; ++i) {
         if (i.toString() === indexSwiped) {
           dispatch(
-            deleteTransactionRequestAction({transactionId: transactions[i].id}),
+            deleteTransactionRequestAction({
+              transactionId: transactions[i].id,
+              month: currentDate.getMonth() + 1,
+              year: currentDate.getFullYear(),
+            }),
           );
           return;
         }
@@ -184,6 +270,11 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
   // Creation
   const onPressCreateButton = () => {
     navigate(ScreenName.CreateTransactionScreen);
+  };
+
+  // Header
+  const onViewStatistic = () => {
+    navigate(ScreenName.TransactionStatisticsScreen);
   };
 
   return (
@@ -218,7 +309,11 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
           />
         )}
       </TabView>
-      <TransactionHeader />
+      <TransactionHeader
+        totalExpense={totalExpense}
+        totalIncome={totalIncome}
+        onPress={onViewStatistic}
+      />
 
       {isGetting ? (
         <GettingIndicator />

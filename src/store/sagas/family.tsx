@@ -70,7 +70,7 @@ import {
   UpdateFamilyThumbnailRequestType,
 } from '@constants/types/family';
 import {parseFamilies, parseFamily, parseMembers} from '@utils/parsers/family';
-import {navigate, navigateReset, navigationRef, push} from '@navigators/index';
+import {navigateReset, navigationRef, push} from '@navigators/index';
 import {ScreenName, StackName} from '@constants/Constants';
 import {CommonActions} from '@react-navigation/native';
 import {

@@ -175,6 +175,7 @@
     "date": "Date",
     "note": "Note",
     "photo": "Photo",
+    "statistic": "Statistic",
     "addCategory": "Add new category",
     "categoryName": "Category name",
     "categoryIcon": "Category icon",

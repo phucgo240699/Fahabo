@@ -1,6 +1,7 @@
 import {PhotoType} from '@constants/types/albums';
 import {
   TransactionCategoryType,
+  TransactionStatisticType,
   TransactionType,
 } from '@constants/types/transactions';
 import {LOG_OUT} from '@store/actionTypes/signIn';
@@ -11,11 +12,17 @@ import {
   DELETE_TRANSACTION_EXPENSE_CATEGORY_SUCCESS,
   DELETE_TRANSACTION_INCOME_CATEGORY_SUCCESS,
   DELETE_TRANSACTION_SUCCESS,
+  GET_EXPENSE_TRANSACTION_STATISTICS_SUCCESS,
+  GET_INCOME_TRANSACTION_STATISTICS_SUCCESS,
+  GET_TOTAL_EXPENSE_TRANSACTION_SUCCESS,
+  GET_TOTAL_INCOME_TRANSACTION_SUCCESS,
   GET_TRANSACTIONS_SUCCESS,
   GET_TRANSACTION_DETAIL_SUCCESS,
   GET_TRANSACTION_EXPENSE_CATEGORIES_SUCCESS,
   GET_TRANSACTION_INCOME_CATEGORIES_SUCCESS,
   GET_TRANSACTION_PHOTOS_SUCCESS,
+  UPDATE_IS_GETTING_EXPENSE_TRANSACTION_STATISTICS,
+  UPDATE_IS_GETTING_INCOME_TRANSACTION_STATISTICS,
   UPDATE_IS_GETTING_TRANSACTIONS,
   UPDATE_IS_GETTING_TRANSACTION_EXPENSE_CATEGORIES,
   UPDATE_IS_GETTING_TRANSACTION_INCOME_CATEGORIES,
@@ -36,12 +43,18 @@ export type TransactionsState = {
   transactionDetail?: TransactionType;
   transactionExpenseCategories: TransactionCategoryType[];
   transactionIncomeCategories: TransactionCategoryType[];
+  expenseTransactionStatistics: TransactionStatisticType[];
+  incomeTransactionStatistics: TransactionStatisticType[];
+  totalExpense: number;
+  totalIncome: number;
 
   // Getting
   isGettingTransactions: boolean;
   isGettingTransactionPhotos: boolean;
   isGettingTransactionExpenseCategories: boolean;
   isGettingTransactionIncomeCategories: boolean;
+  isGettingExpenseTransactionStatistics: boolean;
+  isGettingIncomeTransactionStatistics: boolean;
 
   // Refreshing
   isRefreshingTransactions: boolean;
@@ -60,10 +73,17 @@ const defaultState: TransactionsState = {
   transactionDetail: undefined,
   transactionExpenseCategories: [],
   transactionIncomeCategories: [],
+  expenseTransactionStatistics: [],
+  incomeTransactionStatistics: [],
+  totalExpense: 0,
+  totalIncome: 0,
+
   isGettingTransactions: false,
   isGettingTransactionPhotos: false,
   isGettingTransactionExpenseCategories: false,
   isGettingTransactionIncomeCategories: false,
+  isGettingExpenseTransactionStatistics: false,
+  isGettingIncomeTransactionStatistics: false,
   isRefreshingTransactions: false,
   isRefreshingTransactionExpenseCategories: false,
   isRefreshingTransactionIncomeCategories: false,
@@ -215,6 +235,40 @@ export default function transactionsReducer(
         ...state,
         isLoadingTransactionIncomeCategories: action.payload,
       };
+
+    // Statistic CRUD
+    case GET_EXPENSE_TRANSACTION_STATISTICS_SUCCESS:
+      return {
+        ...state,
+        expenseTransactionStatistics: action.payload,
+      };
+    case GET_INCOME_TRANSACTION_STATISTICS_SUCCESS:
+      return {
+        ...state,
+        incomeTransactionStatistics: action.payload,
+      };
+    case GET_TOTAL_EXPENSE_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        totalExpense: action.payload,
+      };
+    case GET_TOTAL_INCOME_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        totalIncome: action.payload,
+      };
+
+    // Statistic Session
+    case UPDATE_IS_GETTING_EXPENSE_TRANSACTION_STATISTICS:
+      return {
+        ...state,
+        isGettingExpenseTransactionStatistics: action.payload,
+      };
+    case UPDATE_IS_GETTING_INCOME_TRANSACTION_STATISTICS:
+      return {
+        ...state,
+        isGettingIncomeTransactionStatistics: action.payload,
+      };
     case LOG_OUT:
       return {
         ...state,
@@ -223,10 +277,17 @@ export default function transactionsReducer(
         transactionDetail: undefined,
         transactionExpenseCategories: [],
         transactionIncomeCategories: [],
+        expenseTransactionStatistics: [],
+        incomeTransactionStatistics: [],
+        totalExpense: 0,
+        totalIncome: 0,
+
         isGettingTransactions: false,
         isGettingTransactionPhotos: false,
         isGettingTransactionExpenseCategories: false,
         isGettingTransactionIncomeCategories: false,
+        isGettingExpenseTransactionStatistics: false,
+        isGettingIncomeTransactionStatistics: false,
         isRefreshingTransactions: false,
         isRefreshingTransactionExpenseCategories: false,
         isRefreshingTransactionIncomeCategories: false,

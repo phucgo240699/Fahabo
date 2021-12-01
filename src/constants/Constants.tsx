@@ -55,6 +55,7 @@ export enum ScreenName {
   CreateTransactionScreen = 'CreateTransactionScreen',
   TransactionCategoriesScreen = 'TransactionCategoriesScreen',
   CreateTransactionCategoryScreen = 'CreateTransactionCategoryScreen',
+  TransactionStatisticsScreen = 'TransactionStatisticsScreen',
   NotificationsScreen = 'NotificationsScreen',
   InteractionsScreen = 'InteractionsScreen',
   ConferenceCallScreen = 'ConferenceCallScreen',

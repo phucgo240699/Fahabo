@@ -12,6 +12,7 @@ import MembersPickerScreen from '@screens/families/MembersPickerScreen';
 import CreateTransactionScreen from '@screens/transactions/CreateTransactionScreen';
 import TransactionCategoriesScreen from '@screens/transactions/TransactionCategoriesScreen';
 import CreateTransactionCategoryScreen from '@screens/transactions/TransactionCategoriesScreen/CreateTransactionCategoryScreen';
+import TransactionStatisticsScreen from '@screens/transactions/TransactionStatisticsScreen';
 
 const Stack = createStackNavigator();
 
@@ -51,6 +52,10 @@ const HomeStack = () => {
       <Stack.Screen
         name={ScreenName.CreateTransactionCategoryScreen}
         component={CreateTransactionCategoryScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.TransactionStatisticsScreen}
+        component={TransactionStatisticsScreen}
       />
     </Stack.Navigator>
   );

@@ -6,6 +6,7 @@ import {
   CreateTransactionRequestType,
   DeleteTransactionCategoryRequestType,
   DeleteTransactionRequestType,
+  GetTransactionStatisticRequestType,
   GetTransactionCategoriesRequestType,
   GetTransactionDetailRequestType,
   GetTransactionPhotosRequestType,
@@ -127,6 +128,16 @@ export function getTransactionCategoriesApi(
   }
   return new apiProvider(accessToken).post(
     `${BASE_URL}/transaction_category?page=${page}&size=${size}`,
+    body,
+  );
+}
+
+export function getTransactionStatisticsApi(
+  accessToken?: string,
+  body?: GetTransactionStatisticRequestType,
+) {
+  return new apiProvider(accessToken).post(
+    `${BASE_URL}/transactions/statistic`,
     body,
   );
 }

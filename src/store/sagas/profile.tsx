@@ -39,7 +39,7 @@ import {
 } from '@utils/parsers/authentication';
 import {ScreenName, StackName} from '@constants/Constants';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
-import {isNull, setGlobalLocale} from '@utils/index';
+import {setGlobalLocale} from '@utils/index';
 
 // Avatar
 function* onUpdateProfileAvatarSaga(action: AnyAction) {

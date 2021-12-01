@@ -5,25 +5,33 @@ import colors from '@themes/colors';
 import styled from 'styled-components/native';
 import {getNumberWithCommas} from '@utils/index';
 
-interface Props {}
+interface Props {
+  totalExpense: number;
+  totalIncome: number;
+  onPress?: () => void;
+}
 
-const TransactionHeader: React.FC<Props> = ({}) => {
+const TransactionHeader: React.FC<Props> = ({
+  totalExpense,
+  totalIncome,
+  onPress,
+}) => {
   return (
-    <Container activeOpacity={0.6}>
+    <Container activeOpacity={0.6} onPress={onPress}>
       <RightContent>
         <RowBox>
           <IncomeLabel>{`${i18n.t('transaction.income')}:   \t`}</IncomeLabel>
-          <IncomeText>{getNumberWithCommas(12000000)}</IncomeText>
+          <IncomeText>{getNumberWithCommas(totalIncome)}</IncomeText>
         </RowBox>
         <RowBox>
           <IncomeLabel>{`${i18n.t('transaction.expense')}: \t`}</IncomeLabel>
-          <ExpenseText>{`-${getNumberWithCommas(2000000)}`}</ExpenseText>
+          <ExpenseText>{`-${getNumberWithCommas(totalExpense)}`}</ExpenseText>
         </RowBox>
       </RightContent>
       <VLine />
       <LeftContent>
         <CashLabel>{i18n.t('transaction.cash')}</CashLabel>
-        <MoneyText>{getNumberWithCommas(123456789)}</MoneyText>
+        <MoneyText>{getNumberWithCommas(totalIncome - totalExpense)}</MoneyText>
       </LeftContent>
     </Container>
   );

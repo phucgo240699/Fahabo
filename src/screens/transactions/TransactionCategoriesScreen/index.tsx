@@ -245,7 +245,7 @@ const TransactionCategoriesScreen = () => {
         values={types.map(item => getCategorySegmentName(item))}
         selectedIndex={selectedTypeIndex}
         onChange={onChangeSegment}
-        style={{marginTop: 10, marginBottom: 10}}
+        style={styles.segmentControl}
       />
       {selectedTypeIndex === 0 ? (
         <SwipeListView
@@ -364,9 +364,7 @@ const HLine = styled.View`
 `;
 
 const styles = StyleSheet.create({
-  list: {
-    paddingBottom: 30,
-  },
+  segmentControl: {marginTop: 10, marginBottom: 10},
 });
 
 export default TransactionCategoriesScreen;

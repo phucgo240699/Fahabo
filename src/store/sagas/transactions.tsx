@@ -8,6 +8,7 @@ import {
   GetTransactionDetailRequestType,
   GetTransactionPhotosRequestType,
   GetTransactionsRequestType,
+  GetTransactionStatisticRequestType,
   TransactionCategorySegment,
   UpdateTransactionRequestType,
 } from '@constants/types/transactions';
@@ -22,6 +23,7 @@ import {
   getTransactionDetailApi,
   getTransactionPhotosApi,
   getTransactionsApi,
+  getTransactionStatisticsApi,
   updateTransactionApi,
 } from '@services/transactions';
 import {
@@ -40,15 +42,23 @@ import {
   deleteTransactionSuccessAction,
   DELETE_TRANSACTION_CATEGORY_REQUEST,
   DELETE_TRANSACTION_REQUEST,
+  getExpenseTransactionStatisticsSuccessAction,
+  getIncomeTransactionStatisticsSuccessAction,
+  getTotalExpenseTransactionSuccessAction,
+  getTotalIncomeTransactionSuccessAction,
   getTransactionDetailSuccessAction,
   getTransactionExpenseCategoriesSuccessAction,
   getTransactionIncomeCategoriesSuccessAction,
   getTransactionPhotosSuccessAction,
   getTransactionsSuccessAction,
+  getTransactionStatisticsRequestAction,
   GET_TRANSACTIONS_REQUEST,
   GET_TRANSACTION_CATEGORIES_REQUEST,
   GET_TRANSACTION_DETAIL_REQUEST,
   GET_TRANSACTION_PHOTOS_REQUEST,
+  GET_TRANSACTION_STATISTICS_REQUEST,
+  updateIsGettingExpenseTransactionStatisticsAction,
+  updateIsGettingIncomeTransactionStatisticsAction,
   updateIsGettingTransactionExpenseCategoriesAction,
   updateIsGettingTransactionIncomeCategoriesAction,
   updateIsGettingTransactionPhotosAction,
@@ -76,12 +86,23 @@ import {
   parseTransactionCategories,
   parseTransactionCategory,
   parseTransactions,
+  parseTransactionStatistics,
 } from '@utils/parsers/transactions';
 import {mixTransactionCategories, mixTransactions} from '@utils/transactions';
-import {all, put, takeLeading, select} from 'typed-redux-saga';
+import {
+  all,
+  put,
+  takeLeading,
+  select,
+  takeLatest,
+  take,
+  takeEvery,
+} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
 import {CommonActions} from '@react-navigation/native';
 import {ScreenName} from '@constants/Constants';
+import {isNull} from '@utils/index';
+import {focusFamilySelector} from '@store/selectors/family';
 
 function* createTransactionSaga({
   body,
@@ -93,15 +114,36 @@ function* createTransactionSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(createTransactionApi, body);
     if (response.status === 200) {
-      console.log('\n');
-      console.log('createTransactionSuccessAction:');
-      console.log(parseTransaction(parseDataResponse(response)));
-      console.log('\n');
-      yield* put(
-        createTransactionSuccessAction(
-          parseTransaction(parseDataResponse(response)),
+      const focusFamily = yield* select(focusFamilySelector);
+      const dateComponents = body.date?.split('-') ?? [];
+      yield* all([
+        put(
+          getTransactionStatisticsRequestAction({
+            familyId: focusFamily?.id,
+            month: parseInt(dateComponents[1]),
+            year: parseInt(dateComponents[2]),
+            type: TransactionCategorySegment.EXPENSE,
+          }),
         ),
-      );
+        put(
+          getTransactionStatisticsRequestAction({
+            familyId: focusFamily?.id,
+            month: parseInt(dateComponents[1]),
+            year: parseInt(dateComponents[2]),
+            type: TransactionCategorySegment.INCOME,
+          }),
+        ),
+        put(
+          createTransactionSuccessAction(
+            parseTransaction(parseDataResponse(response)),
+          ),
+        ),
+      ]);
+      // yield* put(
+      //   createTransactionSuccessAction(
+      //     parseTransaction(parseDataResponse(response)),
+      //   ),
+      // );
       navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
@@ -130,11 +172,36 @@ function* updateTransactionSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(updateTransactionApi, body);
     if (response.status === 200) {
-      yield* put(
-        updateTransactionSuccessAction(
-          parseTransaction(parseDataResponse(response)),
+      const focusFamily = yield* select(focusFamilySelector);
+      const dateComponents = body.date?.split('-') ?? [];
+      yield* all([
+        put(
+          getTransactionStatisticsRequestAction({
+            familyId: focusFamily?.id,
+            month: parseInt(dateComponents[1]),
+            year: parseInt(dateComponents[2]),
+            type: TransactionCategorySegment.EXPENSE,
+          }),
         ),
-      );
+        put(
+          getTransactionStatisticsRequestAction({
+            familyId: focusFamily?.id,
+            month: parseInt(dateComponents[1]),
+            year: parseInt(dateComponents[2]),
+            type: TransactionCategorySegment.INCOME,
+          }),
+        ),
+        put(
+          updateTransactionSuccessAction(
+            parseTransaction(parseDataResponse(response)),
+          ),
+        ),
+      ]);
+      // yield* put(
+      //   updateTransactionSuccessAction(
+      //     parseTransaction(parseDataResponse(response)),
+      //   ),
+      // );
       navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
@@ -163,11 +230,35 @@ function* deleteTransactionSaga({
     yield* put(showHUDAction());
     const response = yield* apiProxy(deleteTransactionApi, body);
     if (response.status === 200) {
-      yield* put(
-        deleteTransactionSuccessAction(
-          parseTransaction(parseDataResponse(response)),
+      const focusFamily = yield* select(focusFamilySelector);
+      yield* all([
+        put(
+          getTransactionStatisticsRequestAction({
+            familyId: focusFamily?.id,
+            month: body.month,
+            year: body.year,
+            type: TransactionCategorySegment.EXPENSE,
+          }),
         ),
-      );
+        put(
+          getTransactionStatisticsRequestAction({
+            familyId: focusFamily?.id,
+            month: body.month,
+            year: body.year,
+            type: TransactionCategorySegment.INCOME,
+          }),
+        ),
+        put(
+          deleteTransactionSuccessAction(
+            parseTransaction(parseDataResponse(response)),
+          ),
+        ),
+      ]);
+      // yield* put(
+      //   deleteTransactionSuccessAction(
+      //     parseTransaction(parseDataResponse(response)),
+      //   ),
+      // );
     } else {
       yield* put(
         showToastAction(
@@ -523,6 +614,76 @@ function* getTransactionCategoriesSaga({
   }
 }
 
+function* getTransactionStatisticsSaga({
+  body,
+}: {
+  type: string;
+  body: GetTransactionStatisticRequestType;
+}) {
+  try {
+    if (body.showHUD) {
+      yield* put(showHUDAction());
+    } else if (body.getting) {
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        yield* put(updateIsGettingExpenseTransactionStatisticsAction(true));
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        yield* put(updateIsGettingIncomeTransactionStatisticsAction(true));
+      }
+    }
+    const response = yield* apiProxy(getTransactionStatisticsApi, body);
+    if (response.status === 200) {
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        const data = parseDataResponse(response);
+        if (data.length > 0) {
+          const expenses = parseTransactionStatistics(data);
+          let totalExpense = 0;
+          for (let i = 0; i < expenses.length; ++i) {
+            if (!isNull(expenses[i].population)) {
+              totalExpense += expenses[i].population ?? 0;
+            }
+          }
+          yield* put(getTotalExpenseTransactionSuccessAction(totalExpense));
+          yield* put(getExpenseTransactionStatisticsSuccessAction(expenses));
+        }
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        const data = parseDataResponse(response);
+        if (data.length > 0) {
+          const incomes = parseTransactionStatistics(data);
+          let totalIncome = 0;
+          for (let i = 0; i < incomes.length; ++i) {
+            if (!isNull(incomes[i].population)) {
+              totalIncome += incomes[i].population ?? 0;
+            }
+          }
+          yield* put(getTotalIncomeTransactionSuccessAction(totalIncome));
+          yield* put(getIncomeTransactionStatisticsSuccessAction(incomes));
+        }
+      }
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    if (body.showHUD) {
+      yield* put(closeHUDAction());
+    } else if (body.getting) {
+      if (body.type === TransactionCategorySegment.EXPENSE) {
+        yield* put(updateIsGettingExpenseTransactionStatisticsAction(false));
+      } else if (body.type === TransactionCategorySegment.INCOME) {
+        yield* put(updateIsGettingIncomeTransactionStatisticsAction(false));
+      }
+    }
+  }
+}
+
 export default function* () {
   yield* all([
     takeLeading(CREATE_TRANSACTION_REQUEST, createTransactionSaga),
@@ -539,9 +700,7 @@ export default function* () {
       DELETE_TRANSACTION_CATEGORY_REQUEST,
       deleteTransactionCategorySaga,
     ),
-    takeLeading(
-      GET_TRANSACTION_CATEGORIES_REQUEST,
-      getTransactionCategoriesSaga,
-    ),
+    takeEvery(GET_TRANSACTION_CATEGORIES_REQUEST, getTransactionCategoriesSaga),
+    takeEvery(GET_TRANSACTION_STATISTICS_REQUEST, getTransactionStatisticsSaga),
   ]);
 }
