@@ -146,8 +146,14 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
       );
     }
   };
-  const onPressDelete = () => {
+  const closeSwipedRow = (rowKey: string, rowMap: RowMap<any>) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  };
+  const onPressDelete = (rowKey: string, rowMap: RowMap<any>) => {
     if (indexSwiped) {
+      closeSwipedRow(rowKey, rowMap);
       for (let i = 0; i < transactions.length; ++i) {
         if (i.toString() === indexSwiped) {
           dispatch(
@@ -158,14 +164,14 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
       }
     }
   };
-  const onPressUpdate = () => {
+  const onPressUpdate = (rowKey: string, rowMap: RowMap<any>) => {
     if (indexSwiped) {
+      closeSwipedRow(rowKey, rowMap);
       for (let i = 0; i < transactions.length; ++i) {
         if (i.toString() === indexSwiped) {
           navigate(ScreenName.CreateTransactionScreen, {
             oldTransaction: transactions[i],
           });
-          // console.log(transactions[i]);
           return;
         }
       }
@@ -233,14 +239,14 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
               justifyContent="flex-end"
               backgroundColor={colors.WHITE}>
               <SwipeUpdateButton
-                onPress={onPressUpdate}
+                onPress={() => onPressUpdate(data.index.toString(), rowMap)}
                 leftTintColor={'#ffffff'}
                 leftSource={editProfileIcon}
               />
               <SwipeDeleteButton
                 leftSource={trashIcon}
                 leftTintColor={'#ffffff'}
-                onPress={onPressDelete}
+                onPress={() => onPressDelete(data.index.toString(), rowMap)}
               />
             </Box>
           )}

@@ -176,7 +176,6 @@ const TransactionCategoriesScreen = () => {
   const renderSeparator = () => <HLine />;
 
   const closeSwipedRow = (rowKey: string, rowMap: RowMap<any>) => {
-    console.log({rowKey, rowMap});
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
