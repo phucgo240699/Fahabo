@@ -6,7 +6,7 @@ import {
 } from '@services/interactions';
 import {all, delay, put, select, takeLeading} from 'typed-redux-saga';
 import {ScreenName} from '@constants/Constants';
-import {navigate} from '@navigators/index';
+import {navigate, navigationRef} from '@navigators/index';
 import {ToastType} from '@constants/types/session';
 import {
   closeHUDAction,

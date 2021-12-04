@@ -64,7 +64,7 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
     if (!isNull(focusFamily?.id)) {
       dispatch(
         getTransactionStatisticsRequestAction({
-          showHUD: true,
+          // showHUD: true,
           familyId: focusFamily?.id,
           month: currentDate.getMonth() + 1,
           year: currentDate.getFullYear(),
@@ -73,7 +73,7 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
       );
       dispatch(
         getTransactionStatisticsRequestAction({
-          showHUD: true,
+          // showHUD: true,
           familyId: focusFamily?.id,
           month: currentDate.getMonth() + 1,
           year: currentDate.getFullYear(),
@@ -285,14 +285,14 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
             currentDate,
           ).getFullYear()}`}
           titleFontSize={14}
-          titleFontWeight={600}
+          titleFontWeight={500}
           titleColor={colors.SILVER}
           onPress={onPressLastMonth}
         />
         <MonthButton
           title={`${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`}
           titleFontSize={14}
-          titleFontWeight={600}
+          titleFontWeight={700}
           titleColor={colors.BLACK}
         />
         {nextDate > today ? (
@@ -303,7 +303,7 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
               currentDate,
             ).getFullYear()}`}
             titleFontSize={14}
-            titleFontWeight={600}
+            titleFontWeight={500}
             titleColor={colors.SILVER}
             onPress={onPressNextMonth}
           />

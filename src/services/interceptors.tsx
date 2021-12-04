@@ -3,30 +3,30 @@ import {AxiosResponse, AxiosError, AxiosRequestConfig} from 'axios';
 
 export const responseInterceptor = (response: AxiosResponse) => {
   if (__DEV__) {
-    console.log({
-      API_RESPONSE: {response: response.data, statusCode: response.status},
-    });
+    // console.log({
+    //   API_RESPONSE: {response: response.data, statusCode: response.status},
+    // });
   }
   return Promise.resolve(response);
 };
 
 export const errorInterceptor = (error: AxiosError) => {
   if (__DEV__) {
-    console.log({API_ERROR: error.message});
+    // console.log({API_ERROR: error.message});
   }
   return Promise.reject(error);
 };
 
 export const requestInterceptor = (config: AxiosRequestConfig) => {
   if (__DEV__) {
-    console.log({
-      API_CONFIG: {
-        url: config.url,
-        body: config.data,
-        method: config.method,
-        accessToken: config.headers.Authorization,
-      },
-    });
+    // console.log({
+    //   API_CONFIG: {
+    //     url: config.url,
+    //     body: config.data,
+    //     method: config.method,
+    //     accessToken: config.headers.Authorization,
+    //   },
+    // });
   }
   return config;
 };

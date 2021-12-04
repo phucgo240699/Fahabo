@@ -274,8 +274,6 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
       mediaType: 'photo',
       includeBase64: true,
       maxFiles: Constants.LIMIT_PHOTO_UPLOAD,
-      // width: Constants.FAMILY_THUMBNAIL_WIDTH,
-      // height: Constants.FAMILY_THUMBNAIL_HEIGHT,
     }).then(cropped => {
       const unique = new Set<{id?: number; uri?: string; base64?: string}>([]);
       const currentNumberPhotoBase64 = selectedPhotos.filter((item, index) => {
@@ -318,25 +316,6 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
   const onCreateEvent = () => {
     if (oldEvent) {
       if (!isNull(oldEvent.id)) {
-        // console.log({
-        //   eventId: oldEvent.id,
-        //   title: title,
-        //   description: description,
-        //   from: from,
-        //   to: to,
-        //   updateAll: isUpdateRelated,
-        //   assigneeIds: selectedMembers.map((item, index) => {
-        //     return item.id;
-        //   }),
-        //   photos: selectedPhotos
-        //     .filter((item, index) => {
-        //       return !isNull(item.base64);
-        //     })
-        //     .map(item => {
-        //       return item.base64;
-        //     }),
-        //   deletePhotos: deletePhotos,
-        // });
         dispatch(
           updateEventRequestAction({
             eventId: oldEvent.id,
@@ -361,23 +340,6 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
       }
     } else {
       if (!isNull(focusFamily?.id)) {
-        // console.log({
-        //   familyId: focusFamily?.id,
-        //   title: title,
-        //   description: description,
-        //   from: from,
-        //   to: to,
-        //   repeatType: repeat === RepeatType.NONE ? '' : repeat,
-        //   occurrences: repetition,
-        //   assigneeIds: selectedMembers.map(item => {
-        //     return item.id;
-        //   }),
-        //   photos: selectedPhotos.map((item, index) => {
-        //     if (index < Constants.LIMIT_PHOTO_UPLOAD) {
-        //       return item.base64;
-        //     }
-        //   }).length,
-        // });
         dispatch(
           createEventRequestAction({
             familyId: focusFamily?.id,
@@ -412,14 +374,6 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
           isNull(oldEvent)
             ? i18n.t('events.createNewEvent')
             : i18n.t('events.updateEvent')
-        }
-        rightComponent={
-          <PrimaryButton
-            marginRight={8}
-            leftSource={familyIcon}
-            leftTintColor={colors.THEME_COLOR_7}
-            onPress={onPressAssign}
-          />
         }
       />
 
@@ -507,7 +461,16 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
 
           {/* Assignees */}
           <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
-            <Label>{`${i18n.t('chores.assign')}:`}</Label>
+            <Box flexDirection="row" justifyContent="space-between">
+              <Label>{`${i18n.t('chores.assign')}:`}</Label>
+              <PrimaryButton
+                leftIconWidth={18}
+                leftIconHeight={18}
+                leftSource={familyIcon}
+                leftTintColor={colors.THEME_COLOR_7}
+                onPress={onPressAssign}
+              />
+            </Box>
             <FlatList
               horizontal={true}
               scrollEnabled={true}

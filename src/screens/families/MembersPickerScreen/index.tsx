@@ -152,7 +152,7 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
           selectedMembers.length > 0 ? (
             <PrimaryButton
               marginRight={8}
-              title={i18n.t('chores.save')}
+              title={i18n.t('chores.done')}
               titleColor={colors.THEME_COLOR_5}
               onPress={onPressSave}
             />

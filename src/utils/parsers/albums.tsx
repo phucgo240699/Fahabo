@@ -12,6 +12,7 @@ export function parseAlbum(rawData: any): AlbumType {
   const id = get('id', rawData);
   const index = get('index', rawData);
   const title = get('title', rawData);
+  const uri = get('uri', rawData);
   const description = get('description', rawData);
   const totalPhotos = get('totalPhotos', rawData);
 
@@ -19,6 +20,7 @@ export function parseAlbum(rawData: any): AlbumType {
     id,
     index,
     title,
+    uri,
     description,
     totalPhotos,
   };

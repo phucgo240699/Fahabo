@@ -3,15 +3,9 @@ import i18n from '@locales/index';
 import {ChoreStatus, ChoreType, RepeatType} from '@constants/types/chores';
 
 export const mixChores = (oldData: ChoreType[], newData: ChoreType[]) => {
-  let uniqueData = new Set<ChoreType>(oldData);
-  let result: ChoreType[] = [];
-  newData.forEach(item => {
-    uniqueData.add(item);
-  });
-  uniqueData.forEach(item => {
-    result.push(item);
-  });
-  return result;
+  var oldIds = new Set(oldData.map(item => item.id));
+  var merged = [...oldData, ...newData.filter(item => !oldIds.has(item.id))];
+  return merged;
 };
 
 export function getChoreStatus(value?: string): ChoreStatus | undefined {

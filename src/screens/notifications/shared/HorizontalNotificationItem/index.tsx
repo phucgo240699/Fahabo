@@ -77,7 +77,7 @@ const Content = styled.View`
 const Thumbnail = styled.Image`
   width: 32px;
   height: 32px;
-  margin-left: 4px;
+  margin-left: 12px;
 `;
 
 const Title = styled(fonts.PrimaryFontBoldSize16)``;
@@ -91,8 +91,8 @@ const PeriodAgo = styled(fonts.PrimaryFontRegularSize12)`
 `;
 
 const Dot = styled.View`
-  top: 4px;
-  left: 4px;
+  top: 10px;
+  left: 10px;
   width: 6px;
   height: 6px;
   position: absolute;

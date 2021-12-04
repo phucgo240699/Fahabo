@@ -21,7 +21,7 @@ export type NotifyNewMessageRequestType = {
 
 export type ConnectTwilioRequestType = {
   familyId?: number;
-  roomCallId?: string;
+  roomCallId?: string; // is roomName
   participantIds?: number[];
 };
 

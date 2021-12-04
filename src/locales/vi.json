@@ -275,6 +275,7 @@
       "fail": "Lỗi hệ thống."
     },
     "validation": {
+      "unavailableRoom": "Cuộc gọi đã kết thúc hoặc không khả dụng",
       "transactionIdNotExist": "Giao dịch không tồn tại.",
       "choreIdNotExist": "Công việc nhà không tồn tại.",
       "dateFormatInvalid": "Ngày phải có định dạng dd-mm-yyyy",
@@ -328,6 +329,25 @@
       "InvestingAndDebt": "Đầu tư và công nợ",
       "income": "Thu nhập",
       "other": "Khác"
+    },
+    "transactionCategories": {
+      "food": "Ăn uống",
+      "transportation": "Đi lại",
+      "rentals": "Tiền nhà",
+      "water": "Tiền nước",
+      "phone": "Tiền điện thoại",
+      "electricity": "Tiền điện",
+      "gas": "Tiền gas",
+      "television": "Cước truyền hình",
+      "internet": "Cước internet",
+      "vehicle": "Bảo trì phương tiện",
+      "medical": "Y tế",
+      "insurances": "Bảo hiểm",
+      "education": "Giáo dục",
+      "fitness": "Thể thao",
+      "fun": "Vui chơi giải trí",
+      "investment": "Đầu tư",
+      "pets": "Thú nuôi"
     }
   }
 }

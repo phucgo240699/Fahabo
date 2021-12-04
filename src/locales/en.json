@@ -275,6 +275,7 @@
       "fail": "System error."
     },
     "validation": {
+      "unavailableRoom": "The call has ended or not available",
       "transactionIdNotExist": "Transaction id does not exist.",
       "choreIdNotExist": "ChoreId does not exist.",
       "dateFormatInvalid": "Date format must be dd-mm-yyyy",
@@ -328,6 +329,25 @@
       "InvestingAndDebt": "Investing And Debt",
       "income": "Income",
       "other": "Other"
+    },
+    "transactionCategories": {
+      "food": "Food & Beverage",
+      "transportation": "Transportation",
+      "rentals": "Rentals",
+      "water": "Water bill",
+      "phone": "Phone bill",
+      "electricity": "Electricity bill",
+      "gas": "Gas bill",
+      "television": "Television bill",
+      "internet": "Internet bill",
+      "vehicle": "Vehicle maintenances",
+      "medical": "Medical checkup",
+      "insurances": "Insurances",
+      "education": "Education",
+      "fitness": "Fitness",
+      "fun": "Fun money",
+      "investment": "Investment",
+      "pets": "Pet"
     }
   }
 }

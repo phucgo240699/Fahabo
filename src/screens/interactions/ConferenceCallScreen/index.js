@@ -86,12 +86,12 @@ const ConferenceCallScreen = (props) => {
   };
 
   const onRoomDidDisconnect = ({ error }) => {
-    console.log("ERROR: ", error);
+    console.log("onRoomDidDisconnect: ", error);
     navigation.dispatch(CommonActions.goBack())
   };
 
   const onRoomDidFailToConnect = (error) => {
-    console.log("ERROR: ", error);
+    console.log("onRoomDidFailToConnect: ", error);
     navigation.dispatch(CommonActions.goBack())
   };
 
@@ -110,7 +110,7 @@ const ConferenceCallScreen = (props) => {
   };
 
   const onParticipantRemovedVideoTrack = ({ participant, track }) => {
-    console.log("onParticipantRemovedVideoTrack: ", participant, track);
+    console.log(`onParticipantRemovedVideoTrack ${Platform.OS}: `, participant, track);
 
     const newVideoTracks = new Map(videoTracks);
     newVideoTracks.delete(track.trackSid);

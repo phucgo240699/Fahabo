@@ -107,7 +107,7 @@ const NotificationsScreen: React.FC<Props> = ({}) => {
           dispatch(
             connectTwilioRequestActions({
               familyId: item.data.familyId,
-              roomCallId: item.data.id?.toString(),
+              roomCallId: item.data.id?.toString(), // is roomName
             }),
           );
           dispatch(clickNotificationRequestAction({id: item.id}));

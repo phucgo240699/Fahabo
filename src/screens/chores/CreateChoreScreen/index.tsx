@@ -170,10 +170,6 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
     setVisibleDatePicker(false);
   };
 
-  // const onChangeStatus = (value: ChoreStatus) => {
-  //   setStatus(value);
-  // };
-
   const onPressRepeat = () => {
     navigate(ScreenName.RepeatPickerScreen, {fromCreateChore: true});
   };
@@ -295,25 +291,6 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const onCreateChore = () => {
     if (oldChore) {
       if (!isNull(oldChore.id)) {
-        // console.log({
-        //   choreId: oldChore.id,
-        //   status: status,
-        //   title: title,
-        //   description: description,
-        //   deadline: deadline,
-        //   repeatType: repeat === RepeatType.NONE ? "" : repeat,
-        //   assigneeIds: selectedMembers.map((item, index) => {
-        //     return item.id;
-        //   }),
-        //   photos: selectedPhotos
-        //     .filter((item, index) => {
-        //       return !isNull(item.base64);
-        //     })
-        //     .map(item => {
-        //       return item.base64;
-        //     }).length,
-        //   deletePhotos: deletePhotos.length,
-        // });
         dispatch(
           updateChoreRequestAction({
             goBack: true,
@@ -339,22 +316,6 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
       }
     } else {
       if (!isNull(focusFamily?.id)) {
-        // console.log({
-        //   familyId: focusFamily?.id,
-        //   status: status,
-        //   title: title,
-        //   description: description,
-        //   deadline: deadline,
-        //   repeatType: repeat === RepeatType.NONE ? "" : repeat,
-        //   assigneeIds: selectedMembers.map((item, index) => {
-        //     return item.id;
-        //   }).length,
-        //   photos: selectedPhotos.map((item, index) => {
-        //     if (index < Constants.LIMIT_PHOTO_UPLOAD) {
-        //       return item.base64;
-        //     }
-        //   }).length,
-        // });
         dispatch(
           createChoreRequestAction({
             familyId: focusFamily?.id,
@@ -389,14 +350,9 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             ? i18n.t('chores.createNewChore')
             : i18n.t('chores.updateChore')
         }
-        rightComponent={
-          <PrimaryButton
-            marginRight={8}
-            leftSource={familyIcon}
-            leftTintColor={colors.THEME_COLOR_7}
-            onPress={onPressAssign}
-          />
-        }
+        // rightComponent={
+
+        // }
       />
 
       <Container onPress={onDismissKeyboard}>
@@ -447,16 +403,21 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
                 />
               </RepeatContainer>
             )}
-
-            {/* Status
-            {!isNull(oldChore) && (
-              <ChoreStatusBox status={status} onChangeStatus={onChangeStatus} />
-            )} */}
           </FormControl>
 
           {/* Assignees */}
           <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
-            <Label>{`${i18n.t('chores.assign')}:`}</Label>
+            <Box flexDirection="row" justifyContent="space-between">
+              <Label>{`${i18n.t('chores.assign')}:`}</Label>
+              <PrimaryButton
+                leftIconWidth={20}
+                leftIconHeight={20}
+                leftSource={familyIcon}
+                leftTintColor={colors.THEME_COLOR_7}
+                onPress={onPressAssign}
+              />
+            </Box>
+
             <FlatList
               horizontal={true}
               scrollEnabled={true}
