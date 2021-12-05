@@ -98,6 +98,7 @@ function* createFamilySaga({
         ),
       );
       if (parseDataResponse(response).alreadyHadFamily !== true) {
+        yield* put(getHomeScreenDataRequestAction());
         navigateReset(StackName.MainStack);
       }
     } else {
@@ -130,6 +131,7 @@ function* joinFamilySaga({body}: {type: string; body: JoinFamilyRequestType}) {
       if (parseDataResponse(response).alreadyHadFamily == true) {
         navigationRef.current.dispatch(CommonActions.goBack());
       } else {
+        yield* put(getHomeScreenDataRequestAction());
         navigateReset(StackName.MainStack);
       }
     } else {

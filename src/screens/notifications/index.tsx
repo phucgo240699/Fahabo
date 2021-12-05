@@ -17,6 +17,7 @@ import {
 import {isNull} from '@utils/index';
 import {focusFamilySelector} from '@store/selectors/family';
 import {
+  clearNotificationBadgeRequestAction,
   clickNotificationRequestAction,
   getNotificationsRequestAction,
 } from '@store/actionTypes/notifications';

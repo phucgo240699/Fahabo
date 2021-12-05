@@ -1,5 +1,7 @@
+import {StackName} from '@constants/Constants';
 import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
+import {navigateReset} from '@navigators/index';
 import {getChoresApi} from '@services/chores';
 import {getFamilyMembersApi, getMyFamiliesApi} from '@services/family';
 import {getTransactionsApi} from '@services/transactions';
@@ -105,6 +107,7 @@ function* getHomeScreenDataSaga(action: AnyAction) {
             ),
           ),
         ]);
+        navigateReset(StackName.MainStack);
       } else {
         if (parseErrorsResponse(choresResponse).length > 0) {
           yield* put(

@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import colors from '@themes/colors';
 import {Platform, StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 import {Constants} from '@constants/Constants';
 import ProfileHeader from '@components/ProfileHeader';
-import {PieChart} from 'react-native-chart-kit';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import i18n from '@locales/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
@@ -16,14 +15,16 @@ import {
 } from '@store/selectors/transactions';
 import {getCategorySegmentName} from '@utils/transactions';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import {ScrollView} from 'native-base';
+import PieChart from 'react-native-pie-chart';
+import TransactionStatisticLegend from './shared/TransactionStatisticLegend';
+import {Box, ScrollView} from 'native-base';
 
 interface Props {
   route?: any;
 }
 
 const TransactionStatisticsScreen: React.FC<Props> = ({route}) => {
-  const width = Constants.MAX_WIDTH - 5;
+  const width = Constants.MAX_WIDTH - 60;
   const height = 256;
 
   const expenseTransactionStatistics = useSelector(
@@ -58,6 +59,13 @@ const TransactionStatisticsScreen: React.FC<Props> = ({route}) => {
     setSelectedTypeIndex(event.nativeEvent.selectedSegmentIndex);
   };
 
+  const expenses = expenseTransactionStatistics.filter(
+    item => (item.population ?? 0) > 0,
+  );
+  const incomes = incomeTransactionStatistics.filter(
+    item => (item.population ?? 0) > 0,
+  );
+
   return (
     <SafeView>
       <FocusAwareStatusBar
@@ -73,31 +81,37 @@ const TransactionStatisticsScreen: React.FC<Props> = ({route}) => {
           onChange={onChangeSegment}
           style={styles.segmentControl}
         />
-        {selectedTypeIndex === 0 ? (
-          <PieChart
-            data={expenseTransactionStatistics.filter(item => {
-              return (item.population ?? 0) > 0;
-            })}
-            height={height}
-            width={width}
-            chartConfig={chartConfig}
-            accessor="population"
-            backgroundColor="transparent"
-            paddingLeft="5"
-          />
-        ) : (
-          <PieChart
-            data={incomeTransactionStatistics.filter(item => {
-              return (item.population ?? 0) > 0;
-            })}
-            height={height}
-            width={width}
-            chartConfig={chartConfig}
-            accessor="population"
-            backgroundColor="transparent"
-            paddingLeft="5"
-          />
-        )}
+        <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+          {selectedTypeIndex === 0 ? (
+            <>
+              <PieChart
+                style={styles.chart}
+                widthAndHeight={width}
+                series={expenses.map(item => item.population ?? 0)}
+                sliceColor={expenses.map(item => item.color)}
+              />
+              <Box mt={8}>
+                {expenses.map(item => {
+                  return <TransactionStatisticLegend item={item} />;
+                })}
+              </Box>
+            </>
+          ) : (
+            <>
+              <PieChart
+                style={styles.chart}
+                widthAndHeight={width}
+                series={incomes.map(item => item.population ?? 0)}
+                sliceColor={incomes.map(item => item.color)}
+              />
+              <Box mt={8}>
+                {incomes.map(item => {
+                  return <TransactionStatisticLegend item={item} />;
+                })}
+              </Box>
+            </>
+          )}
+        </ScrollView>
       </Container>
     </SafeView>
   );
@@ -112,6 +126,7 @@ const SafeView = styled.SafeAreaView`
 const Container = styled.ScrollView``;
 
 const styles = StyleSheet.create({
+  chart: {marginLeft: 30, marginTop: 30},
   segmentControl: {marginTop: 10, marginBottom: 10},
 });
 

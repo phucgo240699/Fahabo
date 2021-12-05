@@ -5,10 +5,10 @@ import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
-import {ScreenName} from '@constants/Constants';
+import {ScreenName, StackName} from '@constants/Constants';
 import messaging from '@react-native-firebase/messaging';
 import ImageViewerScreen from '@screens/media/ImageViewerScreen';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addFCMTokenRequestAction} from '@store/actionTypes/signIn';
 import {isNull} from '@utils/index';
 import {NotificationNavigationType} from '@constants/types/modals';
@@ -25,11 +25,27 @@ import ConferenceCallScreen from '@screens/interactions/ConferenceCallScreen';
 import LocationsScreen from '@screens/locations';
 import TransactionDetailScreen from '@screens/transactions/TransactionDetailScreen';
 import TransactionPhotosScreen from '@screens/transactions/TransactionPhotosScreen';
+import {focusFamilySelector} from '@store/selectors/family';
+import {
+  clearInteractionBadgeRequestAction,
+  clearNotificationBadgeRequestAction,
+  getBadgesRequestAction,
+  getNotificationsRequestAction,
+} from '@store/actionTypes/notifications';
+import {useRoute} from '@react-navigation/native';
+import {routeNameSelector} from '@store/selectors/session';
+
+interface Props {
+  route?: any;
+  navigation?: any;
+}
 
 const Stack = createStackNavigator();
 
 const MainStack = () => {
   const dispatch = useDispatch();
+  const routeName = useSelector(routeNameSelector);
+  const focusFamily = useSelector(focusFamilySelector);
 
   useEffect(() => {
     messaging()
@@ -47,77 +63,6 @@ const MainStack = () => {
         }
       });
   }, []);
-
-  useEffect(() => {
-    // Background
-    messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log({Background: remoteMessage});
-      if (
-        !isNull(remoteMessage?.data?.navigate) &&
-        !isNull(remoteMessage?.data?.id)
-      ) {
-        onDirectScreen(
-          remoteMessage?.data?.navigate,
-          remoteMessage?.data?.id,
-          remoteMessage?.data?.familyId,
-        );
-      }
-    });
-
-    // Quit
-    messaging()
-      .getInitialNotification()
-      .then(remoteMessage => {
-        console.log({Quit: remoteMessage});
-        if (
-          !isNull(remoteMessage?.data?.navigate) &&
-          !isNull(remoteMessage?.data?.id)
-        ) {
-          onDirectScreen(
-            remoteMessage?.data?.navigate,
-            remoteMessage?.data?.id,
-          );
-        }
-      });
-  }, []);
-
-  const onDirectScreen = (value?: string, id?: string, familyId?: string) => {
-    switch (value) {
-      case NotificationNavigationType.CHORE_DETAIL:
-        dispatch(
-          getChoreDetailRequestAction({
-            choreId: parseInt(id ?? ''),
-          }),
-        );
-        break;
-      case NotificationNavigationType.EVENT_DETAIL:
-        dispatch(
-          getEventDetailRequestAction({
-            eventId: parseInt(id ?? ''),
-          }),
-        );
-        break;
-      case NotificationNavigationType.FAMILY_DETAIL:
-        dispatch(
-          getFamilyDetailRequestAction({
-            familyId: parseInt(id ?? ''),
-          }),
-        );
-        break;
-      case NotificationNavigationType.CHAT:
-        navigate(ScreenName.InteractionsScreen);
-        break;
-      case NotificationNavigationType.VIDEO_CALL:
-        dispatch(
-          connectTwilioRequestActions({
-            familyId: parseInt(familyId ?? ''),
-            roomCallId: id,
-          }),
-        );
-      default:
-        break;
-    }
-  };
 
   return (
     <Stack.Navigator screenOptions={navigationOptions}>

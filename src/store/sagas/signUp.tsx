@@ -43,6 +43,7 @@ import {
 } from '@utils/parsers/authentication';
 import {showResetPasswordLinkModalAction} from '@store/actionTypes/modals';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
+import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 
 function* onSignUpRequest(action: AnyAction) {
   try {
@@ -155,6 +156,7 @@ function* onVerifyUsernameRequest(action: AnyAction) {
         ),
       );
       if (data.user.familyNum > 0) {
+        yield* put(getHomeScreenDataRequestAction());
         navigateReset(StackName.MainStack);
       } else {
         navigate(ScreenName.FamilyOptionsScreen, {allowNavigateBack: true});

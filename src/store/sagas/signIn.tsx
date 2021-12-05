@@ -33,6 +33,7 @@ import {
   LogOutRequestType,
 } from '@constants/types/authentication';
 import {apiProxy} from './apiProxy';
+import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 
 function* onSignInRequest(action: AnyAction) {
   try {
@@ -56,6 +57,7 @@ function* onSignInRequest(action: AnyAction) {
             ),
           );
 
+          yield* put(getHomeScreenDataRequestAction());
           navigateReset(StackName.MainStack);
         } else {
           if (!isNull(data.user.languageCode)) {
@@ -122,6 +124,7 @@ function* onAutoSignInRequest(action: AnyAction) {
             ),
           );
 
+          yield* put(getHomeScreenDataRequestAction());
           navigateReset(StackName.MainStack);
           return;
         }

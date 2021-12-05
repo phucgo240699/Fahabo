@@ -74,13 +74,13 @@ export function parseTransactionStatistics(
 export function parseTransactionStatistic(
   rawData: any,
 ): TransactionStatisticType {
-  const rawName = get('categoryName', rawData);
+  const name = get('categoryName', rawData);
   const population = parseInt(get('cost', rawData));
   const translated: boolean = get('translated', rawData);
   const color = generateRandomColor();
   const legendFontColor = colors.SILVER;
   const legendFontSize = 14;
-  const name = translated ? i18n.t(`backend.${rawName}`) : rawName;
+  // const name = translated ? i18n.t(`backend.${rawName}`) : rawName;
 
   return {
     name,

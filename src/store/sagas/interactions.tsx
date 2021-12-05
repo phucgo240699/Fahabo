@@ -77,7 +77,7 @@ function* sendMessageSaga({
 
         // Notify new message
         if (!isNull(focusFamily?.id)) {
-          yield* delay(1000);
+          yield* delay(3000);
           yield* put(
             notifyNewMessageRequestAction({familyId: focusFamily?.id}),
           );

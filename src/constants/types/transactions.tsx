@@ -112,7 +112,7 @@ export type TransactionStatisticType = {
   name?: string;
   translated?: boolean;
   population?: number;
-  color?: string;
+  color: string;
   legendFontColor?: string;
   legendFontSize?: number;
 };

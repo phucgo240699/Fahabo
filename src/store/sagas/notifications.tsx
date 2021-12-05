@@ -1,4 +1,4 @@
-import {all, put, select, takeLeading} from 'typed-redux-saga';
+import {all, put, select, takeEvery, takeLeading} from 'typed-redux-saga';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
 import {apiProxy} from './apiProxy';
@@ -6,6 +6,7 @@ import i18n from '@locales/index';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {
   clearInteractionBadgeSuccessAction,
+  clearNotificationBadgeRequestAction,
   clearNotificationBadgeSuccessAction,
   CLEAR_INTERACTION_BADGE_REQUEST,
   CLEAR_NOTIFICATION_BADGE_REQUEST,
@@ -71,6 +72,9 @@ function* getNotificationsSaga({
             parseNotifications(parseDataResponse(response)),
           ),
         );
+      }
+      if (body.refresh) {
+        yield* put(clearNotificationBadgeRequestAction());
       }
     } else {
       yield* put(

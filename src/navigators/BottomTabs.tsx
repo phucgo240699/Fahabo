@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import colors from '@themes/colors';
-import {StackName} from '@constants/Constants';
+import {ScreenName, StackName} from '@constants/Constants';
 import PrimaryIcon from '@components/PrimaryIcon';
 import HomeStack from './HomeStack';
 import FamilyStack from './FamilyStack';
@@ -35,6 +35,13 @@ import {
   getNotificationsRequestAction,
 } from '@store/actionTypes/notifications';
 import messaging from '@react-native-firebase/messaging';
+import {updateRouteNameAction} from '@store/actionTypes/session';
+import {NotificationNavigationType} from '@constants/types/modals';
+import {getChoreDetailRequestAction} from '@store/actionTypes/chores';
+import {getEventDetailRequestAction} from '@store/actionTypes/events';
+import {getFamilyDetailRequestAction} from '@store/actionTypes/family';
+import {navigate} from '.';
+import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
 
 interface Props {
   route?: any;
@@ -52,13 +59,16 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
   // Clear & Adapt Badge
   React.useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
+    console.log('routeName Bottom: ', routeName);
     switch (routeName) {
       case StackName.HomeStack:
+        dispatch(updateRouteNameAction(routeName));
         if (!isNull(focusFamily?.id)) {
           dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
         }
         break;
       case StackName.InteractionsStack:
+        dispatch(updateRouteNameAction(routeName));
         if (!isNull(focusFamily?.id)) {
           dispatch(
             clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
@@ -72,11 +82,13 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
         }
         break;
       case StackName.FamilyStack:
+        dispatch(updateRouteNameAction(routeName));
         if (!isNull(focusFamily?.id)) {
           dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
         }
         break;
       case StackName.NotificationsStack:
+        dispatch(updateRouteNameAction(routeName));
         if (!isNull(focusFamily?.id)) {
           dispatch(clearNotificationBadgeRequestAction());
           dispatch(
@@ -89,6 +101,7 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
         }
         break;
       case StackName.ProfileStack:
+        dispatch(updateRouteNameAction(routeName));
         if (!isNull(focusFamily?.id)) {
           dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
         }
@@ -96,15 +109,17 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
       default:
         break;
     }
+    console.log({routeName});
   }, [navigation, route]);
 
   React.useEffect(() => {
     // Foreground
     const unsubscribe = messaging().onMessage(async remoteMessage => {
+      const routeName = getFocusedRouteNameFromRoute(route);
       console.log({Foreground: remoteMessage});
+      console.log({routeName});
       if (!isNull(focusFamily?.id)) {
-        console.log({routeName: getFocusedRouteNameFromRoute(route)});
-        switch (getFocusedRouteNameFromRoute(route)) {
+        switch (routeName) {
           case StackName.InteractionsStack:
             dispatch(
               clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
@@ -124,7 +139,7 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
                 onlyInteraction: true,
               }),
             );
-            dispatch(getNotificationsRequestAction({}));
+            dispatch(getNotificationsRequestAction({getting: true}));
             break;
           default:
             dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
@@ -135,6 +150,77 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
 
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    // Background
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log({Background: remoteMessage});
+      if (
+        !isNull(remoteMessage?.data?.navigate) &&
+        !isNull(remoteMessage?.data?.id)
+      ) {
+        onDirectScreen(
+          remoteMessage?.data?.navigate,
+          remoteMessage?.data?.id,
+          remoteMessage?.data?.familyId,
+        );
+      }
+    });
+
+    // Quit
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        console.log({Quit: remoteMessage});
+        if (
+          !isNull(remoteMessage?.data?.navigate) &&
+          !isNull(remoteMessage?.data?.id)
+        ) {
+          onDirectScreen(
+            remoteMessage?.data?.navigate,
+            remoteMessage?.data?.id,
+          );
+        }
+      });
+  }, []);
+
+  const onDirectScreen = (value?: string, id?: string, familyId?: string) => {
+    switch (value) {
+      case NotificationNavigationType.CHORE_DETAIL:
+        dispatch(
+          getChoreDetailRequestAction({
+            choreId: parseInt(id ?? ''),
+          }),
+        );
+        break;
+      case NotificationNavigationType.EVENT_DETAIL:
+        dispatch(
+          getEventDetailRequestAction({
+            eventId: parseInt(id ?? ''),
+          }),
+        );
+        break;
+      case NotificationNavigationType.FAMILY_DETAIL:
+        dispatch(
+          getFamilyDetailRequestAction({
+            familyId: parseInt(id ?? ''),
+          }),
+        );
+        break;
+      case NotificationNavigationType.CHAT:
+        navigate(ScreenName.InteractionsScreen);
+        break;
+      case NotificationNavigationType.VIDEO_CALL:
+        dispatch(
+          connectTwilioRequestActions({
+            familyId: parseInt(familyId ?? ''),
+            roomCallId: id,
+          }),
+        );
+      default:
+        break;
+    }
+  };
 
   return (
     <Tab.Navigator

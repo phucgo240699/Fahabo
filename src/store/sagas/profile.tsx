@@ -40,6 +40,7 @@ import {
 import {ScreenName, StackName} from '@constants/Constants';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {setGlobalLocale} from '@utils/index';
+import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 
 // Avatar
 function* onUpdateProfileAvatarSaga(action: AnyAction) {
@@ -175,6 +176,7 @@ function* onUpdateLanguageSaga(action: AnyAction) {
 }
 function* onUpdateLanguageSuccessSaga(action: AnyAction) {
   yield* delay(300);
+  yield* put(getHomeScreenDataRequestAction());
   navigateReset(StackName.MainStack);
 }
 

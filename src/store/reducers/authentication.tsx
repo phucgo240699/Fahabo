@@ -27,7 +27,7 @@ export type AuthenticationState = {
   refreshToken?: string;
   fcmToken?: string;
   listCountryCode?: Record<string, string>[];
-  isRefreshing: boolean;
+  isRefreshing?: boolean;
 };
 
 const defaultState: AuthenticationState = {
@@ -149,6 +149,7 @@ export default function authenticationReducer(
         accessToken: undefined,
         refreshToken: undefined,
         fcmToken: undefined,
+        isRefreshing: false,
       };
     default:
       return state;
