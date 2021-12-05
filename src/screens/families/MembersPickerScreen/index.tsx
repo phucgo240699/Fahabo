@@ -70,7 +70,10 @@ const MembersPickerScreen: React.FC<Props> = ({route}) => {
   }, []);
 
   const members = membersInFamily.filter(item => {
-    return item.id !== user?.id;
+    if (route && route.params && route.params.fromConferenceCall) {
+      return item.id !== user?.id;
+    }
+    return true;
   });
 
   // Refresh & Load More

@@ -110,6 +110,7 @@ export type TransactionCategoryType = {
 
 export type TransactionStatisticType = {
   name?: string;
+  translated?: boolean;
   population?: number;
   color?: string;
   legendFontColor?: string;

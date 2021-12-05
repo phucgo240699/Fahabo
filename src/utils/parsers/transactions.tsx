@@ -6,6 +6,7 @@ import {
 } from '@constants/types/transactions';
 import colors from '@themes/colors';
 import {generateRandomColor} from '@utils/index';
+import i18n from '@locales/index';
 
 // Transaction
 export function parseTransactions(rawData: any[]): TransactionType[] {
@@ -73,14 +74,17 @@ export function parseTransactionStatistics(
 export function parseTransactionStatistic(
   rawData: any,
 ): TransactionStatisticType {
-  const name = get('categoryName', rawData);
+  const rawName = get('categoryName', rawData);
   const population = parseInt(get('cost', rawData));
+  const translated: boolean = get('translated', rawData);
   const color = generateRandomColor();
   const legendFontColor = colors.SILVER;
   const legendFontSize = 14;
+  const name = translated ? i18n.t(`backend.${rawName}`) : rawName;
 
   return {
     name,
+    translated,
     population,
     color,
     legendFontColor,

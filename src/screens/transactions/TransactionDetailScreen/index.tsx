@@ -106,7 +106,11 @@ const TransactionDetailScreen: React.FC<Props> = ({route}) => {
           </BackButton>
         </Banner>
         <Content>
-          <Title>{detail?.category?.title}</Title>
+          <Title>
+            {detail?.category?.translated
+              ? i18n.t(`backend.${detail?.category?.title}`)
+              : detail?.category?.title}
+          </Title>
           <Cost
             color={
               detail?.category?.type === TransactionCategorySegment.INCOME

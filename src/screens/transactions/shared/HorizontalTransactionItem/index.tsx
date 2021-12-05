@@ -7,6 +7,7 @@ import {
   TransactionCategorySegment,
   TransactionType,
 } from '@constants/types/transactions';
+import i18n from '@locales/index';
 
 interface Props {
   item: TransactionType;
@@ -23,7 +24,11 @@ const HorizontalTransactionItem: React.FC<Props> = ({item, onPress}) => {
   return (
     <Container activeOpacity={1} onPress={onPressContainer}>
       <Content>
-        <Title numberOfLines={1}>{item.category?.title}</Title>
+        <Title numberOfLines={1}>
+          {item.category?.translated
+            ? i18n.t(`backend.${item.category?.title}`)
+            : item.category?.title}
+        </Title>
         <Money
           numberOfLines={1}
           color={

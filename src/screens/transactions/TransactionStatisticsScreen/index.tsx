@@ -9,42 +9,29 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 import i18n from '@locales/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {TransactionCategorySegment} from '@constants/types/transactions';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {
   expenseTransactionStatisticsSelector,
   incomeTransactionStatisticsSelector,
-  isGettingExpenseTransactionStatisticsSelector,
-  isGettingIncomeTransactionStatisticsSelector,
 } from '@store/selectors/transactions';
 import {getCategorySegmentName} from '@utils/transactions';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import {getTransactionStatisticsRequestAction} from '@store/actionTypes/transactions';
-import {focusFamilySelector} from '@store/selectors/family';
-import {isNull} from '@utils/index';
-import GettingIndicator from '@components/GettingIndicator';
+import {ScrollView} from 'native-base';
 
 interface Props {
   route?: any;
 }
 
 const TransactionStatisticsScreen: React.FC<Props> = ({route}) => {
-  const width = Constants.MAX_WIDTH;
+  const width = Constants.MAX_WIDTH - 5;
   const height = 256;
 
-  // const dispatch = useDispatch();
-  // const focusFamily = useSelector(focusFamilySelector);
   const expenseTransactionStatistics = useSelector(
     expenseTransactionStatisticsSelector,
   );
   const incomeTransactionStatistics = useSelector(
     incomeTransactionStatisticsSelector,
   );
-  // const isGettingExpense = useSelector(
-  //   isGettingExpenseTransactionStatisticsSelector,
-  // );
-  // const isGettingIncome = useSelector(
-  //   isGettingIncomeTransactionStatisticsSelector,
-  // );
 
   const types = [
     TransactionCategorySegment.EXPENSE,
@@ -59,52 +46,16 @@ const TransactionStatisticsScreen: React.FC<Props> = ({route}) => {
       backgroundGradientTo: '#08130D',
       color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
       style: {
-        borderRadius: 16,
+        borderRadius: 0,
       },
     },
   ];
 
   const chartConfig = chartConfigs[0];
-  const graphStyle = {
-    marginVertical: 8,
-    ...chartConfigs[0].style,
-  };
-
-  // // Life Cycle
-  // useEffect(() => {
-  //   if (
-  //     route &&
-  //     route.params &&
-  //     route.params.month &&
-  //     route.params.year &&
-  //     !isNull(focusFamily?.id)
-  //   ) {
-  //     dispatch(
-  //       getTransactionStatisticsRequestAction({
-  //         getting: true,
-  //         familyId: focusFamily?.id,
-  //         month: route.params.month,
-  //         year: route.params.year,
-  //         type: TransactionCategorySegment.EXPENSE,
-  //       }),
-  //     );
-  //     dispatch(
-  //       getTransactionStatisticsRequestAction({
-  //         getting: true,
-  //         familyId: focusFamily?.id,
-  //         month: route.params.month,
-  //         year: route.params.year,
-  //         type: TransactionCategorySegment.INCOME,
-  //       }),
-  //     );
-  //   }
-  // }, []);
 
   // Segment control
   const onChangeSegment = (event: any) => {
     setSelectedTypeIndex(event.nativeEvent.selectedSegmentIndex);
-    console.log({expenseTransactionStatistics});
-    console.log({incomeTransactionStatistics});
   };
 
   return (
@@ -124,25 +75,27 @@ const TransactionStatisticsScreen: React.FC<Props> = ({route}) => {
         />
         {selectedTypeIndex === 0 ? (
           <PieChart
-            data={expenseTransactionStatistics}
+            data={expenseTransactionStatistics.filter(item => {
+              return (item.population ?? 0) > 0;
+            })}
             height={height}
             width={width}
             chartConfig={chartConfig}
             accessor="population"
-            style={graphStyle}
             backgroundColor="transparent"
-            paddingLeft="15"
+            paddingLeft="5"
           />
         ) : (
           <PieChart
-            data={incomeTransactionStatistics}
+            data={incomeTransactionStatistics.filter(item => {
+              return (item.population ?? 0) > 0;
+            })}
             height={height}
             width={width}
             chartConfig={chartConfig}
             accessor="population"
-            style={graphStyle}
             backgroundColor="transparent"
-            paddingLeft="15"
+            paddingLeft="5"
           />
         )}
       </Container>

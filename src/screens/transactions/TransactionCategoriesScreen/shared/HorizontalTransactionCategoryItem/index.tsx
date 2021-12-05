@@ -1,4 +1,5 @@
 import React from 'react';
+import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
 import styled from 'styled-components/native';
@@ -22,7 +23,9 @@ const HorizontalTransactionCategoryItem: React.FC<Props> = ({
   return (
     <Container onPress={onPressContainer} activeOpacity={1}>
       <Icon source={{uri: item.icon}} />
-      <Title numberOfLines={2}>{item.title}</Title>
+      <Title numberOfLines={2}>
+        {item.translated ? i18n.t(`backend.${item.title}`) : item.title}
+      </Title>
     </Container>
   );
 };
