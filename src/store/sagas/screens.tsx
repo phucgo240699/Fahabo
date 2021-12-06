@@ -12,11 +12,13 @@ import {
   getFamilyMembersSuccessAction,
   updateFocusFamilySuccessAction,
 } from '@store/actionTypes/family';
+import {getBadgesRequestAction} from '@store/actionTypes/notifications';
 import {GET_HOME_SCREEN_DATA} from '@store/actionTypes/screens';
 import {
   closeHUDAction,
   showHUDAction,
   showToastAction,
+  updateRouteNameAction,
 } from '@store/actionTypes/session';
 import {logOutRequestAction} from '@store/actionTypes/signIn';
 import {getTransactionsSuccessAction} from '@store/actionTypes/transactions';
@@ -79,6 +81,7 @@ function* getHomeScreenDataSaga(action: AnyAction) {
             from: `${getOriginDateStringWithMinimumDate(today)} 00:00:00`,
             to: `${getOriginDateStringWithMaximumDate(today)} 23:59:59`,
           }),
+          put(getBadgesRequestAction({familyId: focusFamily?.id})),
         ]);
       if (
         (choresResponse as any).status === 200 &&
@@ -106,6 +109,7 @@ function* getHomeScreenDataSaga(action: AnyAction) {
               parseTransactions(parseDataResponse(transactionsResponse)),
             ),
           ),
+          put(updateRouteNameAction(StackName.HomeStack)),
         ]);
         navigateReset(StackName.MainStack);
       } else {

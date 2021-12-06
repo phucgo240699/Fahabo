@@ -177,7 +177,6 @@ function* onUpdateLanguageSaga(action: AnyAction) {
 function* onUpdateLanguageSuccessSaga(action: AnyAction) {
   yield* delay(300);
   yield* put(getHomeScreenDataRequestAction());
-  navigateReset(StackName.MainStack);
 }
 
 // Password

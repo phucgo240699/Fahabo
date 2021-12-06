@@ -33,6 +33,7 @@ import {
   clearNotificationBadgeRequestAction,
   getBadgesRequestAction,
   getNotificationsRequestAction,
+  handleNotificationInForeground,
 } from '@store/actionTypes/notifications';
 import messaging from '@react-native-firebase/messaging';
 import {updateRouteNameAction} from '@store/actionTypes/session';
@@ -42,6 +43,7 @@ import {getEventDetailRequestAction} from '@store/actionTypes/events';
 import {getFamilyDetailRequestAction} from '@store/actionTypes/family';
 import {navigate} from '.';
 import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
+import {routeNameSelector} from '@store/selectors/session';
 
 interface Props {
   route?: any;
@@ -55,20 +57,21 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
   const focusFamily = useSelector(focusFamilySelector);
   const interactionBadge = useSelector(interactionBadgeSelector);
   const notificationBadge = useSelector(notificationBadgeSelector);
+  // const routeName = useSelector(routeNameSelector);
 
   // Clear & Adapt Badge
   React.useLayoutEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route);
-    console.log('routeName Bottom: ', routeName);
-    switch (routeName) {
+    const _routeName = getFocusedRouteNameFromRoute(route);
+    console.log('routeName Bottom: ', _routeName);
+    switch (_routeName) {
       case StackName.HomeStack:
-        dispatch(updateRouteNameAction(routeName));
+        dispatch(updateRouteNameAction(StackName.HomeStack));
         if (!isNull(focusFamily?.id)) {
           dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
         }
         break;
       case StackName.InteractionsStack:
-        dispatch(updateRouteNameAction(routeName));
+        dispatch(updateRouteNameAction(StackName.InteractionsStack));
         if (!isNull(focusFamily?.id)) {
           dispatch(
             clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
@@ -82,13 +85,13 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
         }
         break;
       case StackName.FamilyStack:
-        dispatch(updateRouteNameAction(routeName));
+        dispatch(updateRouteNameAction(StackName.FamilyStack));
         if (!isNull(focusFamily?.id)) {
           dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
         }
         break;
       case StackName.NotificationsStack:
-        dispatch(updateRouteNameAction(routeName));
+        dispatch(updateRouteNameAction(StackName.NotificationsStack));
         if (!isNull(focusFamily?.id)) {
           dispatch(clearNotificationBadgeRequestAction());
           dispatch(
@@ -101,7 +104,7 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
         }
         break;
       case StackName.ProfileStack:
-        dispatch(updateRouteNameAction(routeName));
+        dispatch(updateRouteNameAction(StackName.ProfileStack));
         if (!isNull(focusFamily?.id)) {
           dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
         }
@@ -109,43 +112,43 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
       default:
         break;
     }
-    console.log({routeName});
   }, [navigation, route]);
 
   React.useEffect(() => {
     // Foreground
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      const routeName = getFocusedRouteNameFromRoute(route);
-      console.log({Foreground: remoteMessage});
-      console.log({routeName});
-      if (!isNull(focusFamily?.id)) {
-        switch (routeName) {
-          case StackName.InteractionsStack:
-            dispatch(
-              clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
-            );
-            dispatch(
-              getBadgesRequestAction({
-                familyId: focusFamily?.id,
-                onlyNotification: true,
-              }),
-            );
-            break;
-          case StackName.NotificationsStack:
-            dispatch(clearNotificationBadgeRequestAction());
-            dispatch(
-              getBadgesRequestAction({
-                familyId: focusFamily?.id,
-                onlyInteraction: true,
-              }),
-            );
-            dispatch(getNotificationsRequestAction({getting: true}));
-            break;
-          default:
-            dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
-            break;
-        }
-      }
+      dispatch(handleNotificationInForeground());
+      // const _routeName = getFocusedRouteNameFromRoute(route);
+      // console.log({Foreground: remoteMessage});
+      // console.log({_routeName});
+      // if (!isNull(focusFamily?.id)) {
+      //   switch (_routeName) {
+      //     case StackName.InteractionsStack:
+      //       dispatch(
+      //         clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
+      //       );
+      //       dispatch(
+      //         getBadgesRequestAction({
+      //           familyId: focusFamily?.id,
+      //           onlyNotification: true,
+      //         }),
+      //       );
+      //       break;
+      //     case StackName.NotificationsStack:
+      //       dispatch(clearNotificationBadgeRequestAction());
+      //       dispatch(
+      //         getBadgesRequestAction({
+      //           familyId: focusFamily?.id,
+      //           onlyInteraction: true,
+      //         }),
+      //       );
+      //       dispatch(getNotificationsRequestAction({getting: true}));
+      //       break;
+      //     default:
+      //       dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
+      //       break;
+      //   }
+      // }
     });
 
     return unsubscribe;

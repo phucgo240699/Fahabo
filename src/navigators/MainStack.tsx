@@ -1,39 +1,39 @@
 import React, {useEffect} from 'react';
 import BottomTabs from './BottomTabs';
-import {navigate, navigationOptions} from './index';
+import {navigationOptions} from './index';
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
-import {ScreenName, StackName} from '@constants/Constants';
+import {ScreenName} from '@constants/Constants';
 import messaging from '@react-native-firebase/messaging';
 import ImageViewerScreen from '@screens/media/ImageViewerScreen';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {addFCMTokenRequestAction} from '@store/actionTypes/signIn';
-import {isNull} from '@utils/index';
-import {NotificationNavigationType} from '@constants/types/modals';
-import {getChoreDetailRequestAction} from '@store/actionTypes/chores';
-import {getEventDetailRequestAction} from '@store/actionTypes/events';
-import {getFamilyDetailRequestAction} from '@store/actionTypes/family';
+// import {isNull} from '@utils/index';
+// import {NotificationNavigationType} from '@constants/types/modals';
+// import {getChoreDetailRequestAction} from '@store/actionTypes/chores';
+// import {getEventDetailRequestAction} from '@store/actionTypes/events';
+// import {getFamilyDetailRequestAction} from '@store/actionTypes/family';
 import FamilyDetailScreen from '@screens/families/FamilyDetailScreen';
 import EventDetailScreen from '@screens/events/EventDetailScreen';
 import ChoreDetailScreen from '@screens/chores/ChoreDetailScreen';
 import ChorePhotosScreen from '@screens/chores/ChorePhotosScreen';
 import EventPhotosScreen from '@screens/events/EventPhotosScreen';
-import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
+// import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
 import ConferenceCallScreen from '@screens/interactions/ConferenceCallScreen';
 import LocationsScreen from '@screens/locations';
 import TransactionDetailScreen from '@screens/transactions/TransactionDetailScreen';
 import TransactionPhotosScreen from '@screens/transactions/TransactionPhotosScreen';
-import {focusFamilySelector} from '@store/selectors/family';
-import {
-  clearInteractionBadgeRequestAction,
-  clearNotificationBadgeRequestAction,
-  getBadgesRequestAction,
-  getNotificationsRequestAction,
-} from '@store/actionTypes/notifications';
-import {useRoute} from '@react-navigation/native';
-import {routeNameSelector} from '@store/selectors/session';
+// import {focusFamilySelector} from '@store/selectors/family';
+// import {
+//   clearInteractionBadgeRequestAction,
+//   clearNotificationBadgeRequestAction,
+//   getBadgesRequestAction,
+//   getNotificationsRequestAction,
+// } from '@store/actionTypes/notifications';
+// import {useRoute} from '@react-navigation/native';
+// import {routeNameSelector} from '@store/selectors/session';
 
 interface Props {
   route?: any;
@@ -44,8 +44,8 @@ const Stack = createStackNavigator();
 
 const MainStack = () => {
   const dispatch = useDispatch();
-  const routeName = useSelector(routeNameSelector);
-  const focusFamily = useSelector(focusFamilySelector);
+  // const routeName = useSelector(routeNameSelector);
+  // const focusFamily = useSelector(focusFamilySelector);
 
   useEffect(() => {
     messaging()

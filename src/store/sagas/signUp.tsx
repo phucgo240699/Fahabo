@@ -157,7 +157,6 @@ function* onVerifyUsernameRequest(action: AnyAction) {
       );
       if (data.user.familyNum > 0) {
         yield* put(getHomeScreenDataRequestAction());
-        navigateReset(StackName.MainStack);
       } else {
         navigate(ScreenName.FamilyOptionsScreen, {allowNavigateBack: true});
       }

@@ -62,7 +62,9 @@ const NotificationsScreen: React.FC<Props> = ({}) => {
       !isNull(focusFamily?.id) &&
       notifications.length >= Pagination.Notifications
     ) {
-      dispatch(getNotificationsRequestAction({loadMore: true}));
+      dispatch(
+        getNotificationsRequestAction({loadMore: true, page: pageIndex + 1}),
+      );
       setPageIndex(pageIndex + 1);
     }
   };

@@ -19,10 +19,6 @@ const InteractionsStack = () => {
         name={ScreenName.MembersPickerScreen}
         component={MembersPickerScreen}
       />
-      <Stack.Screen
-        name={ScreenName.ConferenceCallScreen}
-        component={ConferenceCallScreen}
-      />
     </Stack.Navigator>
   );
 };

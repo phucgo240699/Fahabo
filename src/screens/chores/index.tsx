@@ -156,6 +156,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   // Refresh & Load More
   const onRefreshData = () => {
     if (isRefreshing === false && !isNull(focusFamily?.id)) {
+      setPageIndex(0);
       dispatch(getChoreFilterMembersRequestAction({familyId: focusFamily?.id}));
       dispatch(
         getChoresRequestAction({
@@ -234,14 +235,14 @@ const ChoresScreen: React.FC<Props> = ({}) => {
     setIndexSwiped(rowKey);
   };
   return (
-    <Box flex={1}>
+    <Container>
       <FocusAwareStatusBar
         barStyle="dark-content"
         backgroundColor={colors.WHITE}
         translucent
       />
       <Touch onPress={onDismissKeyboard}>
-        <Box flex={1}>
+        <Container>
           <SwipeListView
             data={chores}
             renderItem={renderItem}
@@ -304,13 +305,17 @@ const ChoresScreen: React.FC<Props> = ({}) => {
             leftTintColor={colors.WHITE}
             onPress={onPressCreateButton}
           />
-        </Box>
+        </Container>
       </Touch>
-    </Box>
+    </Container>
   );
 };
 
 const Touch = styled.TouchableWithoutFeedback`
+  flex: 1;
+`;
+
+const Container = styled.View`
   flex: 1;
 `;
 

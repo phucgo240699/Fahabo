@@ -5,6 +5,7 @@ import {apiProxy} from './apiProxy';
 import i18n from '@locales/index';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {
+  clearInteractionBadgeRequestAction,
   clearInteractionBadgeSuccessAction,
   clearNotificationBadgeRequestAction,
   clearNotificationBadgeSuccessAction,
@@ -12,12 +13,15 @@ import {
   CLEAR_NOTIFICATION_BADGE_REQUEST,
   clickNotificationSuccessAction,
   CLICK_NOTIFICATION_REQUEST,
+  getBadgesRequestAction,
   getBadgesSuccessAction,
   getInteractionBadgeSuccessAction,
   getNotificationBadgeSuccessAction,
+  getNotificationsRequestAction,
   getNotificationsSuccessAction,
   GET_BADGES_REQUEST,
   GET_NOTIFICATIONS_REQUEST,
+  HANDLE_NOTIFICATION_IN_FOREGROUND,
   updateIsGettingNotificationsAction,
   updateIsLoadingMoreNotificationsAction,
   updateIsRefreshingNotificationsAction,
@@ -39,6 +43,10 @@ import {parseNotifications} from '@utils/parsers/notifications';
 import {notificationsSelector} from '@store/selectors/notifications';
 import {mixNotifications} from '@utils/notifications';
 import {AnyAction} from 'redux';
+import {isNull} from '@utils/index';
+import {focusFamilySelector} from '@store/selectors/family';
+import {routeNameSelector} from '@store/selectors/session';
+import {StackName} from '@constants/Constants';
 
 function* getNotificationsSaga({
   body,
@@ -196,6 +204,42 @@ function* clickNotificationSaga({
   }
 }
 
+function* handleNotificationInForegroundSaga(action: AnyAction) {
+  const focusFamily = yield* select(focusFamilySelector);
+  if (!isNull(focusFamily?.id)) {
+    const routeName = yield* select(routeNameSelector);
+    console.log({routeName});
+    switch (routeName) {
+      case StackName.InteractionsStack:
+        yield* all([
+          put(clearInteractionBadgeRequestAction({familyId: focusFamily?.id})),
+          put(
+            getBadgesRequestAction({
+              familyId: focusFamily?.id,
+              onlyNotification: true,
+            }),
+          ),
+        ]);
+        break;
+      case StackName.NotificationsStack:
+        yield* all([
+          put(clearNotificationBadgeRequestAction()),
+          put(
+            getBadgesRequestAction({
+              familyId: focusFamily?.id,
+              onlyInteraction: true,
+            }),
+          ),
+          put(getNotificationsRequestAction({getting: true})),
+        ]);
+        break;
+      default:
+        yield* put(getBadgesRequestAction({familyId: focusFamily?.id}));
+        break;
+    }
+  }
+}
+
 export default function* () {
   yield* all([
     takeLeading(GET_NOTIFICATIONS_REQUEST, getNotificationsSaga),
@@ -203,5 +247,9 @@ export default function* () {
     takeLeading(CLEAR_NOTIFICATION_BADGE_REQUEST, clearNotificationBadgeSaga),
     takeLeading(CLEAR_INTERACTION_BADGE_REQUEST, clearInteractionBadgeSaga),
     takeLeading(CLICK_NOTIFICATION_REQUEST, clickNotificationSaga),
+    takeEvery(
+      HANDLE_NOTIFICATION_IN_FOREGROUND,
+      handleNotificationInForegroundSaga,
+    ),
   ]);
 }

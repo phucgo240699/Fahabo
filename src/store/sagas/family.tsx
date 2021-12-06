@@ -3,6 +3,7 @@ import {
   closeHUDAction,
   showHUDAction,
   showToastAction,
+  updateRouteNameAction,
 } from '@store/actionTypes/session';
 import {
   updateIsGettingFamilyMembersAction,
@@ -99,7 +100,6 @@ function* createFamilySaga({
       );
       if (parseDataResponse(response).alreadyHadFamily !== true) {
         yield* put(getHomeScreenDataRequestAction());
-        navigateReset(StackName.MainStack);
       }
     } else {
       yield* put(
@@ -132,7 +132,6 @@ function* joinFamilySaga({body}: {type: string; body: JoinFamilyRequestType}) {
         navigationRef.current.dispatch(CommonActions.goBack());
       } else {
         yield* put(getHomeScreenDataRequestAction());
-        navigateReset(StackName.MainStack);
       }
     } else {
       yield* put(

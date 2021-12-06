@@ -58,7 +58,6 @@ function* onSignInRequest(action: AnyAction) {
           );
 
           yield* put(getHomeScreenDataRequestAction());
-          navigateReset(StackName.MainStack);
         } else {
           if (!isNull(data.user.languageCode)) {
             setGlobalLocale(data.user.languageCode);
@@ -125,7 +124,6 @@ function* onAutoSignInRequest(action: AnyAction) {
           );
 
           yield* put(getHomeScreenDataRequestAction());
-          navigateReset(StackName.MainStack);
           return;
         }
       }

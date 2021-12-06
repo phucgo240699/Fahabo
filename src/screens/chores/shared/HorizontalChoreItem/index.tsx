@@ -107,10 +107,7 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   );
 };
 
-const Touch = styled.TouchableOpacity``;
-
 const Container = styled.TouchableOpacity`
-  flex: 1;
   padding: 10px;
   elevation: 10;
   height: 150px;

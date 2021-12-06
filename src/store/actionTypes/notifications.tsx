@@ -84,6 +84,13 @@ export const clickNotificationSuccessAction = (payload?: number) => ({
   payload,
 });
 
+// Handle
+export const HANDLE_NOTIFICATION_IN_FOREGROUND =
+  'HANDLE_NOTIFICATION_IN_FOREGROUND';
+export const handleNotificationInForeground = () => ({
+  type: HANDLE_NOTIFICATION_IN_FOREGROUND,
+});
+
 // Session
 export const UPDATE_IS_GETTING_NOTIFICATIONS =
   'UPDATE_IS_GETTING_NOTIFICATIONS';
