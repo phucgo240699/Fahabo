@@ -71,17 +71,11 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
         break;
       case StackName.InteractionsStack:
         dispatch(updateRouteNameAction(StackName.InteractionsStack));
-        // if (!isNull(focusFamily?.id)) {
-        //   dispatch(
-        //     clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
-        //   );
-        //   dispatch(
-        //     getBadgesRequestAction({
-        //       familyId: focusFamily?.id,
-        //       onlyNotification: true,
-        //     }),
-        //   );
-        // }
+        if (!isNull(focusFamily?.id)) {
+          dispatch(
+            clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
+          );
+        }
         break;
       case StackName.FamilyStack:
         dispatch(updateRouteNameAction(StackName.FamilyStack));
@@ -91,16 +85,9 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
         break;
       case StackName.NotificationsStack:
         dispatch(updateRouteNameAction(StackName.NotificationsStack));
-        // if (!isNull(focusFamily?.id)) {
-        //   dispatch(clearNotificationBadgeRequestAction());
-        //   dispatch(
-        //     getBadgesRequestAction({
-        //       familyId: focusFamily?.id,
-        //       onlyInteraction: true,
-        //     }),
-        //   );
-        //   dispatch(getNotificationsRequestAction({}));
-        // }
+        if (!isNull(focusFamily?.id)) {
+          dispatch(clearNotificationBadgeRequestAction());
+        }
         break;
       case StackName.ProfileStack:
         dispatch(updateRouteNameAction(StackName.ProfileStack));

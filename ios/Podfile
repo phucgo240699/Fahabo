@@ -19,7 +19,7 @@ target 'Fahabo' do
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
-
+  pod 'ReactNativeART', :path => '../node_modules/@react-native-community/art'
 
   target 'FahaboTests' do
     inherit! :complete

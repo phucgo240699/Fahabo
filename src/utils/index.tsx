@@ -141,6 +141,7 @@ export function getDateMinusOneMonth(_date: Date): Date {
   const result = new Date(_date);
   if (_date.getMonth() === 0) {
     result.setFullYear(_date.getFullYear() - 1);
+    result.setMonth(11);
   } else {
     result.setMonth(_date.getMonth() - 1);
   }
@@ -151,6 +152,7 @@ export function getDatePlusOneMonth(_date: Date): Date {
   const result = new Date(_date);
   if (_date.getMonth() === 11) {
     result.setFullYear(_date.getFullYear() + 1);
+    result.setMonth(0);
   } else {
     result.setMonth(_date.getMonth() + 1);
   }

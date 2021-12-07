@@ -56,8 +56,6 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
   const [indexSwiped, setIndexSwiped] = useState<string | undefined>(undefined);
   const [today, setToday] = useState(new Date());
   const [currentDate, setCurrentDate] = useState(today);
-  const lastDate = getDateMinusOneMonth(currentDate);
-  const nextDate = getDatePlusOneMonth(currentDate);
 
   // Life cycle
   useEffect(() => {
@@ -140,16 +138,16 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
   // Switch Months
   const onPressLastMonth = () => {
     if (!isNull(focusFamily?.id)) {
-      // adapt transactions
+      const _currentDateMinusOneMonth = getDateMinusOneMonth(currentDate);
       dispatch(
         getTransactionsRequestAction({
           getting: true,
           familyId: focusFamily?.id,
           from: `${getOriginDateStringWithMinimumDate(
-            getDateMinusOneMonth(currentDate),
+            _currentDateMinusOneMonth,
           )} 00:00:00`,
           to: `${getOriginDateStringWithMaximumDate(
-            getDateMinusOneMonth(currentDate),
+            _currentDateMinusOneMonth,
           )} 23:59:59`,
         }),
       );
@@ -159,8 +157,8 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
         getTransactionStatisticsRequestAction({
           showHUD: true,
           familyId: focusFamily?.id,
-          month: currentDate.getMonth() + 1,
-          year: currentDate.getFullYear(),
+          month: _currentDateMinusOneMonth.getMonth() + 1,
+          year: _currentDateMinusOneMonth.getFullYear(),
           type: TransactionCategorySegment.EXPENSE,
         }),
       );
@@ -168,26 +166,26 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
         getTransactionStatisticsRequestAction({
           showHUD: true,
           familyId: focusFamily?.id,
-          month: currentDate.getMonth() + 1,
-          year: currentDate.getFullYear(),
+          month: _currentDateMinusOneMonth.getMonth() + 1,
+          year: _currentDateMinusOneMonth.getFullYear(),
           type: TransactionCategorySegment.INCOME,
         }),
       );
+      setCurrentDate(_currentDateMinusOneMonth);
     }
-    setCurrentDate(getDateMinusOneMonth(currentDate));
   };
   const onPressNextMonth = () => {
     if (!isNull(focusFamily?.id)) {
-      // adapt transactions
+      const _currentDatePlusOneMonth = getDatePlusOneMonth(currentDate);
       dispatch(
         getTransactionsRequestAction({
           getting: true,
           familyId: focusFamily?.id,
           from: `${getOriginDateStringWithMinimumDate(
-            getDatePlusOneMonth(currentDate),
+            _currentDatePlusOneMonth,
           )} 00:00:00`,
           to: `${getOriginDateStringWithMaximumDate(
-            getDatePlusOneMonth(currentDate),
+            _currentDatePlusOneMonth,
           )} 23:59:59`,
         }),
       );
@@ -197,8 +195,8 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
         getTransactionStatisticsRequestAction({
           showHUD: true,
           familyId: focusFamily?.id,
-          month: currentDate.getMonth() + 1,
-          year: currentDate.getFullYear(),
+          month: _currentDatePlusOneMonth.getMonth() + 1,
+          year: _currentDatePlusOneMonth.getFullYear(),
           type: TransactionCategorySegment.EXPENSE,
         }),
       );
@@ -206,13 +204,13 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
         getTransactionStatisticsRequestAction({
           showHUD: true,
           familyId: focusFamily?.id,
-          month: currentDate.getMonth() + 1,
-          year: currentDate.getFullYear(),
+          month: _currentDatePlusOneMonth.getMonth() + 1,
+          year: _currentDatePlusOneMonth.getFullYear(),
           type: TransactionCategorySegment.INCOME,
         }),
       );
+      setCurrentDate(_currentDatePlusOneMonth);
     }
-    setCurrentDate(getDatePlusOneMonth(currentDate));
   };
 
   // Item
@@ -277,6 +275,8 @@ const TransactionsScreen: React.FC<Props> = ({}) => {
     navigate(ScreenName.TransactionStatisticsScreen);
   };
 
+  const lastDate = getDateMinusOneMonth(currentDate);
+  const nextDate = getDatePlusOneMonth(currentDate);
   return (
     <Container>
       <TabView>
