@@ -33,7 +33,7 @@ import {
   clearNotificationBadgeRequestAction,
   getBadgesRequestAction,
   getNotificationsRequestAction,
-  handleNotificationInForeground,
+  handleNotificationInForegroundAction,
 } from '@store/actionTypes/notifications';
 import messaging from '@react-native-firebase/messaging';
 import {updateRouteNameAction} from '@store/actionTypes/session';
@@ -62,52 +62,51 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
   // Clear & Adapt Badge
   React.useLayoutEffect(() => {
     const _routeName = getFocusedRouteNameFromRoute(route);
-    console.log('routeName Bottom: ', _routeName);
     switch (_routeName) {
       case StackName.HomeStack:
         dispatch(updateRouteNameAction(StackName.HomeStack));
-        if (!isNull(focusFamily?.id)) {
-          dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
-        }
+        // if (!isNull(focusFamily?.id)) {
+        //   dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
+        // }
         break;
       case StackName.InteractionsStack:
         dispatch(updateRouteNameAction(StackName.InteractionsStack));
-        if (!isNull(focusFamily?.id)) {
-          dispatch(
-            clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
-          );
-          dispatch(
-            getBadgesRequestAction({
-              familyId: focusFamily?.id,
-              onlyNotification: true,
-            }),
-          );
-        }
+        // if (!isNull(focusFamily?.id)) {
+        //   dispatch(
+        //     clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
+        //   );
+        //   dispatch(
+        //     getBadgesRequestAction({
+        //       familyId: focusFamily?.id,
+        //       onlyNotification: true,
+        //     }),
+        //   );
+        // }
         break;
       case StackName.FamilyStack:
         dispatch(updateRouteNameAction(StackName.FamilyStack));
-        if (!isNull(focusFamily?.id)) {
-          dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
-        }
+        // if (!isNull(focusFamily?.id)) {
+        //   dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
+        // }
         break;
       case StackName.NotificationsStack:
         dispatch(updateRouteNameAction(StackName.NotificationsStack));
-        if (!isNull(focusFamily?.id)) {
-          dispatch(clearNotificationBadgeRequestAction());
-          dispatch(
-            getBadgesRequestAction({
-              familyId: focusFamily?.id,
-              onlyInteraction: true,
-            }),
-          );
-          dispatch(getNotificationsRequestAction({}));
-        }
+        // if (!isNull(focusFamily?.id)) {
+        //   dispatch(clearNotificationBadgeRequestAction());
+        //   dispatch(
+        //     getBadgesRequestAction({
+        //       familyId: focusFamily?.id,
+        //       onlyInteraction: true,
+        //     }),
+        //   );
+        //   dispatch(getNotificationsRequestAction({}));
+        // }
         break;
       case StackName.ProfileStack:
         dispatch(updateRouteNameAction(StackName.ProfileStack));
-        if (!isNull(focusFamily?.id)) {
-          dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
-        }
+        // if (!isNull(focusFamily?.id)) {
+        //   dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
+        // }
         break;
       default:
         break;
@@ -117,7 +116,7 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
   React.useEffect(() => {
     // Foreground
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      dispatch(handleNotificationInForeground());
+      dispatch(handleNotificationInForegroundAction());
       // const _routeName = getFocusedRouteNameFromRoute(route);
       // console.log({Foreground: remoteMessage});
       // console.log({_routeName});
@@ -157,7 +156,6 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
   useEffect(() => {
     // Background
     messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log({Background: remoteMessage});
       if (
         !isNull(remoteMessage?.data?.navigate) &&
         !isNull(remoteMessage?.data?.id)
@@ -174,7 +172,6 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
     messaging()
       .getInitialNotification()
       .then(remoteMessage => {
-        console.log({Quit: remoteMessage});
         if (
           !isNull(remoteMessage?.data?.navigate) &&
           !isNull(remoteMessage?.data?.id)

@@ -104,5 +104,5 @@ export const Pagination = {
   Notifications: 10,
   Transactions: 10,
   TransactionPhotos: 24,
-  TransactionCategories: 10,
+  TransactionCategories: 20,
 };

@@ -143,9 +143,6 @@ function* onUpdateLanguageSaga(action: AnyAction) {
     const response = yield* apiProxy(updateProfileApi, action.body);
     if (response.status === 200) {
       const data = parseDataResponse(response);
-      console.log('\n');
-      console.log('data.languageCode: ', data.languageCode);
-      console.log('\n');
       setGlobalLocale(data.languageCode);
       yield* put(
         showToastAction(

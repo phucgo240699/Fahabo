@@ -187,7 +187,6 @@ export const getDefaultLanguageCode = () => {
 export const setGlobalLocale = (_locale: string) => {
   switch (_locale) {
     case 'vi':
-      console.log('LocaleConfig.locales.vi');
       i18n.locale = _locale;
       i18n.defaultLocale = _locale;
       LocaleConfig.locales.en = LocaleConfig.locales[''];
@@ -234,7 +233,6 @@ export const setGlobalLocale = (_locale: string) => {
       LocaleConfig.defaultLocale = _locale;
       break;
     case 'en':
-      console.log('LocaleConfig.locales.en');
       i18n.locale = _locale;
       i18n.defaultLocale = _locale;
 
@@ -283,7 +281,6 @@ export const setGlobalLocale = (_locale: string) => {
       break;
     default:
       const defaultLanguageCode = getDefaultLanguageCode();
-      console.log('LocaleConfig.locales.defaultLanguageCode');
       i18n.locale = defaultLanguageCode;
       i18n.defaultLocale = defaultLanguageCode;
 

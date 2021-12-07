@@ -86,18 +86,14 @@ const ConferenceCallScreen = (props) => {
   };
 
   const onRoomDidDisconnect = ({ error }) => {
-    console.log("onRoomDidDisconnect: ", error);
     navigation.dispatch(CommonActions.goBack())
   };
 
   const onRoomDidFailToConnect = (error) => {
-    console.log("onRoomDidFailToConnect: ", error);
     navigation.dispatch(CommonActions.goBack())
   };
 
   const onParticipantAddedVideoTrack = ({ participant, track }) => {
-    console.log("onParticipantAddedVideoTrack: ", participant, track);
-
     setVideoTracks(
       new Map([
         ...videoTracks,
@@ -110,8 +106,6 @@ const ConferenceCallScreen = (props) => {
   };
 
   const onParticipantRemovedVideoTrack = ({ participant, track }) => {
-    console.log(`onParticipantRemovedVideoTrack ${Platform.OS}: `, participant, track);
-
     const newVideoTracks = new Map(videoTracks);
     newVideoTracks.delete(track.trackSid);
 
@@ -119,11 +113,9 @@ const ConferenceCallScreen = (props) => {
   };
 
   const onNetworkLevelChanged = ({ participant, isLocalUser, quality }) => {
-    console.log("Participant", participant, "isLocalUser", isLocalUser, "quality", quality, Platform.OS === 'android' ? 'android' : 'ios');
   };
 
   const onDominantSpeakerDidChange = ({ roomName, roomSid, participant }) => {
-    console.log("onDominantSpeakerDidChange", `roomName: ${roomName}`, `roomSid: ${roomSid}`, "participant:", participant);
   };
 
   const requestAudioPermission = () => {

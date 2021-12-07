@@ -124,7 +124,6 @@ const HorizontalEventItem: React.FC<Props> = ({
 };
 
 const Container = styled.TouchableOpacity`
-  flex: 1;
   height: 100px;
   padding: 10px;
   elevation: 10;

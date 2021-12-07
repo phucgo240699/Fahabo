@@ -50,8 +50,6 @@ const CreateTransactionCategoryScreen: React.FC<Props> = ({}) => {
       width: Constants.TRANSACTION_CATEGORY_ICON_WIDTH,
       height: Constants.TRANSACTION_CATEGORY_ICON_HEIGHT,
     }).then(cropped => {
-      console.log(cropped.path);
-      console.log(cropped.data);
       if (!isNull(cropped.data) && !isNull(cropped.path)) {
         setIconUri(cropped.path);
         setIconBase64(cropped.data ?? '');

@@ -25,6 +25,8 @@ import ConferenceCallScreen from '@screens/interactions/ConferenceCallScreen';
 import LocationsScreen from '@screens/locations';
 import TransactionDetailScreen from '@screens/transactions/TransactionDetailScreen';
 import TransactionPhotosScreen from '@screens/transactions/TransactionPhotosScreen';
+import {AppState, AppStateStatus} from 'react-native';
+import {handleNotificationWhenAppFocusAction} from '@store/actionTypes/notifications';
 // import {focusFamilySelector} from '@store/selectors/family';
 // import {
 //   clearInteractionBadgeRequestAction,
@@ -63,6 +65,17 @@ const MainStack = () => {
         }
       });
   }, []);
+
+  React.useEffect(() => {
+    AppState.addEventListener('change', handleAppStateFocus);
+    return () => {
+      AppState.removeEventListener('change', handleAppStateFocus);
+    };
+  }, []);
+
+  const handleAppStateFocus = () => {
+    dispatch(handleNotificationWhenAppFocusAction());
+  };
 
   return (
     <Stack.Navigator screenOptions={navigationOptions}>

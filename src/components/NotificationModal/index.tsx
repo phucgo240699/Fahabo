@@ -36,7 +36,6 @@ const NotificationModal: React.FC<Props> = ({notificationModal}) => {
     onDirectScreen(notificationModal?.navigate);
   };
   const onDirectScreen = (value?: string) => {
-    console.log({value, id: notificationModal?.id});
     switch (value) {
       case NotificationNavigationType.CHORE_DETAIL:
         if (!isNull(notificationModal?.id)) {

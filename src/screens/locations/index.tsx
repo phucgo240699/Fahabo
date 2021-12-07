@@ -60,9 +60,7 @@ const LocationsScreen: React.FC<Props> = ({}) => {
           }),
         );
       },
-      error => {
-        console.log(error);
-      },
+      error => {},
       {
         timeout: 15000,
       },

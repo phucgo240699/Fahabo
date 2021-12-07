@@ -21,6 +21,7 @@ import {
   getNotificationsSuccessAction,
   GET_BADGES_REQUEST,
   GET_NOTIFICATIONS_REQUEST,
+  HANDLE_NOTIFICATION_BADGES_WHEN_APP_FOCUS,
   HANDLE_NOTIFICATION_IN_FOREGROUND,
   updateIsGettingNotificationsAction,
   updateIsLoadingMoreNotificationsAction,
@@ -199,16 +200,13 @@ function* clickNotificationSaga({
     if (response.status === 200) {
       yield* put(clickNotificationSuccessAction(body.id));
     }
-  } catch (error) {
-    console.log({error});
-  }
+  } catch (error) {}
 }
 
 function* handleNotificationInForegroundSaga(action: AnyAction) {
   const focusFamily = yield* select(focusFamilySelector);
   if (!isNull(focusFamily?.id)) {
     const routeName = yield* select(routeNameSelector);
-    console.log({routeName});
     switch (routeName) {
       case StackName.InteractionsStack:
         yield* all([
@@ -240,6 +238,59 @@ function* handleNotificationInForegroundSaga(action: AnyAction) {
   }
 }
 
+function* handleNotificationWhenAppFocusSaga(action: AnyAction) {
+  try {
+    const focusFamily = yield* select(focusFamilySelector);
+    if (!isNull(focusFamily?.id)) {
+      const routeName = yield* select(routeNameSelector);
+      switch (routeName) {
+        case StackName.HomeStack:
+          if (!isNull(focusFamily?.id)) {
+            yield* put(getBadgesRequestAction({familyId: focusFamily?.id}));
+          }
+          break;
+        case StackName.InteractionsStack:
+          if (!isNull(focusFamily?.id)) {
+            yield* all([
+              put(
+                clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
+              ),
+              put(
+                getBadgesRequestAction({
+                  familyId: focusFamily?.id,
+                  onlyNotification: true,
+                }),
+              ),
+            ]);
+          }
+          break;
+        case StackName.FamilyStack:
+          yield* put(getBadgesRequestAction({familyId: focusFamily?.id}));
+          break;
+        case StackName.NotificationsStack:
+          if (!isNull(focusFamily?.id)) {
+            yield* all([
+              put(clearNotificationBadgeRequestAction()),
+              put(
+                getBadgesRequestAction({
+                  familyId: focusFamily?.id,
+                  onlyInteraction: true,
+                }),
+              ),
+              put(getNotificationsRequestAction({})),
+            ]);
+          }
+          break;
+        case StackName.ProfileStack:
+          yield* put(getBadgesRequestAction({familyId: focusFamily?.id}));
+          break;
+        default:
+          break;
+      }
+    }
+  } catch (error) {}
+}
+
 export default function* () {
   yield* all([
     takeLeading(GET_NOTIFICATIONS_REQUEST, getNotificationsSaga),
@@ -250,6 +301,10 @@ export default function* () {
     takeEvery(
       HANDLE_NOTIFICATION_IN_FOREGROUND,
       handleNotificationInForegroundSaga,
+    ),
+    takeEvery(
+      HANDLE_NOTIFICATION_BADGES_WHEN_APP_FOCUS,
+      handleNotificationWhenAppFocusSaga,
     ),
   ]);
 }

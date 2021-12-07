@@ -71,9 +71,7 @@ function* sendMessageSaga({
             authorName: author?.name,
             authorAvatar: author?.avatarUrl,
           })
-          .then(() => {
-            console.log('\nMessage added!\n');
-          });
+          .then(() => {});
 
         // Notify new message
         if (!isNull(focusFamily?.id)) {
@@ -106,9 +104,7 @@ function* notifyNewMessageSaga({
 }) {
   try {
     yield* apiProxy(notifyNewMessageApi, body);
-  } catch (error) {
-    console.log({error});
-  }
+  } catch (error) {}
 }
 
 function* connectTwilioSaga({

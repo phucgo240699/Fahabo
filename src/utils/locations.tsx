@@ -29,7 +29,6 @@ export const hasLocationPermission = async () => {
   const hasPermission = await PermissionsAndroid.check(
     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
   );
-  console.log({hasPermission});
   if (hasPermission) {
     return true;
   }
@@ -38,7 +37,6 @@ export const hasLocationPermission = async () => {
     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
   );
 
-  console.log({status});
   if (status === PermissionsAndroid.RESULTS.GRANTED) {
     return true;
   } else if (status === PermissionsAndroid.RESULTS.DENIED) {

@@ -38,6 +38,7 @@ import {
 import {RowMap, SwipeListView} from 'react-native-swipe-list-view';
 import PrimaryButton from '@components/PrimaryButton';
 import {trashIcon} from '@constants/sources';
+import GettingIndicator from '@components/GettingIndicator';
 
 const TransactionCategoriesScreen = () => {
   const dispatch = useDispatch();
@@ -66,7 +67,9 @@ const TransactionCategoriesScreen = () => {
   const isLoadingMoreIncome = useSelector(
     isLoadingTransactionIncomeCategoriesSelector,
   );
-  const [pageIndex, setPageIndex] = useState(0);
+  const [expensePageIndex, setExpensePageIndex] = useState(0);
+  const [incomePageIndex, setIncomePageIndex] = useState(0);
+  // const [pageIndex, setPageIndex] = useState(0);
   const [expenseIndexSwiped, setExpenseIndexSwiped] = useState<
     string | undefined
   >(undefined);
@@ -79,30 +82,30 @@ const TransactionCategoriesScreen = () => {
   ];
   const [selectedTypeIndex, setSelectedTypeIndex] = useState(0);
 
-  // Life Cycle
-  useEffect(() => {
-    if (!isNull(focusFamily?.id)) {
-      dispatch(
-        getTransactionCategoriesRequestAction({
-          getting: true,
-          type: types[0],
-          familyId: focusFamily?.id,
-        }),
-      );
-      dispatch(
-        getTransactionCategoriesRequestAction({
-          getting: true,
-          type: types[1],
-          familyId: focusFamily?.id,
-        }),
-      );
-    }
-  }, []);
+  // // Life Cycle
+  // useEffect(() => {
+  //   if (!isNull(focusFamily?.id)) {
+  //     dispatch(
+  //       getTransactionCategoriesRequestAction({
+  //         getting: true,
+  //         type: types[0],
+  //         familyId: focusFamily?.id,
+  //       }),
+  //     );
+  //     dispatch(
+  //       getTransactionCategoriesRequestAction({
+  //         getting: true,
+  //         type: types[1],
+  //         familyId: focusFamily?.id,
+  //       }),
+  //     );
+  //   }
+  // }, []);
 
   // Refresh
   const onRefreshExpense = () => {
     if (isRefreshingExpense === false) {
-      setPageIndex(0),
+      setExpensePageIndex(0),
         dispatch(
           getTransactionCategoriesRequestAction({
             type: types[0],
@@ -114,7 +117,7 @@ const TransactionCategoriesScreen = () => {
   };
   const onRefreshIncome = () => {
     if (isRefreshingIncome === false) {
-      setPageIndex(0),
+      setIncomePageIndex(0),
         dispatch(
           getTransactionCategoriesRequestAction({
             type: types[1],
@@ -136,10 +139,10 @@ const TransactionCategoriesScreen = () => {
           type: types[selectedTypeIndex],
           familyId: focusFamily?.id,
           loadMore: true,
-          page: pageIndex + 1,
+          page: expensePageIndex + 1,
         }),
       );
-      setPageIndex(pageIndex + 1);
+      setExpensePageIndex(expensePageIndex + 1);
     }
   };
   const onLoadMoreIncome = () => {
@@ -152,10 +155,10 @@ const TransactionCategoriesScreen = () => {
           type: types[selectedTypeIndex],
           familyId: focusFamily?.id,
           loadMore: true,
-          page: pageIndex + 1,
+          page: incomePageIndex + 1,
         }),
       );
-      setPageIndex(pageIndex + 1);
+      setIncomePageIndex(incomePageIndex + 1);
     }
   };
 
@@ -248,49 +251,53 @@ const TransactionCategoriesScreen = () => {
         style={styles.segmentControl}
       />
       {selectedTypeIndex === 0 ? (
-        <SwipeListView
-          data={transactionExpenseCategories}
-          renderItem={renderItem}
-          disableRightSwipe={true}
-          keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={renderSeparator}
-          onEndReachedThreshold={0.5}
-          onEndReached={onLoadMoreExpense}
-          ListFooterComponent={
-            isLoadingMoreExpense ? (
-              <FooterLoadingIndicator loading={isLoadingMoreExpense} />
-            ) : (
-              <TransactionCategoriesFooter onPress={onPressAdd} />
-            )
-          }
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshingExpense}
-              onRefresh={onRefreshExpense}
-            />
-          }
-          renderHiddenItem={(data, rowMap) => (
-            <Box
-              // mt={2}
-              mr={31}
-              height={'100%'}
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="flex-end"
-              backgroundColor={colors.WHITE}>
-              <SwipeDeleteButton
-                leftSource={trashIcon}
-                leftTintColor={'#ffffff'}
-                onPress={() =>
-                  onPressDeleteExpense(data.index.toString(), rowMap)
-                }
+        isGettingExpense ? (
+          <GettingIndicator />
+        ) : (
+          <SwipeListView
+            data={transactionExpenseCategories}
+            renderItem={renderItem}
+            disableRightSwipe={true}
+            keyExtractor={(item, index) => index.toString()}
+            ItemSeparatorComponent={renderSeparator}
+            onEndReachedThreshold={0.5}
+            onEndReached={onLoadMoreExpense}
+            ListFooterComponent={
+              isLoadingMoreExpense ? (
+                <FooterLoadingIndicator loading={isLoadingMoreExpense} />
+              ) : (
+                <TransactionCategoriesFooter onPress={onPressAdd} />
+              )
+            }
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshingExpense}
+                onRefresh={onRefreshExpense}
               />
-            </Box>
-          )}
-          leftOpenValue={100}
-          rightOpenValue={-100}
-          onRowOpen={onExpenseDidSwipe}
-        />
+            }
+            renderHiddenItem={(data, rowMap) => (
+              <Box
+                height={'100%'}
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="flex-end"
+                backgroundColor={colors.WHITE}>
+                <SwipeDeleteButton
+                  leftSource={trashIcon}
+                  leftTintColor={'#ffffff'}
+                  onPress={() =>
+                    onPressDeleteExpense(data.index.toString(), rowMap)
+                  }
+                />
+              </Box>
+            )}
+            leftOpenValue={80}
+            rightOpenValue={-80}
+            onRowOpen={onExpenseDidSwipe}
+          />
+        )
+      ) : isGettingIncome ? (
+        <GettingIndicator />
       ) : (
         <SwipeListView
           data={transactionIncomeCategories}
@@ -314,8 +321,6 @@ const TransactionCategoriesScreen = () => {
           }
           renderHiddenItem={(data, rowMap) => (
             <Box
-              // mt={2}
-              mr={31}
               height={'100%'}
               flexDirection="row"
               alignItems="center"
@@ -330,8 +335,8 @@ const TransactionCategoriesScreen = () => {
               />
             </Box>
           )}
-          leftOpenValue={100}
-          rightOpenValue={-100}
+          leftOpenValue={80}
+          rightOpenValue={-80}
           onRowOpen={onIncomeDidSwipe}
         />
       )}
@@ -350,8 +355,6 @@ const SwipeDeleteButton = styled(PrimaryButton)`
   height: 60px;
   align-items: center;
   justify-content: center;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
   background-color: #ff4000;
 `;
 

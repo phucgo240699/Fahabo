@@ -103,7 +103,6 @@ export const verifyMicrophonePermission = (onSuccess: () => void) => {
       : PERMISSIONS.ANDROID.RECORD_AUDIO,
   )
     .then(checkResult => {
-      console.log({checkResult: checkResult});
       if (checkResult === RESULTS.GRANTED) {
         onSuccess();
       } else if (checkResult === RESULTS.UNAVAILABLE) {
@@ -118,7 +117,6 @@ export const verifyMicrophonePermission = (onSuccess: () => void) => {
             buttonNegative: i18n.t('media.deny'),
           },
         ).then(requestResult => {
-          console.log({requestResult});
           // if (requestResult === RESULTS.GRANTED) {
           //   onSuccess();
           // }

@@ -87,8 +87,14 @@ export const clickNotificationSuccessAction = (payload?: number) => ({
 // Handle
 export const HANDLE_NOTIFICATION_IN_FOREGROUND =
   'HANDLE_NOTIFICATION_IN_FOREGROUND';
-export const handleNotificationInForeground = () => ({
+export const handleNotificationInForegroundAction = () => ({
   type: HANDLE_NOTIFICATION_IN_FOREGROUND,
+});
+
+export const HANDLE_NOTIFICATION_BADGES_WHEN_APP_FOCUS =
+  'HANDLE_NOTIFICATION_BADGES_WHEN_APP_FOCUS';
+export const handleNotificationWhenAppFocusAction = () => ({
+  type: HANDLE_NOTIFICATION_BADGES_WHEN_APP_FOCUS,
 });
 
 // Session

@@ -69,8 +69,6 @@ const ScanFamilyQRScreen = () => {
             }
           })
           .catch(error => {
-            console.log({error});
-
             dispatch(
               showToastAction(
                 i18n.t('errorMessage.qrCodeInvalid'),

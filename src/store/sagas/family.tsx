@@ -191,7 +191,6 @@ function* kickFamilyMemberSaga({
 }) {
   try {
     const response = yield* apiProxy(kickFamilyMemberApi, body);
-    console.log({response: response.data});
     if (response.status === 200) {
       yield* put(getFamilyMembersRequestAction({familyId: body.familyId}));
     } else {
@@ -203,7 +202,6 @@ function* kickFamilyMemberSaga({
       );
     }
   } catch (error) {
-    console.log({error});
     yield* put(
       showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
     );

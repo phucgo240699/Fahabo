@@ -51,6 +51,7 @@ const NotificationsScreen: React.FC<Props> = ({}) => {
   // Refresh
   const onRefreshData = () => {
     if (isRefreshing === false) {
+      setPageIndex(0);
       dispatch(getNotificationsRequestAction({refresh: true}));
     }
   };

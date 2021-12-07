@@ -180,12 +180,10 @@ const EventsScreen: React.FC<Props> = ({route}) => {
 
   // Sort
   const onPressLatestCreate = () => {
-    console.log('created_at');
     setSortBy('created_at');
     getEvents(selectedMember, 'created_at', submitSearchText);
   };
   const onPressLatestDeadline = () => {
-    console.log('deadline');
     setSortBy('deadline');
     getEvents(selectedMember, 'deadline', submitSearchText);
   };
@@ -219,8 +217,6 @@ const EventsScreen: React.FC<Props> = ({route}) => {
       oldEvent: item,
       isUpdateRelated: true,
     });
-    console.log(item);
-    console.log(getOriginDateTimeString(new Date()));
   };
   const onPressDeleteItem = (item: EventType) => {
     dispatch(deleteEventRequestAction({eventId: item.id}));
