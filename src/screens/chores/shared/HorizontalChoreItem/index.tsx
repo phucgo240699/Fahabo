@@ -111,9 +111,10 @@ const Container = styled.TouchableOpacity`
   padding: 10px;
   elevation: 10;
   height: 150px;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-left: 30px;
   margin-right: 30px;
+  margin-bottom: 10px;
   border-radius: 10px;
   shadow-opacity: 0.2;
   shadow-radius: 10px;

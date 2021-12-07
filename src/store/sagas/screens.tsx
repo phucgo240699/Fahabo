@@ -37,13 +37,15 @@ import {parseChores} from '@utils/parsers/chores';
 import {parseFamilies, parseMembers} from '@utils/parsers/family';
 import {parseTransactions} from '@utils/parsers/transactions';
 import {AnyAction} from 'redux';
-import {all, put, select, takeLeading} from 'typed-redux-saga';
+import {all, delay, put, select, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
 
 function* getHomeScreenDataSaga(action: AnyAction) {
   try {
+    navigateReset(StackName.MainStack);
+    yield* delay(200);
     yield* put(showHUDAction());
-
+    console.log('yield* put(showHUDAction()); 22');
     let focusFamily = yield* select(focusFamilySelector);
 
     if (isNull(focusFamily)) {
@@ -111,7 +113,6 @@ function* getHomeScreenDataSaga(action: AnyAction) {
           ),
           put(updateRouteNameAction(StackName.HomeStack)),
         ]);
-        navigateReset(StackName.MainStack);
       } else {
         if (parseErrorsResponse(choresResponse).length > 0) {
           yield* put(
@@ -140,6 +141,7 @@ function* getHomeScreenDataSaga(action: AnyAction) {
     );
   } finally {
     yield* put(closeHUDAction());
+    console.log('yield* put(closeHUDAction()); 22');
   }
 }
 

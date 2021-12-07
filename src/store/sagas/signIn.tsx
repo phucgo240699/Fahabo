@@ -38,6 +38,7 @@ import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 function* onSignInRequest(action: AnyAction) {
   try {
     yield* put(showHUDAction());
+    console.log('yield* put(showHUDAction()); 11');
     const response = yield* call(signIn, action.body);
     if (response.status === 200) {
       const data = parseDataResponse(response);
@@ -98,6 +99,7 @@ function* onSignInRequest(action: AnyAction) {
     );
   } finally {
     yield* put(closeHUDAction());
+    console.log('yield* put(closeHUDAction()); 11');
   }
 }
 
