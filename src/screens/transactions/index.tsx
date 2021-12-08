@@ -405,7 +405,7 @@ const SwipeDeleteButton = styled(PrimaryButton)`
 `;
 
 const SwipeUpdateButton = styled(PrimaryButton)`
-  width: 80px;
+  width: 90px;
   height: 56px;
   align-items: center;
   justify-content: center;

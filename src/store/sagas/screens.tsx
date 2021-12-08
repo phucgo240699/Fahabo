@@ -45,7 +45,6 @@ function* getHomeScreenDataSaga(action: AnyAction) {
     navigateReset(StackName.MainStack);
     yield* delay(200);
     yield* put(showHUDAction());
-    console.log('yield* put(showHUDAction()); 22');
     let focusFamily = yield* select(focusFamilySelector);
 
     if (isNull(focusFamily)) {
@@ -141,7 +140,6 @@ function* getHomeScreenDataSaga(action: AnyAction) {
     );
   } finally {
     yield* put(closeHUDAction());
-    console.log('yield* put(closeHUDAction()); 22');
   }
 }
 

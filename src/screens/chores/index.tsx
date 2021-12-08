@@ -256,7 +256,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
             }
             renderHiddenItem={(data, rowMap) => (
               <Box
-                mt={2}
+                // mt={1}
                 mr={31}
                 height={'100%'}
                 flexDirection="row"
@@ -321,7 +321,7 @@ const Container = styled.View`
 
 const SwipeDeleteButton = styled(PrimaryButton)`
   width: 80px;
-  height: 135px;
+  height: 145px;
   align-items: center;
   justify-content: center;
   border-top-right-radius: 10px;
@@ -330,8 +330,8 @@ const SwipeDeleteButton = styled(PrimaryButton)`
 `;
 
 const SwipeUpdateButton = styled(PrimaryButton)`
-  width: 80px;
-  height: 135px;
+  width: 90px;
+  height: 145px;
   align-items: center;
   justify-content: center;
   background-color: #134db9;

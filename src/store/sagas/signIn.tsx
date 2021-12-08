@@ -25,8 +25,10 @@ import {getDefaultLanguageCode, isNull, setGlobalLocale} from '@utils/index';
 import {parseSignInResponse} from '@utils/parsers/authentication';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {
+  accessTokenSelector,
   fcmTokenSelector,
   languageCodeSelector,
+  refreshTokenSelector,
 } from '@store/selectors/authentication';
 import {
   AddFCMTokenRequestType,
@@ -38,7 +40,6 @@ import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
 function* onSignInRequest(action: AnyAction) {
   try {
     yield* put(showHUDAction());
-    console.log('yield* put(showHUDAction()); 11');
     const response = yield* call(signIn, action.body);
     if (response.status === 200) {
       const data = parseDataResponse(response);
@@ -99,14 +100,17 @@ function* onSignInRequest(action: AnyAction) {
     );
   } finally {
     yield* put(closeHUDAction());
-    console.log('yield* put(closeHUDAction()); 11');
   }
 }
 
 // Call from FlashScreen
 function* onAutoSignInRequest(action: AnyAction) {
   try {
-    if (!isNull(action.body.username) && !isNull(action.body.password)) {
+    const accessToken = yield* select(accessTokenSelector);
+    const refreshToken = yield* select(refreshTokenSelector);
+    if (!isNull(accessToken) && !isNull(refreshToken)) {
+      yield* put(getHomeScreenDataRequestAction());
+    } else if (!isNull(action.body.username) && !isNull(action.body.password)) {
       const response = yield* call(signIn, action.body);
       // Check is Active
       if (response.status === 200 && response.data.data.isValidEmail === true) {
@@ -129,6 +133,8 @@ function* onAutoSignInRequest(action: AnyAction) {
           return;
         }
       }
+    } else {
+      navigateReset(StackName.AuthenticationStack);
     }
     const languageCode = yield* select(languageCodeSelector);
     if (!isNull(languageCode)) {
@@ -137,7 +143,6 @@ function* onAutoSignInRequest(action: AnyAction) {
       // Device language
       setGlobalLocale(getDefaultLanguageCode());
     }
-    navigateReset(StackName.AuthenticationStack);
   } catch (error) {
     navigateReset(StackName.AuthenticationStack);
   } finally {

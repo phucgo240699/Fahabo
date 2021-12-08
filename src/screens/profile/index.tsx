@@ -109,7 +109,7 @@ const ProfileScreen: React.FC<Props> = () => {
           contentContainerStyle={styles.scrollView}
           refreshControl={
             <RefreshControl
-              refreshing={isRefreshing}
+              refreshing={isRefreshing ?? false}
               onRefresh={onRefreshProfile}
             />
           }>
