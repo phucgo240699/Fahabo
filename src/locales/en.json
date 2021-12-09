@@ -181,6 +181,16 @@
     "categoryIcon": "Category icon",
     "selectCategory": "Select category"
   },
+  "cuisine": {
+    "newPost": "New post",
+    "post": "Post",
+    "link": "Link",
+    "insertLink": "Insert link",
+    "title": "Title",
+    "cancel": "Cancel",
+    "ok": "Ok",
+    "exploreNewCuisine": "Explore new food"
+  },
   "application": {
     "loading": "Loading...",
     "fahabo": "Fahabo"

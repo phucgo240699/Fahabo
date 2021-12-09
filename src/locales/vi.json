@@ -182,6 +182,16 @@
     "categoryIcon": "Icon thể loại",
     "selectCategory": "Chọn thể loại"
   },
+  "cuisine": {
+    "newPost": "Bài viết mới",
+    "post": "Đăng",
+    "link": "Đường dẫn",
+    "insertLink": "Chèn đường dẫn",
+    "title": "Tiêu đề",
+    "cancel": "Huỷ",
+    "ok": "Ok",
+    "exploreNewCuisine": "Khám phá món mới"
+  },
   "application": {
     "loading": "Đăng tải...",
     "fahabo": "Fahabo"

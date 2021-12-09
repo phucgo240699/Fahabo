@@ -18,6 +18,8 @@ import {
   selectedProfileIcon,
   selectedFamilyIcon,
   familyIcon,
+  selectedCuisineIcon,
+  cuisineIcon,
 } from '@constants/sources/index';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useDispatch, useSelector} from 'react-redux';
@@ -44,6 +46,7 @@ import {getFamilyDetailRequestAction} from '@store/actionTypes/family';
 import {navigate} from '.';
 import {connectTwilioRequestActions} from '@store/actionTypes/interactions';
 import {routeNameSelector} from '@store/selectors/session';
+import CuisineStack from './CuisineStack';
 
 interface Props {
   route?: any;
@@ -68,6 +71,9 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
         // if (!isNull(focusFamily?.id)) {
         //   dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
         // }
+        break;
+      case StackName.CuisineStack:
+        dispatch(updateRouteNameAction(StackName.CuisineStack));
         break;
       case StackName.InteractionsStack:
         dispatch(updateRouteNameAction(StackName.InteractionsStack));
@@ -222,6 +228,10 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
               iconSource = focused ? selectedHomeIcon : homeIcon;
               tintColor = focused ? colors.THEME_COLOR_5 : colors.SILVER;
               break;
+            case StackName.CuisineStack:
+              iconSource = focused ? selectedCuisineIcon : cuisineIcon;
+              tintColor = focused ? colors.THEME_COLOR_5 : colors.SILVER;
+              break;
             case StackName.InteractionsStack:
               iconSource = focused
                 ? selectedInteractionsIcon
@@ -259,6 +269,11 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
       <Tab.Screen
         name={StackName.HomeStack}
         component={HomeStack}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name={StackName.CuisineStack}
+        component={CuisineStack}
         options={{headerShown: false}}
       />
       <Tab.Screen

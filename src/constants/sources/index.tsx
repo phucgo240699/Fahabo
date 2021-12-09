@@ -14,6 +14,8 @@ export const clearIcon = require('@assets/images/clear_icon.png');
 // Bottom Bar
 export const homeIcon = require('@assets/images/home_icon.png');
 export const selectedHomeIcon = require('@assets/images/selected_home_icon.png');
+export const cuisineIcon = require('@assets/images/cuisine_icon.png');
+export const selectedCuisineIcon = require('@assets/images/selected_cuisine_icon.png');
 export const notificationsIcon = require('@assets/images/notifications_icon.png');
 export const selectedNotificationsIcon = require('@assets/images/selected_notifications_icon.png');
 export const interactionsIcon = require('@assets/images/interactions_icon.png');

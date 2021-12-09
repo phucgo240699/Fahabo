@@ -3,6 +3,7 @@ import {Dimensions} from 'react-native';
 import {Config} from 'react-native-config';
 
 export const BASE_URL = Config.BASE_URL;
+export const VIDEO_STORAGE_URL = 'https://fahabo-video-storage.herokuapp.com';
 export const QR_SALT_CODE = Config.QR_SALT_CODE;
 export const GOOGLE_AUTH_WEB_CLIENT_ID = Config.GOOGLE_AUTH_WEB_CLIENT_ID;
 
@@ -17,6 +18,7 @@ export enum StackName {
   InteractionsStack = 'InteractionsStack',
   FamilyStack = 'FamilyStack',
   ProfileStack = 'ProfileStack',
+  CuisineStack = 'CuisineStack',
 }
 
 export enum ScreenName {
@@ -69,6 +71,8 @@ export enum ScreenName {
   UpdatePasswordScreen = 'UpdatePasswordScreen',
   AlbumsScreen = 'AlbumsScreen',
   AlbumDetailScreen = 'AlbumDetailScreen',
+  CuisinePostsScreen = 'CuisinePostsScreen',
+  CreateCuisinePostScreen = 'CreateCuisinePostScreen',
 }
 
 export const Constants = {
@@ -84,6 +88,8 @@ export const Constants = {
   FAMILY_THUMBNAIL_HEIGHT: 320,
   TRANSACTION_CATEGORY_ICON_WIDTH: 128,
   TRANSACTION_CATEGORY_ICON_HEIGHT: 128,
+  CUISINE_POST_WIDTH: 640,
+  CUISINE_POST_HEIGHT: 480,
 };
 
 export const languages: {key: string; value: string}[] = [
