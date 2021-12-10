@@ -6,14 +6,18 @@ import {Platform} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import PrimaryButton from '@components/PrimaryButton';
 import {navigate} from '@navigators/index';
-import {ScreenName} from '@constants/Constants';
+import {Constants, ScreenName} from '@constants/Constants';
 import PrimaryHeader from '@components/PrimaryHeader';
 import i18n from '@locales/index';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
+import {DummyCuisinePosts} from '@constants/DummyData';
+import HorizontalCuisinePostItem from './shared/HorizontalCuisinePostItem';
+import {FlatList} from 'native-base';
 
 const CuisinePostsScreen = () => {
   const [searchText, setSearchText] = useState('');
 
+  // Search
   const onChangeSearchText = (value: string) => {
     setSearchText(value);
   };
@@ -21,18 +25,32 @@ const CuisinePostsScreen = () => {
     // TODO: Search Request
   };
 
+  // Item
+  const renderItem = ({item}: {item: any}) => {
+    return <HorizontalCuisinePostItem item={item} />;
+  };
+
   const onPressCreate = () => {
     navigate(ScreenName.CreateCuisinePostScreen);
   };
   return (
     <SafeView>
-      <FocusAwareStatusBar translucent barStyle={'dark-content'} backgroundColor={colors.WHITE} />
+      <FocusAwareStatusBar
+        translucent
+        barStyle={'dark-content'}
+        backgroundColor={colors.WHITE}
+      />
       <PrimaryHeader
         text={searchText}
         onChangeText={onChangeSearchText}
         onSubmitText={onSubmitSearchText}
         title={i18n.t('cuisine.exploreNewCuisine')}
         onPressPlus={onPressCreate}
+      />
+      <FlatList
+        data={DummyCuisinePosts}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
       />
     </SafeView>
   );

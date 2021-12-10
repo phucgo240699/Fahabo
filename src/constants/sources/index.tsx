@@ -92,6 +92,12 @@ export const sendIcon = require('@assets/images/send_icon.png');
 export const targetLocationsIcon = require('@assets/images/target_locations_icon.png');
 
 //
+// Cuisine
+//
+export const addEmojiIcon = require('@assets/images/add_emoji_icon.png');
+export const bookMarkIcon = require('@assets/images/bookmark_icon.png');
+
+//
 // Settings
 //
 export const tickIcon = require('@assets/images/tick_icon.png');

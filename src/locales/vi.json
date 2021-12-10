@@ -190,7 +190,8 @@
     "title": "Tiêu đề",
     "cancel": "Huỷ",
     "ok": "Ok",
-    "exploreNewCuisine": "Khám phá món mới"
+    "exploreNewCuisine": "Khám phá món mới",
+    "next": "Tiếp theo"
   },
   "application": {
     "loading": "Đăng tải...",

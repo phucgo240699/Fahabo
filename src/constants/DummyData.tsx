@@ -226,6 +226,55 @@ export const DummyTransactionCategories = [
   },
 ];
 
+export const DummyCuisinePosts = [
+  {
+    id: 0,
+    thumbnail:
+      'https://cdn.daynauan.info.vn/wp-content/uploads/2018/06/thit-kho-tau-1.jpg',
+    title: 'Thịt kho trứng',
+    rating: 1,
+    author: {
+      name: 'Phuc',
+      avatar:
+        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=-JIm9VHEnmoAX_Yb9yZ&_nc_ht=scontent.fsgn13-2.fna&oh=ba3f129be8f600a34972a40f2cce8986&oe=61B87C60',
+    },
+  },
+  {
+    id: 1,
+    thumbnail: 'https://cdn.tgdd.vn/2021/02/CookProduct/1200-1200x676-16.jpg',
+    title: 'Mì quảng',
+    rating: 2,
+    author: {
+      name: 'Phuc',
+      avatar:
+        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=-JIm9VHEnmoAX_Yb9yZ&_nc_ht=scontent.fsgn13-2.fna&oh=ba3f129be8f600a34972a40f2cce8986&oe=61B87C60',
+    },
+  },
+  {
+    id: 2,
+    thumbnail: 'https://i.ytimg.com/vi/p1ejp7z4mc4/hqdefault.jpg',
+    title: 'Lẩu thái',
+    rating: 3,
+    author: {
+      name: 'Phuc',
+      avatar:
+        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=-JIm9VHEnmoAX_Yb9yZ&_nc_ht=scontent.fsgn13-2.fna&oh=ba3f129be8f600a34972a40f2cce8986&oe=61B87C60',
+    },
+  },
+  {
+    id: 3,
+    thumbnail:
+      'https://ameovat.com/wp-content/uploads/2016/05/cach-lam-com-chien-duong-chau-1.jpg',
+    title: 'Cơm chiên dương châu',
+    rating: 0,
+    author: {
+      name: 'Phuc',
+      avatar:
+        'https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/53014737_2233858510162760_5278280928634863616_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=-JIm9VHEnmoAX_Yb9yZ&_nc_ht=scontent.fsgn13-2.fna&oh=ba3f129be8f600a34972a40f2cce8986&oe=61B87C60',
+    },
+  },
+];
+
 export const DummyRepeat = [
   RepeatType.NONE,
   RepeatType.DAILY,

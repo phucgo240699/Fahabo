@@ -85,7 +85,8 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
         email: userCredential.additionalUserInfo?.profile?.email ?? undefined,
         name: !isNull(userCredential.user.displayName)
           ? userCredential.user.displayName
-          : userCredential.additionalUserInfo?.profile?.email ?? undefined,
+          : userCredential.additionalUserInfo?.profile?.email?.split('@')[0] ??
+            undefined,
         password: userCredential.user.uid,
         authType: AuthType.APPLE_AUTH,
       }),

@@ -189,7 +189,8 @@
     "title": "Title",
     "cancel": "Cancel",
     "ok": "Ok",
-    "exploreNewCuisine": "Explore new food"
+    "exploreNewCuisine": "Explore new food",
+    "next": "Next"
   },
   "application": {
     "loading": "Loading...",

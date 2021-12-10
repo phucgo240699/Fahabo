@@ -23,13 +23,14 @@ import ProfileHeader from '@components/ProfileHeader';
 import i18n from '@locales/index';
 import PrimaryButton from '@components/PrimaryButton';
 import colors from '@themes/colors';
-import { Constants, VIDEO_STORAGE_URL } from '@constants/Constants';
+import { Constants, ScreenName, VIDEO_STORAGE_URL } from '@constants/Constants';
 import axios from 'axios';
 import { apiProvider } from '@services/apiProvider';
 import { connect } from 'react-redux';
 import { closeHUDAction, showHUDAction } from '@store/actionTypes/session';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { navigate } from '@navigators/index';
 
 const imageList = [
     'https://img.lesmao.vip/k/h256/R/MeiTu/1293.jpg',
@@ -39,10 +40,10 @@ const imageList = [
 ];
 
 // const initHTML = `<div><iframe src="https://fahabo-video-storage.herokuapp.com/uploads/cuisine_video_1639033742980.mp4" width="100%"></iframe></div><div><br></div>`
-const initHTML = ''
+// const initHTML = ''
 
-const phizIcon = require('./assets/phiz.png');
-const htmlIcon = require('./assets/html.png');
+// const phizIcon = require('./assets/phiz.png');
+// const htmlIcon = require('./assets/html.png');
 
 class CreateCuisinePostScreen extends React.Component {
     richText = React.createRef();
@@ -60,7 +61,7 @@ class CreateCuisinePostScreen extends React.Component {
           contentCSSText: 'font-size: 16px; min-height: 200px;', // initial valid
         };
         this.richHTML = '';
-        this.state = {theme: theme, contentStyle, disabled: false};
+        this.state = {initHTML: props.preparingPost.content ?? '', theme: theme, contentStyle, disabled: false};
         this.editorFocus = false;
         this.onHome = this.onHome.bind(this);
         this.save = this.save.bind(this);
@@ -72,6 +73,7 @@ class CreateCuisinePostScreen extends React.Component {
         this.insertVideo = this.insertVideo.bind(this);
         this.onDisabled = this.onDisabled.bind(this);
         this.editorInitializedCallback = this.editorInitializedCallback.bind(this);
+        this.onNavigateBack = this.onNavigateBack.bind(this)
     }
 
     componentDidMount() {
@@ -137,8 +139,10 @@ class CreateCuisinePostScreen extends React.Component {
                     name: 'video.mp4',
                     type: cropped.mime
                 })
+                // console.log({VIDEO_STORAGE_URL})
                 apiCall.post(`${VIDEO_STORAGE_URL}/upload`, form, {}).then((response) => {
                     this.props.closeHUD()
+                    // console.log(response.data)
                     if (response.status === 200 && !isNull(response.data)) {
                         // this.richText.current?.insertHTML(`
                         // <div>
@@ -153,10 +157,12 @@ class CreateCuisinePostScreen extends React.Component {
                     }
                 }).catch(error1 => {
                     this.props.closeHUD()
+                    // console.log({error1})
                 })
             }
           }).catch(error2 => {
             this.props.closeHUD()
+            // console.log({error2})
           })
     }
 
@@ -212,13 +218,24 @@ class CreateCuisinePostScreen extends React.Component {
         this.scrollRef.current.scrollTo({y: scrollY - 30, animated: true});
     };
 
+    onNavigateBack = () => {
+        let _htmlContent = await this.richText.current?.getContentHtml();
+        navigate(ScreenName.PreCreateCuisinePostScreen, {
+            preparingPost: {
+                title: this.props.preparingPost.title,
+                thumbnail: this.props.preparingPost.thumbnail,
+                content: _htmlContent
+            }
+        })
+    }
+
     render() {
         const {contentStyle, theme, disabled} = this.state;
         const {backgroundColor, color, placeholderColor} = contentStyle;
         return (
             <SafeAreaView style={styles.container}>
                 <FocusAwareStatusBar translucent barStyle={'dark-content'} backgroundColor={colors.WHITE} />
-                <ProfileHeader title={i18n.t('cuisine.newPost')} rightComponent={<PrimaryButton marginRight={10} title={i18n.t('cuisine.post')} titleFontWeight={700} titleFontSize={18} titleColor={colors.THEME_COLOR_7} onPress={this.save} />} />
+                <ProfileHeader title={i18n.t('cuisine.newPost')} onCustomNavigateBack={this.onNavigateBack} rightComponent={<PrimaryButton marginRight={10} title={i18n.t('cuisine.post')} titleFontWeight={700} titleFontSize={18} titleColor={colors.THEME_COLOR_7} onPress={this.save} />} />
                 <InsertLinkModal
                     placeholderColor={placeholderColor}
                     color={color}
