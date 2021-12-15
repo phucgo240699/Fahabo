@@ -31,6 +31,7 @@ import { closeHUDAction, showHUDAction } from '@store/actionTypes/session';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { navigate } from '@navigators/index';
+import { createCuisinePostRequestAction, updateCuisinePostRequestAction } from '@store/actionTypes/cuisine';
 
 const imageList = [
     'https://img.lesmao.vip/k/h256/R/MeiTu/1293.jpg',
@@ -61,7 +62,7 @@ class CreateCuisinePostScreen extends React.Component {
           contentCSSText: 'font-size: 16px; min-height: 200px;', // initial valid
         };
         this.richHTML = '';
-        this.state = {initHTML: props.preparingPost.content ?? '', theme: theme, contentStyle, disabled: false};
+        this.state = {title: props.route.params.preparingPost.title, thumbnail: props.route.params.preparingPost.thumbnail, initHTML: props.route.params.preparingPost.content ?? '' , theme: theme, contentStyle, disabled: false};
         this.editorFocus = false;
         this.onHome = this.onHome.bind(this);
         this.save = this.save.bind(this);
@@ -97,9 +98,22 @@ class CreateCuisinePostScreen extends React.Component {
     async save() {
         // Get the data here and call the interface to save the data
         let html = await this.richText.current?.getContentHtml();
-        
-        // TODO: Create Post Request
-        console.log({html})
+
+        if (this.props.route?.params?.preparingPost?.cuisinePostId) {
+            this.props.updatePost({
+                cuisinePostId: this.props.route?.params?.preparingPost?.cuisinePostId,
+                title: this.state.title,
+                thumbnail: this.state.thumbnail.slice(0,10).includes('http') ? null : this.state.thumbnail,
+                content: html
+            })
+        }
+        else {
+            this.props.createPost({
+                title: this.state.title,
+                thumbnail: this.state.thumbnail,
+                content: html
+            })
+        }
     }
 
     handleChange(html) {
@@ -117,7 +131,7 @@ class CreateCuisinePostScreen extends React.Component {
           includeBase64: true,
         }).then(cropped => {
           if (!isNull(cropped.data)) {
-            this.richText.current?.insertImage(`data:${cropped.mime};base64,${cropped.data}`);
+            this.richText.current?.insertImage(`data:${cropped.mime};base64,${cropped.data}`, 'width: 100%;');
             this.richText.current?.insertHTML('<div><br></div>')
           }
         });
@@ -218,13 +232,14 @@ class CreateCuisinePostScreen extends React.Component {
         this.scrollRef.current.scrollTo({y: scrollY - 30, animated: true});
     };
 
-    onNavigateBack = () => {
+    onNavigateBack = async () => {
         let _htmlContent = await this.richText.current?.getContentHtml();
         navigate(ScreenName.PreCreateCuisinePostScreen, {
             preparingPost: {
-                title: this.props.preparingPost.title,
-                thumbnail: this.props.preparingPost.thumbnail,
-                content: _htmlContent
+                title: this.state.title,
+                thumbnail: this.state.thumbnail,
+                content: _htmlContent,
+                cuisinePostId: this.props.route?.params?.preparingPost?.cuisinePostId
             }
         })
     }
@@ -258,7 +273,7 @@ class CreateCuisinePostScreen extends React.Component {
                         useContainer={true}
                         initialHeight={Constants.MAX_HEIGHT - 100} // 400
                         placeholder={'please input content'}
-                        initialContentHTML={initHTML}
+                        initialContentHTML={this.state.initHTML}
                         editorInitializedCallback={this.editorInitializedCallback}
                         onChange={this.handleChange}
                         onHeightChange={this.handleHeightChange}
@@ -362,7 +377,9 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => {
     return {
         showHUD: () => dispatch(showHUDAction()),
-        closeHUD: () => dispatch(closeHUDAction())
+        closeHUD: () => dispatch(closeHUDAction()),
+        createPost: (body) => dispatch(createCuisinePostRequestAction(body)),
+        updatePost: (body) => dispatch(updateCuisinePostRequestAction(body))
     }
 }
 

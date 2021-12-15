@@ -189,6 +189,8 @@
     "title": "Title",
     "cancel": "Cancel",
     "ok": "Ok",
+    "update": "Update",
+    "delete": "Delete",
     "exploreNewCuisine": "Explore new food",
     "next": "Next"
   },
@@ -232,10 +234,13 @@
     "updateAlbum": "Update album successfully",
     "updateChore": "Update chore successfully",
     "updateEvent": "Update event successfully",
+    "updateCuisinePost": "Update post successfully",
     "createAlbum": "Create album successfully",
     "createChore": "Create chore successfully",
     "createEvent": "Create event successfully",
-    "deleteEvent": "Deleted event"
+    "createCuisinePost": "Create post successfully",
+    "deleteEvent": "Deleted event",
+    "deleteCuisinePost": "Deleted post"
   },
   "warningMessage": {
     "activeAccount": "You need to active this account",
@@ -286,6 +291,7 @@
       "fail": "System error."
     },
     "validation": {
+      "cuisinePostNotExist": "Cuisine post id does not exist.",
       "unavailableRoom": "The call has ended or not available",
       "transactionIdNotExist": "Transaction id does not exist.",
       "choreIdNotExist": "ChoreId does not exist.",

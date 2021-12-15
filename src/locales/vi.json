@@ -190,6 +190,8 @@
     "title": "Tiêu đề",
     "cancel": "Huỷ",
     "ok": "Ok",
+    "update": "Cập nhật",
+    "delete": "Xoá",
     "exploreNewCuisine": "Khám phá món mới",
     "next": "Tiếp theo"
   },
@@ -232,10 +234,13 @@
     "updateAlbum": "Cập nhật album thành công",
     "updateChore": "Cập nhật công việc thành công",
     "updateEvent": "Cập nhật sự kiện thành công",
+    "updateCuisinePost": "Cập nhật bài đăng thành công",
     "createAlbum": "Tạo album thành công",
     "createChore": "Tạo công việc thành công",
     "createEvent": "Tạo sự kiện thành công",
-    "deleteEvent": "Đã xoá sự kiện"
+    "createCuisinePost": "Tạo bài đăng thành công",
+    "deleteEvent": "Đã xoá sự kiện",
+    "deleteCuisinePost": "Đã xoá bài đăng"
   },
   "warningMessage": {
     "activeAccount": "Bạn cần kích hoạt tài khoản này",
@@ -286,6 +291,7 @@
       "fail": "Lỗi hệ thống."
     },
     "validation": {
+      "cuisinePostNotExist": "Bài đăng không tồn tại.",
       "unavailableRoom": "Cuộc gọi đã kết thúc hoặc không khả dụng",
       "transactionIdNotExist": "Giao dịch không tồn tại.",
       "choreIdNotExist": "Công việc nhà không tồn tại.",

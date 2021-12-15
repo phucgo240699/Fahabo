@@ -28,6 +28,7 @@ import locationsReducer, {LocationsState} from '@store/reducers/locations';
 import transactionsReducer, {
   TransactionsState,
 } from '@store/reducers/transactions';
+import cuisineReducer, {CuisineState} from '@store/reducers/cuisine';
 
 const persistConfig: PersistConfig<
   CombinedState<{
@@ -42,6 +43,7 @@ const persistConfig: PersistConfig<
     notifications: any;
     locations: any;
     transactions: any;
+    cuisine: any;
   }>,
   any,
   any,
@@ -75,6 +77,7 @@ const rootReducer = combineReducers({
   notifications: notificationsReducer,
   locations: locationsReducer,
   transactions: transactionsReducer,
+  cuisine: cuisineReducer,
 });
 
 const store = createStore(
@@ -97,6 +100,7 @@ export interface RootState {
   notifications: NotificationsState;
   locations: LocationsState;
   transactions: TransactionsState;
+  cuisine: CuisineState;
 }
 
 export default store;

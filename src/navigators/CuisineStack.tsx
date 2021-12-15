@@ -5,6 +5,7 @@ import CuisinePostsScreen from '@screens/cuisine';
 import {createStackNavigator} from '@react-navigation/stack';
 import CreateCuisinePostScreen from '@screens/cuisine/CreateCuisinePostScreen';
 import PreCreateCuisinePostScreen from '@screens/cuisine/PreCreateCuisinePostScreen';
+import CuisinePostDetailScreen from '@screens/cuisine/CuisinePostDetailScreen';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,10 @@ const CuisineStack = () => {
       <Stack.Screen
         name={ScreenName.PreCreateCuisinePostScreen}
         component={PreCreateCuisinePostScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.CuisinePostDetailScreen}
+        component={CuisinePostDetailScreen}
       />
     </Stack.Navigator>
   );

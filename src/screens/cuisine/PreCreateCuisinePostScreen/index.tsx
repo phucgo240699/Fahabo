@@ -60,7 +60,8 @@ const PreCreateCuisinePostScreen: React.FC<Props> = ({route}) => {
       preparingPost: {
         title: title,
         thumbnail: thumbnailBase64,
-        content: route.params.preparingPost.content,
+        content: route.params?.preparingPost?.content ?? '',
+        cuisinePostId: route.params?.preparingPost?.cuisinePostId,
       },
     });
   };
@@ -95,7 +96,11 @@ const PreCreateCuisinePostScreen: React.FC<Props> = ({route}) => {
       />
       <ProfileHeader
         rightComponent={
-          <PrimaryButton title={i18n.t('cuisine.next')} onPress={onPressNext} />
+          <PrimaryButton
+            marginRight={10}
+            title={i18n.t('cuisine.next')}
+            onPress={onPressNext}
+          />
         }
       />
 
@@ -104,7 +109,11 @@ const PreCreateCuisinePostScreen: React.FC<Props> = ({route}) => {
           source={
             isNull(thumbnailBase64)
               ? rectanglePlaceHolderImage
-              : {uri: `data:image/png;base64,${thumbnailBase64}`}
+              : {
+                  uri: thumbnailBase64.slice(0, 10).includes('http')
+                    ? thumbnailBase64
+                    : `data:image/png;base64,${thumbnailBase64}`,
+                }
           }
         />
         <CameraIconContainer>
@@ -113,11 +122,16 @@ const PreCreateCuisinePostScreen: React.FC<Props> = ({route}) => {
       </ThumbnailContainer>
 
       <Input
-        mt={-1}
+        mt={4}
+        value={title}
         color={colors.TEXT}
         autoCapitalize="none"
+        borderRadius={0}
+        borderRightWidth={0}
+        borderLeftWidth={0}
         borderColor={colors.SILVER}
         onChangeText={onChangeTitle}
+        placeholder={i18n.t('cuisine.title')}
       />
 
       <PrimaryActionSheet

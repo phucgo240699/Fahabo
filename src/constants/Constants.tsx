@@ -74,6 +74,7 @@ export enum ScreenName {
   CuisinePostsScreen = 'CuisinePostsScreen',
   CreateCuisinePostScreen = 'CreateCuisinePostScreen',
   PreCreateCuisinePostScreen = 'PreCreateCuisinePostScreen',
+  CuisinePostDetailScreen = 'CuisinePostDetailScreen',
 }
 
 export const Constants = {
@@ -90,7 +91,7 @@ export const Constants = {
   TRANSACTION_CATEGORY_ICON_WIDTH: 128,
   TRANSACTION_CATEGORY_ICON_HEIGHT: 128,
   CUISINE_POST_THUMBNAIL_WIDTH: 640,
-  CUISINE_POST_THUMBNAIL_HEIGHT: 640,
+  CUISINE_POST_THUMBNAIL_HEIGHT: 480,
 };
 
 export const languages: {key: string; value: string}[] = [
@@ -112,4 +113,5 @@ export const Pagination = {
   Transactions: 10,
   TransactionPhotos: 24,
   TransactionCategories: 20,
+  CuisinePosts: 10,
 };

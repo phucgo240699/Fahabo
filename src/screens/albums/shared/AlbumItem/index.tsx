@@ -72,8 +72,10 @@ const AlbumItem: React.FC<Props> = ({
       <TotalNumber>{item.totalPhotos}</TotalNumber>
       <Menu
         width={160}
+        borderWidth={0}
+        backgroundColor={colors.WHITE}
         shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
-        placement={position == 'auto' ? undefined : position}
+        placement={undefined} //{position == 'auto' ? undefined : position}
         trigger={triggerProps => {
           return (
             <Pressable
@@ -82,16 +84,16 @@ const AlbumItem: React.FC<Props> = ({
               width={8}
               height={8}
               borderRadius={20}
-              bgColor={'#8c8c8c'}
+              bgColor={colors.GRAY}
               position={'absolute'}
               alignItems={'center'}
               justifyContent={'center'}
               {...triggerProps}>
-              <OptionsIcon tintColor={'#ffffff'} source={verticalOptions} />
+              <OptionsIcon tintColor={colors.WHITE} source={verticalOptions} />
             </Pressable>
           );
         }}>
-        <Menu.Item onPress={onPressUpdateOption}>
+        <Menu.Item onPress={onPressUpdateOption} _text={{color: colors.TEXT}}>
           {i18n.t('album.update')}
         </Menu.Item>
         <Menu.Item onPress={onPressDeleteOption} _text={{color: colors.RED_1}}>

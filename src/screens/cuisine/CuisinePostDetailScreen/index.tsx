@@ -12,7 +12,7 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import ProfileHeader from '@components/ProfileHeader';
 import {isNull} from '@utils/index';
 import {cameraIcon, rectanglePlaceHolderImage} from '@constants/sources';
-import {Input, useDisclose} from 'native-base';
+import {Input, ScrollView, useDisclose} from 'native-base';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {CuisinePostType} from '@constants/types/cuisine';
@@ -26,7 +26,10 @@ interface Props {
 }
 
 const CuisinePostDetailScreen: React.FC<Props> = ({route}) => {
-  const detail: CuisinePostType = {};
+  const detail: CuisinePostType = route.params.detail;
+  const htmlContent = isNull(detail.thumbnail)
+    ? `${detail.content}`
+    : `<div><img width="100%" src="${detail.thumbnail}"><br><div style="margin: 20px;">${detail.content}</div></div>`;
   return (
     <SafeView>
       <FocusAwareStatusBar
@@ -34,12 +37,13 @@ const CuisinePostDetailScreen: React.FC<Props> = ({route}) => {
         barStyle={'dark-content'}
         backgroundColor={colors.WHITE}
       />
-      <ProfileHeader />
-      <Thumbnail source={{uri: detail.thumbnail}} />
-      <Title>{detail.title}</Title>
+      <ProfileHeader title={detail.title} />
+
       <AutoHeightWebView
-        source={{html: detail.content ?? ''}}
+        allowsFullscreenVideo
         scalesPageToFit={true}
+        containerStyle={styles.webView}
+        source={{html: htmlContent}}
         viewportContent={'width=device-width, user-scalable=no'}
       />
     </SafeView>
@@ -59,11 +63,16 @@ const Thumbnail = styled.Image`
   background-color: ${colors.WHITE};
 `;
 
-const Title = styled(fonts.PrimaryFontBoldSize20)``;
+const Title = styled(fonts.PrimaryFontBoldSize20)`
+  margin-top: 10px;
+  text-align: center;
+`;
 
 const styles = StyleSheet.create({
   webView: {
-    width: Constants.MAX_WIDTH,
+    // flex: 1,
+    // margin: 20,
+    // width: Constants.MAX_WIDTH,
   },
 });
 

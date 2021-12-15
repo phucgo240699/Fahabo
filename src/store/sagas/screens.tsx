@@ -3,9 +3,11 @@ import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
 import {navigateReset} from '@navigators/index';
 import {getChoresApi} from '@services/chores';
+import {getCuisinePostsApi} from '@services/cuisine';
 import {getFamilyMembersApi, getMyFamiliesApi} from '@services/family';
 import {getTransactionsApi} from '@services/transactions';
 import {getChoresSuccessAction} from '@store/actionTypes/chores';
+import {getCuisinePostsSuccessAction} from '@store/actionTypes/cuisine';
 import {
   getChoreFilterMembersSuccessAction,
   getFamiliesSuccessAction,
@@ -34,6 +36,7 @@ import {
   parseErrorsResponse,
 } from '@utils/parsers';
 import {parseChores} from '@utils/parsers/chores';
+import {parseCuisinePosts} from '@utils/parsers/cuisine';
 import {parseFamilies, parseMembers} from '@utils/parsers/family';
 import {parseTransactions} from '@utils/parsers/transactions';
 import {AnyAction} from 'redux';
@@ -73,21 +76,28 @@ function* getHomeScreenDataSaga(action: AnyAction) {
 
     if (!isNull(focusFamily)) {
       const today = new Date();
-      const [choresResponse, membersResponse, transactionsResponse] =
-        yield* all([
-          apiProxy(getChoresApi, {familyId: focusFamily?.id}),
-          apiProxy(getFamilyMembersApi, {familyId: focusFamily?.id}),
-          apiProxy(getTransactionsApi, {
-            familyId: focusFamily?.id,
-            from: `${getOriginDateStringWithMinimumDate(today)} 00:00:00`,
-            to: `${getOriginDateStringWithMaximumDate(today)} 23:59:59`,
-          }),
-          put(getBadgesRequestAction({familyId: focusFamily?.id})),
-        ]);
+      const [
+        choresResponse,
+        membersResponse,
+        transactionsResponse,
+        cuisineResponse,
+        badgeResponse,
+      ] = yield* all([
+        apiProxy(getChoresApi, {familyId: focusFamily?.id}),
+        apiProxy(getFamilyMembersApi, {familyId: focusFamily?.id}),
+        apiProxy(getTransactionsApi, {
+          familyId: focusFamily?.id,
+          from: `${getOriginDateStringWithMinimumDate(today)} 00:00:00`,
+          to: `${getOriginDateStringWithMaximumDate(today)} 23:59:59`,
+        }),
+        apiProxy(getCuisinePostsApi, {searchText: ''}),
+        put(getBadgesRequestAction({familyId: focusFamily?.id})),
+      ]);
       if (
         (choresResponse as any).status === 200 &&
         (membersResponse as any).status === 200 &&
-        (transactionsResponse as any).status === 200
+        (transactionsResponse as any).status === 200 &&
+        (cuisineResponse as any).status
       ) {
         yield* all([
           put(
@@ -110,6 +120,11 @@ function* getHomeScreenDataSaga(action: AnyAction) {
               parseTransactions(parseDataResponse(transactionsResponse)),
             ),
           ),
+          put(
+            getCuisinePostsSuccessAction(
+              parseCuisinePosts(parseDataResponse(cuisineResponse)),
+            ),
+          ),
           put(updateRouteNameAction(StackName.HomeStack)),
         ]);
       } else {
@@ -124,6 +139,20 @@ function* getHomeScreenDataSaga(action: AnyAction) {
           yield* put(
             showToastAction(
               i18n.t(`backend.${parseErrorResponse(membersResponse)}`),
+              ToastType.ERROR,
+            ),
+          );
+        } else if (parseErrorsResponse(transactionsResponse).length > 0) {
+          yield* put(
+            showToastAction(
+              i18n.t(`backend.${parseErrorResponse(transactionsResponse)}`),
+              ToastType.ERROR,
+            ),
+          );
+        } else if (parseErrorsResponse(cuisineResponse).length > 0) {
+          yield* put(
+            showToastAction(
+              i18n.t(`backend.${parseErrorResponse(cuisineResponse)}`),
               ToastType.ERROR,
             ),
           );
