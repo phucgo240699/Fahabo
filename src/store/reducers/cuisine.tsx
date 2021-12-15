@@ -49,7 +49,7 @@ export default function cuisineReducer(
       return {
         ...state,
         cuisinePosts: state.cuisinePosts.filter(item => {
-          return item.id !== action.id;
+          return item.id !== action.payload.id;
         }),
       };
     case GET_CUISINE_POSTS_SUCCESS:

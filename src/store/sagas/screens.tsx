@@ -46,7 +46,7 @@ import {apiProxy} from './apiProxy';
 function* getHomeScreenDataSaga(action: AnyAction) {
   try {
     navigateReset(StackName.MainStack);
-    yield* delay(200);
+    yield* delay(100);
     yield* put(showHUDAction());
     let focusFamily = yield* select(focusFamilySelector);
 

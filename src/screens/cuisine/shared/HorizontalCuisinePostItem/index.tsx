@@ -105,14 +105,6 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
       <BottomContainer>
         <ReactionContainer>
           <ReactionBox>
-            {(item.angryRatings ?? 0) > 0 && <Emoji>{getEmoji(1)}</Emoji>}
-            {(item.likeRatings ?? 0) > 0 && <Emoji>{getEmoji(2)}</Emoji>}
-            {(item.yummyRatings ?? 0) > 0 && <Emoji>{getEmoji(3)}</Emoji>}
-            {totalRatings > 0 && (
-              <ReactionCounting>
-                {getNumberWithCommas(totalRatings)}
-              </ReactionCounting>
-            )}
             <Menu
               width={160}
               borderWidth={0}
@@ -122,8 +114,11 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
               trigger={triggerProps => {
                 return (
                   <Pressable
-                    bgColor={colors.WHITE}
-                    position={'absolute'}
+                    width={12}
+                    height={8}
+                    borderRadius={16}
+                    bgColor={colors.CONCRETE}
+                    // position={'absolute'}
                     alignItems={'center'}
                     justifyContent={'center'}
                     {...triggerProps}>
@@ -140,6 +135,20 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
               <Menu.Item onPress={onReactLike}>{getEmoji(2)}</Menu.Item>
               <Menu.Item onPress={onReactDelicious}>{getEmoji(3)}</Menu.Item>
             </Menu>
+            {(item.angryRatings ?? 0) > 0 && item.userReactedType != 1 && (
+              <Emoji>{getEmoji(1)}</Emoji>
+            )}
+            {(item.likeRatings ?? 0) > 0 && item.userReactedType != 2 && (
+              <Emoji>{getEmoji(2)}</Emoji>
+            )}
+            {(item.yummyRatings ?? 0) > 0 && item.userReactedType != 3 && (
+              <Emoji>{getEmoji(3)}</Emoji>
+            )}
+            {totalRatings > 0 && (
+              <ReactionCounting>
+                {getNumberWithCommas(totalRatings)}
+              </ReactionCounting>
+            )}
           </ReactionBox>
           <SavePostButton marginRight={20} leftSource={bookMarkIcon} />
         </ReactionContainer>
