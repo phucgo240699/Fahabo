@@ -6,10 +6,17 @@ import {CuisinePostType} from '@constants/types/cuisine';
 import PrimaryButton from '@components/PrimaryButton';
 import {getNumberWithCommas, isNull} from '@utils/index';
 import {Constants} from '@constants/Constants';
-import {addEmojiIcon, bookMarkIcon, verticalOptions} from '@constants/sources';
+import {
+  addEmojiIcon,
+  bookMarkIcon,
+  clearIcon,
+  verticalOptions,
+} from '@constants/sources';
 import {getEmoji} from '@utils/cuisine';
-import {Menu, Pressable} from 'native-base';
+import {Box, Menu, Pressable} from 'native-base';
 import i18n from '@locales/index';
+import {useSelector} from 'react-redux';
+import {userSelector} from '@store/selectors/authentication';
 
 const thumbnailWidth = Constants.MAX_WIDTH;
 const thumbnailHeight = (thumbnailWidth / 4) * 3;
@@ -29,6 +36,7 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
   onPressUpdate,
   onPressDelete,
 }) => {
+  const user = useSelector(userSelector);
   const totalRatings =
     (item.angryRatings ?? 0) +
     (item.likeRatings ?? 0) +
@@ -47,6 +55,11 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
   const onReactDelicious = () => {
     if (onReacting) {
       onReacting(3, item);
+    }
+  };
+  const onRemoveReact = () => {
+    if (onReacting) {
+      onReacting(0, item);
     }
   };
 
@@ -74,51 +87,62 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
           <AuthorName>{item.author?.name}</AuthorName>
         </AuthorContent>
 
-        <Menu
-          width={160}
-          borderWidth={0}
-          backgroundColor={colors.WHITE}
-          shouldOverlapWithTrigger={false} // @ts-ignore
-          placement={undefined}
-          trigger={triggerProps => {
-            return (
-              <Pressable
-                bgColor={colors.WHITE}
-                alignItems={'center'}
-                justifyContent={'center'}
-                {...triggerProps}>
-                <OptionsIcon source={verticalOptions} />
-              </Pressable>
-            );
-          }}>
-          <Menu.Item onPress={onPressUpdateOption} _text={{color: colors.TEXT}}>
-            {i18n.t('cuisine.update')}
-          </Menu.Item>
-          <Menu.Item
-            onPress={onPressDeleteOption}
-            _text={{color: colors.RED_1}}>
-            {i18n.t('cuisine.delete')}
-          </Menu.Item>
-        </Menu>
+        {item.author.id === user?.id && (
+          <Menu
+            width={160}
+            borderWidth={0}
+            backgroundColor={colors.WHITE}
+            shouldOverlapWithTrigger={false} // @ts-ignore
+            placement={undefined}
+            trigger={triggerProps => {
+              return (
+                <Pressable
+                  bgColor={colors.WHITE}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                  {...triggerProps}>
+                  <OptionsIcon source={verticalOptions} />
+                </Pressable>
+              );
+            }}>
+            <Menu.Item
+              onPress={onPressUpdateOption}
+              _text={{color: colors.TEXT}}>
+              {i18n.t('cuisine.update')}
+            </Menu.Item>
+            <Menu.Item
+              onPress={onPressDeleteOption}
+              _text={{color: colors.RED_1}}>
+              {i18n.t('cuisine.delete')}
+            </Menu.Item>
+          </Menu>
+        )}
       </AuthorContainer>
       <Thumbnail source={{uri: item.thumbnail}} />
       <BottomContainer>
         <ReactionContainer>
           <ReactionBox>
+            {(item.angryRatings ?? 0) > 0 && <Emoji>{getEmoji(1)}</Emoji>}
+            {(item.likeRatings ?? 0) > 0 && <Emoji>{getEmoji(2)}</Emoji>}
+            {(item.yummyRatings ?? 0) > 0 && <Emoji>{getEmoji(3)}</Emoji>}
+            {totalRatings > 0 && (
+              <ReactionCounting>
+                {getNumberWithCommas(totalRatings)}
+              </ReactionCounting>
+            )}
             <Menu
-              width={160}
               borderWidth={0}
               backgroundColor={colors.WHITE}
               shouldOverlapWithTrigger={false} // @ts-ignore
-              placement={undefined}
+              placement={'top left'}
               trigger={triggerProps => {
                 return (
                   <Pressable
+                    ml={4}
                     width={12}
                     height={8}
                     borderRadius={16}
                     bgColor={colors.CONCRETE}
-                    // position={'absolute'}
                     alignItems={'center'}
                     justifyContent={'center'}
                     {...triggerProps}>
@@ -131,26 +155,34 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
                   </Pressable>
                 );
               }}>
-              <Menu.Item onPress={onReactAngry}>{getEmoji(1)}</Menu.Item>
-              <Menu.Item onPress={onReactLike}>{getEmoji(2)}</Menu.Item>
-              <Menu.Item onPress={onReactDelicious}>{getEmoji(3)}</Menu.Item>
+              <Box flexDirection={'row'}>
+                <Menu.Item _text={{textAlign: 'center'}} onPress={onReactAngry}>
+                  {getEmoji(1)}
+                </Menu.Item>
+                <Menu.Item _text={{textAlign: 'center'}} onPress={onReactLike}>
+                  {getEmoji(2)}
+                </Menu.Item>
+                <Menu.Item
+                  _text={{textAlign: 'center'}}
+                  onPress={onReactDelicious}>
+                  {getEmoji(3)}
+                </Menu.Item>
+                {item.userReactedType !== 0 && (
+                  <Menu.Item
+                    onPress={onRemoveReact}
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <KickIcon source={clearIcon} />
+                  </Menu.Item>
+                )}
+              </Box>
             </Menu>
-            {(item.angryRatings ?? 0) > 0 && item.userReactedType != 1 && (
-              <Emoji>{getEmoji(1)}</Emoji>
-            )}
-            {(item.likeRatings ?? 0) > 0 && item.userReactedType != 2 && (
-              <Emoji>{getEmoji(2)}</Emoji>
-            )}
-            {(item.yummyRatings ?? 0) > 0 && item.userReactedType != 3 && (
-              <Emoji>{getEmoji(3)}</Emoji>
-            )}
-            {totalRatings > 0 && (
-              <ReactionCounting>
-                {getNumberWithCommas(totalRatings)}
-              </ReactionCounting>
-            )}
           </ReactionBox>
-          <SavePostButton marginRight={20} leftSource={bookMarkIcon} />
+          {item.author.id !== user?.id && (
+            <SavePostButton marginRight={20} leftSource={bookMarkIcon} />
+          )}
         </ReactionContainer>
 
         <Title>{item.title}</Title>
@@ -166,6 +198,15 @@ const Container = styled.TouchableOpacity`
   margin-top: 20px;
   margin-bottom: 30px;
   width: ${thumbnailWidth}px;
+`;
+
+const KickIcon = styled.Image`
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  align-self: center;
+  tint-color: ${colors.SILVER};
+  background-color: ${colors.WHITE};
 `;
 
 const AuthorContainer = styled.View`

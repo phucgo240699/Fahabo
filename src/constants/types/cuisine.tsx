@@ -83,9 +83,9 @@ export type CuisinePostCommentType = {
 };
 
 export type CuisineAuthorType = {
-  id: number;
-  name: string;
-  avatar: string;
+  id?: number;
+  name?: string;
+  avatar?: string;
 };
 
 export enum CuisinePostEmoji {

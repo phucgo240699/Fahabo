@@ -222,12 +222,11 @@ function* voteCuisinePostSaga({
   try {
     const response = yield* apiProxy(voteCuisinePostApi, body);
     if (response.status === 200) {
-      yield* put(
-        updateCuisinePostSuccessAction(
-          parseCuisinePost(parseDataResponse(response)),
-        ),
-      );
-      navigate(ScreenName.CuisinePostsScreen);
+      // yield* put(
+      //   updateCuisinePostSuccessAction(
+      //     parseCuisinePost(parseDataResponse(response)),
+      //   ),
+      // );
     } else {
       yield* put(
         showToastAction(

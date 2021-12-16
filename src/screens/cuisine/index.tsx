@@ -24,6 +24,7 @@ import GettingIndicator from '@components/GettingIndicator';
 import {
   deleteCuisinePostRequestAction,
   getCuisinePostsRequestAction,
+  updateCuisinePostSuccessAction,
   voteCuisinePostRequestAction,
 } from '@store/actionTypes/cuisine';
 import {CuisinePostType} from '@constants/types/cuisine';
@@ -73,7 +74,11 @@ const CuisinePostsScreen = () => {
     setSearchText(value);
   };
   const onSubmitSearchText = (value: string) => {
-    // TODO: Search Request
+    dispatch(
+      getCuisinePostsRequestAction({
+        searchText: value,
+      }),
+    );
   };
 
   // Item
@@ -89,16 +94,9 @@ const CuisinePostsScreen = () => {
     );
   };
   const onPressItem = (item: CuisinePostType) => {
-    console.log(item.content);
     navigate(ScreenName.CuisinePostDetailScreen, {detail: item});
   };
   const onPressUpdate = (item: CuisinePostType) => {
-    console.log({
-      cuisinePostId: item.id,
-      title: item.title,
-      thumbnail: item.thumbnail,
-      content: item.content,
-    });
     navigate(ScreenName.PreCreateCuisinePostScreen, {
       preparingPost: {
         cuisinePostId: item.id,
@@ -118,6 +116,32 @@ const CuisinePostsScreen = () => {
         cuisinePostId: item.id,
       }),
     );
+    if (voteId !== item.userReactedType) {
+      dispatch(
+        updateCuisinePostSuccessAction({
+          ...item,
+          userReactedType: voteId,
+          angryRatings:
+            (voteId === 1 ? 1 : 0) +
+            ((item.angryRatings ?? 0) > 0
+              ? (item.angryRatings ?? 0) -
+                ((item.userReactedType ?? 0) === 1 ? 1 : 0)
+              : 0),
+          likeRatings:
+            (voteId === 2 ? 1 : 0) +
+            ((item.likeRatings ?? 0) > 0
+              ? (item.likeRatings ?? 0) -
+                ((item.userReactedType ?? 0) === 2 ? 1 : 0)
+              : 0),
+          yummyRatings:
+            (voteId === 3 ? 1 : 0) +
+            ((item.yummyRatings ?? 0) > 0
+              ? (item.yummyRatings ?? 0) -
+                ((item.userReactedType ?? 0) === 3 ? 1 : 0)
+              : 0),
+        }),
+      );
+    }
   };
 
   const onPressCreate = () => {
