@@ -89,6 +89,7 @@ const CuisinePostsScreen = () => {
     );
   };
   const onPressItem = (item: CuisinePostType) => {
+    console.log(item.content);
     navigate(ScreenName.CuisinePostDetailScreen, {detail: item});
   };
   const onPressUpdate = (item: CuisinePostType) => {

@@ -40,12 +40,6 @@ const imageList = [
     'https://img.lesmao.vip/k/h256/R/MeiTu/1292.jpg',
 ];
 
-// const initHTML = `<div><iframe src="https://fahabo-video-storage.herokuapp.com/uploads/cuisine_video_1639033742980.mp4" width="100%"></iframe></div><div><br></div>`
-// const initHTML = ''
-
-// const phizIcon = require('./assets/phiz.png');
-// const htmlIcon = require('./assets/html.png');
-
 class CreateCuisinePostScreen extends React.Component {
     richText = React.createRef();
     linkModal = React.createRef();
@@ -158,16 +152,16 @@ class CreateCuisinePostScreen extends React.Component {
                     this.props.closeHUD()
                     // console.log(response.data)
                     if (response.status === 200 && !isNull(response.data)) {
-                        // this.richText.current?.insertHTML(`
-                        // <div>
-                        //     <iframe src="${VIDEO_STORAGE_URL}/uploads/${response.data}" width="100%"></iframe>
-                        // </div>
-                        // <div><br></div>
-                        // `)
-                        this.richText.current?.insertVideo(
-                            `${VIDEO_STORAGE_URL}/uploads/${response.data}`,
-                            'width: 100%;',
-                        );
+                        this.richText.current?.insertHTML(`
+                        <div>
+                            <iframe src="${VIDEO_STORAGE_URL}/uploads/${response.data}" width="100%"></iframe>
+                        </div>
+                        <div><br></div>
+                        `)
+                        // this.richText.current?.insertVideo(
+                        //     `${VIDEO_STORAGE_URL}/uploads/${response.data}`,
+                        //     'width: 100%;',
+                        // );
                     }
                 }).catch(error1 => {
                     this.props.closeHUD()
@@ -250,7 +244,7 @@ class CreateCuisinePostScreen extends React.Component {
         return (
             <SafeAreaView style={styles.container}>
                 <FocusAwareStatusBar translucent barStyle={'dark-content'} backgroundColor={colors.WHITE} />
-                <ProfileHeader title={i18n.t('cuisine.newPost')} onCustomNavigateBack={this.onNavigateBack} rightComponent={<PrimaryButton marginRight={10} title={i18n.t('cuisine.post')} titleFontWeight={700} titleFontSize={18} titleColor={colors.THEME_COLOR_7} onPress={this.save} />} />
+                <ProfileHeader title={i18n.t('cuisine.content')} onCustomNavigateBack={this.onNavigateBack} rightComponent={<PrimaryButton marginRight={10} title={i18n.t('cuisine.post')} titleFontWeight={700} titleFontSize={18} titleColor={colors.THEME_COLOR_7} onPress={this.save} />} />
                 <InsertLinkModal
                     placeholderColor={placeholderColor}
                     color={color}

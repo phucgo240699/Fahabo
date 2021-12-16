@@ -84,7 +84,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Allow Fahabo access camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Allow Fahabo access location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Fahabo access microphone</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

@@ -8,6 +8,7 @@ import ProfileHeader from '@components/ProfileHeader';
 import {isNull} from '@utils/index';
 import {CuisinePostType} from '@constants/types/cuisine';
 import AutoHeightWebView from 'react-native-autoheight-webview';
+import {Constants} from '@constants/Constants';
 
 interface Props {
   route?: any;
@@ -30,6 +31,7 @@ const CuisinePostDetailScreen: React.FC<Props> = ({route}) => {
       <AutoHeightWebView
         allowsFullscreenVideo
         scalesPageToFit={true}
+        containerStyle={{width: Constants.MAX_WIDTH}}
         source={{html: htmlContent}}
         viewportContent={'width=device-width, user-scalable=no'}
       />

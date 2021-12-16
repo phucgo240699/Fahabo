@@ -95,6 +95,7 @@ const PreCreateCuisinePostScreen: React.FC<Props> = ({route}) => {
         backgroundColor={colors.WHITE}
       />
       <ProfileHeader
+        title={i18n.t('cuisine.newPost')}
         rightComponent={
           <PrimaryButton
             marginRight={10}
