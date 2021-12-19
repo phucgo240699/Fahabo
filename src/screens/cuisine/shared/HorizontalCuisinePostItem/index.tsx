@@ -131,14 +131,16 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
               </ReactionCounting>
             )}
             <Menu
+              p={0}
+              m={0}
               borderWidth={0}
+              borderRadius={40}
               backgroundColor={colors.WHITE}
               shouldOverlapWithTrigger={false} // @ts-ignore
               placement={'top left'}
               trigger={triggerProps => {
                 return (
                   <Pressable
-                    ml={4}
                     width={12}
                     height={8}
                     borderRadius={16}
@@ -155,15 +157,19 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
                   </Pressable>
                 );
               }}>
-              <Box flexDirection={'row'}>
-                <Menu.Item _text={{textAlign: 'center'}} onPress={onReactAngry}>
+              <Box p={0} m={0} flexDirection={'row'}>
+                <Menu.Item
+                  _text={{textAlign: 'center', fontSize: 32}}
+                  onPress={onReactAngry}>
                   {getEmoji(1)}
                 </Menu.Item>
-                <Menu.Item _text={{textAlign: 'center'}} onPress={onReactLike}>
+                <Menu.Item
+                  _text={{textAlign: 'center', fontSize: 32}}
+                  onPress={onReactLike}>
                   {getEmoji(2)}
                 </Menu.Item>
                 <Menu.Item
-                  _text={{textAlign: 'center'}}
+                  _text={{textAlign: 'center', fontSize: 32}}
                   onPress={onReactDelicious}>
                   {getEmoji(3)}
                 </Menu.Item>
@@ -198,15 +204,6 @@ const Container = styled.TouchableOpacity`
   margin-top: 20px;
   margin-bottom: 30px;
   width: ${thumbnailWidth}px;
-`;
-
-const KickIcon = styled.Image`
-  width: 16px;
-  height: 16px;
-  border-radius: 8px;
-  align-self: center;
-  tint-color: ${colors.SILVER};
-  background-color: ${colors.WHITE};
 `;
 
 const AuthorContainer = styled.View`
@@ -263,14 +260,10 @@ const ReactionBox = styled.View`
   align-items: center;
 `;
 
-const Emoji = styled.Text`
-  width: 22px;
-  height: 22px;
+const Emoji = styled.Text<{fontSize?: number}>`
+  font-size: ${props => props.fontSize ?? 14}px;
 `;
 
-const ReactionButton = styled.TouchableOpacity`
-  margin-left: 8px;
-`;
 const AddEmoji = styled.Image`
   width: 22px;
   height: 22px;
@@ -278,8 +271,18 @@ const AddEmoji = styled.Image`
   tint-color: ${colors.GRAY};
 `;
 
+const KickIcon = styled.Image`
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  align-self: center;
+  tint-color: ${colors.SILVER};
+  background-color: ${colors.WHITE};
+`;
+
 const ReactionCounting = styled(fonts.PrimaryFontRegularSize12)`
-  margin-left: 6px;
+  margin-left: 4px;
+  margin-right: 15px;
   color: ${colors.SILVER};
 `;
 

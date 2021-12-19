@@ -153,17 +153,31 @@ const ConferenceCallScreen = (props) => {
         <Box flex={1}>
           {status === "connected" && (
           <ScrollView>
-            <ParticipantContainer>
-              {Array.from(videoTracks, ([trackSid, trackIdentifier]) => {
+            {
+              Array.from(videoTracks).length === 2 ?
+              <PairParticipantContainer>
+                {Array.from(videoTracks, ([trackSid, trackIdentifier]) => {
                 return (
                   <TwilioVideoParticipantView
-                    style={Array.from(videoTracks).length > 1 ? styles.participantVideo : styles.singleParticipantVideo}
+                    style={styles.pairParticipantVideo}
                     key={trackSid}
                     trackIdentifier={trackIdentifier}
                   />
                 );
               })}
-            </ParticipantContainer>
+              </PairParticipantContainer> :
+              <ParticipantContainer>
+                {Array.from(videoTracks, ([trackSid, trackIdentifier]) => {
+                  return (
+                    <TwilioVideoParticipantView
+                      style={Array.from(videoTracks).length > 1 ? styles.participantVideo : styles.singleParticipantVideo}
+                      key={trackSid}
+                      trackIdentifier={trackIdentifier}
+                    />
+                  );
+                })}
+              </ParticipantContainer>
+            }
           </ScrollView>
           )}
         </Box>
@@ -211,6 +225,9 @@ const Content = styled.View`
 const ParticipantContainer = styled.View`
   flex-wrap: wrap;
   flex-direction: row;
+`
+const PairParticipantContainer = styled.View`
+  flex: 1;
 `
 const BottomContainer = styled.View`
   width: 100%;
@@ -266,6 +283,9 @@ const styles = StyleSheet.create({
   singleParticipantVideo: {
     width: Constants.MAX_WIDTH,
     height: Constants.MAX_HEIGHT
+  },
+  pairParticipantVideo: {
+    flex: 1,
   }
 })
 

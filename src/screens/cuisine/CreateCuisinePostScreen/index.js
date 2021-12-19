@@ -153,8 +153,8 @@ class CreateCuisinePostScreen extends React.Component {
                     // console.log(response.data)
                     if (response.status === 200 && !isNull(response.data)) {
                         this.richText.current?.insertHTML(`
-                        <div>
-                            <iframe src="${VIDEO_STORAGE_URL}/uploads/${response.data}" width="100%"></iframe>
+                        <div style="position: relative;overflow: hidden;width=100%;padding-top: 56.25%">
+                            <iframe allowFullScreen src="${VIDEO_STORAGE_URL}/uploads/${response.data}" style="border:0px;position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;"></iframe>
                         </div>
                         <div><br></div>
                         `)
