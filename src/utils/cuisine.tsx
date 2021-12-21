@@ -15,7 +15,9 @@ export const getEmoji = (emojiId: number) => {
       return CuisinePostEmoji.ANGRY;
     case 2:
       return CuisinePostEmoji.LIKE;
-    default:
+    case 3:
       return CuisinePostEmoji.DELICIOUS;
+    default:
+      return '';
   }
 };
