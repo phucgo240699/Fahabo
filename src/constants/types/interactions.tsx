@@ -1,18 +1,26 @@
 export type MessageType = {
-  id: number;
+  _id?: string;
   text?: string;
-  displayName?: string;
-  avatar?: string;
+  createdAt?: Date;
+  user?: {
+    _id?: number;
+    name?: string;
+    avatar?: string;
+  };
+  timeStamp?: string;
+  type: 'text' | 'cuisine_post';
 };
 
 export type SendMessageRequestType = {
   _id?: string;
-  familyId?: number;
   text?: string;
+  familyId?: number;
   createdAt?: string;
-  authorId?: number;
   timeStamp?: string;
-  type: 'text' | 'video_call';
+  type: 'text' | 'cuisine_post';
+  authorId?: number;
+  authorName?: string;
+  authorAvatar?: string;
 };
 
 export type NotifyNewMessageRequestType = {

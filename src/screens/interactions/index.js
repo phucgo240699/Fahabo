@@ -1,12 +1,11 @@
-import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import colors from '@themes/colors';
 import ChatHeader from '@components/ChatHeader';
 import {useDispatch, useSelector} from 'react-redux';
 import {focusFamilySelector} from '@store/selectors/family';
 import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {GiftedChat, Message, InputToolbar, Send} from 'react-native-gifted-chat';
 import styled from 'styled-components/native';
-import {Platform, StyleSheet} from 'react-native';
+import {FlatList, KeyboardAvoidingView, Platform, StyleSheet} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {
   getOriginDateTimeString,
@@ -20,16 +19,21 @@ import firestore from '@react-native-firebase/firestore';
 import {userSelector} from '@store/selectors/authentication';
 import {
   convertFireStoreMessageToUIMessage,
-  convertUserDatabaseToUserUIMessage,
 } from '@utils/parsers/interactions';
 import { sendIcon } from '@constants/sources';
 import { navigate } from '@navigators/index';
 import { ScreenName } from '@constants/Constants';
+import TextMessageItem from './shared/TextMessageItem';
+import { Box, Input } from 'native-base';
+import PrimaryButton from '@components/PrimaryButton';
+import i18n from '@locales/index';
+
 
 function ChatScreen(props) {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
   const focusFamily = useSelector(focusFamilySelector);
+  const [text, setText] = useState('')
   const [messages, setMessages] = useState([]);
 
   // Get Messages
@@ -70,45 +74,34 @@ function ChatScreen(props) {
     }
   };
 
-  // Send message
-  const onSend = useCallback((messages = []) => {
-    const message = messages[0];
-    const today = new Date();
-    dispatch(
-      sendMessageRequestAction({
-        _id: `${focusFamily?.id}_${user?.id}_${today.getTime()}`,
-        familyId: focusFamily?.id,
-        text: message.text,
-        createdAt: getOriginDateTimeString(message.createdAt),
-        timeStamp: today.getTime().toString(),
-        authorId: user?.id,
-        type: 'text'
-      }),
-    );
-  }, []);
+  // Item
+  const renderItem = ({item}) => {
+    return <TextMessageItem item={item} />
+  }
 
-  // Refactoring UI
-  const renderMessage = (props) => (
-    <Message {...props} />
-  )
-  const renderInputToolbar = (props) => (
-    <InputToolbar
-      {...props}
-      containerStyle={styles.input}
-    />
-  )
+  // Change Text
+  const onChangeText = (value) => {
+    setText(value)
+  }
 
-  const renderSend = (props) => (
-    <Send
-      {...props}
-      disabled={!props.text}
-      containerStyle={styles.sendBtn}
-    >
-      <SendIcon
-        source={sendIcon}
-      />
-    </Send>
-  );
+  // Send
+  const onPressSend = () => {
+    if (!isNull(text)) {
+      const today = new Date();
+      dispatch(
+        sendMessageRequestAction({
+          _id: `${focusFamily?.id}_${user?.id}_${today.getTime()}`,
+          familyId: focusFamily?.id,
+          text: text,
+          createdAt: getOriginDateTimeString(today),
+          timeStamp: today.getTime().toString(),
+          authorId: user?.id,
+          type: 'text'
+        }),
+      );
+      setText('')
+    }
+  }
 
   return (
     <SafeView>
@@ -121,14 +114,14 @@ function ChatScreen(props) {
         title={focusFamily?.name}
         onPressVideoCall={onPressVideoCall}
       />
-      <GiftedChat
-        messages={messages}
-        renderSend={renderSend}
-        renderMessage={renderMessage}
-        renderInputToolbar={renderInputToolbar}
-        user={convertUserDatabaseToUserUIMessage(user)}
-        onSend={messages => onSend(messages)}
-      />
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.scrollView}>
+      <FlatList inverted showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} data={messages} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
+        <Box borderRadius={10} borderTopWidth={2} borderColor={colors.CONCRETE} alignItems={'center'} flexDirection={'row'}>
+          <Input flex={1} color={colors.TEXT} placeholder={i18n.t('interaction.typeAMessage')} placeholderTextColor={colors.CONCRETE} borderRadius={10} borderWidth={0} value={text} onChangeText={onChangeText} />
+          <SendButton leftSource={sendIcon} leftTintColor={isNull(text) ? colors.SILVER : colors.ROYAL_BLUE} marginTop={4} marginLeft={10} marginRight={10} onPress={onPressSend} />
+        </Box>
+      </KeyboardAvoidingView>
     </SafeView>
   );
 }
@@ -139,10 +132,7 @@ const SafeView = styled.SafeAreaView`
   margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
 `;
 
-const SendIcon = styled.Image`
-  width: 32px;
-  height: 32px;
-  tint-color: ${colors.ROYAL_BLUE};
+const SendButton = styled(PrimaryButton)`
 `
 
 const styles = StyleSheet.create({
@@ -155,7 +145,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 4,
-  }
+  },
+  scrollView: {
+    flex: 1,
+  },
 })
 
 export default ChatScreen;

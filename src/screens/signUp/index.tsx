@@ -263,7 +263,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
               </Button>
             </VStack>
 
-            <Seperator source={orSeparator} />
+            <Separator source={orSeparator} />
 
             {/* Third party Authentication */}
             <HStack alignItems="center" justifyContent="center">
@@ -295,7 +295,7 @@ const SafeView = styled.SafeAreaView`
 
 const Container = styled.TouchableWithoutFeedback``;
 
-const Seperator = styled.Image`
+const Separator = styled.Image`
   align-self: center;
   margin-top: 40px;
   margin-bottom: 40px;

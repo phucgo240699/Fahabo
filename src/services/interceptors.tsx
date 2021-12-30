@@ -16,7 +16,7 @@ export const responseInterceptor = (response: AxiosResponse) => {
 
 export const errorInterceptor = (error: AxiosError) => {
   if (__DEV__) {
-    // console.log({API_ERROR: error.message});
+    console.log({API_ERROR: error.message, url: error.config.url});
   }
   return Promise.reject(error);
 };

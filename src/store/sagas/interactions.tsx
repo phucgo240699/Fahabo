@@ -47,46 +47,50 @@ function* sendMessageSaga({
 }) {
   try {
     if (!isNull(body.authorId)) {
-      const authorParams: GetMyProfileRequestType = {
-        id: body.authorId,
-      };
-      const authorResponse = yield* apiProxy(getProfileApi, authorParams);
-      if (authorResponse.status === 200) {
-        yield* put(
-          getProfileSuccessAction(parseUser(parseDataResponse(authorResponse))),
-        );
-        const author = yield* select(userSelector);
-        const focusFamily = yield* select(focusFamilySelector);
-        // Send message to firebase store
-        firestore()
-          .collection('Messages')
-          .add({
-            _id: body._id,
-            familyId: body.familyId,
-            text: body.text,
-            createdAt: body.createdAt,
-            timeStamp: body.timeStamp,
-            type: body.type,
-            authorId: author?.id,
-            authorName: author?.name,
-            authorAvatar: author?.avatarUrl,
-          })
-          .then(() => {});
+      // const authorParams: GetMyProfileRequestType = {
+      //   id: body.authorId,
+      // };
+      // const authorResponse = yield* apiProxy(getProfileApi, authorParams);
+      // if (authorResponse.status === 200) {
+      //   yield* put(
+      //     getProfileSuccessAction(parseUser(parseDataResponse(authorResponse))),
+      //   );
+      //   const author = yield* select(userSelector);
+      //   const focusFamily = yield* select(focusFamilySelector);
 
-        // Notify new message
-        if (!isNull(focusFamily?.id)) {
-          yield* delay(3000);
-          yield* put(
-            notifyNewMessageRequestAction({familyId: focusFamily?.id}),
-          );
-        }
-      } else {
-        yield* put(
-          showToastAction(
-            i18n.t(`backend.${parseErrorResponse(authorResponse)}`),
-            ToastType.ERROR,
-          ),
-        );
+      // } else {
+      //   yield* put(
+      //     showToastAction(
+      //       i18n.t(`backend.${parseErrorResponse(authorResponse)}`),
+      //       ToastType.ERROR,
+      //     ),
+      //   );
+      // }
+
+      const author = yield* select(userSelector);
+      const focusFamily = yield* select(focusFamilySelector);
+      const message: SendMessageRequestType = {
+        _id: body._id,
+        familyId: body.familyId,
+        text: body.text,
+        createdAt: body.createdAt,
+        timeStamp: body.timeStamp,
+        type: body.type,
+        authorId: author?.id,
+        authorName: author?.name,
+        authorAvatar: author?.avatarUrl,
+      };
+
+      // Send message to firebase store
+      firestore()
+        .collection('Messages')
+        .add(message)
+        .then(() => {});
+
+      // Notify new message
+      if (!isNull(focusFamily?.id)) {
+        yield* delay(3000);
+        yield* put(notifyNewMessageRequestAction({familyId: focusFamily?.id}));
       }
     }
   } catch (error) {
