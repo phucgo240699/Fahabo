@@ -114,7 +114,7 @@ function ChatScreen(props) {
         title={focusFamily?.name}
         onPressVideoCall={onPressVideoCall}
       />
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}
+      <KeyboardAvoidingView keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -500} behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.scrollView}>
       <FlatList inverted showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} data={messages} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
         <Box borderRadius={10} borderTopWidth={2} borderColor={colors.CONCRETE} alignItems={'center'} flexDirection={'row'}>
