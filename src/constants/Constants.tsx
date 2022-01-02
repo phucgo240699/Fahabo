@@ -2,6 +2,7 @@ import i18n from '@locales/index';
 import {Dimensions} from 'react-native';
 import {Config} from 'react-native-config';
 
+export const BASE_DOMAIN = Config.BASE_DOMAIN;
 export const BASE_URL = Config.BASE_URL;
 export const VIDEO_STORAGE_URL = Config.VIDEO_STORAGE_URL;
 export const QR_SALT_CODE = Config.QR_SALT_CODE;
@@ -75,6 +76,8 @@ export enum ScreenName {
   CreateCuisinePostScreen = 'CreateCuisinePostScreen',
   PreCreateCuisinePostScreen = 'PreCreateCuisinePostScreen',
   CuisinePostDetailScreen = 'CuisinePostDetailScreen',
+  MyCuisinePostsScreen = 'MyCuisinePostsScreen',
+  MyBookmarkedCuisinePostsScreen = 'MyBookmarkedCuisinePostsScreen',
 }
 
 export const Constants = {

@@ -17,7 +17,10 @@ import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 import {Constants, ScreenName} from '@constants/Constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOutRequestAction} from '@store/actionTypes/signIn';
-import {userSelector} from '@store/selectors/authentication';
+import {
+  accessTokenSelector,
+  userSelector,
+} from '@store/selectors/authentication';
 import {isNull} from '@utils/index';
 import {
   getProfileRequestAction,
@@ -34,6 +37,7 @@ interface Props {}
 const ProfileScreen: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
+  const accessToken = useSelector(accessTokenSelector);
   const isRefreshing = useSelector(isRefreshingProfileSelector);
   const {isOpen, onOpen, onClose} = useDisclose();
 
@@ -120,6 +124,24 @@ const ProfileScreen: React.FC<Props> = () => {
               <EmailText>{user?.username}</EmailText>
             </Box>
 
+            <Box mt={5}>
+              <PrimaryButton
+                title={'My Posts'}
+                titleColor={colors.HYPER_LINK}
+                onPress={() => {
+                  navigate(ScreenName.MyCuisinePostsScreen);
+                }}
+              />
+              <PrimaryButton
+                marginTop={5}
+                title={'My Favorite Posts'}
+                titleColor={colors.HYPER_LINK}
+                onPress={() => {
+                  navigate(ScreenName.MyBookmarkedCuisinePostsScreen);
+                }}
+              />
+            </Box>
+
             <ProfileSettingsBox
               onPressSettings={onPressSettings}
               onPressUpdateProfile={onPressProfile}
@@ -135,7 +157,14 @@ const ProfileScreen: React.FC<Props> = () => {
 
           <AvatarContainer activeOpacity={0.7} onPress={onOpen}>
             {!isNull(user?.avatarUrl) ? (
-              <CacheAvatar source={{uri: user?.avatarUrl ?? ''}} />
+              <Avatar
+                source={{
+                  uri: user?.avatarUrl ?? '',
+                  headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                  },
+                }}
+              />
             ) : (
               <Avatar source={defaultAvatar} />
             )}

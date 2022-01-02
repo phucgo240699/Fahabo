@@ -67,30 +67,16 @@ function* sendMessageSaga({
       //   );
       // }
 
-      const author = yield* select(userSelector);
-      const focusFamily = yield* select(focusFamilySelector);
-      const message: SendMessageRequestType = {
-        _id: body._id,
-        familyId: body.familyId,
-        text: body.text,
-        createdAt: body.createdAt,
-        timeStamp: body.timeStamp,
-        type: body.type,
-        authorId: author?.id,
-        authorName: author?.name,
-        authorAvatar: author?.avatarUrl,
-      };
+      if (!isNull(body.familyId)) {
+        const message: SendMessageRequestType = body;
 
-      // Send message to firebase store
-      firestore()
-        .collection('Messages')
-        .add(message)
-        .then(() => {});
-
-      // Notify new message
-      if (!isNull(focusFamily?.id)) {
+        // Send message to firebase store
+        firestore()
+          .collection('Messages')
+          .add(message)
+          .then(() => {});
         yield* delay(3000);
-        yield* put(notifyNewMessageRequestAction({familyId: focusFamily?.id}));
+        yield* put(notifyNewMessageRequestAction({familyId: body.familyId}));
       }
     }
   } catch (error) {

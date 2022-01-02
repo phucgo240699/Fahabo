@@ -1,8 +1,12 @@
 import {ScreenName} from '@constants/Constants';
 import {
+  BookmarkCuisinePostRequestType,
   CreateCuisinePostRequestType,
   DeleteCuisinePostRequestType,
+  GetCuisinePostDetailRequestType,
   GetCuisinePostsRequestType,
+  GetMyBookmarkedCuisinePostsRequestType,
+  GetMyCuisinePostsRequestType,
   UpdateCuisinePostRequestType,
   VoteCuisinePostRequestType,
 } from '@constants/types/cuisine';
@@ -10,23 +14,40 @@ import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
 import {navigate} from '@navigators/index';
 import {
+  bookmarkCuisinePostApi,
   createCuisinePostApi,
   deleteCuisinePostApi,
+  getCuisinePostDetailApi,
   getCuisinePostsApi,
+  getMyBookmarkedCuisinePostsApi,
+  getMyCuisinePostsApi,
   updateCuisinePostApi,
   voteCuisinePostApi,
 } from '@services/cuisine';
 import {
+  BOOKMARK_CUISINE_POST_REQUEST,
   createCuisinePostSuccessAction,
   CREATE_CUISINE_POST_REQUEST,
   deleteCuisinePostSuccessAction,
   DELETE_CUISINE_POST_REQUEST,
+  getCuisinePostDetailSuccessAction,
   getCuisinePostsSuccessAction,
+  getMyBookmarkedCuisinePostsSuccessAction,
+  getMyCuisinePostsSuccessAction,
   GET_CUISINE_POSTS_REQUEST,
+  GET_CUISINE_POST_DETAIL_REQUEST,
+  GET_MY_BOOKMARKED_CUISINE_POSTS_REQUEST,
+  GET_MY_CUISINE_POSTS_REQUEST,
   updateCuisinePostSuccessAction,
   updateIsGettingCuisinePostsAction,
+  updateIsGettingMyBookmarkedCuisinePostsAction,
+  updateIsGettingMyCuisinePostsAction,
   updateIsLoadingCuisinePostsAction,
+  updateIsLoadingMyBookmarkedCuisinePostsAction,
+  updateIsLoadingMyCuisinePostsAction,
   updateIsRefreshingCuisinePostsAction,
+  updateIsRefreshingMyBookmarkedCuisinePostsAction,
+  updateIsRefreshingMyCuisinePostsAction,
   UPDATE_CUISINE_POST_REQUEST,
   VOTE_CUISINE_POST_REQUEST,
 } from '@store/actionTypes/cuisine';
@@ -35,7 +56,11 @@ import {
   showHUDAction,
   showToastAction,
 } from '@store/actionTypes/session';
-import {cuisinePostsSelector} from '@store/selectors/cuisine';
+import {
+  cuisinePostsSelector,
+  myBookmarkedCuisinePostsSelector,
+  myCuisinePostsSelector,
+} from '@store/selectors/cuisine';
 import {mixCuisinePosts} from '@utils/cuisine';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {parseCuisinePost, parseCuisinePosts} from '@utils/parsers/cuisine';
@@ -213,20 +238,22 @@ function* getCuisinePostsSaga({
   }
 }
 
-function* voteCuisinePostSaga({
+function* getCuisinePostDetailSaga({
   body,
 }: {
   type: string;
-  body: VoteCuisinePostRequestType;
+  body: GetCuisinePostDetailRequestType;
 }) {
   try {
-    const response = yield* apiProxy(voteCuisinePostApi, body);
+    yield* put(showHUDAction());
+    const response = yield* apiProxy(getCuisinePostDetailApi, body);
     if (response.status === 200) {
-      // yield* put(
-      //   updateCuisinePostSuccessAction(
-      //     parseCuisinePost(parseDataResponse(response)),
-      //   ),
-      // );
+      yield* put(
+        getCuisinePostDetailSuccessAction(
+          parseCuisinePost(parseDataResponse(response)),
+        ),
+      );
+      navigate(ScreenName.CuisinePostDetailScreen);
     } else {
       yield* put(
         showToastAction(
@@ -244,12 +271,192 @@ function* voteCuisinePostSaga({
   }
 }
 
+function* voteCuisinePostSaga({
+  body,
+}: {
+  type: string;
+  body: VoteCuisinePostRequestType;
+}) {
+  try {
+    const response = yield* apiProxy(voteCuisinePostApi, body);
+    if (response.status === 200) {
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(closeHUDAction());
+  }
+}
+
+function* bookmarkCuisinePostSaga({
+  body,
+}: {
+  type: string;
+  body: BookmarkCuisinePostRequestType;
+}) {
+  try {
+    const response = yield* apiProxy(bookmarkCuisinePostApi, body);
+    if (response.status === 200) {
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    yield* put(closeHUDAction());
+  }
+}
+
+function* getMyCuisinePostsSaga({
+  body,
+}: {
+  type: string;
+  body: GetMyCuisinePostsRequestType;
+}) {
+  try {
+    if (body.showHUD) {
+      yield* put(showHUDAction());
+    } else if (body.getting) {
+      yield* put(updateIsGettingMyCuisinePostsAction(true));
+    } else if (body.loading) {
+      yield* put(updateIsLoadingMyCuisinePostsAction(true));
+    } else if (body.refreshing) {
+      yield* put(updateIsRefreshingMyCuisinePostsAction(true));
+    }
+    const response = yield* apiProxy(getMyCuisinePostsApi, body);
+    if (response.status === 200) {
+      if (body.page && body.page > 0) {
+        const newData = parseCuisinePosts(parseDataResponse(response));
+        if (newData.length > 0) {
+          const oldData = yield* select(myCuisinePostsSelector);
+          yield* put(
+            getMyCuisinePostsSuccessAction(mixCuisinePosts(oldData, newData)),
+          );
+        }
+      } else {
+        yield* put(
+          getMyCuisinePostsSuccessAction(
+            parseCuisinePosts(parseDataResponse(response)),
+          ),
+        );
+      }
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    if (body.showHUD) {
+      yield* put(closeHUDAction());
+    } else if (body.getting) {
+      yield* put(updateIsGettingMyCuisinePostsAction(false));
+    } else if (body.loading) {
+      yield* put(updateIsLoadingMyCuisinePostsAction(false));
+    } else if (body.refreshing) {
+      yield* put(updateIsRefreshingMyCuisinePostsAction(false));
+    }
+  }
+}
+
+function* getMyBookmarkedCuisinePostsSaga({
+  body,
+}: {
+  type: string;
+  body: GetMyBookmarkedCuisinePostsRequestType;
+}) {
+  try {
+    if (body.showHUD) {
+      yield* put(showHUDAction());
+    } else if (body.getting) {
+      yield* put(updateIsGettingMyBookmarkedCuisinePostsAction(true));
+    } else if (body.loading) {
+      yield* put(updateIsLoadingMyBookmarkedCuisinePostsAction(true));
+    } else if (body.refreshing) {
+      yield* put(updateIsRefreshingMyBookmarkedCuisinePostsAction(true));
+    }
+    const response = yield* apiProxy(getMyBookmarkedCuisinePostsApi, body);
+    if (response.status === 200) {
+      if (body.page && body.page > 0) {
+        const newData = parseCuisinePosts(parseDataResponse(response));
+        if (newData.length > 0) {
+          const oldData = yield* select(myBookmarkedCuisinePostsSelector);
+          yield* put(
+            getMyBookmarkedCuisinePostsSuccessAction(
+              mixCuisinePosts(oldData, newData),
+            ),
+          );
+        }
+      } else {
+        yield* put(
+          getMyBookmarkedCuisinePostsSuccessAction(
+            parseCuisinePosts(parseDataResponse(response)),
+          ),
+        );
+      }
+    } else {
+      yield* put(
+        showToastAction(
+          i18n.t(`backend.${parseErrorResponse(response)}`),
+          ToastType.ERROR,
+        ),
+      );
+    }
+  } catch (error) {
+    yield* put(
+      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
+    );
+  } finally {
+    if (body.showHUD) {
+      yield* put(closeHUDAction());
+    } else if (body.getting) {
+      yield* put(updateIsGettingMyBookmarkedCuisinePostsAction(false));
+    } else if (body.loading) {
+      yield* put(updateIsLoadingMyBookmarkedCuisinePostsAction(false));
+    } else if (body.refreshing) {
+      yield* put(updateIsRefreshingMyBookmarkedCuisinePostsAction(false));
+    }
+  }
+}
+
 export default function* () {
   yield* all([
     yield* takeLeading(CREATE_CUISINE_POST_REQUEST, createCuisinePostSaga),
     yield* takeLeading(UPDATE_CUISINE_POST_REQUEST, updateCuisinePostSaga),
     yield* takeLeading(DELETE_CUISINE_POST_REQUEST, deleteCuisinePostSaga),
     yield* takeLeading(GET_CUISINE_POSTS_REQUEST, getCuisinePostsSaga),
+    yield* takeLeading(GET_MY_CUISINE_POSTS_REQUEST, getMyCuisinePostsSaga),
+    yield* takeLeading(
+      GET_MY_BOOKMARKED_CUISINE_POSTS_REQUEST,
+      getMyBookmarkedCuisinePostsSaga,
+    ),
+    yield* takeLeading(
+      GET_CUISINE_POST_DETAIL_REQUEST,
+      getCuisinePostDetailSaga,
+    ),
     yield* takeLatest(VOTE_CUISINE_POST_REQUEST, voteCuisinePostSaga),
+    yield* takeLatest(BOOKMARK_CUISINE_POST_REQUEST, bookmarkCuisinePostSaga),
   ]);
 }

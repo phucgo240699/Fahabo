@@ -4,7 +4,6 @@ import {convertOriginDateTimeStringToDate} from '@utils/index';
 export const convertFireStoreMessageToUIMessage = (item: any) => {
   const result: MessageType = {
     _id: item._data._id,
-    text: item._data.text,
     createdAt: convertOriginDateTimeStringToDate(item._data.createdAt),
     user: {
       _id: item._data.authorId,
@@ -12,6 +11,12 @@ export const convertFireStoreMessageToUIMessage = (item: any) => {
       avatar: item._data.authorAvatar,
     },
     timeStamp: item._data.timeStamp,
+    text: item._data.text,
+    cuisinePost: {
+      id: item._data.cuisinePostId,
+      title: item._data.cuisinePostTitle,
+      thumbnail: item._data.cuisinePostThumbnail,
+    },
     type: item._data.type,
   };
   return result;

@@ -24,10 +24,6 @@ const CuisineStack = () => {
         name={ScreenName.PreCreateCuisinePostScreen}
         component={PreCreateCuisinePostScreen}
       />
-      <Stack.Screen
-        name={ScreenName.CuisinePostDetailScreen}
-        component={CuisinePostDetailScreen}
-      />
     </Stack.Navigator>
   );
 };

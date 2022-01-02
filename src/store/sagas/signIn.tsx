@@ -110,30 +110,32 @@ function* onAutoSignInRequest(action: AnyAction) {
     const refreshToken = yield* select(refreshTokenSelector);
     if (!isNull(accessToken) && !isNull(refreshToken)) {
       yield* put(getHomeScreenDataRequestAction());
-    } else if (!isNull(action.body.username) && !isNull(action.body.password)) {
-      const response = yield* call(signIn, action.body);
-      // Check is Active
-      if (response.status === 200 && response.data.data.isValidEmail === true) {
-        const data = parseDataResponse(response);
-        // Check is join Family
-        if (data.user.familyNum > 0) {
-          if (!isNull(data.user.languageCode)) {
-            setGlobalLocale(data.user.languageCode);
-          }
-          yield* put(
-            autoSignInSuccessAction(
-              parseSignInResponse({
-                ...data,
-                password: action.body.password,
-              }),
-            ),
-          );
+    }
+    // else if (!isNull(action.body.username) && !isNull(action.body.password)) {
+    //   const response = yield* call(signIn, action.body);
+    //   // Check is Active
+    //   if (response.status === 200 && response.data.data.isValidEmail === true) {
+    //     const data = parseDataResponse(response);
+    //     // Check is join Family
+    //     if (data.user.familyNum > 0) {
+    //       if (!isNull(data.user.languageCode)) {
+    //         setGlobalLocale(data.user.languageCode);
+    //       }
+    //       yield* put(
+    //         autoSignInSuccessAction(
+    //           parseSignInResponse({
+    //             ...data,
+    //             password: action.body.password,
+    //           }),
+    //         ),
+    //       );
 
-          yield* put(getHomeScreenDataRequestAction());
-          return;
-        }
-      }
-    } else {
+    //       yield* put(getHomeScreenDataRequestAction());
+    //       return;
+    //     }
+    //   }
+    // }
+    else {
       navigateReset(StackName.AuthenticationStack);
     }
     const languageCode = yield* select(languageCodeSelector);

@@ -9,16 +9,19 @@ import {isNull} from '@utils/index';
 import {CuisinePostType} from '@constants/types/cuisine';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import {Constants} from '@constants/Constants';
+import {useSelector} from 'react-redux';
+import {cuisinePostDetailSelector} from '@store/selectors/cuisine';
 
 interface Props {
   route?: any;
 }
 
 const CuisinePostDetailScreen: React.FC<Props> = ({route}) => {
-  const detail: CuisinePostType = route.params.detail;
-  const htmlContent = isNull(detail.thumbnail)
-    ? `<div style="margin: 20px; color: ${colors.BLACK};">${detail.content}</div>`
-    : `<div><img width="100%" src="${detail.thumbnail}"><br><div style="margin: 20px; color: ${colors.BLACK};">${detail.content}</div></div>`;
+  const detail = useSelector(cuisinePostDetailSelector);
+
+  const htmlContent = isNull(detail?.thumbnail)
+    ? `<div style="margin: 20px; color: ${colors.BLACK};">${detail?.content}</div>`
+    : `<div><img width="100%" src="${detail?.thumbnail}"><br><div style="margin: 20px; color: ${colors.BLACK};">${detail?.content}</div></div>`;
   return (
     <SafeView>
       <FocusAwareStatusBar
@@ -26,7 +29,7 @@ const CuisinePostDetailScreen: React.FC<Props> = ({route}) => {
         barStyle={'dark-content'}
         backgroundColor={colors.WHITE}
       />
-      <ProfileHeader title={detail.title} />
+      <ProfileHeader title={detail?.title} />
 
       <AutoHeightWebView
         allowsFullscreenVideo

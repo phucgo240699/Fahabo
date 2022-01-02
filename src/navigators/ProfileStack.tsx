@@ -12,6 +12,10 @@ import MediaPickerScreen from '@screens/media/MediaPickerScreen';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import UpdateProfileScreen from '@screens/profile/UpdateProfileScreen';
 import UpdatePasswordScreen from '@screens/settings/UpdatePasswordScreen';
+import MyCuisinePostsScreen from '@screens/profile/MyCuisinePostsScreen';
+import MyBookmarkedCuisinePostsScreen from '@screens/profile/MyBookmarkedCuisinePostsScreen';
+import CreateCuisinePostScreen from '@screens/cuisine/CreateCuisinePostScreen';
+import PreCreateCuisinePostScreen from '@screens/cuisine/PreCreateCuisinePostScreen';
 
 interface Props {
   route?: any;
@@ -66,6 +70,22 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
       <Stack.Screen
         name={ScreenName.UpdateProfileScreen}
         component={UpdateProfileScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.MyCuisinePostsScreen}
+        component={MyCuisinePostsScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.MyBookmarkedCuisinePostsScreen}
+        component={MyBookmarkedCuisinePostsScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.CreateCuisinePostScreen}
+        component={CreateCuisinePostScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.PreCreateCuisinePostScreen}
+        component={PreCreateCuisinePostScreen}
       />
     </Stack.Navigator>
   );

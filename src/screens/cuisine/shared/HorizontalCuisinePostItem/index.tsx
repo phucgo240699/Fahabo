@@ -25,6 +25,7 @@ interface Props {
   item: CuisinePostType;
   onReacting?: (voteId: number, item: CuisinePostType) => void;
   onPress?: (item: CuisinePostType) => void;
+  onPressShareToChatBox?: (item: CuisinePostType) => void;
   onPressUpdate?: (item: CuisinePostType) => void;
   onPressDelete?: (item: CuisinePostType) => void;
 }
@@ -33,6 +34,7 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
   item,
   onReacting,
   onPress,
+  onPressShareToChatBox,
   onPressUpdate,
   onPressDelete,
 }) => {
@@ -68,6 +70,11 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
       onPress(item);
     }
   };
+  const onPressShareToChatBoxOption = () => {
+    if (onPressShareToChatBox) {
+      onPressShareToChatBox(item);
+    }
+  };
   const onPressUpdateOption = () => {
     if (onPressUpdate) {
       onPressUpdate(item);
@@ -87,36 +94,39 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
           <AuthorName>{item.author?.name}</AuthorName>
         </AuthorContent>
 
-        {item.author.id === user?.id && (
-          <Menu
-            width={160}
-            borderWidth={0}
-            backgroundColor={colors.WHITE}
-            shouldOverlapWithTrigger={false} // @ts-ignore
-            placement={undefined}
-            trigger={triggerProps => {
-              return (
-                <Pressable
-                  bgColor={colors.WHITE}
-                  alignItems={'center'}
-                  justifyContent={'center'}
-                  {...triggerProps}>
-                  <OptionsIcon source={verticalOptions} />
-                </Pressable>
-              );
-            }}>
+        <Menu
+          width={160}
+          borderWidth={0}
+          backgroundColor={colors.WHITE}
+          shouldOverlapWithTrigger={false} // @ts-ignore
+          placement={undefined}
+          trigger={triggerProps => {
+            return (
+              <Pressable
+                bgColor={colors.WHITE}
+                alignItems={'center'}
+                justifyContent={'center'}
+                {...triggerProps}>
+                <OptionsIcon source={verticalOptions} />
+              </Pressable>
+            );
+          }}>
+          {item.author.id === user?.id && (
             <Menu.Item
-              onPress={onPressUpdateOption}
+              onPress={onPressShareToChatBoxOption}
               _text={{color: colors.TEXT}}>
-              {i18n.t('cuisine.update')}
+              {i18n.t('cuisine.shareToChatBox')}
             </Menu.Item>
-            <Menu.Item
-              onPress={onPressDeleteOption}
-              _text={{color: colors.RED_1}}>
-              {i18n.t('cuisine.delete')}
-            </Menu.Item>
-          </Menu>
-        )}
+          )}
+          <Menu.Item onPress={onPressUpdateOption} _text={{color: colors.TEXT}}>
+            {i18n.t('cuisine.update')}
+          </Menu.Item>
+          <Menu.Item
+            onPress={onPressDeleteOption}
+            _text={{color: colors.RED_1}}>
+            {i18n.t('cuisine.delete')}
+          </Menu.Item>
+        </Menu>
       </AuthorContainer>
       <Thumbnail source={{uri: item.thumbnail}} />
       <BottomContainer>

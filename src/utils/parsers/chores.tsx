@@ -1,9 +1,10 @@
+import {BASE_DOMAIN} from '@constants/Constants';
 import {AssigneeType, ChoreType} from '@constants/types/chores';
 import {get} from 'lodash/fp';
 
 export function parseAssignee(rawData: any): AssigneeType {
   const id = get('memberId', rawData);
-  const avatar = get('avatar', rawData);
+  const avatar = `${BASE_DOMAIN}${get('avatar', rawData)}`;
   const name = get('name', rawData);
   const isHost = get('isHost', rawData);
 

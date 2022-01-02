@@ -27,6 +27,7 @@ import TransactionDetailScreen from '@screens/transactions/TransactionDetailScre
 import TransactionPhotosScreen from '@screens/transactions/TransactionPhotosScreen';
 import {AppState, AppStateStatus} from 'react-native';
 import {handleNotificationWhenAppFocusAction} from '@store/actionTypes/notifications';
+import CuisinePostDetailScreen from '@screens/cuisine/CuisinePostDetailScreen';
 // import {focusFamilySelector} from '@store/selectors/family';
 // import {
 //   clearInteractionBadgeRequestAction,
@@ -123,6 +124,10 @@ const MainStack = () => {
       <Stack.Screen
         name={ScreenName.LocationsScreen}
         component={LocationsScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.CuisinePostDetailScreen}
+        component={CuisinePostDetailScreen}
       />
     </Stack.Navigator>
   );

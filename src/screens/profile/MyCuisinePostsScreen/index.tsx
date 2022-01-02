@@ -1,92 +1,42 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
+import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
+import {Platform} from 'react-native';
 import styled from 'styled-components/native';
-import {Platform, RefreshControl} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import PrimaryButton from '@components/PrimaryButton';
-import {navigate} from '@navigators/index';
-import {Constants, Pagination, ScreenName} from '@constants/Constants';
-import PrimaryHeader from '@components/PrimaryHeader';
-import i18n from '@locales/index';
-import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
-import {DummyCuisinePosts} from '@constants/DummyData';
-import HorizontalCuisinePostItem from './shared/HorizontalCuisinePostItem';
 import {FlatList} from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  cuisinePostsSelector,
-  isGettingCuisinePostsSelector,
-  isLoadingCuisinePostsSelector,
-  isRefreshingCuisinePostsSelector,
-} from '@store/selectors/cuisine';
-import GettingIndicator from '@components/GettingIndicator';
+import {myCuisinePostsSelector} from '@store/selectors/cuisine';
 import {
   deleteCuisinePostRequestAction,
   getCuisinePostDetailRequestAction,
-  getCuisinePostsRequestAction,
+  getMyCuisinePostsRequestAction,
   updateCuisinePostSuccessAction,
   voteCuisinePostRequestAction,
 } from '@store/actionTypes/cuisine';
+import HorizontalCuisinePostItem from '@screens/cuisine/shared/HorizontalCuisinePostItem';
 import {CuisinePostType} from '@constants/types/cuisine';
 import {sendMessageRequestAction} from '@store/actionTypes/interactions';
 import {userSelector} from '@store/selectors/authentication';
 import {focusFamilySelector} from '@store/selectors/family';
 import {getOriginDateTimeString} from '@utils/index';
+import {navigate} from '@navigators/index';
+import {ScreenName} from '@constants/Constants';
 
-const CuisinePostsScreen = () => {
+const MyCuisinePostsScreen = () => {
   const dispatch = useDispatch();
+  const myCuisinePosts = useSelector(myCuisinePostsSelector);
   const user = useSelector(userSelector);
   const focusFamily = useSelector(focusFamilySelector);
-  const cuisinePosts = useSelector(cuisinePostsSelector);
-  const isGetting = useSelector(isGettingCuisinePostsSelector);
-  const isLoadingMore = useSelector(isLoadingCuisinePostsSelector);
-  const isRefreshing = useSelector(isRefreshingCuisinePostsSelector);
 
-  const [searchText, setSearchText] = useState('');
-  const [pageIndex, setPageIndex] = useState(0);
-
-  // Refresh
-  const onRefreshingData = () => {
-    if (isRefreshing === false) {
-      setPageIndex(0);
-      dispatch(
-        getCuisinePostsRequestAction({
-          refreshing: true,
-          searchText: searchText,
-        }),
-      );
-    }
-  };
-
-  // Loading More
-  const onLoadingMoreData = () => {
-    if (
-      isLoadingMore === false &&
-      cuisinePosts.length >= Pagination.CuisinePosts
-    ) {
-      dispatch(
-        getCuisinePostsRequestAction({
-          loading: true,
-          page: pageIndex + 1,
-          searchText: searchText,
-        }),
-      );
-      setPageIndex(pageIndex + 1);
-    }
-  };
-
-  // Search
-  const onChangeSearchText = (value: string) => {
-    setSearchText(value);
-  };
-  const onSubmitSearchText = (value: string) => {
+  useEffect(() => {
     dispatch(
-      getCuisinePostsRequestAction({
-        searchText: value,
+      getMyCuisinePostsRequestAction({
+        getting: true,
       }),
     );
-  };
+  }, []);
 
   // Item
   const renderItem = ({item}: {item: any}) => {
@@ -170,40 +120,13 @@ const CuisinePostsScreen = () => {
     }
   };
 
-  const onPressCreate = () => {
-    navigate(ScreenName.PreCreateCuisinePostScreen);
-  };
   return (
     <SafeView>
-      <FocusAwareStatusBar
-        translucent
-        barStyle={'dark-content'}
-        backgroundColor={colors.WHITE}
+      <FlatList
+        data={myCuisinePosts}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
       />
-      <PrimaryHeader
-        text={searchText}
-        onChangeText={onChangeSearchText}
-        onSubmitText={onSubmitSearchText}
-        title={i18n.t('cuisine.exploreNewCuisine')}
-        onPressPlus={onPressCreate}
-      />
-      {isGetting ? (
-        <GettingIndicator />
-      ) : (
-        <FlatList
-          data={cuisinePosts}
-          renderItem={renderItem}
-          onEndReachedThreshold={0.5}
-          onEndReached={onLoadingMoreData}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={onRefreshingData}
-            />
-          }
-          keyExtractor={(item, index) => index.toString()}
-        />
-      )}
     </SafeView>
   );
 };
@@ -214,4 +137,4 @@ const SafeView = styled.SafeAreaView`
   margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
 `;
 
-export default CuisinePostsScreen;
+export default MyCuisinePostsScreen;

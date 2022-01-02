@@ -29,6 +29,32 @@ export type GetCuisinePostsRequestType = {
   size?: number;
 };
 
+export type GetCuisinePostDetailRequestType = {
+  cuisinePostId?: number;
+};
+
+export type BookmarkCuisinePostRequestType = {
+  cuisinePostId?: number;
+};
+
+export type GetMyCuisinePostsRequestType = {
+  showHUD?: boolean;
+  getting?: boolean;
+  loading?: boolean;
+  refreshing?: boolean;
+  page?: number;
+  size?: number;
+};
+
+export type GetMyBookmarkedCuisinePostsRequestType = {
+  showHUD?: boolean;
+  getting?: boolean;
+  loading?: boolean;
+  refreshing?: boolean;
+  page?: number;
+  size?: number;
+};
+
 export type VoteCuisinePostRequestType = {
   voteId?: number;
   cuisinePostId?: number;

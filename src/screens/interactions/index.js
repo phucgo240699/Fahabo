@@ -27,6 +27,8 @@ import TextMessageItem from './shared/TextMessageItem';
 import { Box, Input } from 'native-base';
 import PrimaryButton from '@components/PrimaryButton';
 import i18n from '@locales/index';
+import SharedCuisinePostMessageItem from './shared/SharedCuisinePostMessageItem';
+import { getCuisinePostDetailRequestAction } from '@store/actionTypes/cuisine';
 
 
 function ChatScreen(props) {
@@ -76,7 +78,14 @@ function ChatScreen(props) {
 
   // Item
   const renderItem = ({item}) => {
+    if (item.type == 'cuisine_post') {
+      return <SharedCuisinePostMessageItem item={item} onPress={onPressCuisinePostItem} />
+    }
     return <TextMessageItem item={item} />
+  }
+
+  const onPressCuisinePostItem = (item) => { 
+    dispatch(getCuisinePostDetailRequestAction({ cuisinePostId: item.id }))
   }
 
   // Change Text
@@ -92,10 +101,12 @@ function ChatScreen(props) {
         sendMessageRequestAction({
           _id: `${focusFamily?.id}_${user?.id}_${today.getTime()}`,
           familyId: focusFamily?.id,
-          text: text,
           createdAt: getOriginDateTimeString(today),
           timeStamp: today.getTime().toString(),
           authorId: user?.id,
+          authorName: user?.name,
+          authorAvatar: user?.avatarUrl,
+          text: text,
           type: 'text'
         }),
       );
@@ -116,11 +127,11 @@ function ChatScreen(props) {
       />
       <KeyboardAvoidingView keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -500} behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.scrollView}>
-      <FlatList inverted showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} data={messages} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
-        <Box borderRadius={10} borderTopWidth={2} borderColor={colors.CONCRETE} alignItems={'center'} flexDirection={'row'}>
-          <Input flex={1} color={colors.TEXT} placeholder={i18n.t('interaction.typeAMessage')} placeholderTextColor={colors.CONCRETE} borderRadius={10} borderWidth={0} value={text} onChangeText={onChangeText} />
-          <SendButton leftSource={sendIcon} leftTintColor={isNull(text) ? colors.SILVER : colors.ROYAL_BLUE} marginTop={4} marginLeft={10} marginRight={10} onPress={onPressSend} />
-        </Box>
+      <FlatList inverted showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} data={messages} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} contentContainerStyle={styles.list} />
+      <Box borderRadius={10} borderTopWidth={2} borderColor={colors.CONCRETE} alignItems={'center'} flexDirection={'row'}>
+        <Input flex={1} color={colors.TEXT} placeholder={i18n.t('interaction.typeAMessage')} placeholderTextColor={colors.CONCRETE} borderRadius={10} borderWidth={0} value={text} onChangeText={onChangeText} />
+        <SendButton leftSource={sendIcon} leftTintColor={isNull(text) ? colors.SILVER : colors.ROYAL_BLUE} marginTop={4} marginLeft={10} marginRight={10} onPress={onPressSend} />
+      </Box>
       </KeyboardAvoidingView>
     </SafeView>
   );
@@ -136,19 +147,12 @@ const SendButton = styled(PrimaryButton)`
 `
 
 const styles = StyleSheet.create({
-  input: {
-    backgroundColor: colors.SILVER,
-  },
-  sendBtn: {
-    width: 44,
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 4,
-  },
   scrollView: {
     flex: 1,
   },
+  list: {
+    paddingTop: 20
+  }
 })
 
 export default ChatScreen;

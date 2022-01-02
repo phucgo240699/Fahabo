@@ -1,12 +1,13 @@
 import React from 'react';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components/native';
 import {Avatar, FlatList, Menu, Pressable} from 'native-base';
 import {ChoreStatus, ChoreType} from '@constants/types/chores';
 import {updateChoreRequestAction} from '@store/actionTypes/chores';
 import {getChoreStatusColor, getChoreStatusText} from '@utils/chores';
+import {accessTokenSelector} from '@store/selectors/authentication';
 
 interface Props {
   item: ChoreType;
@@ -15,6 +16,8 @@ interface Props {
 
 const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   const dispatch = useDispatch();
+  const accessToken = useSelector(accessTokenSelector);
+
   const [shouldOverlapWithTrigger] = React.useState(true);
   const [position, setPosition] = React.useState('bottom right');
 
@@ -30,7 +33,15 @@ const HorizontalChoreItem: React.FC<Props> = ({item, onPress}) => {
   };
   const renderItem = ({item}: {item: any}) => {
     return (
-      <Avatar mr={2} size="sm" source={{uri: item.avatar}}>
+      <Avatar
+        mr={2}
+        size="sm"
+        source={{
+          uri: item.avatar,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }}>
         {/* <Avatar.Badge bg="green.500" /> */}
       </Avatar>
     );

@@ -13,11 +13,18 @@ import {Constants} from '@constants/Constants';
 
 interface Props {
   item: MessageType;
+  onPress?: (item: MessageType) => void;
 }
 
-const TextMessageItem: React.FC<Props> = ({item}) => {
+const SharedCuisinePostMessageItem: React.FC<Props> = ({item, onPress}) => {
   const user = useSelector(userSelector);
   const accessToken = useSelector(accessTokenSelector);
+
+  const onPressWrapper = () => {
+    if (onPress) {
+      onPress(item);
+    }
+  };
 
   return (
     <Container>
@@ -35,9 +42,15 @@ const TextMessageItem: React.FC<Props> = ({item}) => {
             }}
           />
         )}
-        <TextWrapper isAuthor={user?.id == item.user?._id}>
-          <Text isAuthor={user?.id == item.user?._id}>{item.text}</Text>
-        </TextWrapper>
+        <CuisineWrapper
+          activeOpacity={0.8}
+          isAuthor={user?.id == item.user?._id}
+          onPress={onPressWrapper}>
+          <Title isAuthor={user?.id == item.user?._id}>
+            {item.cuisinePost?.title}
+          </Title>
+          <Thumbnail source={{uri: item.cuisinePost?.thumbnail}} />
+        </CuisineWrapper>
       </Content>
     </Container>
   );
@@ -53,16 +66,27 @@ const Content = styled.View<{isAuthor: boolean}>`
   justify-content: ${props => (props.isAuthor ? 'flex-end' : 'flex-start')};
 `;
 
-const TextWrapper = styled.View<{isAuthor: boolean}>`
+const CuisineWrapper = styled.TouchableOpacity<{isAuthor: boolean}>`
+  elevation: 10;
+  shadow-opacity: 0.1;
+  shadow-radius: 10px;
+  shadow-color: ${colors.BLACK};
   border-radius: 15px;
   max-width: ${Constants.MAX_WIDTH - 120}px;
   background-color: ${props =>
     props.isAuthor ? colors.ROYAL_BLUE : colors.CONCRETE};
 `;
 
-const Text = styled(fonts.PrimaryFontMediumSize14)<{isAuthor: boolean}>`
+const Title = styled(fonts.PrimaryFontMediumSize14)<{isAuthor: boolean}>`
   margin: 8px 15px 10px 15px;
   color: ${props => (props.isAuthor ? colors.WHITE : colors.TEXT)};
+`;
+
+const Thumbnail = styled.Image`
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  width: ${Constants.MAX_WIDTH - 120}px;
+  height: ${((Constants.MAX_WIDTH - 120) / 4) * 3}px;
 `;
 
 const AuthorName = styled(fonts.PrimaryFontRegularSize10)`
@@ -70,4 +94,4 @@ const AuthorName = styled(fonts.PrimaryFontRegularSize10)`
   color: ${colors.SILVER};
 `;
 
-export default TextMessageItem;
+export default SharedCuisinePostMessageItem;

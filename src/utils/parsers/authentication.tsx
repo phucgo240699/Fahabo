@@ -1,4 +1,5 @@
 import {AuthenticationResponseType} from '@constants/types/authentication';
+import {BASE_DOMAIN} from '@constants/Constants';
 import {get} from 'lodash/fp';
 
 //
@@ -37,7 +38,7 @@ export function parseUser(rawData: any): AuthenticationResponseType {
     phoneNumber: get('phoneNumber', rawData),
     birthday: get('birthday', rawData),
     languageCode: get('languageCode', rawData),
-    avatarUrl: get('avatar', rawData),
+    avatarUrl: `${BASE_DOMAIN}${get('avatar', rawData)}`,
     totalFamilies: get('familyNum', rawData),
     authType: {
       id: get('authType.id', rawData),
