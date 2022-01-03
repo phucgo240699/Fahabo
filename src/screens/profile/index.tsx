@@ -31,6 +31,7 @@ import {isRefreshingProfileSelector} from '@store/selectors/authentication';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
 import {ImageBackground, RefreshControl, StyleSheet} from 'react-native';
+import CuisinePostsBox from './shared/CuisinePostsBox';
 
 interface Props {}
 
@@ -46,13 +47,14 @@ const ProfileScreen: React.FC<Props> = () => {
     dispatch(getProfileRequestAction({}));
   };
 
-  // // Relations
-  // const onPressChores = () => {
-  //   navigate(ScreenName.MyChoresScreen);
-  // };
-  // const onPressEvents = () => {
-  //   navigate(ScreenName.MyEventsScreen);
-  // };
+  // Cuisine
+  const onPressMyPosts = () => {
+    navigate(ScreenName.MyCuisinePostsScreen);
+  };
+
+  const onPressMyBookmarkedPosts = () => {
+    navigate(ScreenName.MyBookmarkedCuisinePostsScreen);
+  };
 
   // Settings
   const onPressProfile = () => {
@@ -124,23 +126,10 @@ const ProfileScreen: React.FC<Props> = () => {
               <EmailText>{user?.username}</EmailText>
             </Box>
 
-            <Box mt={5}>
-              <PrimaryButton
-                title={i18n.t('cuisine.myPosts')}
-                titleColor={colors.HYPER_LINK}
-                onPress={() => {
-                  navigate(ScreenName.MyCuisinePostsScreen);
-                }}
-              />
-              <PrimaryButton
-                marginTop={5}
-                title={i18n.t('cuisine.myFavoritePosts')}
-                titleColor={colors.HYPER_LINK}
-                onPress={() => {
-                  navigate(ScreenName.MyBookmarkedCuisinePostsScreen);
-                }}
-              />
-            </Box>
+            <CuisinePostsBox
+              onPressMyPosts={onPressMyPosts}
+              onPressMyBookmarkedPosts={onPressMyBookmarkedPosts}
+            />
 
             <ProfileSettingsBox
               onPressSettings={onPressSettings}

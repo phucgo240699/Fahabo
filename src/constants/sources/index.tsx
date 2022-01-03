@@ -96,6 +96,7 @@ export const targetLocationsIcon = require('@assets/images/target_locations_icon
 //
 export const addEmojiIcon = require('@assets/images/add_emoji_icon.png');
 export const bookMarkIcon = require('@assets/images/bookmark_icon.png');
+export const colorBookMarkIcon = require('@assets/images/color_bookmark_icon.png');
 export const selectedBookMarkIcon = require('@assets/images/selected_bookmark_icon.png');
 
 //
