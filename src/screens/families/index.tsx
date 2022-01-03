@@ -71,6 +71,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   };
   const onSubmitSearchText = (text: string) => {
     if (!isNull(text)) {
+      setPageIndex(0);
       dispatch(getFamiliesRequestAction({showHUD: true, searchText: text}));
     }
   };
@@ -79,6 +80,7 @@ const FamiliesScreen: React.FC<Props> = ({route}) => {
   const onRefreshFamilies = () => {
     if (isRefreshing === false) {
       setPageIndex(0);
+      setSearchText('');
       dispatch(getFamiliesRequestAction({refresh: true}));
     }
   };

@@ -102,6 +102,11 @@ export const bookmarkCuisinePostRequestAction = (
   type: BOOKMARK_CUISINE_POST_REQUEST,
   body,
 });
+// export const BOOKMARK_CUISINE_POST_SUCCESS = 'BOOKMARK_CUISINE_POST_SUCCESS';
+// export const bookmarkCuisinePostSuccessAction = (payload: CuisinePostType) => ({
+//   type: BOOKMARK_CUISINE_POST_SUCCESS,
+//   payload,
+// });
 
 // Get My Posts
 export const GET_MY_CUISINE_POSTS_REQUEST = 'GET_MY_CUISINE_POSTS_REQUEST';

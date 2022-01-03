@@ -108,6 +108,7 @@ export function getMyCuisinePostsApi(
   }
   return new apiProvider(accessToken).post(
     `${BASE_URL}/cuisine_posts/writtenPosts?page=${page}&size=${size}`,
+    body,
   );
 }
 
@@ -127,5 +128,6 @@ export function getMyBookmarkedCuisinePostsApi(
   }
   return new apiProvider(accessToken).post(
     `${BASE_URL}/cuisine_posts/bookmark/list?page=${page}&size=${size}`,
+    body,
   );
 }

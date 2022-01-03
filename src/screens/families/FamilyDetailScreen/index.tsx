@@ -37,7 +37,10 @@ import {
 } from '@store/selectors/family';
 import {isNull} from '@utils/index';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
-import {userSelector} from '@store/selectors/authentication';
+import {
+  accessTokenSelector,
+  userSelector,
+} from '@store/selectors/authentication';
 import {isRefreshingFamilyMembersSelector} from '@store/selectors/family';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {previewAlbumSelector} from '@store/selectors/albums';
@@ -55,6 +58,7 @@ interface Props {
 const FamilyDetailScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const accessToken = useSelector(accessTokenSelector);
   const user = useSelector(userSelector);
   const previewAlbum = useSelector(previewAlbumSelector);
   const familyDetail = useSelector(familyDetailSelector);
@@ -180,11 +184,26 @@ const FamilyDetailScreen: React.FC<Props> = ({route}) => {
       <>
         {allowEdit && user?.id !== item.id && item.isHost !== true ? (
           <AvatarContainer onPress={onPressContainer}>
-            <Avatar source={{uri: item.avatar}} />
+            <Avatar
+              source={{
+                uri: item.avatar,
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              }}
+            />
             <KickIcon source={clearIcon} />
           </AvatarContainer>
         ) : (
-          <Avatar mr={3} source={{uri: item.avatar}} />
+          <Avatar
+            mr={3}
+            source={{
+              uri: item.avatar,
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }}
+          />
         )}
       </>
     );

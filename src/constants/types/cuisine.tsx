@@ -42,6 +42,7 @@ export type GetMyCuisinePostsRequestType = {
   getting?: boolean;
   loading?: boolean;
   refreshing?: boolean;
+  searchText?: string;
   page?: number;
   size?: number;
 };
@@ -51,6 +52,7 @@ export type GetMyBookmarkedCuisinePostsRequestType = {
   getting?: boolean;
   loading?: boolean;
   refreshing?: boolean;
+  searchText?: string;
   page?: number;
   size?: number;
 };
@@ -94,9 +96,10 @@ export type CuisinePostType = {
   angryRatings?: number;
   likeRatings?: number;
   yummyRatings?: number;
+  isBookmarked?: boolean;
   userReactedType?: number;
-  comments?: [];
   author: CuisineAuthorType;
+  comments?: [];
 };
 
 export type CuisinePostCommentType = {

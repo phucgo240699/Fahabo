@@ -4,6 +4,7 @@ import {
   CuisinePostCommentType,
   CuisinePostType,
 } from '@constants/types/cuisine';
+import {BASE_DOMAIN} from '@constants/Constants';
 
 export function parseCuisinePost(rawData: any): CuisinePostType {
   const id = get('cuisinePostId', rawData);
@@ -14,6 +15,7 @@ export function parseCuisinePost(rawData: any): CuisinePostType {
   const angryRatings = parseInt(get('angryRatings', rawData));
   const likeRatings = parseInt(get('likeRatings', rawData));
   const yummyRatings = parseInt(get('yummyRatings', rawData));
+  const isBookmarked = get('isBookmarked', rawData);
   const userReactedType = parseInt(get('userReactedType', rawData));
   const comments = get('comments', rawData);
   const author = parseCuisineAuthor(get('author', rawData));
@@ -27,6 +29,7 @@ export function parseCuisinePost(rawData: any): CuisinePostType {
     angryRatings,
     likeRatings,
     yummyRatings,
+    isBookmarked,
     userReactedType,
     comments,
     author,
@@ -63,7 +66,7 @@ export function parseCuisineComment(rawData: any): CuisinePostCommentType {
 export function parseCuisineAuthor(rawData: any): CuisineAuthorType {
   const id = get('id', rawData);
   const name = get('name', rawData);
-  const avatar = get('avatar', rawData);
+  const avatar = `${BASE_DOMAIN}${get('avatar', rawData)}`;
   return {
     id,
     name,

@@ -57,7 +57,7 @@ const SharedCuisinePostMessageItem: React.FC<Props> = ({item, onPress}) => {
 };
 
 const Container = styled.View`
-  margin-top: 10px;
+  margin: 10px;
 `;
 
 const Content = styled.View<{isAuthor: boolean}>`

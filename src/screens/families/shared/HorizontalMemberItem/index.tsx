@@ -10,6 +10,8 @@ import {Avatar} from 'native-base';
 import {MemberStatus, MemberType} from '@constants/types/family';
 import {hostArmorialIcon} from '@constants/sources';
 import {Constants} from '@constants/Constants';
+import {useSelector} from 'react-redux';
+import {accessTokenSelector} from '@store/selectors/authentication';
 
 interface Props {
   item: MemberType;
@@ -30,6 +32,8 @@ const HorizontalMemberItem: React.FC<Props> = ({
   showStatus,
   onPress,
 }) => {
+  const accessToken = useSelector(accessTokenSelector);
+
   const onPressContainer = () => {
     if (onPress) {
       onPress(item);
@@ -43,7 +47,12 @@ const HorizontalMemberItem: React.FC<Props> = ({
       <Avatar
         ml={size === 'large' ? 4 : 1}
         size={size === 'large' ? 'lg' : 'xs'}
-        source={{uri: item?.avatar}}
+        source={{
+          uri: item?.avatar,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }}
       />
       <Name size={size} numberOfLines={2}>
         {item?.name}

@@ -1,17 +1,21 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
-import {Platform} from 'react-native';
+import {Platform, RefreshControl} from 'react-native';
 import styled from 'styled-components/native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {FlatList} from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  isGettingMyBookmarkedCuisinePostsSelector,
+  isLoadingMyBookmarkedCuisinePostsSelector,
+  isRefreshingMyBookmarkedCuisinePostsSelector,
   myBookmarkedCuisinePostsSelector,
   myCuisinePostsSelector,
 } from '@store/selectors/cuisine';
 import {
+  bookmarkCuisinePostRequestAction,
   deleteCuisinePostRequestAction,
   getCuisinePostDetailRequestAction,
   getMyBookmarkedCuisinePostsRequestAction,
@@ -25,23 +29,79 @@ import {userSelector} from '@store/selectors/authentication';
 import {focusFamilySelector} from '@store/selectors/family';
 import {getOriginDateTimeString} from '@utils/index';
 import {navigate} from '@navigators/index';
-import {ScreenName} from '@constants/Constants';
+import {Pagination, ScreenName} from '@constants/Constants';
+import ProfileHeader from '@components/ProfileHeader';
+import GettingIndicator from '@components/GettingIndicator';
+import PrimarySearchBar from '@components/PrimarySearchBar';
 
 const MyBookmarkedCuisinePostsScreen = () => {
   const dispatch = useDispatch();
+  const user = useSelector(userSelector);
+  const focusFamily = useSelector(focusFamilySelector);
   const myBookmarkedCuisinePosts = useSelector(
     myBookmarkedCuisinePostsSelector,
   );
-  const user = useSelector(userSelector);
-  const focusFamily = useSelector(focusFamilySelector);
+  const isGetting = useSelector(isGettingMyBookmarkedCuisinePostsSelector);
+  const isLoadingMore = useSelector(isLoadingMyBookmarkedCuisinePostsSelector);
+  const isRefreshing = useSelector(
+    isRefreshingMyBookmarkedCuisinePostsSelector,
+  );
+  const [pageIndex, setPageIndex] = useState(0);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     dispatch(
       getMyBookmarkedCuisinePostsRequestAction({
         getting: true,
+        searchText: searchText,
       }),
     );
   }, []);
+
+  // Refresh
+  const onRefreshingData = () => {
+    if (isRefreshing === false) {
+      setPageIndex(0);
+      setSearchText('');
+      dispatch(
+        getMyBookmarkedCuisinePostsRequestAction({
+          refreshing: true,
+          searchText: searchText,
+        }),
+      );
+    }
+  };
+
+  // Load more
+  const onLoadingMoreData = () => {
+    if (
+      isLoadingMore === false &&
+      myBookmarkedCuisinePosts.length >= Pagination.CuisinePosts
+    ) {
+      dispatch(
+        getMyBookmarkedCuisinePostsRequestAction({
+          loading: true,
+          page: pageIndex + 1,
+          searchText: searchText,
+        }),
+      );
+      setPageIndex(pageIndex + 1);
+    }
+  };
+
+  // Search
+  const onChangeSearchText = (value: string) => {
+    setSearchText(value);
+  };
+  const onSubmitSearchText = (value: string) => {
+    setPageIndex(0);
+    dispatch(
+      getMyBookmarkedCuisinePostsRequestAction({
+        getting: true,
+        searchText: value,
+      }),
+    );
+  };
 
   // Item
   const renderItem = ({item}: {item: any}) => {
@@ -53,6 +113,7 @@ const MyBookmarkedCuisinePostsScreen = () => {
         onPressShareToChatBox={onPressShareToChatBoxOption}
         onPressUpdate={onPressUpdate}
         onPressDelete={onPressDelete}
+        onPressBookmark={onPressBookmark}
       />
     );
   };
@@ -124,14 +185,44 @@ const MyBookmarkedCuisinePostsScreen = () => {
       );
     }
   };
+  const onPressBookmark = (item: CuisinePostType) => {
+    dispatch(bookmarkCuisinePostRequestAction({cuisinePostId: item.id}));
+    dispatch(
+      updateCuisinePostSuccessAction({
+        ...item,
+        isBookmarked: !item.isBookmarked,
+      }),
+    );
+  };
 
   return (
     <SafeView>
-      <FlatList
-        data={myBookmarkedCuisinePosts}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
+      <ProfileHeader title={i18n.t('cuisine.myFavoritePosts')} />
+      <PrimarySearchBar
+        text={searchText}
+        marginTop={8}
+        marginLeft={10}
+        marginRight={10}
+        onChangeText={onChangeSearchText}
+        onSubmitText={onSubmitSearchText}
       />
+      {isGetting ? (
+        <GettingIndicator />
+      ) : (
+        <FlatList
+          data={myBookmarkedCuisinePosts}
+          renderItem={renderItem}
+          onEndReachedThreshold={0.5}
+          onEndReached={onLoadingMoreData}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefreshingData}
+            />
+          }
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
     </SafeView>
   );
 };

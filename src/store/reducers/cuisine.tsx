@@ -1,5 +1,6 @@
 import {CuisinePostType} from '@constants/types/cuisine';
 import {
+  // BOOKMARK_CUISINE_POST_SUCCESS,
   CREATE_CUISINE_POST_SUCCESS,
   DELETE_CUISINE_POST_SUCCESS,
   GET_CUISINE_POSTS_SUCCESS,
@@ -116,6 +117,15 @@ export default function cuisineReducer(
         ...state,
         cuisinePostDetail: action.payload,
       };
+    // case BOOKMARK_CUISINE_POST_SUCCESS:
+    //   return {
+    //     ...state,
+    //     myBookmarkedCuisinePosts: state.myBookmarkedCuisinePosts.filter(
+    //       item => {
+    //         return item.isBookmarked === true;
+    //       },
+    //     ),
+    //   };
     case GET_MY_CUISINE_POSTS_SUCCESS:
       return {
         ...state,

@@ -50,6 +50,7 @@ import {getChoreStatus, getRepeatText, getRepeatType} from '@utils/chores';
 import {chorePhotosSelector} from '@store/selectors/chores';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
+import {accessTokenSelector} from '@store/selectors/authentication';
 
 interface Props {
   route?: any;
@@ -57,6 +58,7 @@ interface Props {
 
 const CreateChoreScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
+  const accessToken = useSelector(accessTokenSelector);
   const focusFamily = useSelector(focusFamilySelector);
   const chorePhotos = useSelector(chorePhotosSelector);
   const {isOpen, onOpen, onClose} = useDisclose();
@@ -198,7 +200,14 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
     };
     return (
       <AvatarContainer onPress={onPressContainer}>
-        <Avatar source={{uri: item.avatar}} />
+        <Avatar
+          source={{
+            uri: item.avatar,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }}
+        />
         <KickIcon source={clearIcon} />
       </AvatarContainer>
     );

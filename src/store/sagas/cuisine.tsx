@@ -25,6 +25,7 @@ import {
   voteCuisinePostApi,
 } from '@services/cuisine';
 import {
+  // bookmarkCuisinePostSuccessAction,
   BOOKMARK_CUISINE_POST_REQUEST,
   createCuisinePostSuccessAction,
   CREATE_CUISINE_POST_REQUEST,
@@ -64,7 +65,14 @@ import {
 import {mixCuisinePosts} from '@utils/cuisine';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {parseCuisinePost, parseCuisinePosts} from '@utils/parsers/cuisine';
-import {all, put, select, takeLatest, takeLeading} from 'typed-redux-saga';
+import {
+  all,
+  put,
+  delay,
+  select,
+  takeLatest,
+  takeLeading,
+} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
 
 function* createCuisinePostSaga({
@@ -306,6 +314,11 @@ function* bookmarkCuisinePostSaga({
   try {
     const response = yield* apiProxy(bookmarkCuisinePostApi, body);
     if (response.status === 200) {
+      // yield* put(
+      //   updateCuisinePostSuccessAction(
+      //     parseCuisinePost(parseDataResponse(response)),
+      //   ),
+      // );
     } else {
       yield* put(
         showToastAction(

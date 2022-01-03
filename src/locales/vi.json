@@ -190,12 +190,14 @@
     "title": "Tiêu đề",
     "cancel": "Huỷ",
     "ok": "Ok",
-    "shareToChatBox": "Chia sẻ vào khung tin nhắn",
+    "shareToChatBox": "Chia sẻ vào tin nhắn",
     "update": "Cập nhật",
     "delete": "Xoá",
     "content": "Nội dung",
     "exploreNewCuisine": "Khám phá món mới",
-    "next": "Tiếp theo"
+    "next": "Tiếp theo",
+    "myPosts": "Bài viết của tôi",
+    "myFavoritePosts": "Bài viết ưa thích"
   },
   "application": {
     "loading": "Đăng tải...",

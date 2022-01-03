@@ -1,5 +1,6 @@
 import {get} from 'lodash/fp';
 import {FamilyType, MemberType} from '@constants/types/family';
+import {BASE_DOMAIN} from '@constants/Constants';
 
 export function parseFamilies(rawData: any[]): FamilyType[] {
   const result: FamilyType[] = rawData.map(item => {
@@ -29,7 +30,7 @@ export function parseMember(rawData: any): MemberType {
     id: get('id', rawData),
     name: get('name', rawData),
     phoneNumber: get('phoneNumber', rawData),
-    avatar: get('avatar', rawData),
+    avatar: `${BASE_DOMAIN}${get('avatar', rawData)}`,
     isHost: get('isHost', rawData),
   };
 }

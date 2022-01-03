@@ -22,6 +22,7 @@ import {
 } from '@store/selectors/cuisine';
 import GettingIndicator from '@components/GettingIndicator';
 import {
+  bookmarkCuisinePostRequestAction,
   deleteCuisinePostRequestAction,
   getCuisinePostDetailRequestAction,
   getCuisinePostsRequestAction,
@@ -50,6 +51,7 @@ const CuisinePostsScreen = () => {
   const onRefreshingData = () => {
     if (isRefreshing === false) {
       setPageIndex(0);
+      setSearchText('');
       dispatch(
         getCuisinePostsRequestAction({
           refreshing: true,
@@ -81,8 +83,10 @@ const CuisinePostsScreen = () => {
     setSearchText(value);
   };
   const onSubmitSearchText = (value: string) => {
+    // setPageIndex(0);
     dispatch(
       getCuisinePostsRequestAction({
+        getting: true,
         searchText: value,
       }),
     );
@@ -98,6 +102,7 @@ const CuisinePostsScreen = () => {
         onPressShareToChatBox={onPressShareToChatBoxOption}
         onPressUpdate={onPressUpdate}
         onPressDelete={onPressDelete}
+        onPressBookmark={onPressBookmark}
       />
     );
   };
@@ -168,6 +173,15 @@ const CuisinePostsScreen = () => {
         }),
       );
     }
+  };
+  const onPressBookmark = (item: CuisinePostType) => {
+    dispatch(bookmarkCuisinePostRequestAction({cuisinePostId: item.id}));
+    dispatch(
+      updateCuisinePostSuccessAction({
+        ...item,
+        isBookmarked: !item.isBookmarked,
+      }),
+    );
   };
 
   const onPressCreate = () => {

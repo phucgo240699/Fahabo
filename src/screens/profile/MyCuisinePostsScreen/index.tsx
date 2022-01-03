@@ -1,14 +1,20 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import i18n from '@locales/index';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
-import {Platform} from 'react-native';
+import {Platform, RefreshControl} from 'react-native';
 import styled from 'styled-components/native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {FlatList} from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
-import {myCuisinePostsSelector} from '@store/selectors/cuisine';
 import {
+  isGettingMyCuisinePostsSelector,
+  isLoadingMyCuisinePostsSelector,
+  isRefreshingMyCuisinePostsSelector,
+  myCuisinePostsSelector,
+} from '@store/selectors/cuisine';
+import {
+  bookmarkCuisinePostRequestAction,
   deleteCuisinePostRequestAction,
   getCuisinePostDetailRequestAction,
   getMyCuisinePostsRequestAction,
@@ -22,21 +28,75 @@ import {userSelector} from '@store/selectors/authentication';
 import {focusFamilySelector} from '@store/selectors/family';
 import {getOriginDateTimeString} from '@utils/index';
 import {navigate} from '@navigators/index';
-import {ScreenName} from '@constants/Constants';
+import {Pagination, ScreenName} from '@constants/Constants';
+import ProfileHeader from '@components/ProfileHeader';
+import GettingIndicator from '@components/GettingIndicator';
+import PrimarySearchBar from '@components/PrimarySearchBar';
 
 const MyCuisinePostsScreen = () => {
   const dispatch = useDispatch();
-  const myCuisinePosts = useSelector(myCuisinePostsSelector);
   const user = useSelector(userSelector);
   const focusFamily = useSelector(focusFamilySelector);
+  const myCuisinePosts = useSelector(myCuisinePostsSelector);
+  const isGetting = useSelector(isGettingMyCuisinePostsSelector);
+  const isLoadingMore = useSelector(isLoadingMyCuisinePostsSelector);
+  const isRefreshing = useSelector(isRefreshingMyCuisinePostsSelector);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     dispatch(
       getMyCuisinePostsRequestAction({
         getting: true,
+        searchText: searchText,
       }),
     );
   }, []);
+
+  // Refresh
+  const onRefreshingData = () => {
+    if (isRefreshing === false) {
+      setPageIndex(0);
+      setSearchText('');
+      dispatch(
+        getMyCuisinePostsRequestAction({
+          refreshing: true,
+          searchText: searchText,
+        }),
+      );
+    }
+  };
+
+  // Load more
+  const onLoadingMoreData = () => {
+    if (
+      isLoadingMore === false &&
+      myCuisinePosts.length >= Pagination.CuisinePosts
+    ) {
+      dispatch(
+        getMyCuisinePostsRequestAction({
+          loading: true,
+          page: pageIndex + 1,
+          searchText: searchText,
+        }),
+      );
+      setPageIndex(pageIndex + 1);
+    }
+  };
+
+  // Search
+  const onChangeSearchText = (value: string) => {
+    setSearchText(value);
+  };
+  const onSubmitSearchText = (value: string) => {
+    setPageIndex(0);
+    dispatch(
+      getMyCuisinePostsRequestAction({
+        getting: true,
+        searchText: value,
+      }),
+    );
+  };
 
   // Item
   const renderItem = ({item}: {item: any}) => {
@@ -48,6 +108,7 @@ const MyCuisinePostsScreen = () => {
         onPressShareToChatBox={onPressShareToChatBoxOption}
         onPressUpdate={onPressUpdate}
         onPressDelete={onPressDelete}
+        onPressBookmark={onPressBookmark}
       />
     );
   };
@@ -119,14 +180,44 @@ const MyCuisinePostsScreen = () => {
       );
     }
   };
+  const onPressBookmark = (item: CuisinePostType) => {
+    dispatch(bookmarkCuisinePostRequestAction({cuisinePostId: item.id}));
+    dispatch(
+      updateCuisinePostSuccessAction({
+        ...item,
+        isBookmarked: !item.isBookmarked,
+      }),
+    );
+  };
 
   return (
     <SafeView>
-      <FlatList
-        data={myCuisinePosts}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
+      <ProfileHeader title={i18n.t('cuisine.myPosts')} />
+      <PrimarySearchBar
+        text={searchText}
+        marginTop={8}
+        marginLeft={10}
+        marginRight={10}
+        onChangeText={onChangeSearchText}
+        onSubmitText={onSubmitSearchText}
       />
+      {isGetting ? (
+        <GettingIndicator />
+      ) : (
+        <FlatList
+          data={myCuisinePosts}
+          renderItem={renderItem}
+          onEndReachedThreshold={0.5}
+          onEndReached={onLoadingMoreData}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefreshingData}
+            />
+          }
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
     </SafeView>
   );
 };

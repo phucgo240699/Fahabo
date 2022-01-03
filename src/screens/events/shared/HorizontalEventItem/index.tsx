@@ -1,13 +1,14 @@
 import React from 'react';
 import fonts from '@themes/fonts';
 import colors from '@themes/colors';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components/native';
 import {Avatar, FlatList, Menu, Pressable} from 'native-base';
 import {EventType} from '@constants/types/events';
 import PrimaryIcon from '@components/PrimaryIcon';
 import {verticalOptions} from '@constants/sources';
 import i18n from '@locales/index';
+import {accessTokenSelector} from '@store/selectors/authentication';
 
 interface Props {
   item: EventType;
@@ -27,6 +28,8 @@ const HorizontalEventItem: React.FC<Props> = ({
   onPressDeleteRelated,
 }) => {
   const dispatch = useDispatch();
+  const accessToken = useSelector(accessTokenSelector);
+
   const [shouldOverlapWithTrigger] = React.useState(true);
   const [position, setPosition] = React.useState('bottom right');
 
@@ -36,7 +39,18 @@ const HorizontalEventItem: React.FC<Props> = ({
     }
   };
   const renderItem = ({item}: {item: any}) => {
-    return <Avatar mr={2} size="sm" source={{uri: item.avatar}} />;
+    return (
+      <Avatar
+        mr={2}
+        size="sm"
+        source={{
+          uri: item.avatar,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }}
+      />
+    );
   };
   const onPressUpdateOption = () => {
     if (onPressUpdate) {

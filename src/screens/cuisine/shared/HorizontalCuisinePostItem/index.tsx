@@ -10,13 +10,17 @@ import {
   addEmojiIcon,
   bookMarkIcon,
   clearIcon,
+  selectedBookMarkIcon,
   verticalOptions,
 } from '@constants/sources';
 import {getEmoji} from '@utils/cuisine';
 import {Box, Menu, Pressable} from 'native-base';
 import i18n from '@locales/index';
 import {useSelector} from 'react-redux';
-import {userSelector} from '@store/selectors/authentication';
+import {
+  accessTokenSelector,
+  userSelector,
+} from '@store/selectors/authentication';
 
 const thumbnailWidth = Constants.MAX_WIDTH;
 const thumbnailHeight = (thumbnailWidth / 4) * 3;
@@ -28,6 +32,7 @@ interface Props {
   onPressShareToChatBox?: (item: CuisinePostType) => void;
   onPressUpdate?: (item: CuisinePostType) => void;
   onPressDelete?: (item: CuisinePostType) => void;
+  onPressBookmark?: (item: CuisinePostType) => void;
 }
 
 const HorizontalCuisinePostItem: React.FC<Props> = ({
@@ -37,8 +42,11 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
   onPressShareToChatBox,
   onPressUpdate,
   onPressDelete,
+  onPressBookmark,
 }) => {
   const user = useSelector(userSelector);
+  const accessToken = useSelector(accessTokenSelector);
+
   const totalRatings =
     (item.angryRatings ?? 0) +
     (item.likeRatings ?? 0) +
@@ -85,17 +93,29 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
       onPressDelete(item);
     }
   };
+  const onPressBookmarkButton = () => {
+    if (onPressBookmark) {
+      onPressBookmark(item);
+    }
+  };
 
   return (
     <Container onPress={onPressContainer} activeOpacity={0.8}>
       <AuthorContainer>
         <AuthorContent>
-          <AuthorAvatar source={{uri: item.author?.avatar}} />
+          <AuthorAvatar
+            source={{
+              uri: item.author?.avatar,
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }}
+          />
           <AuthorName>{item.author?.name}</AuthorName>
         </AuthorContent>
 
         <Menu
-          width={160}
+          // width={160}
           borderWidth={0}
           backgroundColor={colors.WHITE}
           shouldOverlapWithTrigger={false} // @ts-ignore
@@ -103,7 +123,8 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
           trigger={triggerProps => {
             return (
               <Pressable
-                bgColor={colors.WHITE}
+                p={1}
+                // bgColor={colors.WHITE}
                 alignItems={'center'}
                 justifyContent={'center'}
                 {...triggerProps}>
@@ -111,21 +132,26 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
               </Pressable>
             );
           }}>
+          <Menu.Item
+            onPress={onPressShareToChatBoxOption}
+            _text={{color: colors.TEXT}}>
+            {i18n.t('cuisine.shareToChatBox')}
+          </Menu.Item>
+
           {item.author.id === user?.id && (
             <Menu.Item
-              onPress={onPressShareToChatBoxOption}
+              onPress={onPressUpdateOption}
               _text={{color: colors.TEXT}}>
-              {i18n.t('cuisine.shareToChatBox')}
+              {i18n.t('cuisine.update')}
             </Menu.Item>
           )}
-          <Menu.Item onPress={onPressUpdateOption} _text={{color: colors.TEXT}}>
-            {i18n.t('cuisine.update')}
-          </Menu.Item>
-          <Menu.Item
-            onPress={onPressDeleteOption}
-            _text={{color: colors.RED_1}}>
-            {i18n.t('cuisine.delete')}
-          </Menu.Item>
+          {item.author.id === user?.id && (
+            <Menu.Item
+              onPress={onPressDeleteOption}
+              _text={{color: colors.RED_1}}>
+              {i18n.t('cuisine.delete')}
+            </Menu.Item>
+          )}
         </Menu>
       </AuthorContainer>
       <Thumbnail source={{uri: item.thumbnail}} />
@@ -197,14 +223,25 @@ const HorizontalCuisinePostItem: React.FC<Props> = ({
             </Menu>
           </ReactionBox>
           {item.author.id !== user?.id && (
-            <SavePostButton marginRight={20} leftSource={bookMarkIcon} />
+            <SavePostButton
+              marginRight={20}
+              leftTintColor={
+                item.isBookmarked === true
+                  ? colors.THEME_COLOR_6
+                  : colors.SILVER
+              }
+              leftSource={
+                item.isBookmarked === true ? selectedBookMarkIcon : bookMarkIcon
+              }
+              onPress={onPressBookmarkButton}
+            />
           )}
         </ReactionContainer>
 
         <Title>{item.title}</Title>
-        <ViewCommentsButton>
+        {/* <ViewCommentsButton>
           <ViewCommentsText>View all comments</ViewCommentsText>
-        </ViewCommentsButton>
+        </ViewCommentsButton> */}
       </BottomContainer>
     </Container>
   );

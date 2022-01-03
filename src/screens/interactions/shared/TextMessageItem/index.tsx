@@ -44,7 +44,7 @@ const TextMessageItem: React.FC<Props> = ({item}) => {
 };
 
 const Container = styled.View`
-  margin-top: 10px;
+  margin: 10px;
 `;
 
 const Content = styled.View<{isAuthor: boolean}>`

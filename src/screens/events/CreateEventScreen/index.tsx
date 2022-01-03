@@ -50,6 +50,7 @@ import {
   getEventPhotosRequestAction,
   updateEventRequestAction,
 } from '@store/actionTypes/events';
+import {accessTokenSelector} from '@store/selectors/authentication';
 
 interface Props {
   route?: any;
@@ -57,6 +58,7 @@ interface Props {
 
 const CreateEventScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
+  const accessToken = useSelector(accessTokenSelector);
   const focusFamily = useSelector(focusFamilySelector);
   const eventPhotos = useSelector(eventPhotosSelector);
   const {isOpen, onOpen, onClose} = useDisclose();
@@ -225,7 +227,14 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
     };
     return (
       <AvatarContainer onPress={onPressContainer}>
-        <Avatar source={{uri: item.avatar}} />
+        <Avatar
+          source={{
+            uri: item.avatar,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }}
+        />
         <KickIcon source={clearIcon} />
       </AvatarContainer>
     );

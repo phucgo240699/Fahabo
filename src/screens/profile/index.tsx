@@ -46,13 +46,13 @@ const ProfileScreen: React.FC<Props> = () => {
     dispatch(getProfileRequestAction({}));
   };
 
-  // Relations
-  const onPressChores = () => {
-    navigate(ScreenName.MyChoresScreen);
-  };
-  const onPressEvents = () => {
-    navigate(ScreenName.MyEventsScreen);
-  };
+  // // Relations
+  // const onPressChores = () => {
+  //   navigate(ScreenName.MyChoresScreen);
+  // };
+  // const onPressEvents = () => {
+  //   navigate(ScreenName.MyEventsScreen);
+  // };
 
   // Settings
   const onPressProfile = () => {
@@ -126,7 +126,7 @@ const ProfileScreen: React.FC<Props> = () => {
 
             <Box mt={5}>
               <PrimaryButton
-                title={'My Posts'}
+                title={i18n.t('cuisine.myPosts')}
                 titleColor={colors.HYPER_LINK}
                 onPress={() => {
                   navigate(ScreenName.MyCuisinePostsScreen);
@@ -134,7 +134,7 @@ const ProfileScreen: React.FC<Props> = () => {
               />
               <PrimaryButton
                 marginTop={5}
-                title={'My Favorite Posts'}
+                title={i18n.t('cuisine.myFavoritePosts')}
                 titleColor={colors.HYPER_LINK}
                 onPress={() => {
                   navigate(ScreenName.MyBookmarkedCuisinePostsScreen);

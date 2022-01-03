@@ -77,6 +77,7 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   };
   const onSubmitSearchText = (text: string) => {
     setSubmitSearchText(text);
+    setPageIndex(0);
     getChores(selectedMember, selectedStatus, sortBy, text);
   };
 
@@ -157,6 +158,10 @@ const ChoresScreen: React.FC<Props> = ({}) => {
   const onRefreshData = () => {
     if (isRefreshing === false && !isNull(focusFamily?.id)) {
       setPageIndex(0);
+      setSearchText('');
+      setSelectedMember([]);
+      setSelectedStatus([]);
+      setSortBy('created_at');
       dispatch(getChoreFilterMembersRequestAction({familyId: focusFamily?.id}));
       dispatch(
         getChoresRequestAction({

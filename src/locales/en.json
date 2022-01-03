@@ -189,12 +189,14 @@
     "title": "Title",
     "cancel": "Cancel",
     "ok": "Ok",
-    "shareToChatBox": "Share to chat box",
+    "shareToChatBox": "Share to chat",
     "update": "Update",
     "delete": "Delete",
     "content": "Content",
     "exploreNewCuisine": "Explore new food",
-    "next": "Next"
+    "next": "Next",
+    "myPosts": "My Posts",
+    "myFavoritePosts": "My favorite posts"
   },
   "application": {
     "loading": "Loading...",

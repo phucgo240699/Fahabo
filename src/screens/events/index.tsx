@@ -81,6 +81,9 @@ const EventsScreen: React.FC<Props> = ({route}) => {
       !isNull(focusFamily?.id)
     ) {
       setPageIndex(0);
+      setSearchText('');
+      setSelectedMember([]);
+      setSortBy('created_at');
       dispatch(
         getEventsRequestAction({
           refresh: true,
@@ -154,6 +157,7 @@ const EventsScreen: React.FC<Props> = ({route}) => {
   };
   const onSubmitSearchText = (text: string) => {
     setSubmitSearchText(text);
+    setPageIndex(0);
     getEvents(selectedMember, sortBy, text);
   };
 

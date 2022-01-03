@@ -1,6 +1,8 @@
+import {accessTokenSelector} from '@store/selectors/authentication';
 import colors from '@themes/colors';
 import fonts from '@themes/fonts';
 import React from 'react';
+import {useSelector} from 'react-redux';
 import styled from 'styled-components/native';
 
 interface Props {
@@ -9,9 +11,18 @@ interface Props {
 }
 
 const MemberLocationMarker: React.FC<Props> = ({name, avatar}) => {
+  const accessToken = useSelector(accessTokenSelector);
+
   return (
     <Container>
-      <Avatar source={{uri: avatar}} />
+      <Avatar
+        source={{
+          uri: avatar,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }}
+      />
       <Name>{name}</Name>
     </Container>
   );
