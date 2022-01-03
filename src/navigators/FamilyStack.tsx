@@ -42,7 +42,7 @@ const FamilyStack: React.FC<Props> = ({navigation, route}) => {
         name={ScreenName.FamiliesScreen}
         component={FamiliesScreen}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name={ScreenName.FamilyMembersScreen}
         component={FamilyMembersScreen}
       />
@@ -59,7 +59,7 @@ const FamilyStack: React.FC<Props> = ({navigation, route}) => {
       <Stack.Screen
         name={ScreenName.AlbumDetailScreen}
         component={AlbumDetailScreen}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

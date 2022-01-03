@@ -79,14 +79,14 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
         name={ScreenName.MyBookmarkedCuisinePostsScreen}
         component={MyBookmarkedCuisinePostsScreen}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name={ScreenName.CreateCuisinePostScreen}
         component={CreateCuisinePostScreen}
       />
       <Stack.Screen
         name={ScreenName.PreCreateCuisinePostScreen}
         component={PreCreateCuisinePostScreen}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

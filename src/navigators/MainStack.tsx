@@ -28,6 +28,13 @@ import TransactionPhotosScreen from '@screens/transactions/TransactionPhotosScre
 import {AppState, AppStateStatus} from 'react-native';
 import {handleNotificationWhenAppFocusAction} from '@store/actionTypes/notifications';
 import CuisinePostDetailScreen from '@screens/cuisine/CuisinePostDetailScreen';
+import FamilyMembersScreen from '@screens/families/FamilyMembersScreen';
+import QRPresenterScreen from '@screens/families/QRPresenterScreen';
+import ScanFamilyQRScreen from '@screens/families/ScanFamilyQRScreen';
+import AlbumsScreen from '@screens/albums';
+import AlbumDetailScreen from '@screens/albums/AlbumDetailScreen';
+import CreateCuisinePostScreen from '@screens/cuisine/CreateCuisinePostScreen';
+import PreCreateCuisinePostScreen from '@screens/cuisine/PreCreateCuisinePostScreen';
 // import {focusFamilySelector} from '@store/selectors/family';
 // import {
 //   clearInteractionBadgeRequestAction,
@@ -94,6 +101,23 @@ const MainStack = () => {
         component={FamilyDetailScreen}
       />
       <Stack.Screen
+        name={ScreenName.FamilyMembersScreen}
+        component={FamilyMembersScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.QRPresenterScreen}
+        component={QRPresenterScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.ScanFamilyQRScreen}
+        component={ScanFamilyQRScreen}
+      />
+      <Stack.Screen name={ScreenName.AlbumsScreen} component={AlbumsScreen} />
+      <Stack.Screen
+        name={ScreenName.AlbumDetailScreen}
+        component={AlbumDetailScreen}
+      />
+      <Stack.Screen
         name={ScreenName.ChoreDetailScreen}
         component={ChoreDetailScreen}
       />
@@ -128,6 +152,14 @@ const MainStack = () => {
       <Stack.Screen
         name={ScreenName.CuisinePostDetailScreen}
         component={CuisinePostDetailScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.CreateCuisinePostScreen}
+        component={CreateCuisinePostScreen}
+      />
+      <Stack.Screen
+        name={ScreenName.PreCreateCuisinePostScreen}
+        component={PreCreateCuisinePostScreen}
       />
     </Stack.Navigator>
   );

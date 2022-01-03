@@ -16,14 +16,14 @@ const CuisineStack = () => {
         name={ScreenName.CuisinePostsScreen}
         component={CuisinePostsScreen}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name={ScreenName.CreateCuisinePostScreen}
         component={CreateCuisinePostScreen}
       />
       <Stack.Screen
         name={ScreenName.PreCreateCuisinePostScreen}
         component={PreCreateCuisinePostScreen}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

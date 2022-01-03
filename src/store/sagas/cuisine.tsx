@@ -12,7 +12,8 @@ import {
 } from '@constants/types/cuisine';
 import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
-import {navigate} from '@navigators/index';
+import {navigate, navigationRef} from '@navigators/index';
+import {CommonActions} from '@react-navigation/native';
 import {
   bookmarkCuisinePostApi,
   createCuisinePostApi,
@@ -96,7 +97,9 @@ function* createCuisinePostSaga({
           ToastType.SUCCESS,
         ),
       );
-      navigate(ScreenName.CuisinePostsScreen);
+      // navigate(ScreenName.CuisinePostsScreen);
+      navigationRef.current?.dispatch(CommonActions.goBack());
+      navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(
@@ -135,7 +138,9 @@ function* updateCuisinePostSaga({
           ToastType.SUCCESS,
         ),
       );
-      navigate(ScreenName.CuisinePostsScreen);
+      // navigate(ScreenName.CuisinePostsScreen);
+      navigationRef.current?.dispatch(CommonActions.goBack());
+      navigationRef.current?.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(
