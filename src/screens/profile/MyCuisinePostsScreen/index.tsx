@@ -32,6 +32,7 @@ import {Pagination, ScreenName} from '@constants/Constants';
 import ProfileHeader from '@components/ProfileHeader';
 import GettingIndicator from '@components/GettingIndicator';
 import PrimarySearchBar from '@components/PrimarySearchBar';
+import FocusAwareStatusBar from '@components/FocusAwareStatusBar';
 
 const MyCuisinePostsScreen = () => {
   const dispatch = useDispatch();
@@ -192,6 +193,11 @@ const MyCuisinePostsScreen = () => {
 
   return (
     <SafeView>
+      <FocusAwareStatusBar
+        translucent
+        barStyle="dark-content"
+        backgroundColor={colors.WHITE}
+      />
       <ProfileHeader title={i18n.t('cuisine.myPosts')} />
       <PrimarySearchBar
         text={searchText}
