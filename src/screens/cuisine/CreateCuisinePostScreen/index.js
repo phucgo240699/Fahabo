@@ -192,7 +192,7 @@ class CreateCuisinePostScreen extends React.Component {
     }
 
     handlePaste = data => {
-        console.log('Paste:', data);
+        // console.log('Paste:', data);
     };
 
     handleMessage = ({type, id, data}) => {
@@ -210,7 +210,7 @@ class CreateCuisinePostScreen extends React.Component {
             case 'SwitchImage':
                 break;
         }
-        console.log('onMessage', type, id, data);
+        // console.log('onMessage', type, id, data);
     };
 
     handleFocus = () => {
