@@ -24,11 +24,14 @@ import {
 } from '@store/actionTypes/session';
 import {logOutRequestAction} from '@store/actionTypes/signIn';
 import {getTransactionsSuccessAction} from '@store/actionTypes/transactions';
+import {languageCodeSelector} from '@store/selectors/authentication';
 import {focusFamilySelector} from '@store/selectors/family';
 import {
+  getDefaultLanguageCode,
   getOriginDateStringWithMaximumDate,
   getOriginDateStringWithMinimumDate,
   isNull,
+  setGlobalLocale,
 } from '@utils/index';
 import {
   parseDataResponse,
@@ -45,8 +48,16 @@ import {apiProxy} from './apiProxy';
 
 function* getHomeScreenDataSaga(action: AnyAction) {
   try {
-    navigateReset(StackName.MainStack);
+    const languageCode = yield* select(languageCodeSelector);
+    console.log('languageCodeScreen: ', languageCode);
+    if (!isNull(languageCode)) {
+      setGlobalLocale(languageCode ?? '');
+    } else {
+      // Device language
+      setGlobalLocale(getDefaultLanguageCode());
+    }
     yield* delay(100);
+    navigateReset(StackName.MainStack);
     yield* put(showHUDAction());
     let focusFamily = yield* select(focusFamilySelector);
 

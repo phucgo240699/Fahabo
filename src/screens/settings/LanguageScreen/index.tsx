@@ -29,7 +29,7 @@ const LanguageScreen: React.FC<Props> = ({}) => {
     setLanguageCode(newLanguageCode);
   };
   const onPressSave = () => {
-    setGlobalLocale(languageCode ?? '');
+    // setGlobalLocale(languageCode ?? '');
     dispatch(
       updateLanguageRequestAction({
         languageCode: languageCode === 'auto' ? undefined : languageCode,

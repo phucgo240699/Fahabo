@@ -81,7 +81,7 @@ export default function authenticationReducer(
         ...state,
         user: {
           ...state.user,
-          ...action.payload,
+          languageCode: action.payload,
         },
       };
     case UPDATE_PASSWORD_SUCCESS:
@@ -140,7 +140,7 @@ export default function authenticationReducer(
           username: undefined,
           phoneNumber: undefined,
           // still keep languageCode
-          languageCode: state.user?.languageCode,
+          languageCode: undefined, //state.user?.languageCode,
           birthday: undefined,
           avatarUrl: undefined,
           totalFamilies: undefined,

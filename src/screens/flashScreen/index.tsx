@@ -8,6 +8,7 @@ import {autoSignInRequestAction} from '@store/actionTypes/signIn';
 import {userSelector} from '@store/selectors/authentication';
 import colors from '@themes/colors';
 import {closeHUDAction} from '@store/actionTypes/session';
+import {setGlobalLocale, getDefaultLanguageCode} from '@utils/index';
 
 const FlashScreen = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,10 @@ const FlashScreen = () => {
 
   useEffect(() => {
     dispatch(closeHUDAction());
+
+    // Device language
+    setGlobalLocale(getDefaultLanguageCode());
+
     setTimeout(() => {
       dispatch(
         autoSignInRequestAction({

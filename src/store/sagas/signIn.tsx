@@ -47,9 +47,9 @@ function* onSignInRequest(action: AnyAction) {
       if (data.isValidEmail === true) {
         // Check is join Family
         if (data.user.familyNum > 0) {
-          if (!isNull(data.user.languageCode)) {
-            setGlobalLocale(data.user.languageCode);
-          }
+          // if (!isNull(data.user.languageCode)) {
+          //   setGlobalLocale(data.user.languageCode);
+          // }
           yield* put(
             signInSuccessAction(
               parseSignInResponse({
@@ -61,9 +61,9 @@ function* onSignInRequest(action: AnyAction) {
 
           yield* put(getHomeScreenDataRequestAction());
         } else {
-          if (!isNull(data.user.languageCode)) {
-            setGlobalLocale(data.user.languageCode);
-          }
+          // if (!isNull(data.user.languageCode)) {
+          //   setGlobalLocale(data.user.languageCode);
+          // }
           yield* put(
             signInSuccessAction(
               parseSignInResponse({
@@ -138,13 +138,13 @@ function* onAutoSignInRequest(action: AnyAction) {
     else {
       navigateReset(StackName.AuthenticationStack);
     }
-    const languageCode = yield* select(languageCodeSelector);
-    if (!isNull(languageCode)) {
-      setGlobalLocale(languageCode ?? '');
-    } else {
-      // Device language
-      setGlobalLocale(getDefaultLanguageCode());
-    }
+    // const languageCode = yield* select(languageCodeSelector);
+    // if (!isNull(languageCode)) {
+    //   setGlobalLocale(languageCode ?? '');
+    // } else {
+    //   // Device language
+    //   setGlobalLocale(getDefaultLanguageCode());
+    // }
   } catch (error) {
     navigateReset(StackName.AuthenticationStack);
   } finally {

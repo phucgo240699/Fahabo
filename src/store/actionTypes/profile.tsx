@@ -60,9 +60,7 @@ export const updateLanguageRequestAction = (
   body,
 });
 export const UPDATE_LANGUAGE_SUCCESS = 'UPDATE_LANGUAGE_SUCCESS';
-export const updateLanguageSuccessAction = (
-  payload: AuthenticationResponseType,
-) => ({
+export const updateLanguageSuccessAction = (payload: string) => ({
   type: UPDATE_LANGUAGE_SUCCESS,
   payload,
 });
