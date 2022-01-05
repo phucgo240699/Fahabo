@@ -29,6 +29,10 @@ export const parseRefreshAccessTokenResponse = (rawData: any) => {
   };
 };
 export function parseUser(rawData: any): AuthenticationResponseType {
+  const rawAvatar: string = `${get('avatar', rawData)}`;
+  const avatar = rawAvatar.includes('http')
+    ? rawAvatar
+    : `${BASE_DOMAIN}${rawAvatar}`;
   return {
     id: parseInt(get('id', rawData)),
     email: get('email', rawData),
@@ -38,7 +42,7 @@ export function parseUser(rawData: any): AuthenticationResponseType {
     phoneNumber: get('phoneNumber', rawData),
     birthday: get('birthday', rawData),
     languageCode: get('languageCode', rawData),
-    avatarUrl: `${BASE_DOMAIN}${get('avatar', rawData)}`,
+    avatarUrl: avatar,
     totalFamilies: get('familyNum', rawData),
     authType: {
       id: get('authType.id', rawData),
