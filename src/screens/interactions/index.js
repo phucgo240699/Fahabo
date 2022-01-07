@@ -85,7 +85,7 @@ function ChatScreen(props) {
   }
 
   const onPressCuisinePostItem = (item) => { 
-    dispatch(getCuisinePostDetailRequestAction({ cuisinePostId: item.id }))
+    dispatch(getCuisinePostDetailRequestAction({ cuisinePostId: item.cuisinePost.id }))
   }
 
   // Change Text

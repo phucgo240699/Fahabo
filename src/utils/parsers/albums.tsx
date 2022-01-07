@@ -1,4 +1,5 @@
 import {get} from 'lodash/fp';
+import {isNull} from '@utils/index';
 import {AlbumType, PhotoType} from '@constants/types/albums';
 import {BASE_DOMAIN} from '@constants/Constants';
 
@@ -14,7 +15,11 @@ export function parseAlbum(rawData: any): AlbumType {
   const id = get('id', rawData);
   const index = get('index', rawData);
   const title = get('title', rawData);
-  const uri = rawUri.includes('http') ? rawUri : `${BASE_DOMAIN}${rawUri}`;
+  const uri = rawUri.includes('http')
+    ? rawUri
+    : !isNull(rawUri)
+    ? `${BASE_DOMAIN}${rawUri}`
+    : rawUri;
   const description = get('description', rawData);
   const totalPhotos = get('totalPhotos', rawData);
 
