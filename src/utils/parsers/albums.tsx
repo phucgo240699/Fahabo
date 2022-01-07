@@ -15,11 +15,12 @@ export function parseAlbum(rawData: any): AlbumType {
   const id = get('id', rawData);
   const index = get('index', rawData);
   const title = get('title', rawData);
-  const uri = rawUri.includes('http')
-    ? rawUri
-    : !isNull(rawUri)
-    ? `${BASE_DOMAIN}${rawUri}`
-    : rawUri;
+  const uri =
+    isNull(rawUri) || rawUri == 'null'
+      ? rawUri
+      : rawUri.includes('http')
+      ? rawUri
+      : `${BASE_DOMAIN}${rawUri}`;
   const description = get('description', rawData);
   const totalPhotos = get('totalPhotos', rawData);
 
