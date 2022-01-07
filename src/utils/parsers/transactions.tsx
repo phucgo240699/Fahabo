@@ -7,6 +7,7 @@ import {
 import colors from '@themes/colors';
 import {generateRandomColor} from '@utils/index';
 import i18n from '@locales/index';
+import {BASE_DOMAIN} from '@constants/Constants';
 
 // Transaction
 export function parseTransactions(rawData: any[]): TransactionType[] {
@@ -49,7 +50,8 @@ export function parseTransactionCategory(
 ): TransactionCategoryType {
   const id = get('categoryId', rawData);
   const title = get('title', rawData);
-  const icon = get('icon', rawData);
+  const rawIcon: string = `${get('icon', rawData)}`;
+  const icon = rawIcon.includes('http') ? rawIcon : `${BASE_DOMAIN}${rawIcon}`;
   const translated = get('translated', rawData);
   const type = get('type', rawData);
 

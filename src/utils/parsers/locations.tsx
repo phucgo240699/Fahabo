@@ -5,7 +5,10 @@ import {BASE_DOMAIN} from '@constants/Constants';
 export const parseMemberLocation = (rawData: any): MemberLocationType => {
   const latitude = get('latitude', rawData);
   const longitude = get('longitude', rawData);
-  const avatar = `${BASE_DOMAIN}${get('avatar', rawData)}`;
+  const rawAvatar: string = `${get('avatar', rawData)}`;
+  const avatar = rawAvatar.includes('http')
+    ? rawAvatar
+    : `${BASE_DOMAIN}${rawAvatar}`;
   const name = get('name', rawData);
 
   return {

@@ -42,7 +42,7 @@ const ProfileStack: React.FC<Props> = ({navigation, route}) => {
   return (
     <Stack.Navigator screenOptions={navigationOptions}>
       <Stack.Screen name={ScreenName.ProfileScreen} component={ProfileScreen} />
-      <Stack.Screen name={'CameraScreen'} component={CameraScreen} />
+      {/* <Stack.Screen name={'CameraScreen'} component={CameraScreen} /> */}
       <Stack.Screen
         name={ScreenName.MediaPickerScreen}
         component={MediaPickerScreen}

@@ -32,9 +32,7 @@ export const updateProfileAvatarRequestAction = (
   body,
 });
 export const UPDATE_PROFILE_AVATAR_SUCCESS = 'UPDATE_PROFILE_AVATAR_SUCCESS';
-export const updateProfileAvatarSuccessAction = (
-  payload: UpdateProfileAvatarResponseType,
-) => ({
+export const updateProfileAvatarSuccessAction = (payload: string) => ({
   type: UPDATE_PROFILE_AVATAR_SUCCESS,
   payload,
 });

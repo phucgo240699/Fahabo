@@ -84,3 +84,11 @@ export const parseUpdateProfileResponse = (rawData: any) => {
     ...parseUser(rawData.user),
   };
 };
+
+export const parseUpdateAvatarResponse = (rawData: any) => {
+  const rawAvatar: string = `${get('avatar', rawData)}`;
+  const avatar = rawAvatar.includes('http')
+    ? rawAvatar
+    : `${BASE_DOMAIN}${rawAvatar}`;
+  return avatar;
+};

@@ -1,5 +1,6 @@
 import {get} from 'lodash/fp';
 import {AlbumType, PhotoType} from '@constants/types/albums';
+import {BASE_DOMAIN} from '@constants/Constants';
 
 export function parseAlbums(rawData: any[]): AlbumType[] {
   const result: AlbumType[] = rawData.map((item, index) => {
@@ -9,10 +10,11 @@ export function parseAlbums(rawData: any[]): AlbumType[] {
 }
 
 export function parseAlbum(rawData: any): AlbumType {
+  const rawUri: string = `${get('uri', rawData)}`;
   const id = get('id', rawData);
   const index = get('index', rawData);
   const title = get('title', rawData);
-  const uri = get('uri', rawData);
+  const uri = rawUri.includes('http') ? rawUri : `${BASE_DOMAIN}${rawUri}`;
   const description = get('description', rawData);
   const totalPhotos = get('totalPhotos', rawData);
 
@@ -34,8 +36,9 @@ export function parsePhotos(rawData: any[]): PhotoType[] {
 }
 
 export function parsePhoto(rawData: any): PhotoType {
+  const rawUri: string = `${get('uri', rawData)}`;
   const id = get('id', rawData);
-  const uri = get('uri', rawData);
+  const uri = rawUri.includes('http') ? rawUri : `${BASE_DOMAIN}${rawUri}`;
   const index = get('index', rawData);
   const createdAt = get('createdAt', rawData);
   const updatedAt = get('updatedAt', rawData);

@@ -1,6 +1,6 @@
 import {ToastType} from '@constants/types/session';
 import i18n from '@locales/index';
-import {navigationRef, navigate, navigateReset} from '@navigators/index';
+import {navigationRef, navigate} from '@navigators/index';
 import {
   getProfileApi,
   updatePasswordApi,
@@ -15,13 +15,10 @@ import {
   updateProfileAvatarSuccessAction,
   updateProfileSuccessAction,
   UPDATE_LANGUAGE_REQUEST,
-  UPDATE_LANGUAGE_SUCCESS,
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PROFILE_AVATAR_REQUEST,
-  UPDATE_PROFILE_AVATAR_SUCCESS,
   UPDATE_PROFILE_REQUEST,
-  UPDATE_PROFILE_SUCCESS,
 } from '@store/actionTypes/profile';
 import {
   closeHUDAction,
@@ -30,18 +27,17 @@ import {
 } from '@store/actionTypes/session';
 import {updateIsRefreshingProfileAction} from '@store/actionTypes/profile';
 import {AnyAction} from 'redux';
-import {all, delay, put, select, takeLeading} from 'typed-redux-saga';
+import {all, put, takeLeading} from 'typed-redux-saga';
 import {apiProxy} from './apiProxy';
 import {CommonActions} from '@react-navigation/native';
 import {
+  parseUpdateAvatarResponse,
   parseUpdateProfileResponse,
   parseUser,
 } from '@utils/parsers/authentication';
-import {ScreenName, StackName} from '@constants/Constants';
+import {ScreenName} from '@constants/Constants';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
-import {setGlobalLocale} from '@utils/index';
 import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
-import {userSelector} from '@store/selectors/authentication';
 
 // Avatar
 function* onUpdateProfileAvatarSaga(action: AnyAction) {
@@ -55,7 +51,12 @@ function* onUpdateProfileAvatarSaga(action: AnyAction) {
           ToastType.SUCCESS,
         ),
       );
-      yield* put(updateProfileAvatarSuccessAction(parseDataResponse(response)));
+      yield* put(
+        updateProfileAvatarSuccessAction(
+          parseUpdateAvatarResponse(parseDataResponse(response)),
+        ),
+      );
+      navigate(ScreenName.ProfileScreen);
     } else {
       yield* put(
         showToastAction(
@@ -71,9 +72,6 @@ function* onUpdateProfileAvatarSaga(action: AnyAction) {
   } finally {
     yield* put(closeHUDAction());
   }
-}
-function* onUpdateProfileAvatarSuccessSaga(action: AnyAction) {
-  navigate(ScreenName.ProfileScreen);
 }
 
 // Profile
@@ -117,6 +115,7 @@ function* onUpdateProfileSaga(action: AnyAction) {
           parseUpdateProfileResponse(parseDataResponse(response)),
         ),
       );
+      navigationRef.current.dispatch(CommonActions.goBack());
     } else {
       yield* put(
         showToastAction(
@@ -133,9 +132,6 @@ function* onUpdateProfileSaga(action: AnyAction) {
     yield* put(closeHUDAction());
   }
 }
-function* onUpdateProfileSuccessSaga(action: AnyAction) {
-  navigationRef.current.dispatch(CommonActions.goBack());
-}
 
 // Language
 function* onUpdateLanguageSaga(action: AnyAction) {
@@ -144,15 +140,6 @@ function* onUpdateLanguageSaga(action: AnyAction) {
     const response = yield* apiProxy(updateProfileApi, action.body);
     if (response.status === 200) {
       const data = parseDataResponse(response);
-      // const user = yield* select(userSelector);
-      // console.log('languageCodeChange: ', data.languageCode);
-      // yield* put(
-      //   updateProfileSuccessAction({
-      //     ...user,
-      //     languageCode: data.languageCode,
-      //   }),
-      // );
-      // setGlobalLocale(data.languageCode);
       yield* put(
         showToastAction(
           i18n.t('successMessage.updateLanguage'),
@@ -160,7 +147,6 @@ function* onUpdateLanguageSaga(action: AnyAction) {
         ),
       );
       yield* put(updateLanguageSuccessAction(data.languageCode));
-      // yield* delay(300);
       yield* put(getHomeScreenDataRequestAction());
     } else {
       yield* put(
@@ -178,10 +164,6 @@ function* onUpdateLanguageSaga(action: AnyAction) {
     yield* put(closeHUDAction());
   }
 }
-// function* onUpdateLanguageSuccessSaga(action: AnyAction) {
-//   yield* delay(300);
-//   yield* put(getHomeScreenDataRequestAction());
-// }
 
 // Password
 function* onUpdatePasswordSaga(action: AnyAction) {
@@ -219,15 +201,9 @@ function* onUpdatePasswordSuccessSaga(action: AnyAction) {
 export default function* () {
   yield* all([
     takeLeading(UPDATE_PROFILE_AVATAR_REQUEST, onUpdateProfileAvatarSaga), // Avatar
-    takeLeading(
-      UPDATE_PROFILE_AVATAR_SUCCESS,
-      onUpdateProfileAvatarSuccessSaga,
-    ),
     takeLeading(GET_PROFILE_REQUEST, onGetProfileSaga), // Profile
     takeLeading(UPDATE_PROFILE_REQUEST, onUpdateProfileSaga),
-    takeLeading(UPDATE_PROFILE_SUCCESS, onUpdateProfileSuccessSaga),
     takeLeading(UPDATE_LANGUAGE_REQUEST, onUpdateLanguageSaga), // Language
-    // takeLeading(UPDATE_LANGUAGE_SUCCESS, onUpdateLanguageSuccessSaga),
     takeLeading(UPDATE_PASSWORD_REQUEST, onUpdatePasswordSaga), // Password
     takeLeading(UPDATE_PASSWORD_SUCCESS, onUpdatePasswordSuccessSaga),
   ]);

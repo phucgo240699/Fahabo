@@ -10,9 +10,13 @@ export function parseFamilies(rawData: any[]): FamilyType[] {
 }
 
 export function parseFamily(rawData: any): FamilyType {
+  const rawThumbnail: string = `${get('thumbnail', rawData)}`;
+  const thumbnail = rawThumbnail.includes('http')
+    ? rawThumbnail
+    : `${BASE_DOMAIN}${rawThumbnail}`;
   return {
     id: get('familyId', rawData),
-    thumbnail: get('thumbnail', rawData),
+    thumbnail,
     name: get('familyName', rawData),
     totalMembers: get('memberNum', rawData),
   };
@@ -26,11 +30,15 @@ export function parseMembers(rawData: any[]): MemberType[] {
 }
 
 export function parseMember(rawData: any): MemberType {
+  const rawAvatar: string = `${get('avatar', rawData)}`;
+  const avatar = rawAvatar.includes('http')
+    ? rawAvatar
+    : `${BASE_DOMAIN}${rawAvatar}`;
   return {
     id: get('id', rawData),
     name: get('name', rawData),
     phoneNumber: get('phoneNumber', rawData),
-    avatar: `${BASE_DOMAIN}${get('avatar', rawData)}`,
+    avatar,
     isHost: get('isHost', rawData),
   };
 }

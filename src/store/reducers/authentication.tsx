@@ -65,7 +65,7 @@ export default function authenticationReducer(
         ...state,
         user: {
           ...state.user,
-          avatarUrl: action.payload.avatar.uri,
+          avatarUrl: action.payload,
         },
       };
     case UPDATE_PROFILE_SUCCESS:

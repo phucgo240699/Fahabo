@@ -4,7 +4,10 @@ import {get} from 'lodash/fp';
 
 export function parseAssignee(rawData: any): AssigneeType {
   const id = get('memberId', rawData);
-  const avatar = `${BASE_DOMAIN}${get('avatar', rawData)}`;
+  const rawAvatar: string = `${get('avatar', rawData)}`;
+  const avatar = rawAvatar.includes('http')
+    ? rawAvatar
+    : `${BASE_DOMAIN}${rawAvatar}`;
   const name = get('name', rawData);
   const isHost = get('isHost', rawData);
 
