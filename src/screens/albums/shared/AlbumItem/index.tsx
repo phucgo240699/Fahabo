@@ -50,7 +50,7 @@ const AlbumItem: React.FC<Props> = ({
   return (
     <Box mt={2} mr={4} width={maxWidth}>
       <TouchableOpacity activeOpacity={0.8} onPress={onPressTouchable}>
-        {isNull(item.uri) || item.uri == 'null' ? (
+        {isNull(item.uri) ? (
           <Image
             borderRadius={8}
             width={maxWidth}

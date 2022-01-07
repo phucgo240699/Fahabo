@@ -33,6 +33,7 @@ const AlbumCreationModal: React.FC<Props> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Content
+        shadow={4}
         borderRadius={10}
         width={Constants.MAX_WIDTH - 40}
         backgroundColor={colors.WHITE}>
@@ -52,7 +53,7 @@ const AlbumCreationModal: React.FC<Props> = ({
               borderColor={colors.SILVER}
               onChangeText={onChangeTitle}
             />
-            <FormControl.Label
+            {/* <FormControl.Label
               mt={10}
               _text={{color: colors.DANUBE, fontWeight: 500}}>
               {`${i18n.t('album.description')}:`}
@@ -67,7 +68,7 @@ const AlbumCreationModal: React.FC<Props> = ({
               autoCompleteType="off"
               borderColor={colors.SILVER}
               onChangeText={onChangeDescription}
-            />
+            /> */}
           </FormControl>
         </Modal.Body>
         <Modal.Footer mb={4}>

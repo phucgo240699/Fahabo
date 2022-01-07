@@ -97,12 +97,12 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
   const onChangeTitle = (text: string) => {
     setTitle(text);
   };
-  const onChangeDescription = (text: string) => {
-    setDescription(text);
-  };
+  // const onChangeDescription = (text: string) => {
+  //   setDescription(text);
+  // };
   const onPressCreate = () => {
     setTitle('');
-    setDescription('');
+    // setDescription('');
     setUpdateMode(false);
     onOpen();
   };
@@ -122,7 +122,7 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
   // Update
   const onPressUpdateAlbum = (item: any) => {
     setTitle(item.title);
-    setDescription(item.description);
+    // setDescription(item.description);
     setUpdateMode(true);
     setAlbumIdNeedUpdate(item.id);
     onOpen();
@@ -212,9 +212,9 @@ const AlbumsScreen: React.FC<Props> = ({route}) => {
         onPressSave={onUpdateAlbum}
         onPressCancel={onClose}
         title={title}
-        description={description}
+        // description={description}
         onChangeTitle={onChangeTitle}
-        onChangeDescription={onChangeDescription}
+        // onChangeDescription={onChangeDescription}
       />
     </SafeView>
   );
