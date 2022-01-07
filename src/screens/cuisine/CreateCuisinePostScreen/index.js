@@ -132,46 +132,46 @@ class CreateCuisinePostScreen extends React.Component {
     }
 
     insertVideo() {
-        this.props.showHUD()
-        ImageCropPicker.openPicker({
-            mediaType: 'video',
-          }).then(cropped => {
-            if (isNull(cropped) || isNull(cropped.path) || isNull(cropped.mime)) {
-                this.props.closeHUD()
-            }
-            else {
-                const form = new FormData()
-                const apiCall = new apiProvider()
-                form.append('file', {
-                    uri: cropped.path,
-                    name: 'video.mp4',
-                    type: cropped.mime
-                })
-                // console.log({VIDEO_STORAGE_URL})
-                apiCall.post(`${VIDEO_STORAGE_URL}/upload`, form, {}).then((response) => {
-                    this.props.closeHUD()
-                    // console.log(response.data)
-                    if (response.status === 200 && !isNull(response.data)) {
-                        this.richText.current?.insertHTML(`
-                        <div style="position: relative;overflow: hidden;width=100%;padding-top: 56.25%">
-                            <iframe allowFullScreen src="${VIDEO_STORAGE_URL}/uploads/${response.data}" style="border:0px;position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;"></iframe>
-                        </div>
-                        <div><br></div>
-                        `)
-                        // this.richText.current?.insertVideo(
-                        //     `${VIDEO_STORAGE_URL}/uploads/${response.data}`,
-                        //     'width: 100%;',
-                        // );
-                    }
-                }).catch(error1 => {
-                    this.props.closeHUD()
-                    // console.log({error1})
-                })
-            }
-          }).catch(error2 => {
-            this.props.closeHUD()
-            // console.log({error2})
-          })
+        // this.props.showHUD()
+        // ImageCropPicker.openPicker({
+        //     mediaType: 'video',
+        //   }).then(cropped => {
+        //     if (isNull(cropped) || isNull(cropped.path) || isNull(cropped.mime)) {
+        //         this.props.closeHUD()
+        //     }
+        //     else {
+        //         const form = new FormData()
+        //         const apiCall = new apiProvider()
+        //         form.append('file', {
+        //             uri: cropped.path,
+        //             name: 'video.mp4',
+        //             type: cropped.mime
+        //         })
+        //         // console.log({VIDEO_STORAGE_URL})
+        //         apiCall.post(`${VIDEO_STORAGE_URL}/upload`, form, {}).then((response) => {
+        //             this.props.closeHUD()
+        //             // console.log(response.data)
+        //             if (response.status === 200 && !isNull(response.data)) {
+        //                 this.richText.current?.insertHTML(`
+        //                 <div style="position: relative;overflow: hidden;width=100%;padding-top: 56.25%">
+        //                     <iframe allowFullScreen src="${VIDEO_STORAGE_URL}/uploads/${response.data}" style="border:0px;position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;"></iframe>
+        //                 </div>
+        //                 <div><br></div>
+        //                 `)
+        //                 // this.richText.current?.insertVideo(
+        //                 //     `${VIDEO_STORAGE_URL}/uploads/${response.data}`,
+        //                 //     'width: 100%;',
+        //                 // );
+        //             }
+        //         }).catch(error1 => {
+        //             this.props.closeHUD()
+        //             // console.log({error1})
+        //         })
+        //     }
+        //   }).catch(error2 => {
+        //     this.props.closeHUD()
+        //     // console.log({error2})
+        //   })
     }
 
     onInsertLink() {
@@ -295,7 +295,7 @@ class CreateCuisinePostScreen extends React.Component {
                         actions={[
                             actions.undo,
                             actions.redo,
-                            actions.insertVideo,
+                            // actions.insertVideo,
                             actions.insertImage,
                             actions.setStrikethrough,
                             actions.checkboxList,
