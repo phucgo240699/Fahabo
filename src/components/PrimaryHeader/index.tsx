@@ -133,8 +133,8 @@ const PrimaryHeader: React.FC<Props> = ({
 };
 
 const Container = styled.View<{searchingMode: boolean}>`
-  height: 46px;
-  padding-top: 6px;
+  height: 44px;
+  margin-top: 6px;
   padding-left: 10px;
   padding-right: 10px;
   flex-direction: row;

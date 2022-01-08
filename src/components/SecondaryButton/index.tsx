@@ -76,6 +76,7 @@ const SecondaryButton: React.FC<Props> = ({
 const Container = styled.TouchableOpacity<ContainerProps>`
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   height: 50px;
   border-width: 1px;
   border-radius: 25px;

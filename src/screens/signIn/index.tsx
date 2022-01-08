@@ -120,7 +120,7 @@ const SignInScreen = () => {
 
           <ButtonArea>
             <SecondaryButton
-              leftIcon={<EmptyIconView />}
+              // leftIcon={<EmptyIconView />}
               title={i18n.t('authentication.signIn.manualSignIn')}
               onPress={onPressLoginManually}
             />
@@ -209,6 +209,7 @@ const ButtonArea = styled.View`
   margin-top: 50px;
   margin-left: 20px;
   margin-right: 20px;
+  max-width: 340px;
 `;
 
 const EmptyIconView = styled.View`
