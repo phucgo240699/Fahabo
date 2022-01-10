@@ -295,6 +295,7 @@
       "fail": "System error."
     },
     "validation": {
+      "toBeforeFromInValid": "Date in 'To' field must be before date in 'From' field.",
       "cuisinePostNotExist": "Cuisine post id does not exist.",
       "unavailableRoom": "The call has ended or not available",
       "transactionIdNotExist": "Transaction id does not exist.",

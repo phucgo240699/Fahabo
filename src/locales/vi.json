@@ -295,6 +295,7 @@
       "fail": "Lỗi hệ thống."
     },
     "validation": {
+      "toBeforeFromInValid": "Thời điểm kết thúc sự kiện phải sau thời điểm bắt đầu.",
       "cuisinePostNotExist": "Bài đăng không tồn tại.",
       "unavailableRoom": "Cuộc gọi đã kết thúc hoặc không khả dụng",
       "transactionIdNotExist": "Giao dịch không tồn tại.",
