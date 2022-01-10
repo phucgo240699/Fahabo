@@ -130,8 +130,8 @@ const SignInScreen = () => {
                 backgroundColor={colors.BLACK}
                 leftIcon={
                   <PrimaryIcon
-                    width={36}
-                    height={36}
+                    width={20}
+                    height={20}
                     tintColor={colors.WHITE}
                     source={appleIcon}
                   />
@@ -146,7 +146,7 @@ const SignInScreen = () => {
               backgroundColor={'#4680ec'}
               leftIcon={
                 <WhiteIconWrapper>
-                  <PrimaryIcon width={36} height={36} source={googleIcon} />
+                  <PrimaryIcon width={20} height={20} source={googleIcon} />
                 </WhiteIconWrapper>
               }
               title={i18n.t('authentication.signIn.googleSignIn')}
@@ -158,7 +158,7 @@ const SignInScreen = () => {
               backgroundColor={'#324f9a'}
               leftIcon={
                 <WhiteIconWrapper>
-                  <PrimaryIcon width={36} height={36} source={facebookIcon} />
+                  <PrimaryIcon width={20} height={20} source={facebookIcon} />
                 </WhiteIconWrapper>
               }
               title={i18n.t('authentication.signIn.facebookSignIn')}
@@ -201,6 +201,7 @@ const Banner = styled.Image`
 `;
 
 const WhiteIconWrapper = styled.View`
+  margin-right: 2px;
   border-radius: 18px;
   background-color: #ffffff;
 `;
@@ -210,11 +211,6 @@ const ButtonArea = styled.View`
   margin-left: 20px;
   margin-right: 20px;
   max-width: 340px;
-`;
-
-const EmptyIconView = styled.View`
-  width: 36px;
-  height: 36px;
 `;
 
 const styles = StyleSheet.create({

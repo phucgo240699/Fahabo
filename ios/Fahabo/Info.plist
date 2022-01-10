@@ -82,15 +82,15 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>This feature need to access camera</string>
+	<string>Require camera for update user&apos;s avatar, family&apos;s thumbnail. Attach photos into chores, events, transaction, cuisine post</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This feature need to access location</string>
+	<string>Require location to share your location to family members</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>This feature need to access microphone</string>
+	<string>Require microphone to make a call</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This feature need to access gallery</string>
+	<string>Require gallery for update user&apos;s avatar, family&apos;s thumbnail. Attach photos into chores, events, transaction, cuisine post, album</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This feature need to access gallery</string>
+	<string>Require gallery for update user&apos;s avatar, family&apos;s thumbnail. Attach photos into chores, events, transaction, cuisine post, album</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Bold.ttf</string>

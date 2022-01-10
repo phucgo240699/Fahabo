@@ -13,9 +13,9 @@
       "signUpLabel": "Don't have an account?",
       "signUp": "Sign up",
       "manualSignIn": "Sign in with email",
-      "appleSignIn": "Sign in with apple",
-      "googleSignIn": "Sign in with google",
-      "facebookSignIn": "Sign in with facebook"
+      "appleSignIn": "Sign in with Apple",
+      "googleSignIn": "Sign in with Google",
+      "facebookSignIn": "Sign in with Facebook"
     },
     "signUp": {
       "signUp": "Sign up",

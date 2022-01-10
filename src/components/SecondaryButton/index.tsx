@@ -77,9 +77,9 @@ const Container = styled.TouchableOpacity<ContainerProps>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 50px;
+  height: 40px;
   border-width: 1px;
-  border-radius: 25px;
+  border-radius: 5px;
   padding-horizontal: 30px;
   margin-top: ${props => props.marginTop ?? 0}px;
   margin-bottom: ${props => props.marginBottom ?? 0}px;
@@ -97,14 +97,14 @@ const Container = styled.TouchableOpacity<ContainerProps>`
       : props.backgroundColor ?? colors.THEME_COLOR_6};
 `;
 
-const Title = styled(fonts.PrimaryFontBoldSize16)<TitleProps>`
+const Title = styled(fonts.PrimaryFontMediumSize16)<TitleProps>`
   color: ${props =>
     props.disabled === true
       ? props.titleColor ?? colors.WHITE
       : props.transparent === true
       ? props.backgroundColor ?? colors.THEME_COLOR_6
       : props.titleColor ?? colors.WHITE};
-  padding-horizontal: 20px;
+  padding-horizontal: 5px;
 `;
 
 export default SecondaryButton;

@@ -269,6 +269,7 @@ const SignUpScreen: React.FC<Props> = ({route}) => {
             <HStack alignItems="center" justifyContent="center">
               {Platform.OS === 'ios' && (
                 <ThirdPartyAuthButton
+                  isAppleBtn
                   sourceIcon={appleIcon}
                   onPress={onSignUpWithApple}
                 />
