@@ -554,6 +554,7 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
             locale={i18n.locale}
             open={visibleToDatePicker}
             date={to}
+            minimumDate={new Date()}
             textColor={colors.BLACK}
             timeZoneOffsetInMinutes={timeZoneOffset}
             onDateChange={onToDatePickerChange}

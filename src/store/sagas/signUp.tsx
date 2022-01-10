@@ -44,20 +44,32 @@ import {
 import {showResetPasswordLinkModalAction} from '@store/actionTypes/modals';
 import {parseDataResponse, parseErrorResponse} from '@utils/parsers';
 import {getHomeScreenDataRequestAction} from '@store/actionTypes/screens';
+import {AuthType, SignUpRequestType} from '@constants/types/authentication';
 
-function* onSignUpRequest(action: AnyAction) {
+function* onSignUpRequest({body}: {type: string; body: SignUpRequestType}) {
   try {
     yield* put(showHUDAction());
-    const response = yield* call(signUp, action.body);
+    const response = yield* call(signUp, body);
     if (response.status === 200) {
       yield* put(
         signUpSuccessAction(
           parseSignUpResponse({
             ...parseDataResponse(response),
-            password: action.body.password,
+            password: body.password,
           }),
         ),
       );
+      if (body.authType === AuthType.MANUAL_AUTH) {
+        navigate(
+          ScreenName.PinCodeScreen,
+          parseSignUpResponse({
+            ...parseDataResponse(response),
+            password: body.password,
+          }),
+        );
+      } else {
+        navigate(ScreenName.FamilyOptionsScreen, {allowNavigateBack: true});
+      }
     } else {
       yield* put(
         showToastAction(
@@ -75,11 +87,11 @@ function* onSignUpRequest(action: AnyAction) {
   }
 }
 
-function* onSignUpSuccess(action: AnyAction) {
-  navigate(ScreenName.PinCodeScreen, {
-    ...action.payload,
-  });
-}
+// function* onSignUpSuccess(action: AnyAction) {
+//   navigate(ScreenName.PinCodeScreen, {
+//     ...action.payload,
+//   });
+// }
 
 function* onGetCountryCodeRequest(action: AnyAction) {
   try {
@@ -297,7 +309,7 @@ function* onForgotPasswordSuccess(action: AnyAction) {
 export default function* () {
   yield* all([
     takeLeading(SIGN_UP_REQUEST, onSignUpRequest),
-    takeLeading(SIGN_UP_SUCCESS, onSignUpSuccess),
+    // takeLeading(SIGN_UP_SUCCESS, onSignUpSuccess),
     takeLeading(GET_COUNTRY_CODE_REQUEST, onGetCountryCodeRequest),
     takeLeading(GET_OTP_REQUEST, onGetOTPRequest),
     takeLeading(GET_OTP_REQUEST_BACKGROUND, onGetOTPRequestBackground),
