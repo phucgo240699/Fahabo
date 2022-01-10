@@ -119,10 +119,10 @@ const CuisinePostsScreen = () => {
         timeStamp: today.getTime().toString(),
         authorId: user?.id,
         authorName: user?.name,
-        authorAvatar: user?.avatarUrl,
+        authorAvatar: user?.rawAvatarUrl,
         cuisinePostId: item.id,
         cuisinePostTitle: item.title,
-        cuisinePostThumbnail: item.thumbnail,
+        cuisinePostThumbnail: item.rawThumbnail,
         type: 'cuisine_post',
       }),
     );

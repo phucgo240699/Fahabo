@@ -105,7 +105,7 @@ function ChatScreen(props) {
           timeStamp: today.getTime().toString(),
           authorId: user?.id,
           authorName: user?.name,
-          authorAvatar: user?.avatarUrl,
+          authorAvatar: user?.rawAvatarUrl,
           text: text,
           type: 'text'
         }),

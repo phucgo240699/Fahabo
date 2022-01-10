@@ -9,7 +9,7 @@ import {
   userSelector,
 } from '@store/selectors/authentication';
 import {Avatar} from 'native-base';
-import {Constants} from '@constants/Constants';
+import {BASE_DOMAIN, Constants} from '@constants/Constants';
 
 interface Props {
   item: MessageType;
@@ -28,7 +28,7 @@ const TextMessageItem: React.FC<Props> = ({item}) => {
             mr={1}
             size={'sm'}
             source={{
-              uri: item.user?.avatar,
+              uri: `${BASE_DOMAIN}${item.user?.avatar}`,
               headers: {
                 Authorization: `Bearer ${accessToken}`,
               },
@@ -44,7 +44,7 @@ const TextMessageItem: React.FC<Props> = ({item}) => {
 };
 
 const Container = styled.View`
-  margin: 10px;
+  margin: 8px;
 `;
 
 const Content = styled.View<{isAuthor: boolean}>`

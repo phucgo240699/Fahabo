@@ -69,6 +69,7 @@ export type AuthenticationResponseType = {
   birthday?: string;
   languageCode?: string;
   avatarUrl?: string;
+  rawAvatarUrl?: string;
   totalFamilies?: number;
   authType?: {
     id?: AuthType;

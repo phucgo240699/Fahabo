@@ -31,13 +31,13 @@ import {
   SendMessageRequestType,
 } from '@constants/types/interactions';
 import {isNull} from '@utils/index';
-import {getProfileApi} from '@services/profile';
-import {GetMyProfileRequestType} from '@constants/types/profile';
-import {getProfileSuccessAction} from '@store/actionTypes/profile';
-import {parseUser} from '@utils/parsers/authentication';
+// import {getProfileApi} from '@services/profile';
+// import {GetMyProfileRequestType} from '@constants/types/profile';
+// import {getProfileSuccessAction} from '@store/actionTypes/profile';
+// import {parseUser} from '@utils/parsers/authentication';
 import firestore from '@react-native-firebase/firestore';
-import {userSelector} from '@store/selectors/authentication';
-import {focusFamilySelector} from '@store/selectors/family';
+// import {userSelector} from '@store/selectors/authentication';
+// import {focusFamilySelector} from '@store/selectors/family';
 
 function* sendMessageSaga({
   body,

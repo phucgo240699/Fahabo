@@ -65,7 +65,8 @@ export default function authenticationReducer(
         ...state,
         user: {
           ...state.user,
-          avatarUrl: action.payload,
+          avatarUrl: action.payload.avatar,
+          rawAvatarUrl: action.payload.rawAvatar,
         },
       };
     case UPDATE_PROFILE_SUCCESS:
@@ -143,6 +144,7 @@ export default function authenticationReducer(
           languageCode: undefined, //state.user?.languageCode,
           birthday: undefined,
           avatarUrl: undefined,
+          rawAvatarUrl: undefined,
           totalFamilies: undefined,
           authType: undefined,
         },

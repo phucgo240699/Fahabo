@@ -27,6 +27,7 @@ export function parseCuisinePost(rawData: any): CuisinePostType {
     id,
     title,
     thumbnail,
+    rawThumbnail,
     content,
     updatedAt,
     angryRatings,
@@ -77,5 +78,6 @@ export function parseCuisineAuthor(rawData: any): CuisineAuthorType {
     id,
     name,
     avatar,
+    rawAvatar,
   };
 }

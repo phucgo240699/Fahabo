@@ -91,6 +91,7 @@ export type CuisinePostType = {
   id?: number;
   title?: string;
   thumbnail?: string;
+  rawThumbnail?: string;
   content?: string;
   updatedAt?: string;
   angryRatings?: number;
@@ -115,6 +116,7 @@ export type CuisineAuthorType = {
   id?: number;
   name?: string;
   avatar?: string;
+  rawAvatar?: string;
 };
 
 export enum CuisinePostEmoji {

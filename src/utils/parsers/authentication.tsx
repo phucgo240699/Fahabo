@@ -43,6 +43,7 @@ export function parseUser(rawData: any): AuthenticationResponseType {
     birthday: get('birthday', rawData),
     languageCode: get('languageCode', rawData),
     avatarUrl: avatar,
+    rawAvatarUrl: rawAvatar,
     totalFamilies: get('familyNum', rawData),
     authType: {
       id: get('authType.id', rawData),
@@ -90,5 +91,5 @@ export const parseUpdateAvatarResponse = (rawData: any) => {
   const avatar = rawAvatar.includes('http')
     ? rawAvatar
     : `${BASE_DOMAIN}${rawAvatar}`;
-  return avatar;
+  return {avatar, rawAvatar};
 };

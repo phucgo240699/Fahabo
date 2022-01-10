@@ -9,7 +9,7 @@ import {
   userSelector,
 } from '@store/selectors/authentication';
 import {Avatar} from 'native-base';
-import {Constants} from '@constants/Constants';
+import {BASE_DOMAIN, Constants} from '@constants/Constants';
 
 interface Props {
   item: MessageType;
@@ -35,7 +35,7 @@ const SharedCuisinePostMessageItem: React.FC<Props> = ({item, onPress}) => {
             mr={1}
             size={'sm'}
             source={{
-              uri: item.user?.avatar,
+              uri: `${BASE_DOMAIN}${item.user?.avatar}`,
               headers: {
                 Authorization: `Bearer ${accessToken}`,
               },
@@ -49,7 +49,9 @@ const SharedCuisinePostMessageItem: React.FC<Props> = ({item, onPress}) => {
           <Title isAuthor={user?.id == item.user?._id}>
             {item.cuisinePost?.title}
           </Title>
-          <Thumbnail source={{uri: item.cuisinePost?.thumbnail}} />
+          <Thumbnail
+            source={{uri: `${BASE_DOMAIN}${item.cuisinePost?.thumbnail}`}}
+          />
         </CuisineWrapper>
       </Content>
     </Container>
@@ -57,7 +59,7 @@ const SharedCuisinePostMessageItem: React.FC<Props> = ({item, onPress}) => {
 };
 
 const Container = styled.View`
-  margin: 10px;
+  margin: 8px;
 `;
 
 const Content = styled.View<{isAuthor: boolean}>`
