@@ -77,7 +77,7 @@ const PinCodeScreen: React.FC<Props> = ({route, fromForgotPassword}) => {
         verifyUsernameRequestAction({
           otp: value,
           username: username,
-          password: route.params.password,
+          password: user?.password,
         }),
       );
     }

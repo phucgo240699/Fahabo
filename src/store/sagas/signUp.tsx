@@ -51,15 +51,15 @@ function* onSignUpRequest({body}: {type: string; body: SignUpRequestType}) {
     yield* put(showHUDAction());
     const response = yield* call(signUp, body);
     if (response.status === 200) {
-      yield* put(
-        signUpSuccessAction(
-          parseSignUpResponse({
-            ...parseDataResponse(response),
-            password: body.password,
-          }),
-        ),
-      );
       if (body.authType === AuthType.MANUAL_AUTH) {
+        yield* put(
+          signUpSuccessAction(
+            parseSignUpResponse({
+              ...parseDataResponse(response),
+              password: body.password,
+            }),
+          ),
+        );
         navigate(
           ScreenName.PinCodeScreen,
           parseSignUpResponse({
@@ -68,6 +68,14 @@ function* onSignUpRequest({body}: {type: string; body: SignUpRequestType}) {
           }),
         );
       } else {
+        yield* put(
+          verifyUserSuccessAction(
+            parseVerifyResponse({
+              ...parseDataResponse(response),
+              password: body.password,
+            }),
+          ),
+        );
         navigate(ScreenName.FamilyOptionsScreen, {allowNavigateBack: true});
       }
     } else {

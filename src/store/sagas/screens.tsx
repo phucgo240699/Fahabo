@@ -5,6 +5,7 @@ import {navigateReset} from '@navigators/index';
 import {getChoresApi} from '@services/chores';
 import {getCuisinePostsApi} from '@services/cuisine';
 import {getFamilyMembersApi, getMyFamiliesApi} from '@services/family';
+import {getProfileApi} from '@services/profile';
 import {getTransactionsApi} from '@services/transactions';
 import {getChoresSuccessAction} from '@store/actionTypes/chores';
 import {getCuisinePostsSuccessAction} from '@store/actionTypes/cuisine';
@@ -15,6 +16,7 @@ import {
   updateFocusFamilySuccessAction,
 } from '@store/actionTypes/family';
 import {getBadgesRequestAction} from '@store/actionTypes/notifications';
+import {getProfileSuccessAction} from '@store/actionTypes/profile';
 import {GET_HOME_SCREEN_DATA} from '@store/actionTypes/screens';
 import {
   closeHUDAction,
@@ -38,6 +40,7 @@ import {
   parseErrorResponse,
   parseErrorsResponse,
 } from '@utils/parsers';
+import {parseUser} from '@utils/parsers/authentication';
 import {parseChores} from '@utils/parsers/chores';
 import {parseCuisinePosts} from '@utils/parsers/cuisine';
 import {parseFamilies, parseMembers} from '@utils/parsers/family';
@@ -49,7 +52,6 @@ import {apiProxy} from './apiProxy';
 function* getHomeScreenDataSaga(action: AnyAction) {
   try {
     const languageCode = yield* select(languageCodeSelector);
-    console.log('languageCodeScreen: ', languageCode);
     if (!isNull(languageCode)) {
       setGlobalLocale(languageCode ?? '');
     } else {
@@ -58,6 +60,7 @@ function* getHomeScreenDataSaga(action: AnyAction) {
     }
     yield* delay(100);
     navigateReset(StackName.MainStack);
+    yield* put(updateRouteNameAction(StackName.HomeStack));
     yield* put(showHUDAction());
     let focusFamily = yield* select(focusFamilySelector);
 
@@ -88,12 +91,14 @@ function* getHomeScreenDataSaga(action: AnyAction) {
     if (!isNull(focusFamily)) {
       const today = new Date();
       const [
+        profileResponse,
         choresResponse,
         membersResponse,
         transactionsResponse,
         cuisineResponse,
         badgeResponse,
       ] = yield* all([
+        apiProxy(getProfileApi, {}),
         apiProxy(getChoresApi, {familyId: focusFamily?.id}),
         apiProxy(getFamilyMembersApi, {familyId: focusFamily?.id}),
         apiProxy(getTransactionsApi, {
@@ -104,18 +109,44 @@ function* getHomeScreenDataSaga(action: AnyAction) {
         apiProxy(getCuisinePostsApi, {searchText: ''}),
         put(getBadgesRequestAction({familyId: focusFamily?.id})),
       ]);
-      if (
-        (choresResponse as any).status === 200 &&
-        (membersResponse as any).status === 200 &&
-        (transactionsResponse as any).status === 200 &&
-        (cuisineResponse as any).status
-      ) {
-        yield* all([
-          put(
-            getChoresSuccessAction(
-              parseChores(parseDataResponse(choresResponse)),
-            ),
+
+      // Profile
+      if ((profileResponse as any).status === 200) {
+        yield* put(
+          getProfileSuccessAction(
+            parseUser(parseDataResponse(profileResponse)),
           ),
+        );
+      } else {
+        if (parseErrorsResponse(profileResponse).length > 0) {
+          yield* put(
+            showToastAction(
+              i18n.t(`backend.${parseErrorResponse(profileResponse)}`),
+              ToastType.ERROR,
+            ),
+          );
+        }
+      }
+
+      // Chores
+      if ((choresResponse as any).status === 200) {
+        yield* put(
+          getChoresSuccessAction(
+            parseChores(parseDataResponse(choresResponse)),
+          ),
+        );
+      } else {
+        yield* put(
+          showToastAction(
+            i18n.t(`backend.${parseErrorResponse(choresResponse)}`),
+            ToastType.ERROR,
+          ),
+        );
+      }
+
+      // Members
+      if ((membersResponse as any).status === 200) {
+        yield* all([
           put(
             getFamilyMembersSuccessAction(
               parseMembers(parseDataResponse(membersResponse)),
@@ -126,52 +157,46 @@ function* getHomeScreenDataSaga(action: AnyAction) {
               parseMembers(parseDataResponse(membersResponse)),
             ),
           ),
-          put(
-            getTransactionsSuccessAction(
-              parseTransactions(parseDataResponse(transactionsResponse)),
-            ),
-          ),
-          put(
-            getCuisinePostsSuccessAction(
-              parseCuisinePosts(parseDataResponse(cuisineResponse)),
-            ),
-          ),
-          put(updateRouteNameAction(StackName.HomeStack)),
         ]);
       } else {
-        if (parseErrorsResponse(choresResponse).length > 0) {
-          yield* put(
-            showToastAction(
-              i18n.t(`backend.${parseErrorResponse(choresResponse)}`),
-              ToastType.ERROR,
-            ),
-          );
-        } else if (parseErrorsResponse(membersResponse).length > 0) {
-          yield* put(
-            showToastAction(
-              i18n.t(`backend.${parseErrorResponse(membersResponse)}`),
-              ToastType.ERROR,
-            ),
-          );
-        } else if (parseErrorsResponse(transactionsResponse).length > 0) {
-          yield* put(
-            showToastAction(
-              i18n.t(`backend.${parseErrorResponse(transactionsResponse)}`),
-              ToastType.ERROR,
-            ),
-          );
-        } else if (parseErrorsResponse(cuisineResponse).length > 0) {
-          yield* put(
-            showToastAction(
-              i18n.t(`backend.${parseErrorResponse(cuisineResponse)}`),
-              ToastType.ERROR,
-            ),
-          );
-        } else {
-          yield* put(
-            showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
-          );
-        }
+        yield* put(
+          showToastAction(
+            i18n.t(`backend.${parseErrorResponse(membersResponse)}`),
+            ToastType.ERROR,
+          ),
+        );
+      }
+
+      // Transactions
+      if ((transactionsResponse as any).status === 200) {
+        yield* put(
+          getTransactionsSuccessAction(
+            parseTransactions(parseDataResponse(transactionsResponse)),
+          ),
+        );
+      } else {
+        yield* put(
+          showToastAction(
+            i18n.t(`backend.${parseErrorResponse(transactionsResponse)}`),
+            ToastType.ERROR,
+          ),
+        );
+      }
+
+      // Cuisine
+      if ((cuisineResponse as any).status) {
+        yield* put(
+          getCuisinePostsSuccessAction(
+            parseCuisinePosts(parseDataResponse(cuisineResponse)),
+          ),
+        );
+      } else {
+        yield* put(
+          showToastAction(
+            i18n.t(`backend.${parseErrorResponse(cuisineResponse)}`),
+            ToastType.ERROR,
+          ),
+        );
       }
     }
   } catch (error) {
