@@ -21,11 +21,15 @@ const TransactionHeader: React.FC<Props> = ({
       <RightContent>
         <RowBox>
           <IncomeLabel>{`${i18n.t('transaction.income')}:`}</IncomeLabel>
-          <IncomeText>{getNumberWithCommas(totalIncome)}</IncomeText>
+          <IncomeText numberOfLines={1}>
+            {getNumberWithCommas(totalIncome)}
+          </IncomeText>
         </RowBox>
         <RowBox>
           <IncomeLabel>{`${i18n.t('transaction.expense')}:`}</IncomeLabel>
-          <ExpenseText>{`-${getNumberWithCommas(totalExpense)}`}</ExpenseText>
+          <ExpenseText numberOfLines={1}>{`-${getNumberWithCommas(
+            totalExpense,
+          )}`}</ExpenseText>
         </RowBox>
       </RightContent>
       <VLine />
@@ -73,15 +77,15 @@ const CashLabel = styled(fonts.PrimaryFontRegularSize12)`
 const MoneyText = styled(fonts.PrimaryFontBoldSize14)``;
 
 const IncomeLabel = styled(fonts.PrimaryFontMediumSize14)`
+  width: 80px;
   color: ${colors.SILVER};
 `;
 
 const IncomeText = styled(fonts.PrimaryFontBoldSize14)`
-  margin-left: 30px;
+  margin-left: 5px;
   color: ${colors.GREEN_1};
 `;
 const ExpenseText = styled(fonts.PrimaryFontBoldSize14)`
-  margin-left: 18px;
   color: ${colors.RED_1};
 `;
 

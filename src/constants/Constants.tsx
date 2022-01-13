@@ -113,7 +113,7 @@ export const Pagination = {
   Events: 10,
   EventPhotos: 24,
   Notifications: 10,
-  Transactions: 10,
+  Transactions: 20,
   TransactionPhotos: 24,
   TransactionCategories: 20,
   CuisinePosts: 10,

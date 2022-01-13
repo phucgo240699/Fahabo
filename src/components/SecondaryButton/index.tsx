@@ -90,11 +90,11 @@ const Container = styled.TouchableOpacity<ContainerProps>`
       ? colors.SILVER
       : props.transparent === true
       ? 'transparent'
-      : props.backgroundColor ?? colors.THEME_COLOR_6};
+      : props.backgroundColor ?? colors.THEME_COLOR_7};
   border-color: ${props =>
     props.disabled === true
       ? colors.SILVER
-      : props.backgroundColor ?? colors.THEME_COLOR_6};
+      : props.backgroundColor ?? colors.THEME_COLOR_7};
 `;
 
 const Title = styled(fonts.PrimaryFontMediumSize16)<TitleProps>`
@@ -102,7 +102,7 @@ const Title = styled(fonts.PrimaryFontMediumSize16)<TitleProps>`
     props.disabled === true
       ? props.titleColor ?? colors.WHITE
       : props.transparent === true
-      ? props.backgroundColor ?? colors.THEME_COLOR_6
+      ? props.backgroundColor ?? colors.THEME_COLOR_7
       : props.titleColor ?? colors.WHITE};
   padding-horizontal: 5px;
 `;
