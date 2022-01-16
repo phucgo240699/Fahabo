@@ -1,18 +1,10 @@
-Always add the code from README.jpg to node_modules/react-native-gifted-chat/lib/MessageContainer.js:
+Instruction for setting up this project:
+1. npm ci
+2. npx jestify
+3. npx pod-install
 
-this.attachKeyboardListeners = () => {
-const { invertibleScrollViewProps: invertibleProps } = this.props;
-if (invertibleProps) {
-this.willShowSub = Keyboard.addListener('keyboardWillShow', invertibleProps.onKeyboardWillShow);
-this.didShowSub = Keyboard.addListener('keyboardDidShow', invertibleProps.onKeyboardDidShow);
-this.willHideSub = Keyboard.addListener('keyboardWillHide', invertibleProps.onKeyboardWillHide);
-this.didHideSub = Keyboard.addListener('keyboardDidHide', invertibleProps.onKeyboardDidHide);
-}
-};
-this.detachKeyboardListeners = () => {
-const { invertibleScrollViewProps: invertibleProps } = this.props;
-this.willShowSub?.remove();
-this.didShowSub?.remove();
-this.willHideSub?.remove();
-this.didHideSub?.remove();
-};
+To run on iOS:
+npx react-native run-ios
+
+To run on Android:
+npx react-native run-android

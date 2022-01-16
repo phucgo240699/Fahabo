@@ -110,37 +110,6 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
     // Foreground
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       dispatch(handleNotificationInForegroundAction());
-      // const _routeName = getFocusedRouteNameFromRoute(route);
-      // console.log({Foreground: remoteMessage});
-      // console.log({_routeName});
-      // if (!isNull(focusFamily?.id)) {
-      //   switch (_routeName) {
-      //     case StackName.InteractionsStack:
-      //       dispatch(
-      //         clearInteractionBadgeRequestAction({familyId: focusFamily?.id}),
-      //       );
-      //       dispatch(
-      //         getBadgesRequestAction({
-      //           familyId: focusFamily?.id,
-      //           onlyNotification: true,
-      //         }),
-      //       );
-      //       break;
-      //     case StackName.NotificationsStack:
-      //       dispatch(clearNotificationBadgeRequestAction());
-      //       dispatch(
-      //         getBadgesRequestAction({
-      //           familyId: focusFamily?.id,
-      //           onlyInteraction: true,
-      //         }),
-      //       );
-      //       dispatch(getNotificationsRequestAction({getting: true}));
-      //       break;
-      //     default:
-      //       dispatch(getBadgesRequestAction({familyId: focusFamily?.id}));
-      //       break;
-      //   }
-      // }
     });
 
     return unsubscribe;

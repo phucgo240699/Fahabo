@@ -315,20 +315,6 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
       }
     } else {
       if (!isNull(focusFamily?.id)) {
-        // console.log({
-        //   familyId: focusFamily?.id,
-        //   type: selectedCategory?.type,
-        //   note: note,
-        //   categoryId: selectedCategory?.id,
-        //   repeatType: repeat === RepeatType.NONE ? '' : repeat,
-        //   date: getOriginDateString(date),
-        //   cost: cost,
-        //   photos: selectedPhotos.map((item, index) => {
-        //     if (index < Constants.LIMIT_PHOTO_UPLOAD) {
-        //       return item.base64;
-        //     }
-        //   }),
-        // });
         dispatch(
           createTransactionRequestAction({
             familyId: focusFamily?.id,

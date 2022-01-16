@@ -145,13 +145,7 @@ function* onGetOTPRequest(action: AnyAction) {
 function* onGetOTPRequestBackground(action: AnyAction) {
   try {
     const response = yield* call(getOTP, action.body);
-    if (response.status === 200) {
-      // console.log(i18n.t(`successMessage.gotOTP ${action.body.username}`));
-    } else {
-      // console.log(i18n.t(`backend.${parseErrorResponse(response)}`));
-    }
   } catch (error) {
-    // console.log({error});
   } finally {
     yield* put(closeHUDAction());
   }
