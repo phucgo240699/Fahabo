@@ -47,9 +47,6 @@ function* onSignInRequest(action: AnyAction) {
       if (data.isValidEmail === true) {
         // Check is join Family
         if (data.user.familyNum > 0) {
-          // if (!isNull(data.user.languageCode)) {
-          //   setGlobalLocale(data.user.languageCode);
-          // }
           yield* put(
             signInSuccessAction(
               parseSignInResponse({
@@ -61,9 +58,6 @@ function* onSignInRequest(action: AnyAction) {
 
           yield* put(getHomeScreenDataRequestAction());
         } else {
-          // if (!isNull(data.user.languageCode)) {
-          //   setGlobalLocale(data.user.languageCode);
-          // }
           yield* put(
             signInSuccessAction(
               parseSignInResponse({
@@ -106,45 +100,37 @@ function* onSignInRequest(action: AnyAction) {
 // Call from FlashScreen
 function* onAutoSignInRequest(action: AnyAction) {
   try {
-    const accessToken = yield* select(accessTokenSelector);
-    const refreshToken = yield* select(refreshTokenSelector);
-    if (!isNull(accessToken) && !isNull(refreshToken)) {
-      yield* put(getHomeScreenDataRequestAction());
-    }
-    // else if (!isNull(action.body.username) && !isNull(action.body.password)) {
-    //   const response = yield* call(signIn, action.body);
-    //   // Check is Active
-    //   if (response.status === 200 && response.data.data.isValidEmail === true) {
-    //     const data = parseDataResponse(response);
-    //     // Check is join Family
-    //     if (data.user.familyNum > 0) {
-    //       if (!isNull(data.user.languageCode)) {
-    //         setGlobalLocale(data.user.languageCode);
-    //       }
-    //       yield* put(
-    //         autoSignInSuccessAction(
-    //           parseSignInResponse({
-    //             ...data,
-    //             password: action.body.password,
-    //           }),
-    //         ),
-    //       );
+    if (!isNull(action.body.username) && !isNull(action.body.password)) {
+      const response = yield* call(signIn, action.body);
+      // Check is Active
+      if (response.status === 200) {
+        if (response.data.data.isValidEmail === true) {
+          const data = parseDataResponse(response);
+          // Check is join Family
+          if (data.user.familyNum > 0) {
+            yield* put(
+              autoSignInSuccessAction(
+                parseSignInResponse({
+                  ...data,
+                  password: action.body.password,
+                }),
+              ),
+            );
 
-    //       yield* put(getHomeScreenDataRequestAction());
-    //       return;
-    //     }
-    //   }
-    // }
-    else {
+            yield* put(getHomeScreenDataRequestAction());
+            return;
+          } else {
+            navigateReset(StackName.AuthenticationStack);
+          }
+        } else {
+          navigateReset(StackName.AuthenticationStack);
+        }
+      } else {
+        navigateReset(StackName.AuthenticationStack);
+      }
+    } else {
       navigateReset(StackName.AuthenticationStack);
     }
-    // const languageCode = yield* select(languageCodeSelector);
-    // if (!isNull(languageCode)) {
-    //   setGlobalLocale(languageCode ?? '');
-    // } else {
-    //   // Device language
-    //   setGlobalLocale(getDefaultLanguageCode());
-    // }
   } catch (error) {
     navigateReset(StackName.AuthenticationStack);
   } finally {

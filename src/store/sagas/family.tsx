@@ -165,6 +165,7 @@ function* leaveFamilySaga({
       navigationRef.current.dispatch(CommonActions.goBack());
       if (body.familyId === focusFamily?.id) {
         yield* put(updateFocusFamilyRequestAction(undefined));
+        yield* put(getHomeScreenDataRequestAction())
       }
     } else {
       yield* put(
