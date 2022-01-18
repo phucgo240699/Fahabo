@@ -51,6 +51,7 @@ import {
   updateEventRequestAction,
 } from '@store/actionTypes/events';
 import {accessTokenSelector} from '@store/selectors/authentication';
+import {KeyboardAwareScrollView} from '@codler/react-native-keyboard-aware-scroll-view';
 
 interface Props {
   route?: any;
@@ -149,11 +150,6 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
       );
     }
   }, [eventPhotos]);
-
-  // Keyboard
-  const onDismissKeyboard = () => {
-    Keyboard.dismiss();
-  };
 
   // Input
   const onChangeTitle = (text: string) => {
@@ -386,197 +382,198 @@ const CreateEventScreen: React.FC<Props> = ({route}) => {
         }
       />
 
-      <Container onPress={onDismissKeyboard}>
-        <Content
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scroll}>
-          {/* Title */}
-          <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
-            <Label>{`${i18n.t('events.title')}* :`}</Label>
-            <Input
-              mt={-1}
-              height={50}
-              value={title}
-              borderRadius={20}
-              isRequired={true}
-              color={colors.TEXT}
-              borderColor={colors.SILVER}
-              onChangeText={onChangeTitle}
-            />
+      <KeyboardAwareScrollView
+        enableOnAndroid
+        overScrollMode="never"
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scroll}>
+        {/* Title */}
+        <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
+          <Label>{`${i18n.t('events.title')}* :`}</Label>
+          <Input
+            mt={-1}
+            height={50}
+            value={title}
+            borderRadius={20}
+            isRequired={true}
+            color={colors.TEXT}
+            borderColor={colors.SILVER}
+            onChangeText={onChangeTitle}
+          />
 
-            {/* From */}
-            <Label>{`${i18n.t('events.from')}* :`}</Label>
-            <Button
-              variant="outline"
-              height={50}
-              borderRadius={20}
-              borderColor={colors.SILVER}
-              _text={{color: isNull(from) ? colors.SILVER : colors.TEXT}}
-              onPress={onPressFrom}>
-              {isNull(from)
-                ? i18n.t('profile.formatDate')
-                : getDateTimeStringFrom(getOriginDateTimeString(from))}
-            </Button>
+          {/* From */}
+          <Label>{`${i18n.t('events.from')}* :`}</Label>
+          <Button
+            variant="outline"
+            height={50}
+            borderRadius={20}
+            borderColor={colors.SILVER}
+            _text={{color: isNull(from) ? colors.SILVER : colors.TEXT}}
+            onPress={onPressFrom}>
+            {isNull(from)
+              ? i18n.t('profile.formatDate')
+              : getDateTimeStringFrom(getOriginDateTimeString(from))}
+          </Button>
 
-            {/* To */}
-            <Label>{`${i18n.t('events.to')}* :`}</Label>
-            <Button
-              variant="outline"
-              height={50}
-              borderRadius={20}
-              borderColor={colors.SILVER}
-              _text={{color: isNull(to) ? colors.SILVER : colors.TEXT}}
-              onPress={onPressTo}>
-              {isNull(to)
-                ? i18n.t('profile.formatDate')
-                : getDateTimeStringFrom(getOriginDateTimeString(to))}
-            </Button>
+          {/* To */}
+          <Label>{`${i18n.t('events.to')}* :`}</Label>
+          <Button
+            variant="outline"
+            height={50}
+            borderRadius={20}
+            borderColor={colors.SILVER}
+            _text={{color: isNull(to) ? colors.SILVER : colors.TEXT}}
+            onPress={onPressTo}>
+            {isNull(to)
+              ? i18n.t('profile.formatDate')
+              : getDateTimeStringFrom(getOriginDateTimeString(to))}
+          </Button>
 
-            {/* Repeat */}
-            {!isNull(from) && !isNull(to) && isNull(oldEvent) && (
-              <RepeatContainer onPress={onPressRepeat}>
-                <RepeatName>
-                  {repeat === RepeatType.NONE
-                    ? i18n.t('chores.repeat')
-                    : getRepeatText(repeat)}
-                </RepeatName>
-                <ArrowIcon
-                  width={16}
-                  height={16}
-                  source={rightArrowIcon}
-                  tintColor={colors.SILVER}
-                />
-              </RepeatContainer>
-            )}
-
-            {/* Number of repetitions */}
-            {!isNull(repeat) && repeat !== RepeatType.NONE && isNull(oldEvent) && (
-              <>
-                <Label>{`${i18n.t('events.numberOfRepetitions')}* :`}</Label>
-                <Input
-                  keyboardType="phone-pad"
-                  mt={-1}
-                  width={100}
-                  height={50}
-                  borderRadius={20}
-                  color={colors.TEXT}
-                  borderColor={colors.SILVER}
-                  value={repetition.toString()}
-                  onChangeText={onChangeRepetition}
-                />
-              </>
-            )}
-          </FormControl>
-
-          {/* Assignees */}
-          <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
-            <Box flexDirection="row" justifyContent="space-between">
-              <Label>{`${i18n.t('chores.assign')}:`}</Label>
-              <PrimaryButton
-                leftIconWidth={18}
-                leftIconHeight={18}
-                leftSource={familyIcon}
-                leftTintColor={colors.THEME_COLOR_7}
-                onPress={onPressAssign}
+          {/* Repeat */}
+          {!isNull(from) && !isNull(to) && isNull(oldEvent) && (
+            <RepeatContainer onPress={onPressRepeat}>
+              <RepeatName>
+                {repeat === RepeatType.NONE
+                  ? i18n.t('chores.repeat')
+                  : getRepeatText(repeat)}
+              </RepeatName>
+              <ArrowIcon
+                width={16}
+                height={16}
+                source={rightArrowIcon}
+                tintColor={colors.SILVER}
               />
-            </Box>
-            <FlatList
-              horizontal={true}
-              scrollEnabled={true}
-              renderItem={renderSelectedMember}
-              data={selectedMembers}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.listAssignees}
-              keyExtractor={(item, index) => index.toString()}
-            />
+            </RepeatContainer>
+          )}
 
-            {/* Photos */}
-            <Box flexDirection="row" justifyContent="space-between">
-              <Label>{`${i18n.t('chores.photo')}:`}</Label>
-              <PrimaryButton
-                leftIconWidth={18}
-                leftIconHeight={18}
-                leftSource={plusIcon}
-                leftTintColor={colors.THEME_COLOR_7}
-                onPress={onPressAddPhoto}
+          {/* Number of repetitions */}
+          {!isNull(repeat) && repeat !== RepeatType.NONE && isNull(oldEvent) && (
+            <>
+              <Label>{`${i18n.t('events.numberOfRepetitions')}* :`}</Label>
+              <Input
+                keyboardType="phone-pad"
+                mt={-1}
+                width={100}
+                height={50}
+                borderRadius={20}
+                color={colors.TEXT}
+                borderColor={colors.SILVER}
+                value={repetition.toString()}
+                onChangeText={onChangeRepetition}
               />
-            </Box>
-            <FlatList
-              horizontal
-              data={selectedPhotos}
-              renderItem={renderSelectedPhoto}
-              keyExtractor={(item, index) => index.toString()}
+            </>
+          )}
+        </FormControl>
+
+        {/* Assignees */}
+        <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
+          <Box flexDirection="row" justifyContent="space-between">
+            <Label>{`${i18n.t('chores.assign')}:`}</Label>
+            <PrimaryButton
+              leftIconWidth={18}
+              leftIconHeight={18}
+              leftSource={familyIcon}
+              leftTintColor={colors.THEME_COLOR_7}
+              onPress={onPressAssign}
             />
+          </Box>
+          <FlatList
+            horizontal={true}
+            scrollEnabled={true}
+            renderItem={renderSelectedMember}
+            data={selectedMembers}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.listAssignees}
+            keyExtractor={(item, index) => index.toString()}
+          />
 
-            {/* Description */}
-            <Label>{`${i18n.t('chores.description')}:`}</Label>
-            <Input
-              multiline
-              height={150}
-              borderRadius={25}
-              value={description}
-              autoCorrect={false}
-              color={colors.BLACK}
-              autoCompleteType="off"
-              textAlignVertical="top"
-              borderColor={colors.SILVER}
-              onChangeText={onChangeDescription}
+          {/* Photos */}
+          <Box flexDirection="row" justifyContent="space-between">
+            <Label>{`${i18n.t('chores.photo')}:`}</Label>
+            <PrimaryButton
+              leftIconWidth={18}
+              leftIconHeight={18}
+              leftSource={plusIcon}
+              leftTintColor={colors.THEME_COLOR_7}
+              onPress={onPressAddPhoto}
             />
+          </Box>
+          <FlatList
+            horizontal
+            data={selectedPhotos}
+            renderItem={renderSelectedPhoto}
+            keyExtractor={(item, index) => index.toString()}
+          />
 
-            <Button
-              mt={10}
-              mb={6}
-              size="lg"
-              borderRadius={28}
-              onPress={onCreateEvent}
-              disabled={isNull(title) || isNull(from) || isNull(to)}
-              _text={{color: colors.WHITE}}>
-              {i18n.t('chores.done')}
-            </Button>
-          </FormControl>
+          {/* Description */}
+          <Label>{`${i18n.t('chores.description')}:`}</Label>
+          <Input
+            multiline
+            height={150}
+            borderRadius={25}
+            value={description}
+            autoCorrect={false}
+            color={colors.BLACK}
+            autoCompleteType="off"
+            textAlignVertical="top"
+            borderColor={colors.SILVER}
+            onChangeText={onChangeDescription}
+          />
 
-          <DatePicker
-            modal
-            mode="datetime"
-            locale={i18n.locale}
-            open={visibleFromDatePicker}
-            date={from}
-            textColor={colors.BLACK}
-            timeZoneOffsetInMinutes={timeZoneOffset}
-            onDateChange={onFromDatePickerChange}
-            onConfirm={onConfirmFromDatePicker}
-            onCancel={onCloseFromDatePicker}
-          />
-          <DatePicker
-            modal
-            mode="datetime"
-            locale={i18n.locale}
-            open={visibleToDatePicker}
-            date={to}
-            minimumDate={new Date()}
-            textColor={colors.BLACK}
-            timeZoneOffsetInMinutes={timeZoneOffset}
-            onDateChange={onToDatePickerChange}
-            onConfirm={onConfirmToDatePicker}
-            onCancel={onCloseToDatePicker}
-          />
-          <PrimaryActionSheet
-            isOpen={isOpen}
-            onClose={onClose}
-            items={[
-              {
-                title: i18n.t('popUp.takePhoto'),
-                onPress: takePhoto,
-              },
-              {
-                title: i18n.t('popUp.chooseFromGallery'),
-                onPress: chooseFromGallery,
-              },
-            ]}
-          />
-        </Content>
-      </Container>
+          <Button
+            mt={10}
+            mb={6}
+            size="lg"
+            borderRadius={28}
+            onPress={onCreateEvent}
+            disabled={isNull(title) || isNull(from) || isNull(to)}
+            _text={{color: colors.WHITE}}>
+            {i18n.t('chores.done')}
+          </Button>
+        </FormControl>
+
+        <DatePicker
+          modal
+          mode="datetime"
+          locale={i18n.locale}
+          open={visibleFromDatePicker}
+          date={from}
+          textColor={colors.BLACK}
+          timeZoneOffsetInMinutes={timeZoneOffset}
+          onDateChange={onFromDatePickerChange}
+          onConfirm={onConfirmFromDatePicker}
+          onCancel={onCloseFromDatePicker}
+        />
+        <DatePicker
+          modal
+          mode="datetime"
+          locale={i18n.locale}
+          open={visibleToDatePicker}
+          date={to}
+          minimumDate={new Date()}
+          textColor={colors.BLACK}
+          timeZoneOffsetInMinutes={timeZoneOffset}
+          onDateChange={onToDatePickerChange}
+          onConfirm={onConfirmToDatePicker}
+          onCancel={onCloseToDatePicker}
+        />
+        <PrimaryActionSheet
+          isOpen={isOpen}
+          onClose={onClose}
+          items={[
+            {
+              title: i18n.t('popUp.takePhoto'),
+              onPress: takePhoto,
+            },
+            {
+              title: i18n.t('popUp.chooseFromGallery'),
+              onPress: chooseFromGallery,
+            },
+          ]}
+        />
+      </KeyboardAwareScrollView>
     </SafeView>
   );
 };

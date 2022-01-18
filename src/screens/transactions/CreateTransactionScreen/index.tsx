@@ -50,6 +50,7 @@ import {
   updateTransactionRequestAction,
 } from '@store/actionTypes/transactions';
 import {transactionPhotosSelector} from '@store/selectors/transactions';
+import {KeyboardAwareScrollView} from '@codler/react-native-keyboard-aware-scroll-view';
 
 interface Props {
   route?: any;
@@ -162,11 +163,6 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
       );
     }
   }, [transactionPhotos]);
-
-  // Keyboard
-  const onDismissKeyboard = () => {
-    Keyboard.dismiss();
-  };
 
   // Cost
   const onChangeCost = (value: string) => {
@@ -343,153 +339,154 @@ const CreateTransactionScreen: React.FC<Props> = ({route}) => {
         backgroundColor={colors.WHITE}
       />
       <ProfileHeader title={i18n.t('transaction.createNewTransaction')} />
-      <Container onPress={onDismissKeyboard}>
-        <Content
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scroll}>
-          {/* Title */}
-          <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
-            <Label>{`${i18n.t('transaction.cost')}* :`}</Label>
-            <Input
-              mt={-1}
-              height={50}
-              value={getNumberWithCommas(cost)}
-              borderRadius={20}
-              isRequired={true}
-              color={colors.TEXT}
-              keyboardType={'number-pad'}
-              borderColor={colors.SILVER}
-              onChangeText={onChangeCost}
-            />
-
-            {/* Category */}
-            <Label>{`${i18n.t('transaction.category')}* :`}</Label>
-            <CategoryButton onPress={onPressCategory}>
-              <CategoryName
-                color={isNull(selectedCategory) ? colors.SILVER : colors.BLACK}>
-                {isNull(selectedCategory)
-                  ? i18n.t('transaction.selectCategory')
-                  : selectedCategory?.translated
-                  ? i18n.t(`backend.${selectedCategory.title}`)
-                  : selectedCategory?.title}
-              </CategoryName>
-              <ArrowIcon
-                width={16}
-                height={16}
-                source={rightArrowIcon}
-                tintColor={colors.SILVER}
-              />
-            </CategoryButton>
-
-            {/* Date */}
-            <Label>{`${i18n.t('transaction.date')}* :`}</Label>
-            <Button
-              variant="outline"
-              height={50}
-              borderRadius={20}
-              borderColor={colors.SILVER}
-              _text={{color: colors.TEXT}}
-              onPress={onPressDate}>
-              {isNull(date)
-                ? i18n.t('profile.formatDate')
-                : getDateStringFrom(getOriginDateString(date))}
-            </Button>
-
-            {/* Repeat */}
-            <RepeatContainer onPress={onPressRepeat}>
-              <RepeatName>
-                {repeat === RepeatType.NONE
-                  ? i18n.t('chores.repeat')
-                  : getRepeatText(repeat)}
-              </RepeatName>
-              <ArrowIcon
-                width={16}
-                height={16}
-                source={rightArrowIcon}
-                tintColor={colors.SILVER}
-              />
-            </RepeatContainer>
-
-            {/* Photos */}
-            <Box flexDirection="row" justifyContent="space-between">
-              <Label>{`${i18n.t('transaction.photo')}:`}</Label>
-              <PrimaryButton
-                leftIconWidth={18}
-                leftIconHeight={18}
-                leftSource={plusIcon}
-                leftTintColor={colors.THEME_COLOR_7}
-                onPress={onPressAddPhoto}
-              />
-            </Box>
-            <FlatList
-              horizontal
-              data={selectedPhotos}
-              renderItem={renderSelectedPhoto}
-              keyExtractor={(item, index) => index.toString()}
-            />
-
-            {/* Note */}
-            <Label>{`${i18n.t('transaction.note')}:`}</Label>
-            <Input
-              multiline
-              height={150}
-              borderRadius={25}
-              value={note}
-              autoCorrect={false}
-              color={colors.BLACK}
-              autoCompleteType="off"
-              textAlignVertical="top"
-              borderColor={colors.SILVER}
-              onChangeText={onChangeNote}
-            />
-
-            <Button
-              mt={10}
-              mb={6}
-              size="lg"
-              borderRadius={28}
-              onPress={onCreateTraction}
-              disabled={
-                isNull(cost) ||
-                cost == 0 ||
-                isNull(selectedCategory) ||
-                isNull(date)
-              }
-              _text={{color: colors.WHITE}}
-              backgroundColor={colors.GREEN_1}>
-              {i18n.t('chores.done')}
-            </Button>
-          </FormControl>
-
-          <DatePicker
-            modal
-            mode="date"
-            locale={i18n.locale}
-            open={visibleDatePicker}
-            date={date}
-            textColor={colors.BLACK}
-            timeZoneOffsetInMinutes={timeZoneOffset}
-            onDateChange={onDatePickerChange}
-            onConfirm={onConfirmDatePicker}
-            onCancel={onCloseDatePicker}
+      <KeyboardAwareScrollView
+        enableOnAndroid
+        overScrollMode="never"
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scroll}>
+        {/* Title */}
+        <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
+          <Label>{`${i18n.t('transaction.cost')}* :`}</Label>
+          <Input
+            mt={-1}
+            height={50}
+            value={getNumberWithCommas(cost)}
+            borderRadius={20}
+            isRequired={true}
+            color={colors.TEXT}
+            keyboardType={'number-pad'}
+            borderColor={colors.SILVER}
+            onChangeText={onChangeCost}
           />
 
-          <PrimaryActionSheet
-            items={[
-              {
-                title: i18n.t('popUp.takePhoto'),
-                onPress: takePhoto,
-              },
-              {
-                title: i18n.t('popUp.chooseFromGallery'),
-                onPress: chooseFromGallery,
-              },
-            ]}
-            isOpen={isOpen}
-            onClose={onClose}
+          {/* Category */}
+          <Label>{`${i18n.t('transaction.category')}* :`}</Label>
+          <CategoryButton onPress={onPressCategory}>
+            <CategoryName
+              color={isNull(selectedCategory) ? colors.SILVER : colors.BLACK}>
+              {isNull(selectedCategory)
+                ? i18n.t('transaction.selectCategory')
+                : selectedCategory?.translated
+                ? i18n.t(`backend.${selectedCategory.title}`)
+                : selectedCategory?.title}
+            </CategoryName>
+            <ArrowIcon
+              width={16}
+              height={16}
+              source={rightArrowIcon}
+              tintColor={colors.SILVER}
+            />
+          </CategoryButton>
+
+          {/* Date */}
+          <Label>{`${i18n.t('transaction.date')}* :`}</Label>
+          <Button
+            variant="outline"
+            height={50}
+            borderRadius={20}
+            borderColor={colors.SILVER}
+            _text={{color: colors.TEXT}}
+            onPress={onPressDate}>
+            {isNull(date)
+              ? i18n.t('profile.formatDate')
+              : getDateStringFrom(getOriginDateString(date))}
+          </Button>
+
+          {/* Repeat */}
+          <RepeatContainer onPress={onPressRepeat}>
+            <RepeatName>
+              {repeat === RepeatType.NONE
+                ? i18n.t('chores.repeat')
+                : getRepeatText(repeat)}
+            </RepeatName>
+            <ArrowIcon
+              width={16}
+              height={16}
+              source={rightArrowIcon}
+              tintColor={colors.SILVER}
+            />
+          </RepeatContainer>
+
+          {/* Photos */}
+          <Box flexDirection="row" justifyContent="space-between">
+            <Label>{`${i18n.t('transaction.photo')}:`}</Label>
+            <PrimaryButton
+              leftIconWidth={18}
+              leftIconHeight={18}
+              leftSource={plusIcon}
+              leftTintColor={colors.THEME_COLOR_7}
+              onPress={onPressAddPhoto}
+            />
+          </Box>
+          <FlatList
+            horizontal
+            data={selectedPhotos}
+            renderItem={renderSelectedPhoto}
+            keyExtractor={(item, index) => index.toString()}
           />
-        </Content>
-      </Container>
+
+          {/* Note */}
+          <Label>{`${i18n.t('transaction.note')}:`}</Label>
+          <Input
+            multiline
+            height={150}
+            borderRadius={25}
+            value={note}
+            autoCorrect={false}
+            color={colors.BLACK}
+            autoCompleteType="off"
+            textAlignVertical="top"
+            borderColor={colors.SILVER}
+            onChangeText={onChangeNote}
+          />
+
+          <Button
+            mt={10}
+            mb={6}
+            size="lg"
+            borderRadius={28}
+            onPress={onCreateTraction}
+            disabled={
+              isNull(cost) ||
+              cost == 0 ||
+              isNull(selectedCategory) ||
+              isNull(date)
+            }
+            _text={{color: colors.WHITE}}
+            backgroundColor={colors.GREEN_1}>
+            {i18n.t('chores.done')}
+          </Button>
+        </FormControl>
+
+        <DatePicker
+          modal
+          mode="date"
+          locale={i18n.locale}
+          open={visibleDatePicker}
+          date={date}
+          textColor={colors.BLACK}
+          timeZoneOffsetInMinutes={timeZoneOffset}
+          onDateChange={onDatePickerChange}
+          onConfirm={onConfirmDatePicker}
+          onCancel={onCloseDatePicker}
+        />
+
+        <PrimaryActionSheet
+          items={[
+            {
+              title: i18n.t('popUp.takePhoto'),
+              onPress: takePhoto,
+            },
+            {
+              title: i18n.t('popUp.chooseFromGallery'),
+              onPress: chooseFromGallery,
+            },
+          ]}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+      </KeyboardAwareScrollView>
     </SafeView>
   );
 };
@@ -499,12 +496,6 @@ const SafeView = styled.SafeAreaView`
   background-color: ${colors.WHITE};
   margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
 `;
-
-const Container = styled.TouchableWithoutFeedback`
-  flex: 1;
-`;
-
-const Content = styled.ScrollView``;
 
 const Label = styled(fonts.PrimaryFontMediumSize14)`
   margin-top: 16px;

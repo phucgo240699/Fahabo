@@ -215,8 +215,8 @@ class CreateCuisinePostScreen extends React.Component {
                         ref={this.richText}
                         style={styles.rich}
                         useContainer={true}
-                        initialHeight={Constants.MAX_HEIGHT - 100} // 400
-                        placeholder={'please input content'}
+                        // initialHeight={Constants.MAX_HEIGHT - 100} // 400
+                        placeholder={i18n.t('cuisine.enterPostContent')}
                         initialContentHTML={this.state.initHTML}
                         editorInitializedCallback={this.editorInitializedCallback}
                         onChange={this.handleChange}

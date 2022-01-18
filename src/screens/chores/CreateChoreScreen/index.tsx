@@ -51,6 +51,7 @@ import {chorePhotosSelector} from '@store/selectors/chores';
 import {showToastAction} from '@store/actionTypes/session';
 import {ToastType} from '@constants/types/session';
 import {accessTokenSelector} from '@store/selectors/authentication';
+import {KeyboardAwareScrollView} from '@codler/react-native-keyboard-aware-scroll-view';
 
 interface Props {
   route?: any;
@@ -149,11 +150,6 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
       );
     }
   }, [chorePhotos]);
-
-  // Keyboard
-  const onDismissKeyboard = () => {
-    Keyboard.dismiss();
-  };
 
   // Input
   const onChangeTitle = (text: string) => {
@@ -359,159 +355,157 @@ const CreateChoreScreen: React.FC<Props> = ({route}) => {
             ? i18n.t('chores.createNewChore')
             : i18n.t('chores.updateChore')
         }
-        // rightComponent={
-
-        // }
       />
 
-      <Container onPress={onDismissKeyboard}>
-        <Content
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scroll}>
-          {/* Title */}
-          <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
-            <Label>{`${i18n.t('chores.title')}* :`}</Label>
-            <Input
-              mt={-1}
-              height={50}
-              value={title}
-              borderRadius={20}
-              isRequired={true}
-              color={colors.TEXT}
-              borderColor={colors.SILVER}
-              onChangeText={onChangeTitle}
-            />
-
-            {/* Deadline */}
-            <Label>{`${i18n.t('chores.deadline')}* :`}</Label>
-            <Button
-              variant="outline"
-              height={50}
-              borderRadius={20}
-              borderColor={colors.SILVER}
-              _text={{color: isNull(deadline) ? colors.SILVER : colors.TEXT}}
-              onPress={onPressDeadline}>
-              {isNull(deadline)
-                ? i18n.t('profile.formatDate')
-                : getDateStringFrom(getOriginDateString(deadline))}
-            </Button>
-
-            {/* Repeat */}
-            {!isNull(deadline) && (
-              <RepeatContainer onPress={onPressRepeat}>
-                <RepeatName>
-                  {repeat === RepeatType.NONE
-                    ? i18n.t('chores.repeat')
-                    : getRepeatText(repeat)}
-                </RepeatName>
-                <ArrowIcon
-                  width={16}
-                  height={16}
-                  source={rightArrowIcon}
-                  tintColor={colors.SILVER}
-                />
-              </RepeatContainer>
-            )}
-          </FormControl>
-
-          {/* Assignees */}
-          <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
-            <Box flexDirection="row" justifyContent="space-between">
-              <Label>{`${i18n.t('chores.assign')}:`}</Label>
-              <PrimaryButton
-                leftIconWidth={20}
-                leftIconHeight={20}
-                leftSource={familyIcon}
-                leftTintColor={colors.THEME_COLOR_7}
-                onPress={onPressAssign}
-              />
-            </Box>
-
-            <FlatList
-              horizontal={true}
-              scrollEnabled={true}
-              renderItem={renderSelectedMember}
-              data={selectedMembers}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.listAssignees}
-              keyExtractor={(item, index) => index.toString()}
-            />
-
-            {/* Photos */}
-            <Box flexDirection="row" justifyContent="space-between">
-              <Label>{`${i18n.t('chores.photo')}:`}</Label>
-              <PrimaryButton
-                leftIconWidth={18}
-                leftIconHeight={18}
-                leftSource={plusIcon}
-                leftTintColor={colors.THEME_COLOR_7}
-                onPress={onPressAddPhoto}
-              />
-            </Box>
-            <FlatList
-              horizontal
-              data={selectedPhotos}
-              renderItem={renderSelectedPhoto}
-              keyExtractor={(item, index) => index.toString()}
-            />
-
-            {/* Description */}
-            <Label>{`${i18n.t('chores.description')}:`}</Label>
-            <Input
-              multiline
-              height={150}
-              borderRadius={25}
-              value={description}
-              autoCorrect={false}
-              color={colors.BLACK}
-              autoCompleteType="off"
-              textAlignVertical="top"
-              borderColor={colors.SILVER}
-              onChangeText={onChangeDescription}
-            />
-
-            <Button
-              mt={10}
-              mb={6}
-              size="lg"
-              borderRadius={28}
-              onPress={onCreateChore}
-              disabled={isNull(title) || isNull(deadline)}
-              _text={{color: colors.WHITE}}
-              backgroundColor={colors.DANUBE}>
-              {i18n.t('chores.done')}
-            </Button>
-          </FormControl>
-
-          <DatePicker
-            modal
-            mode="date"
-            locale={i18n.locale}
-            open={visibleDatePicker}
-            date={deadline}
-            textColor={colors.BLACK}
-            timeZoneOffsetInMinutes={timeZoneOffset}
-            onDateChange={onDatePickerChange}
-            onConfirm={onConfirmDatePicker}
-            onCancel={onCloseDatePicker}
+      <KeyboardAwareScrollView
+        enableOnAndroid
+        overScrollMode="never"
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scroll}>
+        {/* Title */}
+        <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
+          <Label>{`${i18n.t('chores.title')}* :`}</Label>
+          <Input
+            mt={-1}
+            height={50}
+            value={title}
+            borderRadius={20}
+            isRequired={true}
+            color={colors.TEXT}
+            borderColor={colors.SILVER}
+            onChangeText={onChangeTitle}
           />
-          <PrimaryActionSheet
-            isOpen={isOpen}
-            onClose={onClose}
-            items={[
-              {
-                title: i18n.t('popUp.takePhoto'),
-                onPress: takePhoto,
-              },
-              {
-                title: i18n.t('popUp.chooseFromGallery'),
-                onPress: chooseFromGallery,
-              },
-            ]}
+
+          {/* Deadline */}
+          <Label>{`${i18n.t('chores.deadline')}* :`}</Label>
+          <Button
+            variant="outline"
+            height={50}
+            borderRadius={20}
+            borderColor={colors.SILVER}
+            _text={{color: isNull(deadline) ? colors.SILVER : colors.TEXT}}
+            onPress={onPressDeadline}>
+            {isNull(deadline)
+              ? i18n.t('profile.formatDate')
+              : getDateStringFrom(getOriginDateString(deadline))}
+          </Button>
+
+          {/* Repeat */}
+          {!isNull(deadline) && (
+            <RepeatContainer onPress={onPressRepeat}>
+              <RepeatName>
+                {repeat === RepeatType.NONE
+                  ? i18n.t('chores.repeat')
+                  : getRepeatText(repeat)}
+              </RepeatName>
+              <ArrowIcon
+                width={16}
+                height={16}
+                source={rightArrowIcon}
+                tintColor={colors.SILVER}
+              />
+            </RepeatContainer>
+          )}
+        </FormControl>
+
+        {/* Assignees */}
+        <FormControl mt={6} width={`${Constants.MAX_WIDTH - 60}px`}>
+          <Box flexDirection="row" justifyContent="space-between">
+            <Label>{`${i18n.t('chores.assign')}:`}</Label>
+            <PrimaryButton
+              leftIconWidth={20}
+              leftIconHeight={20}
+              leftSource={familyIcon}
+              leftTintColor={colors.THEME_COLOR_7}
+              onPress={onPressAssign}
+            />
+          </Box>
+
+          <FlatList
+            horizontal={true}
+            scrollEnabled={true}
+            renderItem={renderSelectedMember}
+            data={selectedMembers}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.listAssignees}
+            keyExtractor={(item, index) => index.toString()}
           />
-        </Content>
-      </Container>
+
+          {/* Photos */}
+          <Box flexDirection="row" justifyContent="space-between">
+            <Label>{`${i18n.t('chores.photo')}:`}</Label>
+            <PrimaryButton
+              leftIconWidth={18}
+              leftIconHeight={18}
+              leftSource={plusIcon}
+              leftTintColor={colors.THEME_COLOR_7}
+              onPress={onPressAddPhoto}
+            />
+          </Box>
+          <FlatList
+            horizontal
+            data={selectedPhotos}
+            renderItem={renderSelectedPhoto}
+            keyExtractor={(item, index) => index.toString()}
+          />
+
+          {/* Description */}
+          <Label>{`${i18n.t('chores.description')}:`}</Label>
+          <Input
+            multiline
+            height={150}
+            borderRadius={25}
+            value={description}
+            autoCorrect={false}
+            color={colors.BLACK}
+            autoCompleteType="off"
+            textAlignVertical="top"
+            borderColor={colors.SILVER}
+            onChangeText={onChangeDescription}
+          />
+
+          <Button
+            mt={10}
+            mb={6}
+            size="lg"
+            borderRadius={28}
+            onPress={onCreateChore}
+            disabled={isNull(title) || isNull(deadline)}
+            _text={{color: colors.WHITE}}
+            backgroundColor={colors.DANUBE}>
+            {i18n.t('chores.done')}
+          </Button>
+        </FormControl>
+
+        <DatePicker
+          modal
+          mode="date"
+          locale={i18n.locale}
+          open={visibleDatePicker}
+          date={deadline}
+          textColor={colors.BLACK}
+          timeZoneOffsetInMinutes={timeZoneOffset}
+          onDateChange={onDatePickerChange}
+          onConfirm={onConfirmDatePicker}
+          onCancel={onCloseDatePicker}
+        />
+        <PrimaryActionSheet
+          isOpen={isOpen}
+          onClose={onClose}
+          items={[
+            {
+              title: i18n.t('popUp.takePhoto'),
+              onPress: takePhoto,
+            },
+            {
+              title: i18n.t('popUp.chooseFromGallery'),
+              onPress: chooseFromGallery,
+            },
+          ]}
+        />
+      </KeyboardAwareScrollView>
     </SafeView>
   );
 };
@@ -521,12 +515,6 @@ const SafeView = styled.SafeAreaView`
   margin-top: ${Platform.OS === 'android' ? getStatusBarHeight() : 0}px;
   background-color: ${colors.WHITE};
 `;
-
-const Container = styled.TouchableWithoutFeedback`
-  flex: 1;
-`;
-
-const Content = styled.ScrollView``;
 
 const Label = styled(fonts.PrimaryFontMediumSize14)`
   margin-top: 14px;
