@@ -23,7 +23,7 @@ const FlashScreen = () => {
     setTimeout(() => {
       dispatch(
         autoSignInRequestAction({
-          username: user?.username,
+          username: user?.email,
           password: user?.password,
         }),
       );

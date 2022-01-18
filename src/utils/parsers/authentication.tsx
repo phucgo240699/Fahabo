@@ -1,6 +1,7 @@
 import {AuthenticationResponseType} from '@constants/types/authentication';
 import {BASE_DOMAIN} from '@constants/Constants';
 import {get} from 'lodash/fp';
+import {isNull} from '..';
 
 //
 // Request
@@ -33,6 +34,25 @@ export function parseUser(rawData: any): AuthenticationResponseType {
   const avatar = rawAvatar.includes('http')
     ? rawAvatar
     : `${BASE_DOMAIN}${rawAvatar}`;
+  if (isNull(get('password', rawData))) {
+    return {
+      id: parseInt(get('id', rawData)),
+      email: get('email', rawData),
+      // password: get('password', rawData),
+      name: get('name', rawData),
+      username: get('username', rawData),
+      phoneNumber: get('phoneNumber', rawData),
+      birthday: get('birthday', rawData),
+      languageCode: get('languageCode', rawData),
+      avatarUrl: avatar,
+      rawAvatarUrl: rawAvatar,
+      totalFamilies: get('familyNum', rawData),
+      authType: {
+        id: get('authType.id', rawData),
+        name: get('authType.name', rawData),
+      },
+    };
+  }
   return {
     id: parseInt(get('id', rawData)),
     email: get('email', rawData),
