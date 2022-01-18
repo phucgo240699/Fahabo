@@ -170,7 +170,7 @@ const BottomTabs: React.FC<Props> = ({navigation, route}) => {
         );
         break;
       case NotificationNavigationType.CHAT:
-        navigate(ScreenName.InteractionsScreen);
+        navigate(StackName.InteractionsStack);
         break;
       case NotificationNavigationType.VIDEO_CALL:
         dispatch(

@@ -138,9 +138,6 @@ function* getBadgesSaga({body}: {type: string; body: GetBadgesRequestType}) {
       );
     }
   } catch (error) {
-    yield* put(
-      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
-    );
   }
 }
 
@@ -158,9 +155,6 @@ function* clearNotificationBadgeSaga(action: AnyAction) {
       );
     }
   } catch (error) {
-    yield* put(
-      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
-    );
   }
 }
 
@@ -183,9 +177,6 @@ function* clearInteractionBadgeSaga({
       );
     }
   } catch (error) {
-    yield* put(
-      showToastAction(i18n.t('errorMessage.general'), ToastType.ERROR),
-    );
   }
 }
 

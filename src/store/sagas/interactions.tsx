@@ -31,13 +31,7 @@ import {
   SendMessageRequestType,
 } from '@constants/types/interactions';
 import {isNull} from '@utils/index';
-// import {getProfileApi} from '@services/profile';
-// import {GetMyProfileRequestType} from '@constants/types/profile';
-// import {getProfileSuccessAction} from '@store/actionTypes/profile';
-// import {parseUser} from '@utils/parsers/authentication';
 import firestore from '@react-native-firebase/firestore';
-// import {userSelector} from '@store/selectors/authentication';
-// import {focusFamilySelector} from '@store/selectors/family';
 
 function* sendMessageSaga({
   body,
@@ -47,26 +41,6 @@ function* sendMessageSaga({
 }) {
   try {
     if (!isNull(body.authorId)) {
-      // const authorParams: GetMyProfileRequestType = {
-      //   id: body.authorId,
-      // };
-      // const authorResponse = yield* apiProxy(getProfileApi, authorParams);
-      // if (authorResponse.status === 200) {
-      //   yield* put(
-      //     getProfileSuccessAction(parseUser(parseDataResponse(authorResponse))),
-      //   );
-      //   const author = yield* select(userSelector);
-      //   const focusFamily = yield* select(focusFamilySelector);
-
-      // } else {
-      //   yield* put(
-      //     showToastAction(
-      //       i18n.t(`backend.${parseErrorResponse(authorResponse)}`),
-      //       ToastType.ERROR,
-      //     ),
-      //   );
-      // }
-
       if (!isNull(body.familyId)) {
         const message: SendMessageRequestType = body;
 
