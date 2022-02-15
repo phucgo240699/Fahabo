@@ -43,7 +43,7 @@ function ChatScreen(props) {
     const subscriber = firestore()
       .collection('Messages')
       .where('familyId', '==', focusFamily?.id)
-      .limit(100)
+      .limit(50)
       .onSnapshot(querySnapShot => {
         if (!isNull(querySnapShot)) {
           setMessages(

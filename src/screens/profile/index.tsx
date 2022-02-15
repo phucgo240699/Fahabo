@@ -131,10 +131,7 @@ const ProfileScreen: React.FC<Props> = () => {
               onPressMyBookmarkedPosts={onPressMyBookmarkedPosts}
             />
 
-            <ProfileSettingsBox
-              onPressSettings={onPressSettings}
-              onPressUpdateProfile={onPressProfile}
-            />
+            <ProfileSettingsBox onPressUpdateProfile={onPressProfile} />
 
             <LogOutButton
               marginTop={40}

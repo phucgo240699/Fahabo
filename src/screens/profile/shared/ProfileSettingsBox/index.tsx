@@ -27,13 +27,6 @@ const ProfileSettingsBox: React.FC<Props> = ({
           <SettingIcon source={editProfileIcon} />
           <SettingTitle>{i18n.t('profile.profile')}</SettingTitle>
         </SettingItem>
-
-        <Line />
-
-        <SettingItem onPress={onPressSettings}>
-          <SettingIcon source={settingsIcon} />
-          <SettingTitle>{i18n.t('profile.settings')}</SettingTitle>
-        </SettingItem>
       </Content>
     </Container>
   );

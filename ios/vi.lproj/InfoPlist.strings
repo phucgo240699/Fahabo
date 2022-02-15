@@ -1,0 +1,5 @@
+NSCameraUsageDescription = "Cho phép truy cập camera cho việc cập nhật ảnh đại diện cá nhân và gia đình, đính kèm ảnh công việc, sự kiện, giao dịch, bài viết ẩm thực, album gia đình và quét mã QR";
+NSMicrophoneUsageDescription = "Cho phép truy cập micro để thực hiện cuộc gọi";
+NSPhotoLibraryUsageDescription = "Cho phép truy cập thư viện cho việc cập nhật ảnh đại diện cá nhân và gia đình, đính kèm ảnh công việc, sự kiện, giao dịch, bài viết ẩm thực, album gia đình và quét mã QR";
+NSPhotoLibraryAddUsageDescription = "Cho phép truy cập thư viện cho việc cập nhật ảnh đại diện cá nhân và gia đình, đính kèm ảnh công việc, sự kiện, giao dịch, bài viết ẩm thực, album gia đình và quét mã QR";
+NSLocationWhenInUseUsageDescription = "Cho phép chia sẻ vị trí với các thành viên trong gia đình";

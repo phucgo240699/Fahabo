@@ -1,0 +1,5 @@
+NSCameraUsageDescription = "Require camera for update user's avatar, family's thumbnail, attach photos into chores, events, transaction, cuisine post and scan QR code";
+NSMicrophoneUsageDescription = "Require microphone to make a call";
+NSPhotoLibraryUsageDescription = "Require gallery for update user's avatar, family's thumbnail, attach photos into chores, events, transaction, cuisine post, album and scan QR code";
+NSPhotoLibraryAddUsageDescription = "Require gallery for update user's avatar, family's thumbnail, attach photos into chores, events, transaction, cuisine post, album and scan QR code";
+NSLocationWhenInUseUsageDescription = "Require location to share your location to family members";
