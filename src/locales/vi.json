@@ -117,6 +117,8 @@
   "profile": {
     "profile": "Thông tin cá nhân",
     "logOut": "Đăng xuất",
+    "confirmLogOut": "Bạn có muốn đăng xuất không?",
+    "no": "Không",
     "myChores": "Việc nhà của tôi",
     "myEvents": "Sự kiện của tôi",
     "families": "Danh sách gia đình",

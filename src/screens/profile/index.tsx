@@ -30,7 +30,7 @@ import PrimaryFastImage from '@components/PrimaryFastImage';
 import {isRefreshingProfileSelector} from '@store/selectors/authentication';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import PrimaryActionSheet from '@components/PrimaryActionSheet';
-import {ImageBackground, RefreshControl, StyleSheet} from 'react-native';
+import {ImageBackground, RefreshControl, StyleSheet, Alert} from 'react-native';
 import CuisinePostsBox from './shared/CuisinePostsBox';
 
 interface Props {}
@@ -95,7 +95,19 @@ const ProfileScreen: React.FC<Props> = () => {
 
   // Log out
   const onLogOut = () => {
-    dispatch(logOutRequestAction());
+    Alert.alert(i18n.t('profile.confirmLogOut'), undefined, [
+      {
+        text: i18n.t('profile.no'),
+        style: 'cancel',
+      },
+      {
+        text: i18n.t('profile.logOut'),
+        onPress: () => {
+          dispatch(logOutRequestAction());
+        },
+        style: 'destructive',
+      },
+    ]);
   };
 
   return (

@@ -1,7 +1,7 @@
 {
   "name": "fahabo",
   "versionName": "1.0",
-  "versionCode": "33",
+  "versionCode": "34",
   "private": true,
   "scripts": {
     "android": "react-native run-android",

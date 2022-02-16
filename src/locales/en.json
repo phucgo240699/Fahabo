@@ -117,6 +117,8 @@
   "profile": {
     "profile": "Profile",
     "logOut": "Log out",
+    "confirmLogOut": "Do you want to log out?",
+    "no": "No",
     "myChores": "My Chores",
     "myEvents": "My Events",
     "families": "List of families",
